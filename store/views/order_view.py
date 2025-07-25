@@ -9,6 +9,7 @@ from store.models import Cart, Order, OrderItem, PaymentSettings, ExchangeRate
 def checkout(request):
     """Checkout view"""
     try:
+
         cart = Cart.objects.get(user=request.user)
         if not cart.items.exists():
             messages.error(request, 'Your cart is empty.')
