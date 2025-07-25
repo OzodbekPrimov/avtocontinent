@@ -1,0 +1,227 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Analytics - Dashboard{% endblock %}
+
+{% block page_title %}Analytics{% endblock %}
+
+{% block content %}
+<!-- User Stats -->
+<div class="stats-grid mb-4">
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Total Users</div>
+            <div class="stat-icon primary">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ user_stats.total_users }}</div>
+        <div class="stat-change">All registered users</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Active Users</div>
+            <div class="stat-icon success">
+                <i class="fas fa-user-check"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ user_stats.active_users }}</div>
+        <div class="stat-change">Active in last 30 days</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">New Users</div>
+            <div class="stat-icon warning">
+                <i class="fas fa-user-plus"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ user_stats.new_users_this_month }}</div>
+        <div class="stat-change">This month</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Users with Orders</div>
+            <div class="stat-icon secondary">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ user_stats.users_with_orders }}</div>
+        <div class="stat-change">Conversion rate</div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Daily Sales Chart -->
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Daily Sales (Last 30 Days)</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="dailySalesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Product Performance -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Top Products by Revenue</h5>
+            </div>
+            <div class="card-body">
+                {% for product in product_performance %}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div>
+                            <div class="fw-semibold">{{ product.name|truncatechars:25 }}</div>
+                            <small class="text-muted">
+                                {{ product.order_count }} orders • 
+                                {{ product.like_count }} likes
+                            </small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-semibold">{{ product.revenue|floatformat:0 }} UZS</div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No sales data available</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Category Performance -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Category Performance</h5>
+            </div>
+            <div class="card-body">
+                {% for category in category_performance %}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" 
+                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                        {% else %}
+                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light" 
+                             style="width: 40px; height: 40px;">
+                            <i class="fas fa-cog text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <div class="fw-semibold">{{ category.name }}</div>
+                            <small class="text-muted">
+                                {{ category.product_count }} products • 
+                                {{ category.order_count }} orders
+                            </small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-semibold">{{ category.revenue|floatformat:0 }} UZS</div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No category data available</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Daily Sales Chart
+const dailySalesData = {{ daily_sales|safe }};
+const salesCtx = document.getElementById('dailySalesChart').getContext('2d');
+new Chart(salesCtx, {
+    type: 'line',
+    data: {
+        labels: dailySalesData.map(item => {
+            const date = new Date(item.date);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }),
+        datasets: [{
+            label: 'Sales (UZS)',
+            data: dailySalesData.map(item => item.sales),
+            borderColor: '#2563EB',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }, {
+            label: 'Orders',
+            data: dailySalesData.map(item => item.orders),
+            borderColor: '#EA580C',
+            backgroundColor: 'rgba(234, 88, 12, 0.1)',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y1'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return value.toLocaleString() + ' UZS';
+                    }
+                }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                beginAtZero: true,
+                grid: {
+                    drawOnChartArea: false,
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value + ' orders';
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        if (context.datasetIndex === 0) {
+                            return 'Sales: ' + context.parsed.y.toLocaleString() + ' UZS';
+                        } else {
+                            return 'Orders: ' + context.parsed.y;
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

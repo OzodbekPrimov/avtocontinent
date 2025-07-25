@@ -1,0 +1,301 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Avtokontinent.uz - Auto Spare Parts"
+msgstr "Avtokontinent.uz - Avtomobil Ehtiyot Qismlari"
+
+msgid "Home - Avtokontinent.uz"
+msgstr "Bosh sahifa - Avtokontinent.uz"
+
+msgid "Popular Brands"
+msgstr "Mashhur Brendlar"
+
+msgid "Shop genuine spare parts from the world's leading automotive brands"
+msgstr "Dunyoning yetakchi avtomobil brendlaridan asl ehtiyot qismlarini xarid qiling"
+
+msgid "models"
+msgstr "modellari"
+
+msgid "No brands available"
+msgstr "Brendlar mavjud emas"
+
+msgid "View All Brands"
+msgstr "Barcha Brendlarni Ko'rish"
+
+msgid "Product Categories"
+msgstr "Mahsulot Toifalari"
+
+msgid "Browse our comprehensive range of automotive parts and accessories"
+msgstr "Avtomobil qismlari va aksessuarlarining keng assortimentini ko'rib chiqing"
+
+msgid "No categories available"
+msgstr "Toifalar mavjud emas"
+
+msgid "View All Categories"
+msgstr "Barcha Toifalarni Ko'rish"
+
+msgid "Best Selling Products"
+msgstr "Eng Ko'p Sotiladigan Mahsulotlar"
+
+msgid "Top 5 products that our customers love the most"
+msgstr "Mijozlarimiz eng ko'p yoqtirgan 5 ta mahsulot"
+
+msgid "Best Seller"
+msgstr "Eng Ko'p Sotiladigan"
+
+msgid "sold"
+msgstr "sotildi"
+
+msgid "View Details"
+msgstr "Batafsil Ko'rish"
+
+msgid "Add to Cart"
+msgstr "Savatga Qo'shish"
+
+msgid "View More Best Sellers"
+msgstr "Ko'proq Eng Ko'p Sotiladiganlarni Ko'rish"
+
+msgid "Most Liked Products"
+msgstr "Eng Ko'p Yoqtirilgan Mahsulotlar"
+
+msgid "Products that have won the hearts of our customers"
+msgstr "Mijozlarimizning qalbini zabt etgan mahsulotlar"
+
+msgid "likes"
+msgstr "yoqtirishlar"
+
+msgid "reviews"
+msgstr "sharhlar"
+
+msgid "View More Popular Products"
+msgstr "Ko'proq Mashhur Mahsulotlarni Ko'rish"
+
+msgid "Special Offers"
+msgstr "Maxsus Takliflar"
+
+msgid "Don't miss out on our latest deals and promotions"
+msgstr "Eng so'nggi takliflar va aksiyalarimizni o'tkazib yubormang"
+
+msgid "Favorites"
+msgstr "Sevimlilar"
+
+msgid "Shopping Cart"
+msgstr "Xarid Savati"
+
+msgid "My Account"
+msgstr "Mening Hisobim"
+
+msgid "Login"
+msgstr "Kirish"
+
+msgid "Avtokontinent.uz"
+msgstr "Avtokontinent.uz"
+
+msgid "Your trusted partner for quality auto spare parts. We provide genuine parts for all car brands with fast delivery across Uzbekistan."
+msgstr "Sifatli avtomobil ehtiyot qismlari uchun ishonchli hamkoringiz. Biz barcha avtomobil brendlari uchun asl qismlarni O'zbekiston bo'ylab tez yetkazib berish bilan ta'minlaymiz."
+
+msgid "Quick Links"
+msgstr "Tezkor Havolalar"
+
+msgid "Home"
+msgstr "Bosh sahifa"
+
+msgid "Products"
+msgstr "Mahsulotlar"
+
+msgid "Brands"
+msgstr "Brendlar"
+
+msgid "About Us"
+msgstr "Biz Haqimizda"
+
+msgid "Categories"
+msgstr "Toifalar"
+
+msgid "Contact Info"
+msgstr "Aloqa Ma'lumotlari"
+
+msgid "Tashkent, Uzbekistan"
+msgstr "Toshkent, O'zbekiston"
+
+msgid "Mon-Sat: 9:00 AM - 6:00 PM"
+msgstr "Dush-Shan: 9:00 dan 18:00 gacha"
+
+msgid "Avtokontinent.uz. All rights reserved."
+msgstr "Avtokontinent.uz. Barcha huquqlar himoyalangan."
+
+msgid "Privacy Policy"
+msgstr "Maxfiylik Siyosati"
+
+msgid "Terms of Service"
+msgstr "Xizmat Shartlari"
+
+msgid "Support"
+msgstr "Yordam"
+
+msgid "Login - Avtokontinent.uz"
+msgstr "Kirish - Avtokontinent.uz"
+
+msgid "Login with your phone number using Telegram Bot"
+msgstr "Telegram Bot orqali telefon raqamingiz bilan kiring"
+
+msgid "Phone Number"
+msgstr "Telefon Raqami"
+
+msgid "Send Verification Code"
+msgstr "Tasdiqlash Kodini Yuborish"
+
+msgid "A verification code will be sent to our Telegram bot. You'll need to start the bot and share your contact to receive the code."
+msgstr "Tasdiqlash kodi bizning Telegram botimizga yuboriladi. Kodni olish uchun botni ishga tushirishingiz va kontaktingizni ulashishingiz kerak."
+
+msgid "Verify Code - Avtokontinent.uz"
+msgstr "Kodni Tasdiqlash - Avtokontinent.uz"
+
+msgid "Verify Code"
+msgstr "Kodni Tasdiqlash"
+
+msgid "Step 1:"
+msgstr "1-qadam:"
+
+msgid "Start our Telegram bot:"
+msgstr "Bizning Telegram botimizni ishga tushiring:"
+
+msgid "Open Bot"
+msgstr "Botni Ochish"
+
+msgid "Step 2:"
+msgstr "2-qadam:"
+
+msgid "Share your contact with the bot"
+msgstr "Bot bilan kontaktingizni ulashing"
+
+msgid "Step 3:"
+msgstr "3-qadam:"
+
+msgid "Enter the 4-digit code you received"
+msgstr "Olgan 4 xonali kodingizni kiriting"
+
+msgid "Verification Code"
+msgstr "Tasdiqlash Kodi"
+
+msgid "Enter 4-digit code"
+msgstr "4 xonali kodni kiriting"
+
+msgid "Verify & Login"
+msgstr "Tasdiqlash va Kirish"
+
+msgid "Code expires in 1 minute"
+msgstr "Kod 1 daqiqada tugaydi"
+
+msgid "Back to Login"
+msgstr "Kirishga Qaytish"
+
+msgid "Shopping Cart - Avtokontinent.uz"
+msgstr "Xarid Savati - Avtokontinent.uz"
+
+msgid "UZS"
+msgstr "SO'M"
+
+msgid "Order Summary"
+msgstr "Buyurtma Xulosasi"
+
+msgid "Subtotal:"
+msgstr "Jami:"
+
+msgid "Delivery:"
+msgstr "Yetkazib berish:"
+
+msgid "Free"
+msgstr "Bepul"
+
+msgid "Total:"
+msgstr "Umumiy:"
+
+msgid "Proceed to Checkout"
+msgstr "To'lovga O'tish"
+
+msgid "Your cart is empty"
+msgstr "Savatingiz bo'sh"
+
+msgid "Add some products to your cart to continue shopping"
+msgstr "Xaridni davom ettirish uchun savatga mahsulotlar qo'shing"
+
+msgid "Continue Shopping"
+msgstr "Xaridni Davom Ettirish"
+
+msgid "Favorites - Avtokontinent.uz"
+msgstr "Sevimlilar - Avtokontinent.uz"
+
+msgid "My Favorites"
+msgstr "Mening Sevimlilarim"
+
+msgid "Remove from Favorites"
+msgstr "Sevimlilardan Olib Tashlash"
+
+msgid "Like"
+msgstr "Yoqtirish"
+
+msgid "Out of Stock"
+msgstr "Omborda Yo'q"
+
+msgid "No favorites yet"
+msgstr "Hali sevimlilar yo'q"
+
+msgid "Start adding products to your favorites to see them here"
+msgstr "Bu yerda ko'rish uchun sevimlilaringizga mahsulotlar qo'shishni boshlang"
+
+msgid "Browse Products"
+msgstr "Mahsulotlarni Ko'rish"
+
+msgid "Order History - Avtokontinent.uz"
+msgstr "Buyurtmalar Tarixi - Avtokontinent.uz"
+
+msgid "Order History"
+msgstr "Buyurtmalar Tarixi"
+
+msgid "Order"
+msgstr "Buyurtma"
+
+msgid "Status:"
+msgstr "Holati:"
+
+msgid "Payment:"
+msgstr "To'lov:"
+
+msgid "Confirmed"
+msgstr "Tasdiqlangan"
+
+msgid "Pending"
+msgstr "Kutilmoqda"
+
+msgid "I agree to the"
+msgstr "Men quyidagilarga roziman"
+
+msgid "Terms and Conditions"
+msgstr "Shartlar va Qoidalar"
+
+msgid "No orders yet"
+msgstr "Hali buyurtmalar yo'q"
+
+msgid "Your order history will appear here once you make your first purchase"
+msgstr "Birinchi xaridingizni qilganingizdan so'ng buyurtmalar tarixingiz bu yerda paydo bo'ladi"
+
+msgid "Start Shopping"
+msgstr "Xaridni Boshlash"

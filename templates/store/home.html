@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Home - Avtokontinent.uz" %}{% endblock %}
+
+{% block content %}
+
+<!-- Advertisement Banners Carousel -->
+{% if banners %}
+<section class="banner-section">
+    <div class="container-fluid p-0">
+        <div id="bannersCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-indicators">
+                {% for banner in banners %}
+                <button type="button" data-bs-target="#bannersCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></button>
+                {% endfor %}
+            </div>
+
+            <div class="carousel-inner">
+                {% for banner in banners %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% if banner.link %}
+                    <a href="{{ banner.link }}" target="_blank">
+                    {% endif %}
+                        <img src="{{ banner.image.url }}" class="d-block w-100 banner-image" alt="{{ banner.title }}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="banner-title">{{ banner.title }}</h5>
+                           <p class="banner-description">{{ banner.description }}</p>
+                        </div>
+                    {% if banner.link %}
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannersCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannersCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endif %}
+<!-- Popular Brands Section -->
+<section class="section" id="popular-brands">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Popular Brands" %}</h2>
+            <p class="section-subtitle">{% trans "Shop genuine spare parts from the world's leading automotive brands" %}</p>
+        </div>
+
+        <div class="row g-4">
+            {% for brand in brands|slice:":8" %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="{% url 'brand_models' brand.slug %}" class="text-decoration-none">
+                    <div class="brand-card">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="brand-logo">
+                        {% else %}
+                        <div class="brand-logo d-flex align-items-center justify-content-center bg-light">
+                            <i class="fas fa-car fa-2x text-primary"></i>
+                        </div>
+                        {% endif %}
+                        <div class="brand-name">{{ brand.name }}</div>
+                        <div class="brand-count">{{ brand.models.count }} {% trans "models" %}</div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">{% trans "No brands available" %}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+
+        </div>
+    </div>
+</section>
+
+<!-- Product Categories Section -->
+<section class="section" id="categories">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Product Categories" %}</h2>
+            <p class="section-subtitle">{% trans "Browse our comprehensive range of automotive parts and accessories" %}</p>
+        </div>
+
+        <div class="row g-4">
+            {% for category in categories|slice:":6" %}
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'product_list' %}?category={{ category.slug }}" class="text-decoration-none">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            {% if category.image %}
+                                <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image" style="max-width: 150px; max-height: 150px;">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}category_images/default.jpg" alt="Default Category" class="category-image" style="max-width: 150px; max-height: 150px;">
+                            {% endif %}
+                        </div>
+                        <div class="category-name">{{ category.name }}</div>
+                        <div class="category-description">{{ category.description|truncatewords:8 }}</div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">{% trans "No categories available" %}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'product_list' %}" class="view-more-btn">
+                {% trans "View All Categories" %} <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Best Selling Products Section -->
+{% if best_selling %}
+<section class="section" id="best-selling">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Best Selling Products" %}</h2>
+            <p class="section-subtitle">{% trans "Top 5 products that our customers love the most" %}</p>
+        </div>
+
+        <div class="row g-4">
+            {% for product in best_selling|slice:":5" %}
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card product-card h-100">
+                    <div class="position-relative">
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="product-badge bestseller">{% trans "Best Seller" %}</div>
+                        <div class="product-actions">
+                            <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="Like">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="Add to Favorites">
+                                <i class="far fa-star"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">{{ product.name|truncatechars:40 }}</h6>
+                        <div class="product-stats">
+                            <div class="product-stat">
+                                <i class="fas fa-shopping-cart text-success"></i>
+                                <span>{{ product.order_count }} {% trans "sold" %}</span>
+                            </div>
+                            <div class="product-stat">
+                                <i class="fas fa-heart text-danger"></i>
+                                <span id="like-count-{{ product.id }}">{{ product.like_count }}</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="price">{{ product.price_uzs|floatformat:0 }} UZS</div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
+                                <button class="btn btn-secondary btn-sm add-to-cart-{{ product.id }}" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'product_list' %}?sort=popular" class="view-more-btn">
+                {% trans "View More Best Sellers" %} <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Most Liked Products Section -->
+{% if most_liked %}
+<section class="section" id="most-liked">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Most Liked Products" %}</h2>
+            <p class="section-subtitle">{% trans "Products that have won the hearts of our customers" %}</p>
+        </div>
+
+        <div class="row">
+            {% for product in most_liked|slice:":4" %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card product-card h-100">
+                    <div class="position-relative">
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="product-badge most-liked">
+                            <i class="fas fa-heart"></i> {{ product.like_count }}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="Like">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="Add to Favorites">
+                                <i class="far fa-star"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">{{ product.name|truncatechars:40 }}</h6>
+                        <div class="product-stats">
+                            <div class="product-stat">
+                                <i class="fas fa-heart text-danger"></i>
+                                <span id="like-count-{{ product.id }}">{{ product.like_count }} {% trans "likes" %}</span>
+                            </div>
+                            <div class="product-stat">
+                                <i class="fas fa-comment text-primary"></i>
+                                <span>{{ product.comment_count }} {% trans "reviews" %}</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="price">{{ product.price_uzs|floatformat:0 }} UZS</div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
+                                <button class="btn btn-secondary btn-sm add-to-cart-{{ product.id }}" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'product_list' %}?sort=popular" class="view-more-btn">
+                {% trans "View More Popular Products" %} <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+
+{% endblock %}

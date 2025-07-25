@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Order History - Avtokontinent.uz" %}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">
+        <i class="fas fa-history"></i> {% trans "Order History" %}
+    </h2>
+    
+    {% if orders %}
+    <div class="row">
+        {% for order in orders %}
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>{% trans "Order" %} #{{ order.order_id|truncatechars:8 }}</h5>
+                            <p class="text-muted">{{ order.created_at|date:"M d, Y H:i" }}</p>
+                            <p><strong>{% trans "Status:" %}</strong> 
+                                {% if order.status == 'pending' %}
+                                    <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'confirmed' %}
+                                    <span class="badge bg-primary">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'delivered' %}
+                                    <span class="badge bg-success">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'cancelled' %}
+                                    <span class="badge bg-danger">{{ order.get_status_display }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>{% trans "Payment:" %}</strong> 
+                                {% if order.payment_confirmed %}
+                                    <span class="badge bg-success">{% trans "Confirmed" %}</span>
+                                {% else %}
+                                    <span class="badge bg-warning">{% trans "Pending" %}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <h4>{{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</h4>
+                            <p class="text-muted">${{ order.total_amount_usd }}</p>
+                            <a href="{% url 'order_detail' order.order_id %}" class="btn btn-primary">
+                                {% trans "View Details" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+        <h4>{% trans "No orders yet" %}</h4>
+        <p class="text-muted">{% trans "Your order history will appear here once you make your first purchase" %}</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary">{% trans "Start Shopping" %}</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

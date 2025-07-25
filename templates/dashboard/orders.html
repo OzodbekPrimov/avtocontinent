@@ -1,0 +1,163 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Orders Management - Dashboard{% endblock %}
+
+{% block page_title %}Orders Management{% endblock %}
+
+{% block content %}
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="search" 
+                       placeholder="Search orders..." value="{{ search_query }}">
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="status">
+                    <option value="">All Status</option>
+                    {% for status_key, status_label in order_status_choices %}
+                    <option value="{{ status_key }}" {% if status_filter == status_key %}selected{% endif %}>
+                        {{ status_label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="payment">
+                    <option value="">All Payments</option>
+                    <option value="confirmed" {% if payment_filter == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="pending" {% if payment_filter == 'pending' %}selected{% endif %}>Pending</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Filter
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Orders Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Orders ({{ page_obj.paginator.count }})</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in page_obj %}
+                    <tr>
+                        <td>
+                            <span class="fw-semibold">#{{ order.order_id|truncatechars:8 }}</span>
+                        </td>
+                        <td>
+                            <div class="fw-semibold">{{ order.customer_name }}</div>
+                            <small class="text-muted">{{ order.customer_phone }}</small>
+                            {% if order.user %}
+                            <br><small class="text-muted">@{{ order.user.username }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                                <span class="badge badge-warning">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'confirmed' %}
+                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'preparing' %}
+                                <span class="badge badge-secondary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'shipped' %}
+                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge badge-success">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge badge-danger">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.payment_confirmed %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check"></i> Confirmed
+                                </span>
+                            {% else %}
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-clock"></i> Pending
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="fw-semibold">{{ order.total_amount_uzs|floatformat:0 }} UZS</div>
+                            <small class="text-muted">${{ order.total_amount_usd }}</small>
+                        </td>
+                        <td>
+                            <div>{{ order.created_at|date:"M d, Y" }}</div>
+                            <small class="text-muted">{{ order.created_at|time:"H:i" }}</small>
+                        </td>
+                        <td>
+                            <a href="{% url 'dashboard:order_detail' order.order_id %}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+                            <div>No orders found</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if payment_filter %}&payment={{ payment_filter }}{% endif %}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if payment_filter %}&payment={{ payment_filter }}{% endif %}">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if payment_filter %}&payment={{ payment_filter }}{% endif %}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

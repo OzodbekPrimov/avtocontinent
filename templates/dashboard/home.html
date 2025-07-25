@@ -1,0 +1,300 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Dashboard Overview - Avtokontinent.uz{% endblock %}
+
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Total Products</div>
+            <div class="stat-icon primary">
+                <i class="fas fa-box"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ total_products|floatformat:0 }}</div>
+        <div class="stat-change positive">
+            <i class="fas fa-arrow-up"></i>
+            Active products
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Total Orders</div>
+            <div class="stat-icon success">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ total_orders|floatformat:0 }}</div>
+        <div class="stat-change positive">
+            <i class="fas fa-arrow-up"></i>
+            +{{ recent_orders }} this week
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Total Users</div>
+            <div class="stat-icon warning">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ total_users|floatformat:0 }}</div>
+        <div class="stat-change positive">
+            <i class="fas fa-arrow-up"></i>
+            +{{ recent_users }} this week
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-title">Total Revenue</div>
+            <div class="stat-icon secondary">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+        <div class="stat-value">{{ total_revenue|floatformat:0 }}</div>
+        <div class="stat-change positive">
+            <i class="fas fa-arrow-up"></i>
+            +{{ recent_revenue|floatformat:0 }} this week
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Revenue Chart -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Monthly Revenue Trend</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Status Distribution -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Order Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="orderStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Top Products -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Top Selling Products</h5>
+            </div>
+            <div class="card-body">
+                {% for product in top_products %}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div>
+                            <div class="fw-semibold">{{ product.name|truncatechars:30 }}</div>
+                            <small class="text-muted">{{ product.category.name }}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-semibold">{{ product.order_count }} orders</div>
+                        <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No sales data available</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Most Liked Products -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Most Liked Products</h5>
+            </div>
+            <div class="card-body">
+                {% for product in most_liked %}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div>
+                            <div class="fw-semibold">{{ product.name|truncatechars:30 }}</div>
+                            <small class="text-muted">{{ product.category.name }}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-semibold text-danger">
+                            <i class="fas fa-heart"></i> {{ product.like_count }}
+                        </div>
+                        <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No likes data available</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Recent Orders</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders_list %}
+                    <tr>
+                        <td>
+                            <span class="fw-semibold">#{{ order.order_id|truncatechars:8 }}</span>
+                        </td>
+                        <td>
+                            <div>{{ order.customer_name }}</div>
+                            <small class="text-muted">{{ order.customer_phone }}</small>
+                        </td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                                <span class="badge badge-warning">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'confirmed' %}
+                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge badge-success">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge badge-danger">{{ order.get_status_display }}</span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="fw-semibold">{{ order.total_amount_uzs|floatformat:0 }} UZS</span>
+                        </td>
+                        <td>{{ order.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'dashboard:order_detail' order.order_id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No recent orders</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Revenue Chart
+const revenueData = {{ monthly_revenue|safe }};
+const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+new Chart(revenueCtx, {
+    type: 'line',
+    data: {
+        labels: revenueData.map(item => item.month),
+        datasets: [{
+            label: 'Revenue (UZS)',
+            data: revenueData.map(item => item.revenue),
+            borderColor: '#2563EB',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return value.toLocaleString() + ' UZS';
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Order Status Chart
+const orderStatusData = [
+    {% for status in order_status_data %}
+    {
+        label: '{{ status.status|capfirst }}',
+        value: {{ status.count }}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
+new Chart(statusCtx, {
+    type: 'doughnut',
+    data: {
+        labels: orderStatusData.map(item => item.label),
+        datasets: [{
+            data: orderStatusData.map(item => item.value),
+            backgroundColor: [
+                '#F59E0B',
+                '#2563EB',
+                '#10B981',
+                '#EF4444',
+                '#6B7280',
+                '#EA580C'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

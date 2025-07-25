@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - Avtokontinent.uz{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">
+        <i class="fas fa-credit-card"></i> Payment
+    </h2>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Payment Instructions</h5>
+                    
+                    {% if payment_settings %}
+                    <div class="alert alert-info">
+                        <h6>Bank Transfer Details</h6>
+                        <p><strong>Card Number:</strong> {{ payment_settings.card_number }}</p>
+                        <p><strong>Bank:</strong> {{ payment_settings.bank_name }}</p>
+                        <p><strong>Cardholder:</strong> {{ payment_settings.card_holder_name }}</p>
+                        <p><strong>Amount:</strong> {{ order.total_amount_uzs|floatformat:0 }} UZS</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="alert alert-warning">
+                        <h6>Payment Steps:</h6>
+                        <ol>
+                            <li>Transfer the exact amount to the bank account above</li>
+                            <li>Take a screenshot of the payment confirmation</li>
+                            <li>Upload the screenshot below</li>
+                            <li>Wait for payment confirmation</li>
+                        </ol>
+                    </div>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="payment_screenshot" class="form-label">Payment Screenshot</label>
+                            <input type="file" class="form-control" id="payment_screenshot" 
+                                   name="payment_screenshot" accept="image/*" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Upload Payment Screenshot
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Order #{{ order.order_id }}</h5>
+                    <p><strong>Status:</strong> 
+                        <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                    </p>
+                    <p><strong>Total:</strong> {{ order.total_amount_uzs|floatformat:0 }} UZS</p>
+                    <p><strong>Order Date:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                    
+                    <hr>
+                    
+                    <h6>Order Items</h6>
+                    {% for item in order.items.all %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ item.product.name }} x{{ item.quantity }}</span>
+                        <span>{{ item.total_price_uzs|floatformat:0 }} UZS</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

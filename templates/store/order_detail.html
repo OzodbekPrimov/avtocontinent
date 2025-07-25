@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Order" %} #{{ order.order_id|truncatechars:8 }} - Avtokontinent.uz{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'order_history' %}">{% trans "Order History" %}</a></li>
+            <li class="breadcrumb-item active">#{{ order.order_id|truncatechars:8 }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <!-- Order Information -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{% trans "Order" %} #{{ order.order_id|truncatechars:8 }}</h4>
+                        <div>
+                            {% if order.status == 'pending' %}
+                                <span class="badge bg-warning fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'confirmed' %}
+                                <span class="badge bg-primary fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'preparing' %}
+                                <span class="badge bg-info fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'shipped' %}
+                                <span class="badge bg-secondary fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge bg-success fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger fs-6">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">{% trans "Order Information" %}</h6>
+                            <p><strong>{% trans "Order Date" %}:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+                            <p><strong>{% trans "Customer Name" %}:</strong> {{ order.customer_name }}</p>
+                            <p><strong>{% trans "Phone" %}:</strong> {{ order.customer_phone }}</p>
+                            <p><strong>{% trans "Address" %}:</strong> {{ order.customer_address }}</p>
+                            {% if order.delivery_address %}
+                            <p><strong>{% trans "Delivery Address" %}:</strong> {{ order.delivery_address }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">{% trans "Payment Information" %}</h6>
+                            <p><strong>{% trans "Payment Status" %}:</strong> 
+                                {% if order.payment_confirmed %}
+                                    <span class="badge bg-success">{% trans "Confirmed" %}</span>
+                                    {% if order.payment_confirmed_at %}
+                                    <br><small class="text-muted">{{ order.payment_confirmed_at|date:"M d, Y H:i" }}</small>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge bg-warning">{% trans "Pending" %}</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>{% trans "Total Amount" %}:</strong> {{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</p>
+                            <p><strong>{% trans "USD Amount" %}:</strong> ${{ order.total_amount_usd }}</p>
+                            <p><strong>{% trans "Exchange Rate" %}:</strong> 1 USD = {{ order.exchange_rate_used }} UZS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{% trans "Order Items" %}</h5>
+                </div>
+                <div class="card-body">
+                    {% for item in order.items.all %}
+                    <div class="row align-items-center border-bottom pb-3 mb-3">
+                        <div class="col-md-2 col-3">
+                            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" 
+                                 class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-6 col-9">
+                            <h6 class="mb-1">{{ item.product.name }}</h6>
+                            <p class="text-muted mb-1">{% trans "SKU" %}: {{ item.product.sku }}</p>
+                            <p class="text-muted mb-0">{% trans "Quantity" %}: {{ item.quantity }}</p>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <div class="text-muted">{% trans "Unit Price" %}</div>
+                            <div class="fw-bold">{{ item.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                            <small class="text-muted">${{ item.price_usd }}</small>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <div class="text-muted">{% trans "Total" %}</div>
+                            <div class="fw-bold text-primary">{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                            <small class="text-muted">${{ item.total_price_usd }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Order Total -->
+                    <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <div class="bg-light p-3 rounded">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>{% trans "Subtotal" %}:</span>
+                                    <span>{{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>{% trans "Delivery" %}:</span>
+                                    <span class="text-success">{% trans "Free" %}</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <strong>{% trans "Total" %}:</strong>
+                                    <strong class="text-primary">{{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Actions -->
+        <div class="col-lg-4">
+            <!-- Order Status Timeline -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{% trans "Order Status" %}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item {% if order.status == 'pending' or order.status == 'confirmed' or order.status == 'preparing' or order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h6>{% trans "Order Placed" %}</h6>
+                                <small class="text-muted">{{ order.created_at|date:"M d, Y H:i" }}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item {% if order.status == 'confirmed' or order.status == 'preparing' or order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h6>{% trans "Order Confirmed" %}</h6>
+                                {% if order.status == 'confirmed' or order.status == 'preparing' or order.status == 'shipped' or order.status == 'delivered' %}
+                                <small class="text-muted">{% trans "Confirmed" %}</small>
+                                {% else %}
+                                <small class="text-muted">{% trans "Pending" %}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item {% if order.status == 'preparing' or order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h6>{% trans "Preparing Order" %}</h6>
+                                {% if order.status == 'preparing' or order.status == 'shipped' or order.status == 'delivered' %}
+                                <small class="text-muted">{% trans "In Progress" %}</small>
+                                {% else %}
+                                <small class="text-muted">{% trans "Waiting" %}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item {% if order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h6>{% trans "Order Shipped" %}</h6>
+                                {% if order.status == 'shipped' or order.status == 'delivered' %}
+                                <small class="text-muted">{% trans "On the way" %}</small>
+                                {% else %}
+                                <small class="text-muted">{% trans "Not shipped yet" %}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item {% if order.status == 'delivered' %}active{% endif %}">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h6>{% trans "Delivered" %}</h6>
+                                {% if order.status == 'delivered' %}
+                                <small class="text-muted">{% trans "Completed" %}</small>
+                                {% else %}
+                                <small class="text-muted">{% trans "Pending delivery" %}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Screenshot -->
+            {% if not order.payment_confirmed and order.status != 'cancelled' %}
+            <div class="card mb-4">
+<!--                <div class="card-header">-->
+<!--                    <h5 class="mb-0">{% trans "Payment Required" %}</h5>-->
+<!--                </div>-->
+<!--                <div class="card-body text-center">-->
+<!--                    <i class="fas fa-credit-card fa-3x text-warning mb-3"></i>-->
+<!--                    <p class="text-muted">{% trans "Please complete your payment to process this order." %}</p>-->
+<!--                    <a href="{% url 'order_payment' order.order_id %}" class="btn btn-warning">-->
+<!--                        <i class="fas fa-credit-card"></i> {% trans "Make Payment" %}-->
+<!--                    </a>-->
+<!--                </div>-->
+            </div>
+            {% endif %}
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{% trans "Actions" %}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'order_history' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left"></i> {% trans "Back to Orders" %}
+                        </a>
+                        {% if order.status != 'cancelled' and order.status != 'delivered' %}
+                        <button class="btn btn-outline-danger" onclick="cancelOrder()">
+                            <i class="fas fa-times"></i> {% trans "Cancel Order" %}
+                        </button>
+                        {% endif %}
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-shopping-bag"></i> {% trans "Continue Shopping" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--neutral-300);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -37px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--neutral-300);
+    border: 3px solid var(--white);
+}
+
+.timeline-item.active .timeline-marker {
+    background: var(--primary-color);
+}
+
+.timeline-item.active::before {
+    background: var(--primary-color);
+}
+
+.timeline-content h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.timeline-item.active .timeline-content h6 {
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .timeline {
+        padding-left: 20px;
+    }
+    
+    .timeline-marker {
+        left: -27px;
+        width: 10px;
+        height: 10px;
+    }
+    
+    .timeline::before {
+        left: 10px;
+    }
+}
+</style>
+
+<script>
+function cancelOrder() {
+    if (confirm('{% trans "Are you sure you want to cancel this order?" %}')) {
+        // Add AJAX call to cancel order
+        showToast('{% trans "Order cancellation requested. We will contact you shortly." %}', 'info');
+    }
+}
+</script>
+{% endblock %}

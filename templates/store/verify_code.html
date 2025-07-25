@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Verify Code - Avtokontinent.uz" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-shield-alt"></i> {% trans "Verify Code" %}
+                    </h2>
+
+                    <div class="alert alert-info text-center">
+                        <i class="fas fa-telegram"></i>
+                        <strong>{% trans "Get the code from this bot" %}:</strong>
+                        <br>
+                        <a href="https://t.me/{{ telegram_bot_username }}" target="_blank" class="btn btn-primary mt-2">
+                            <i class="fab fa-telegram"></i> {% trans "Open Telegram Bot" %}
+                        </a>
+                    </div>
+
+                    <form method="post" action="{% url 'verify_code' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="code" class="form-label">{% trans "4-Digit Verification Code" %}</label>
+                            <input type="text" class="form-control text-center" id="code" name="code"
+                                   placeholder="0000" maxlength="4" required
+                                   style="font-size: 2rem; letter-spacing: 1rem; font-weight: bold;"
+                                   pattern="[0-9]{4}" inputmode="numeric">
+                            <div class="form-text">{% trans "Enter the 4-digit code you received from the Telegram bot" %}</div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-check"></i> {% trans "Verify & Login" %}
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i>
+                            {% trans "Code expires in 1 minute" %}
+                        </small>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'login' %}" class="btn btn-link">
+                            <i class="fas fa-arrow-left"></i> {% trans "Back to Login" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-format the code input
+document.getElementById('code').addEventListener('input', function(e) {
+    // Only allow numbers
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+// Focus on the code input when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('code').focus();
+});
+</script>
+{% endblock %}

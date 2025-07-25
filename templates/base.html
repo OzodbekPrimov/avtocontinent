@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "Avtokontinent.uz - Auto Spare Parts" %}{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        {% load static %}
+
+        :root {
+            --primary-color: #2563EB;
+            --secondary-color: #EA580C;
+            --accent-color: #16A34A;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --neutral-100: #F3F4F6;
+            --neutral-200: #E5E7EB;
+            --neutral-300: #D1D5DB;
+            --neutral-400: #9CA3AF;
+            --neutral-500: #6B7280;
+            --neutral-600: #4B5563;
+            --neutral-700: #374151;
+            --neutral-800: #1F2937;
+            --neutral-900: #111827;
+            --white: #FFFFFF;
+            --navbar-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--neutral-700);
+            background:
+                linear-gradient(135deg, rgba(17, 24, 39, 0.85) 0%, rgba(31, 41, 55, 0.8) 100%),
+                url('https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            padding-top: var(--navbar-height);
+        }
+
+        /* Fixed Top Navigation */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neutral-200);
+            height: var(--navbar-height);
+            transition: all 0.3s ease;
+        }
+
+        .top-navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-navbar .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-navbar .navbar-brand i {
+            font-size: 1.8rem;
+        }
+
+        .top-navbar .navbar-nav {
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-navbar .nav-link {
+            color: var(--neutral-700) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-navbar .nav-link:hover {
+            background: var(--neutral-100);
+            color: var(--primary-color) !important;
+        }
+
+        .nav-icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--neutral-100);
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon-wrapper:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error-color);
+            color: var(--white);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--white);
+        }
+
+        .search-form {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .search-form input {
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 1px solid var(--neutral-300);
+            border-radius: 2rem;
+            background: var(--white);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-form button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            border: none;
+            color: var(--white);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-form button:hover {
+            background: #1E40AF;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Main Content Sections */
+        .main-content {
+            background: var(--white);
+            border-radius: 1rem 1rem 0 0;
+            margin-top: 2rem;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section:nth-child(even) {
+            background: var(--neutral-50);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-800);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--neutral-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .view-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-more-btn:hover {
+            color: #1E40AF;
+            transform: translateX(5px);
+        }
+
+        /* Brand Cards */
+        .brand-card {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--neutral-200);
+            height: 100%;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .brand-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-count {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+
+        /* Category Cards */
+        .category-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--neutral-50) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--neutral-200);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #1E40AF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .category-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-description {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+            line-height: 1.5;
+        }
+
+        /* Product Cards */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #1E40AF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            border: none;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #C2410C;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: var(--white);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card {
+            position: relative;
+            height: 100%;
+        }
+
+        .product-card .card-img-top {
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .btn-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--neutral-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-action:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: scale(1.15);
+        }
+
+        .btn-action.liked {
+            background: var(--error-color);
+            color: var(--white);
+        }
+
+        .btn-action.favorited {
+            background: var(--warning-color);
+            color: var(--white);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-badge.bestseller {
+            background: var(--success-color);
+        }
+
+        .product-badge.most-liked {
+            background: var(--error-color);
+        }
+
+        .product-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+
+        .product-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .price-old {
+            font-size: 1rem;
+            color: var(--neutral-500);
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .top-navbar .navbar-brand {
+                font-size: 1.25rem;
+            }
+
+            .search-form {
+                max-width: 100%;
+                margin: 1rem 0;
+            }
+
+            .nav-icon-wrapper {
+                width: 35px;
+                height: 35px;
+            }
+
+            .product-actions {
+                position: static;
+                opacity: 1;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .top-navbar {
+                height: 60px;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(37, 99, 235, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            background: var(--neutral-800);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+            margin-top: 0;
+        }
+
+        .footer h5 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer a {
+            color: var(--neutral-300);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--white);
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Fixed Top Navigation -->
+    <nav class="top-navbar navbar navbar-expand-lg" id="topNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-car"></i> Avtokontinent.uz
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Search Form -->
+                <form class="search-form mx-auto" method="get" action="{% url 'product_list' %}">
+                    <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <!-- Navigation Icons -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- Language Switcher -->
+                    <li class="nav-item dropdown">
+                                <i class="fas fa-globe"></i>
+            </div>
+                            <span class="d-none d-md-inline ms-1">
+                                {% if current_language == 'uz' %}O'zbekcha{% elif current_language == 'ru' %}Русский{% else %}English{% endif %}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for lang in available_languages %}
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                    <input name="language" type="hidden" value="{{ lang.code }}">
+                                    <button type="submit" class="dropdown-item {% if current_language == lang.code %}active{% endif %}">
+                                        {{ lang.name }}
+                                    </button>
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- FAVORITES -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'favorites' %}" data-bs-toggle="tooltip" title="{% trans 'Favorites' %}">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-star"></i>
+                                {% if favorites_count %}
+                                    <span class="nav-badge" id="favorites-badge">{{ favorites_count }}</span>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </li>
+
+                    <!-- CART -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart' %}" data-bs-toggle="tooltip" title="{% trans 'Shopping Cart' %}">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-shopping-cart"></i>
+                                {% if cart_items_count %}
+                                    <span class="nav-badge" id="cart-badge">{{ cart_items_count }}</span>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="{% trans 'My Account' %}">
+                                <div class="nav-icon-wrapper">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'order_history' %}">
+                                        <i class="fas fa-history"></i> {% trans 'Order History' %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt"></i> {% trans 'Logout' %}
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}" data-bs-toggle="tooltip" title="{% trans 'Login' %}">
+                                <div class="nav-icon-wrapper">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container" style="margin-top: 1rem;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>{% trans "Avtokontinent.uz" %}</h5>
+                    <p>{% trans "Your trusted partner for quality auto spare parts. We provide genuine parts for all car brands with fast delivery across Uzbekistan." %}</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5>{% trans "Quick Links" %}</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                        <li><a href="{% url 'product_list' %}">{% trans "Products" %}</a></li>
+                        <li><a href="{% url 'brands' %}">{% trans "Brands" %}</a></li>
+                        <li><a href="#">{% trans "About Us" %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5>{% trans "Categories" %}</h5>
+                    <ul class="list-unstyled">
+                        {% for category in categories|slice:":4" %}
+                        <li><a href="{% url 'product_list' %}?category={{ category.slug }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>{% trans "Contact Info" %}</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt"></i> {% trans "Tashkent, Uzbekistan" %}</li>
+                        <li><i class="fas fa-phone"></i> +998 90 123 45 67</li>
+                        <li><i class="fas fa-envelope"></i> info@avtokontinent.uz</li>
+                        <li><i class="fas fa-clock"></i> {% trans "Mon-Sat: 9:00 AM - 6:00 PM" %}</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2024 {% trans "Avtokontinent.uz. All rights reserved." %}</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="me-3">{% trans "Privacy Policy" %}</a>
+                    <a href="#" class="me-3">{% trans "Terms of Service" %}</a>
+                    <a href="#">{% trans "Support" %}</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('topNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // CSRF token for AJAX requests
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // Like product functionality
+        function likeProduct(productId) {
+            $.ajax({
+                url: '{% url "ajax_like_product" %}',
+                type: 'POST',
+                data: {
+                    'product_id': productId,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const likeBtn = $(`#like-btn-${productId}`);
+                        const likeCount = $(`#like-count-${productId}`);
+
+                        if (response.liked) {
+                            likeBtn.addClass('liked');
+                            likeBtn.html('<i class="fas fa-heart"></i>');
+                        } else {
+                            likeBtn.removeClass('liked');
+                            likeBtn.html('<i class="far fa-heart"></i>');
+                        }
+
+                        likeCount.text(response.like_count);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error occurred. Please try again.');
+                }
+            });
+        }
+
+        // Favorite product functionality
+        function favoriteProduct(productId) {
+            $.ajax({
+                url: '{% url "ajax_favorite_product" %}',
+                type: 'POST',
+                data: {
+                    'product_id': productId,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                beforeSend: function() {
+                    // Show loading state
+                    $(`#favorite-btn-${productId}`).prop('disabled', true);
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const favoriteBtn = $(`#favorite-btn-${productId}`);
+
+                        if (response.favorited) {
+                            favoriteBtn.addClass('favorited');
+                            favoriteBtn.html('<i class="fas fa-star"></i>');
+                        } else {
+                            favoriteBtn.removeClass('favorited');
+                            favoriteBtn.html('<i class="far fa-star"></i>');
+                        }
+
+                        // Update favorites count in navigation
+                        updateFavoritesCount(response.favorites_count);
+
+                        // Show success message
+                        showToast(response.favorited ? 'Added to favorites!' : 'Removed from favorites!', 'success');
+                    } else {
+                        showToast(response.message, 'error');
+                    }
+                },
+                complete: function() {
+                    // Remove loading state
+                    $(`#favorite-btn-${productId}`).prop('disabled', false);
+                },
+                error: function() {
+                    showToast('Error occurred. Please try again.', 'error');
+                }
+            });
+        }
+
+        // Add to cart functionality
+        function addToCart(productId, quantity = 1) {
+            $.ajax({
+                url: '{% url "ajax_add_to_cart" %}',
+                type: 'POST',
+                data: {
+                    'product_id': productId,
+                    'quantity': quantity,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                beforeSend: function() {
+                    // Show loading state
+                    $(`.add-to-cart-${productId}`).prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update cart count in navigation
+                        updateCartCount(response.cart_total);
+
+                        // Show success message
+                        showToast(response.message, 'success');
+                    } else {
+                        showToast(response.message, 'error');
+                    }
+                },
+                complete: function() {
+                    // Remove loading state
+                    $(`.add-to-cart-${productId}`).prop('disabled', false).html('<i class="fas fa-shopping-cart"></i>');
+                },
+                error: function() {
+                    showToast('Error occurred. Please try again.', 'error');
+                }
+            });
+        }
+
+        // Update cart count in navigation
+        function updateCartCount(count) {
+            const cartBadge = $('#cart-badge');  // Faqat #cart-badge
+            if (count > 0) {
+                cartBadge.text(count).show();
+            } else {
+                cartBadge.hide();
+            }
+        }
+
+        // Update favorites count in navigation
+        function updateFavoritesCount(count) {
+            const favoritesBadge = $('#favorites-badge');  // Faqat #favorites-badge
+            if (count > 0) {
+                favoritesBadge.text(count).show();
+            } else {
+                favoritesBadge.hide();
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toastClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
+            const toastHtml = `
+                <div class="toast align-items-center text-white ${toastClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            // Create toast container if it doesn't exist
+            if (!$('#toast-container').length) {
+                $('body').append('<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>');
+            }
+
+            // Add toast to container
+            const $toast = $(toastHtml);
+            $('#toast-container').append($toast);
+
+            // Initialize and show toast
+            const toast = new bootstrap.Toast($toast[0]);
+            toast.show();
+
+            // Remove toast element after it's hidden
+            setTimeout(() => {
+                $toast.remove();
+            }, 5000);
+        }
+
+        // Update cart quantity
+        function updateCartQuantity(itemId, quantity) {
+            $.ajax({
+                url: '{% url "ajax_update_cart_quantity" %}',
+                type: 'POST',
+                data: {
+                    'item_id': itemId,
+                    'quantity': quantity,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update cart count
+                        updateCartCount(response.cart_total);
+                        // Reload cart section or update totals
+                        location.reload();
+                    } else {
+                        showToast(response.message, 'error');
+                    }
+                },
+                error: function() {
+                    showToast('Error updating quantity', 'error');
+                }
+            });
+        }
+
+        // Remove from cart
+        function removeFromCart(itemId) {
+            if (confirm('Are you sure you want to remove this item?')) {
+                $.ajax({
+                    url: '{% url "ajax_remove_from_cart" %}',
+                    type: 'POST',
+                    data: {
+                        'item_id': itemId,
+                        'csrfmiddlewaretoken': csrftoken
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Update cart count
+                            updateCartCount(response.cart_total);
+                            // Remove item from DOM
+                            $(`#cart-item-${itemId}`).fadeOut(300, function() {
+                                $(this).remove();
+                                // Check if cart is empty
+                                if ($('.cart-item').length === 0) {
+                                    location.reload();
+                                }
+                            });
+                            showToast('Item removed from cart', 'success');
+                        } else {
+                            showToast(response.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        showToast('Error removing item', 'error');
+                    }
+                });
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+            if( target.length ) {
+                event.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - 100
+                }, 1000);
+            }
+        });
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Add fade-in animation to elements
+        $(document).ready(function() {
+            $('.card').addClass('fade-in');
+        });
+
+        // Sahifa yuklanganda localStoragedan ma'lumotlarni olish
+        $(document).ready(function() {
+            const savedCart = localStorage.getItem('saved_cart_total');
+            const savedFavorites = localStorage.getItem('saved_favorites_count');
+
+            if (savedCart !== null) {
+                updateCartCount(parseInt(savedCart));
+                localStorage.removeItem('saved_cart_total'); // bitta marta
+            }
+            if (savedFavorites !== null) {
+                updateFavoritesCount(parseInt(savedFavorites));
+                localStorage.removeItem('saved_favorites_count');
+            }
+        });
+
+
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

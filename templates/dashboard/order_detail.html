@@ -1,0 +1,203 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Order #{{ order.order_id }} - Dashboard{% endblock %}
+
+{% block page_title %}Order #{{ order.order_id|truncatechars:8 }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Order Details -->
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Order Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Customer Details</h6>
+                        <p><strong>Name:</strong> {{ order.customer_name }}</p>
+                        <p><strong>Phone:</strong> {{ order.customer_phone }}</p>
+                        <p><strong>Address:</strong> {{ order.customer_address }}</p>
+                        {% if order.delivery_address %}
+                        <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                        {% endif %}
+                        {% if order.user %}
+                        <p><strong>User Account:</strong> @{{ order.user.username }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Order Details</h6>
+                        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                        <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+                        <p><strong>Status:</strong> 
+                            {% if order.status == 'pending' %}
+                                <span class="badge badge-warning">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'confirmed' %}
+                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'preparing' %}
+                                <span class="badge badge-secondary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'shipped' %}
+                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge badge-success">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge badge-danger">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Payment:</strong> 
+                            {% if order.payment_confirmed %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check"></i> Confirmed
+                                </span>
+                                {% if order.payment_confirmed_at %}
+                                <br><small class="text-muted">{{ order.payment_confirmed_at|date:"M d, Y H:i" }}</small>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-clock"></i> Pending
+                                </span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Exchange Rate:</strong> 1 USD = {{ order.exchange_rate_used }} UZS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Items -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Order Items</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" 
+                                             class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <div>
+                                            <div class="fw-semibold">{{ item.product.name }}</div>
+                                            <small class="text-muted">{{ item.product.sku }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>${{ item.price_usd }}</div>
+                                    <small class="text-muted">{{ item.price_uzs|floatformat:0 }} UZS</small>
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>
+                                    <div class="fw-semibold">${{ item.total_price_usd }}</div>
+                                    <small class="text-muted">{{ item.total_price_uzs|floatformat:0 }} UZS</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">Total</th>
+                                <th>
+                                    <div class="fw-semibold">${{ order.total_amount_usd }}</div>
+                                    <div class="text-primary">{{ order.total_amount_uzs|floatformat:0 }} UZS</div>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions -->
+    <div class="col-lg-4">
+        <!-- Status Update -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Update Status</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_status">
+                    <div class="mb-3">
+                        <select class="form-control" name="status" required>
+                            {% for status_key, status_label in status_choices %}
+                            <option value="{{ status_key }}" {% if order.status == status_key %}selected{% endif %}>
+                                {{ status_label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-save"></i> Update Status
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Payment Actions -->
+        {% if not order.payment_confirmed %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Payment Actions</h5>
+            </div>
+            <div class="card-body">
+                {% if order.payment_screenshot %}
+                <div class="mb-3">
+                    <img src="{{ order.payment_screenshot.url }}" alt="Payment Screenshot" 
+                         class="img-fluid rounded" style="max-height: 200px;">
+                </div>
+                {% endif %}
+                
+                <div class="d-grid gap-2">
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="confirm_payment">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-check"></i> Confirm Payment
+                        </button>
+                    </form>
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="reject_payment">
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="fas fa-times"></i> Reject Payment
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'dashboard:orders' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Orders
+                    </a>
+                    <a href="{% url 'admin:store_order_change' order.id %}" class="btn btn-outline-primary" target="_blank">
+                        <i class="fas fa-edit"></i> Edit in Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

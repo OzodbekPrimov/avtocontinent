@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Login - Avtokontinent.uz" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-sign-in-alt"></i> {% trans "Login" %}
+                    </h2>
+
+                    <!-- Telegram bot link -->
+                    <div class="text-center mb-4">
+                        <div class="alert alert-info">
+                            <i class="fab fa-telegram"></i>
+                            <strong>{% trans "Get the code from the bot" %}:</strong>
+                            <br>
+                            <a href="{{ telegram_link }}" target="_blank" class="btn btn-primary mt-2">
+                                <i class="fab fa-telegram"></i> {% trans "Open Telegram Bot" %}
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Verification Code Input Form -->
+                    <form id="code-form">
+                        {% csrf_token %}
+                        <input type="hidden" id="session_token" value="{{ request.session.login_token }}">
+
+                        {% if messages %}
+                        <div class="mb-3">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label for="code" class="form-label fw-bold">{% trans "4-Digit Verification Code" %}</label>
+                            <input type="text" class="form-control text-center" id="code" name="code"
+                                   placeholder="0000" maxlength="4" required pattern="[0-9]{4}"
+                                   inputmode="numeric" style="font-size: 2rem; letter-spacing: 1rem; font-weight: bold;">
+                            <div class="form-text text-center small text-muted">
+                                {% trans "Enter the 4-digit code you received from the Telegram bot" %}
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+                                <i class="fas fa-check-circle"></i> {% trans "Verify & Login" %}
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Error/Success Message -->
+                    <div id="message-box" class="mt-3" style="display: none;">
+                        <div class="alert" id="message-content"></div>
+                    </div>
+
+                    <!-- Steps to guide the user -->
+                    <div class="mt-4 text-center">
+                        <div class="alert alert-warning">
+                            <small>
+                                <i class="fas fa-info-circle"></i>
+                                {% trans "Steps to get your code:" %}
+                            </small>
+                            <ol class="text-start mt-2 mb-0">
+                                <li>{% trans "Click the Telegram bot link above" %}</li>
+                                <li>{% trans "Start the bot and share your contact" %}</li>
+                                <li>{% trans "Receive your 4-digit code" %}</li>
+                                <li>{% trans "Enter the code here to login" %}</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-center text-muted">
+                        <small>
+                            <i class="fas fa-clock"></i>
+                            {% trans "Note: Your code is valid for 1 minute only" %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript: Yangilangan AJAX va merge uchun -->
+<script>
+// CSRF token olish
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Formni tekshirish va kodni yuborish
+document.getElementById('code-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const codeInput = document.getElementById('code');
+    const code = codeInput.value.trim();
+    const csrfToken = getCookie('csrftoken');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // Kodni tekshirish (4 xonali raqam)
+    if (!code || code.length !== 4 || !/^[0-9]{4}$/.test(code)) {
+        showMessage('danger', '{% trans "Please enter a valid 4-digit code." %}');
+        return;
+    }
+
+    // Tugmani faollashtirmaslik
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Checking..." %}';
+
+    try {
+        const response = await fetch('{% url "verify_code" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ code: code })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showMessage('success', data.message);
+
+            // ✅ LOGIN MUVAFFAQIYATLI: Savat va saqlanganlar sonini saqlash
+            if (data.cart_total !== undefined) {
+                localStorage.setItem('saved_cart_total', data.cart_total);
+            }
+            if (data.favorites_count !== undefined) {
+                localStorage.setItem('saved_favorites_count', data.favorites_count);
+            }
+
+            // 1.5 soniyadan keyin bosh sahifaga o'tish
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            showMessage('danger', data.message);
+        }
+    } catch (error) {
+        showMessage('danger', '{% trans "Network error. Please try again." %}');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> {% trans "Verify & Login" %}';
+    }
+});
+
+// Sahifa yuklanganda fokus
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('code').focus();
+});
+
+// Faqat raqamlarni qabul qilish
+document.getElementById('code').addEventListener('input', function(e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+// Xabar ko'rsatish
+function showMessage(type, message) {
+    const box = document.getElementById('message-box');
+    const content = document.getElementById('message-content');
+    content.className = `alert alert-${type}`;
+    content.textContent = message;
+    box.style.display = 'block';
+}
+</script>
+
+{% endblock %}

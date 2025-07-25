@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ brand.name }} - {% trans "Models and Parts" %} - Avtokontinent.uz{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'brands' %}">{% trans "Brands" %}</a></li>
+            <li class="breadcrumb-item active">{{ brand.name }}</li>
+        </ol>
+    </nav>
+    
+    <!-- Brand Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            {% if brand.logo %}
+                            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="img-fluid" style="max-height: 80px;">
+                            {% else %}
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 80px;">
+                                <i class="fas fa-car fa-2x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-10">
+                            <h1 class="mb-2">{{ brand.name }}</h1>
+                            <p class="text-muted mb-0">{{ brand.description|default:"Quality spare parts for your vehicle" }}</p>
+                            <small class="text-muted">{{ models.count }} {% trans "models available" %} • {{ page_obj.paginator.count }} {% trans "products" %}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Left Sidebar - Model Filters -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter"></i> {% trans "Filter by Model" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Search -->
+                    <form method="get" class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" 
+                                   placeholder="{% trans 'Search products...' %}" value="{{ search_query }}">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        {% if selected_model %}<input type="hidden" name="model" value="{{ selected_model }}">{% endif %}
+                        {% if request.GET.category %}<input type="hidden" name="category" value="{{ request.GET.category }}">{% endif %}
+                        {% if request.GET.sort %}<input type="hidden" name="sort" value="{{ request.GET.sort }}">{% endif %}
+                    </form>
+                    
+                    <!-- All Models Link -->
+                    <div class="mb-3">
+                        <a href="{% url 'brand_models' brand.slug %}" 
+                           class="btn {% if not selected_model %}btn-primary{% else %}btn-outline-primary{% endif %} w-100">
+                            <i class="fas fa-th-large"></i> {% trans "All Models" %}
+                        </a>
+                    </div>
+                    
+                    <!-- Model List with Images -->
+                    <div class="model-filters">
+                        {% for model in models %}
+                        <div class="model-filter-item mb-2">
+                            <a href="?model={{ model.slug }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                               class="btn {% if selected_model == model.slug %}btn-primary{% else %}btn-outline-secondary{% endif %} w-100 text-start">
+                                <div class="d-flex align-items-center">
+                                    {% if model.image %}
+                                    <img src="{{ model.image.url }}" alt="{{ model.name }}" 
+                                         class="rounded me-2" style="width: 40px; height: 30px; object-fit: cover;">
+                                    {% else %}
+                                    <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                         style="width: 40px; height: 30px;">
+                                        <i class="fas fa-car text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="fw-semibold">{{ model.name }}</div>
+                                        {% if model.year_from and model.year_to %}
+                                        <small class="text-muted">{{ model.year_from }}-{{ model.year_to }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <hr>
+                    <h6>{% trans "Categories" %}</h6>
+                    <div class="category-filters">
+                        {% for category in categories %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category_filter" 
+                                   value="{{ category.slug }}" id="cat-{{ category.id }}"
+                                   {% if request.GET.category == category.slug %}checked{% endif %}
+                                   onchange="filterByCategory('{{ category.slug }}')">
+                            <label class="form-check-label" for="cat-{{ category.id }}">
+                                {{ category.name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Clear Filters -->
+                    <hr>
+                    <a href="{% url 'brand_models' brand.slug %}" class="btn btn-outline-danger w-100">
+                        <i class="fas fa-times"></i> {% trans "Clear Filters" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Content - Products -->
+        <div class="col-lg-9">
+            <!-- Sort and Results Info -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4>
+                        {% if selected_model %}
+                            {{ brand.name }} {{ selected_model|title }} {% trans "Parts" %}
+                        {% else %}
+                            {{ brand.name }} {% trans "Spare Parts" %}
+                        {% endif %}
+                    </h4>
+                    <small class="text-muted">{{ page_obj.paginator.count }} {% trans "products found" %}</small>
+                </div>
+                <div>
+                    <select class="form-select" id="sortSelect" onchange="sortProducts()">
+                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>{% trans "Name A-Z" %}</option>
+                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>{% trans "Price: Low to High" %}</option>
+                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>{% trans "Price: High to Low" %}</option>
+                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>{% trans "Newest First" %}</option>
+                        <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>{% trans "Most Popular" %}</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Products Grid (3 columns, 15 per page) -->
+            <div class="row">
+                {% for product in page_obj %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card product-card h-100">
+                        <div class="position-relative">
+                            <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            <div class="product-actions">
+                                <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Like' %}">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Favorites' %}">
+                                    <i class="far fa-star"></i>
+                                </button>
+                            </div>
+                            {% if not product.is_in_stock %}
+                            <div class="position-absolute top-0 start-0 m-2">
+                                <span class="badge bg-danger">{% trans "Out of Stock" %}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title">{{ product.name }}</h6>
+                            <p class="card-text text-muted">{{ product.short_description|truncatewords:10 }}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-tag"></i> {{ product.category.name }}
+                                </small>
+                                <br>
+                                <small class="text-muted">
+                                    <i class="fas fa-barcode"></i> {{ product.sku }}
+                                </small>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="price">{{ product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count }}</span>
+                                    </small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
+                                    {% if product.is_in_stock %}
+                                    <button class="btn btn-secondary btn-sm" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
+                                    {% else %}
+                                    <button class="btn btn-secondary btn-sm" disabled data-bs-toggle="tooltip" title="{% trans 'Out of Stock' %}">
+                                        <i class="fas fa-ban"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>{% trans "No products found" %}</h4>
+                        <p class="text-muted">{% trans "Try adjusting your search or filter criteria" %}</p>
+                        <a href="{% url 'brand_models' brand.slug %}" class="btn btn-primary">{% trans "View All Products" %}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_model %}&model={{ selected_model }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if selected_model %}&model={{ selected_model }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_model %}&model={{ selected_model }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.model-filter-item .btn {
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.model-filter-item .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.category-filters .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.category-filters .form-check-label {
+    cursor: pointer;
+    padding: 0.25rem 0;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function sortProducts() {
+    const sortValue = document.getElementById('sortSelect').value;
+    const url = new URL(window.location);
+    url.searchParams.set('sort', sortValue);
+    window.location.href = url.toString();
+}
+
+function filterByCategory(categorySlug) {
+    const url = new URL(window.location);
+    url.searchParams.set('category', categorySlug);
+    url.searchParams.delete('page'); // Reset to first page
+    window.location.href = url.toString();
+}
+</script>
+{% endblock %}
