@@ -657,32 +657,38 @@
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
+            </div>
+                {% load i18n %}
 
                 <!-- Navigation Icons -->
                 <ul class="navbar-nav ms-auto">
                     <!-- Language Switcher -->
                     <li class="nav-item dropdown">
-                                <i class="fas fa-globe"></i>
-            </div>
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe"></i>
                             <span class="d-none d-md-inline ms-1">
-                                {% if current_language == 'uz' %}O'zbekcha{% elif current_language == 'ru' %}Русский{% else %}English{% endif %}
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% if LANGUAGE_CODE == 'uz' %}Oʻzbekcha{% elif LANGUAGE_CODE == 'en' %}English{% else %}Русский{% endif %}
                             </span>
                         </a>
-                        <ul class="dropdown-menu">
-                            {% for lang in available_languages %}
-                            <li>
-                                <form action="{% url 'set_language' %}" method="post" class="d-inline">
-                                    {% csrf_token %}
-                                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
-                                    <input name="language" type="hidden" value="{{ lang.code }}">
-                                    <button type="submit" class="dropdown-item {% if current_language == lang.code %}active{% endif %}">
-                                        {{ lang.name }}
-                                    </button>
-                                </form>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% for lang in LANGUAGES %}
+                                <li>
+                                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                                        <input name="language" type="hidden" value="{{ lang.0 }}">
+                                        <button type="submit" class="dropdown-item {% if LANGUAGE_CODE == lang.0 %}active{% endif %}">
+                                            {{ lang.1 }}
+                                        </button>
+                                    </form>
+                                </li>
                             {% endfor %}
                         </ul>
                     </li>
+</ul>
 
                     <!-- FAVORITES -->
                     <li class="nav-item">

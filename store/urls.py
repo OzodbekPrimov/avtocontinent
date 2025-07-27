@@ -1,10 +1,11 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
+from django.conf.urls.i18n import i18n_patterns
+
 from . import signals
 
 urlpatterns = [
-    # Main pages
     path('', views.home, name='home'),
     path('products/', views.product_list, name='product_list'),
     path('product/<slug:slug>/', views.product_detail, name='product_detail'),

@@ -15,6 +15,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv(
 
 # Application definition
 INSTALLED_APPS = [
+    'modeltranslation',  # modeltranslation birinchi bo‘lishi kerak
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,6 +37,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -85,10 +88,27 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uz'
 TIME_ZONE = 'Asia/Tashkent'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
+
+# Languages
+LANGUAGES = [
+    ('uz', 'O\'zbekcha'),
+    ('ru', 'Русский'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+
+# Modeltranslation sozlamalari
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'  # Asosiy til
+MODELTRANSLATION_LANGUAGES = ('uz', 'en', 'ru')
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

@@ -4,7 +4,7 @@ import os
 import django
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove
 from aiogram import F
 from asgiref.sync import sync_to_async
 
@@ -125,7 +125,7 @@ async def handle_contact(message: types.Message):
     await message.answer(
         f"🔐 Tasdiqlash kodingiz: `{code}`\n\n⏳ Kod 1 daqiqa amal qiladi.",
         parse_mode="Markdown",
-        reply_markup=get_retry_kb()
+        reply_markup=ReplyKeyboardRemove()
     )
 
 @dp.callback_query(F.data == "retry_code")

@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Products - Avtokontinent.uz{% endblock %}
+
+{% block title %}{% trans "Products - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
 <div class="container py-4">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active">Products</li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active">{% trans "Products" %}</li>
         </ol>
     </nav>
-    
+
     <div class="row">
         <!-- Sidebar Filters -->
         <div class="col-lg-3 mb-4">
             <div class="filter-sidebar">
                 <h5 class="filter-title">
-                    <i class="fas fa-filter"></i> Filters
+                    <i class="fas fa-filter"></i> {% trans "Filters" %}
                 </h5>
-                
+
                 <!-- Category Filter -->
                 <div class="mb-4">
-                    <h6>Categories</h6>
+                    <h6>{% trans "Categories" %}</h6>
                     {% for category in categories %}
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" 
+                        <input class="form-check-input" type="radio" name="category"
                                value="{{ category.slug }}" id="cat-{{ category.id }}"
                                {% if current_category == category.slug %}checked{% endif %}
                                onchange="filterProducts()">
@@ -35,13 +37,13 @@
                     </div>
                     {% endfor %}
                 </div>
-                
+
                 <!-- Brand Filter -->
                 <div class="mb-4">
-                    <h6>Brands</h6>
+                    <h6>{% trans "Brands" %}</h6>
                     {% for brand in brands %}
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="brand" 
+                        <input class="form-check-input" type="radio" name="brand"
                                value="{{ brand.slug }}" id="brand-{{ brand.id }}"
                                {% if current_brand == brand.slug %}checked{% endif %}
                                onchange="filterProducts()">
@@ -51,33 +53,33 @@
                     </div>
                     {% endfor %}
                 </div>
-                
+
                 <!-- Clear Filters -->
                 <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
-                    <i class="fas fa-times"></i> Clear Filters
+                    <i class="fas fa-times"></i> {% trans "Clear Filters" %}
                 </button>
             </div>
         </div>
-        
+
         <!-- Products -->
         <div class="col-lg-9">
             <!-- Sort and Results Info -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4>Products</h4>
-                    <small class="text-muted">{{ page_obj.paginator.count }} results found</small>
+                    <h4>{% trans "Products" %}</h4>
+                    <small class="text-muted">{{ page_obj.paginator.count }} {% trans "results found" %}</small>
                 </div>
                 <div>
                     <select class="form-select" id="sortSelect" onchange="sortProducts()">
-                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
-                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
-                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
-                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest First</option>
-                        <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>Most Popular</option>
+                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>{% trans "Name A-Z" %}</option>
+                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>{% trans "Price: Low to High" %}</option>
+                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>{% trans "Price: High to Low" %}</option>
+                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>{% trans "Newest First" %}</option>
+                        <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>{% trans "Most Popular" %}</option>
                     </select>
                 </div>
             </div>
-            
+
             <!-- Products Grid -->
             <div class="row">
                 {% for product in page_obj %}
@@ -86,16 +88,16 @@
                         <div class="position-relative">
                             <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
                             <div class="product-actions">
-                                <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="Like">
+                                <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Like" %}">
                                     <i class="far fa-heart"></i>
                                 </button>
-                                <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="Add to Favorites">
+                                <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Add to Favorites" %}">
                                     <i class="far fa-star"></i>
                                 </button>
                             </div>
                             {% if not product.is_in_stock %}
                             <div class="position-absolute top-0 start-0 m-2">
-                                <span class="badge bg-danger">Out of Stock</span>
+                                <span class="badge bg-danger">{% trans "Out of Stock" %}</span>
                             </div>
                             {% endif %}
                         </div>
@@ -109,31 +111,31 @@
                                 {% if product.compatible_models.exists %}
                                 <br>
                                 <small class="text-muted">
-                                    <i class="fas fa-car"></i> 
+                                    <i class="fas fa-car"></i>
                                     {% for model in product.compatible_models.all|slice:":2" %}
                                         {{ model.brand.name }} {{ model.name }}{% if not forloop.last %}, {% endif %}
                                     {% endfor %}
                                     {% if product.compatible_models.count > 2 %}
-                                        and {{ product.compatible_models.count|add:"-2" }} more
+                                        {% trans "and" %} {{ product.compatible_models.count|add:"-2" }} {% trans "more" %}
                                     {% endif %}
                                 </small>
                                 {% endif %}
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="price">{{ product.price_uzs|floatformat:0 }} UZS</div>
+                                    <div class="price">{{ product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
                                     <small class="text-muted">
                                         <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count }}</span>
                                     </small>
                                 </div>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary flex-fill">View Details</a>
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary flex-fill">{% trans "View Details" %}</a>
                                     {% if product.is_in_stock %}
-                                    <button class="btn btn-secondary" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="Add to Cart">
+                                    <button class="btn btn-secondary" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Add to Cart" %}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                     {% else %}
-                                    <button class="btn btn-secondary" disabled data-bs-toggle="tooltip" title="Out of Stock">
+                                    <button class="btn btn-secondary" disabled data-bs-toggle="tooltip" title="{% trans "Out of Stock" %}">
                                         <i class="fas fa-ban"></i>
                                     </button>
                                     {% endif %}
@@ -146,9 +148,9 @@
                 <div class="col-12">
                     <div class="text-center py-5">
                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h4>No products found</h4>
-                        <p class="text-muted">Try adjusting your search or filter criteria</p>
-                        <a href="{% url 'product_list' %}" class="btn btn-primary">View All Products</a>
+                        <h4>{% trans "No products found" %}</h4>
+                        <p class="text-muted">{% trans "Try adjusting your search or filter criteria" %}</p>
+                        <a href="{% url 'product_list' %}" class="btn btn-primary">{% trans "View All Products" %}</a>
                     </div>
                 </div>
                 {% endfor %}

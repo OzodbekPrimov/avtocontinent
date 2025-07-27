@@ -1,89 +1,91 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Checkout - Avtokontinent.uz{% endblock %}
+
+{% block title %}{% trans "Checkout - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
 <div class="container py-4">
     <h2 class="mb-4">
-        <i class="fas fa-credit-card"></i> Checkout
+        <i class="fas fa-credit-card"></i> {% trans "Checkout" %}
     </h2>
-    
+
     <div class="row">
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h5>Order Details</h5>
-                    
+                    <h5>{% trans "Order Details" %}</h5>
+
                     <form method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="customer_name" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="customer_name" 
+                                    <label for="customer_name" class="form-label">{% trans "Full Name" %}</label>
+                                    <input type="text" class="form-control" id="customer_name"
                                            name="customer_name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="customer_phone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="customer_phone" 
+                                    <label for="customer_phone" class="form-label">{% trans "Phone Number" %}</label>
+                                    <input type="tel" class="form-control" id="customer_phone"
                                            name="customer_phone" required>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="customer_address" class="form-label">Address</label>
-                            <textarea class="form-control" id="customer_address" 
+                            <label for="customer_address" class="form-label">{% trans "Address" %}</label>
+                            <textarea class="form-control" id="customer_address"
                                       name="customer_address" rows="3" required></textarea>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="delivery_address" class="form-label">Delivery Address (if different)</label>
-                            <textarea class="form-control" id="delivery_address" 
+                            <label for="delivery_address" class="form-label">{% trans "Delivery Address (if different)" %}</label>
+                            <textarea class="form-control" id="delivery_address"
                                       name="delivery_address" rows="3"></textarea>
                         </div>
-                        
+
                         <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="agree_terms" required>
                                 <label class="form-check-label" for="agree_terms">
-                                    I agree to the <a href="#" target="_blank">Terms and Conditions</a>
+                                    {% trans "I agree to the" %} <a href="#" target="_blank">{% trans "Terms and Conditions" %}</a>
                                 </label>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="checkoutBtn" disabled>
-                            <i class="fas fa-arrow-right"></i> Place Order
+                            <i class="fas fa-arrow-right"></i> {% trans "Place Order" %}
                         </button>
                     </form>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <h5>Order Summary</h5>
+                    <h5>{% trans "Order Summary" %}</h5>
                     {% for item in cart.items.all %}
                     <div class="d-flex justify-content-between mb-2">
                         <span>{{ item.product.name }} x{{ item.quantity }}</span>
-                        <span>{{ item.total_price_uzs|floatformat:0 }} UZS</span>
+                        <span>{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</span>
                     </div>
                     {% endfor %}
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
-                        <strong>Total:</strong>
-                        <strong>{{ cart.total_price_uzs|floatformat:0 }} UZS</strong>
+                        <strong>{% trans "Total:" %}</strong>
+                        <strong>{{ cart.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</strong>
                     </div>
-                    
+
                     {% if payment_settings %}
                     <div class="alert alert-info">
-                        <h6>Payment Information</h6>
-                        <p><strong>Card Number:</strong> {{ payment_settings.card_number }}</p>
-                        <p><strong>Bank:</strong> {{ payment_settings.bank_name }}</p>
-                        <p><strong>Cardholder:</strong> {{ payment_settings.card_holder_name }}</p>
+                        <h6>{% trans "Payment Information" %}</h6>
+                        <p><strong>{% trans "Card Number:" %}</strong> {{ payment_settings.card_number }}</p>
+                        <p><strong>{% trans "Bank:" %}</strong> {{ payment_settings.bank_name }}</p>
+                        <p><strong>{% trans "Cardholder:" %}</strong> {{ payment_settings.card_holder_name }}</p>
                     </div>
                     {% endif %}
                 </div>
