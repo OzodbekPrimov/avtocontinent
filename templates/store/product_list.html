@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-
 {% block title %}{% trans "Products - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
@@ -14,9 +13,9 @@
         </ol>
     </nav>
 
-    <div class="row">
-        <!-- Sidebar Filters -->
-        <div class="col-lg-3 mb-4">
+    <!-- Sidebar Filters (Moved to Top) -->
+    <div class="row mb-4">
+        <div class="col-12">
             <div class="filter-sidebar">
                 <h5 class="filter-title">
                     <i class="fas fa-filter"></i> {% trans "Filters" %}
@@ -60,10 +59,12 @@
                 </button>
             </div>
         </div>
+    </div>
 
-        <!-- Products -->
-        <div class="col-lg-9">
-            <!-- Sort and Results Info -->
+    <!-- Products Section -->
+    <div class="row">
+        <!-- Sort and Results Info -->
+        <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h4>{% trans "Products" %}</h4>
@@ -81,9 +82,9 @@
             </div>
 
             <!-- Products Grid -->
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-4 g-4 product-list">
                 {% for product in page_obj %}
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col">
                     <div class="card product-card h-100">
                         <div class="position-relative">
                             <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
@@ -155,7 +156,7 @@
                 </div>
                 {% endfor %}
             </div>
-            
+
             <!-- Pagination -->
             {% if page_obj.has_other_pages %}
             <nav aria-label="Page navigation">
@@ -167,7 +168,7 @@
                         </a>
                     </li>
                     {% endif %}
-                    
+
                     {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                     <li class="page-item active">
@@ -179,7 +180,7 @@
                     </li>
                     {% endif %}
                     {% endfor %}
-                    
+
                     {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
@@ -201,7 +202,7 @@ function filterProducts() {
     const form = document.createElement('form');
     form.method = 'GET';
     form.action = '{% url "product_list" %}';
-    
+
     // Add category filter
     const categoryRadios = document.querySelectorAll('input[name="category"]:checked');
     if (categoryRadios.length > 0) {
@@ -211,7 +212,7 @@ function filterProducts() {
         categoryInput.value = categoryRadios[0].value;
         form.appendChild(categoryInput);
     }
-    
+
     // Add brand filter
     const brandRadios = document.querySelectorAll('input[name="brand"]:checked');
     if (brandRadios.length > 0) {
@@ -221,7 +222,7 @@ function filterProducts() {
         brandInput.value = brandRadios[0].value;
         form.appendChild(brandInput);
     }
-    
+
     // Add search if exists
     const searchParam = new URLSearchParams(window.location.search).get('search');
     if (searchParam) {
@@ -231,7 +232,7 @@ function filterProducts() {
         searchInput.value = searchParam;
         form.appendChild(searchInput);
     }
-    
+
     // Add sort if exists
     const sortParam = new URLSearchParams(window.location.search).get('sort');
     if (sortParam) {
@@ -241,7 +242,7 @@ function filterProducts() {
         sortInput.value = sortParam;
         form.appendChild(sortInput);
     }
-    
+
     document.body.appendChild(form);
     form.submit();
 }
@@ -258,7 +259,7 @@ function clearFilters() {
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
     });
-    
+
     // Go to products page without filters
     const url = new URL(window.location);
     url.searchParams.delete('category');
@@ -267,4 +268,42 @@ function clearFilters() {
     window.location.href = url.toString();
 }
 </script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Telefon formatiga moslashish (max-width: 768px) */
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 1.5rem !important; /* Sarlavhalar kichraytirildi */
+        }
+        .section-subtitle {
+            font-size: 0.875rem !important; /* Matn kichraytirildi */
+        }
+        .card-title {
+            font-size: 0.9rem !important; /* Mahsulot nomlari kichraytirildi */
+        }
+        .card-text, .price, .product-stats {
+            font-size: 0.75rem !important; /* Matn va narx kichraytirildi */
+        }
+        .btn {
+            font-size: 0.7rem !important; /* Tugma shriftlari kichraytirildi */
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        /* Mahsulotlar 1 qatorda 2 ta */
+        .product-list {
+            row-cols-md-4 !important;
+            row-cols-2 !important;
+        }
+
+        /* Kartochka hajmi va joylashuvi */
+        .product-card .card-img-top {
+            height: 150px !important; /* Mahsulot rasmlari kichraytirildi */
+        }
+        .product-card .card-body {
+            padding: 0.5rem !important; /* Ichki padding kamaytirildi */
+        }
+    }
+</style>
 {% endblock %}
