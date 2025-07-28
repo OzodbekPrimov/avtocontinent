@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'admin_thumbnails',
+    'django_elasticsearch_dsl',
+
 ]
 
 MIDDLEWARE = [
@@ -64,12 +66,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'avtokontinent_db',
+        'USER': 'postgres',
+        'PASSWORD': 'ozodbek2006',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -174,3 +189,12 @@ app.autodiscover_tasks()
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Asia/Tashkent'
+
+
+
+# Elasticsearch sozlamalari
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9201'  # 9201-portga moslashtirildi
+    },
+}

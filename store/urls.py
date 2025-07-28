@@ -37,4 +37,8 @@ urlpatterns = [
 # urls.py
     path('ajax/sync-cart/', views.ajax_sync_cart, name='ajax_sync_cart'),
     path('ajax/sync-favorites/', views.ajax_sync_favorites, name='ajax_sync_favorites'),
+
+    # elasticsearch urls
+    # path('search/', views.search_products, name='search_products'),
+    # path('autocomplete/', views.autocomplete_products, name='autocomplete_products'),
 ]

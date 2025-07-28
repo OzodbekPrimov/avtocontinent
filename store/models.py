@@ -1,3 +1,4 @@
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -70,49 +71,62 @@ class CarModel(models.Model):
     def __str__(self):
         return f"{self.brand.name} {self.name}"
 
+
+from django.db import models
+from modeltranslation.translator import translator, TranslationOptions
+from django.core.validators import MinValueValidator
+from ckeditor.fields import RichTextField
+from django.urls import reverse
+
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     sku = models.CharField(max_length=100, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, blank=True, null=True)
-    compatible_models = models.ManyToManyField(CarModel, related_name='products')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, blank=True, null=True)
+    compatible_models = models.ManyToManyField('CarModel', related_name='products')
     description = RichTextField()
     short_description = models.TextField(max_length=500, blank=True)
-    
+
     # Pricing (stored in USD)
     price_usd = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
-    
+
     # Images
     main_image = models.ImageField(upload_to='products/')
-    
+
     # Video
     youtube_video_id = models.CharField(max_length=50, blank=True, help_text="YouTube video ID (masalan: jL14SRWKA6c)")
-    
+
     # Stock
     stock_quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    
+
     # SEO
     meta_title = models.CharField(max_length=200, blank=True)
     meta_description = models.TextField(max_length=500, blank=True)
-    
+
     # Status
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
-    
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['-created_at']
-    
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['description']),
+        ]
+
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'slug': self.slug})
-    
+
     @property
     def price_uzs(self):
         """Convert USD price to UZS"""
@@ -121,18 +135,21 @@ class Product(models.Model):
             return self.price_usd * exchange_rate.usd_to_uzs
         except ExchangeRate.DoesNotExist:
             return self.price_usd * 12000  # Default rate
-    
+
     @property
     def is_in_stock(self):
         return self.stock_quantity > 0
-    
+
     @property
     def like_count(self):
         return self.likes.count()
-    
+
     @property
     def comment_count(self):
         return self.comments.filter(is_approved=True).count()
+
+
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
@@ -191,7 +208,7 @@ class UserProfile(models.Model):
         return f"{self.user.username} - {self.phone_number}"
 
 class TelegramAuth(models.Model):
-    session_token = models.CharField(max_length=8, unique=True, null=True)  # QO'SHILDI!
+    session_token = models.CharField(max_length=12, unique=True, null=True)  # QO'SHILDI!
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     code = models.CharField(max_length=6, blank=True, null=True)
     chat_id = models.TextField(default='default_id')
