@@ -44,6 +44,7 @@
     </div>
 </section>
 {% endif %}
+
 <!-- Popular Brands Section -->
 <section class="section" id="popular-brands">
     <div class="container">
@@ -52,9 +53,9 @@
             <p class="section-subtitle">{% trans "Shop genuine spare parts from the world's leading automotive brands" %}</p>
         </div>
 
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
             {% for brand in brands|slice:":8" %}
-            <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="col">
                 <a href="{% url 'brand_models' brand.slug %}" class="text-decoration-none">
                     <div class="brand-card">
                         {% if brand.logo %}
@@ -77,7 +78,6 @@
         </div>
 
         <div class="text-center mt-4">
-
         </div>
     </div>
 </section>
@@ -90,9 +90,9 @@
             <p class="section-subtitle">{% trans "Browse our comprehensive range of automotive parts and accessories" %}</p>
         </div>
 
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
             {% for category in categories|slice:":6" %}
-            <div class="col-lg-4 col-md-6">
+            <div class="col">
                 <a href="{% url 'product_list' %}?category={{ category.slug }}" class="text-decoration-none">
                     <div class="category-card">
                         <div class="category-icon">
@@ -131,9 +131,9 @@
             <p class="section-subtitle">{% trans "Top 5 products that our customers love the most" %}</p>
         </div>
 
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-md-5 g-4 product-list">
             {% for product in best_selling|slice:":5" %}
-            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+            <div class="col">
                 <div class="card product-card h-100">
                     <div class="position-relative">
                         <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
@@ -192,9 +192,9 @@
             <p class="section-subtitle">{% trans "Products that have won the hearts of our customers" %}</p>
         </div>
 
-        <div class="row">
+        <div class="row row-cols-1 row-cols-md-4 g-4 product-list">
             {% for product in most_liked|slice:":4" %}
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col">
                 <div class="card product-card h-100">
                     <div class="position-relative">
                         <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
@@ -246,6 +246,69 @@
 </section>
 {% endif %}
 
+{% block extra_css %}
+<style>
+    /* Telefon formatiga moslashish (max-width: 768px) */
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 1.5rem !important; /* Sarlavhalar kichraytirildi */
+        }
+        .section-subtitle {
+            font-size: 0.875rem !important; /* Matn kichraytirildi */
+        }
+        .banner-title {
+            font-size: 1.25rem !important; /* Banner sarlavhasi kichraytirildi */
+        }
+        .banner-description {
+            font-size: 0.75rem !important; /* Banner matni kichraytirildi */
+        }
+        .brand-name, .category-name, .card-title {
+            font-size: 0.9rem !important; /* Brand, kategoriya va mahsulot nomlari kichraytirildi */
+        }
+        .brand-count, .category-description, .product-stats, .price {
+            font-size: 0.75rem !important; /* Qo‘shimcha ma’lumotlar kichraytirildi */
+        }
+        .btn-sm {
+            font-size: 0.7rem !important; /* Tugma shriftlari kichraytirildi */
+            padding: 0.25rem 0.5rem !important;
+        }
 
+        /* Popular Brands - 1 qatorda 4 ta */
+        #popular-brands .row {
+            row-cols-md-4 !important;
+            row-cols-4 !important;
+        }
+
+        /* Product Categories - 1 qatorda 4 ta */
+        #categories .row {
+            row-cols-md-4 !important;
+            row-cols-4 !important;
+        }
+
+        /* Best Selling Products - 1 qatorda 2 ta */
+        #best-selling .row {
+            row-cols-md-5 !important;
+            row-cols-2 !important;
+        }
+
+        /* Most Liked Products - 1 qatorda 2 ta */
+        #most-liked .row {
+            row-cols-md-4 !important;
+            row-cols-2 !important;
+        }
+
+        /* Kartochkalar hajmi va joylashuvi */
+        .product-card .card-img-top {
+            height: 150px !important; /* Mahsulot rasmlari kichraytirildi */
+        }
+        .product-card .card-body {
+            padding: 0.5rem !important; /* Ichki padding kamaytirildi */
+        }
+        .product-list {
+            padding: 0 1rem; /* Chegaralar uchun padding */
+        }
+    }
+</style>
+{% endblock %}
 
 {% endblock %}
