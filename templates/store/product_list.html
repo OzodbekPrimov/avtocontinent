@@ -4,8 +4,7 @@
 {% block title %}{% trans "Products - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <!-- Breadcrumb -->
+<div class="container py-3"> {# Reduced padding for mobile #}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
@@ -13,16 +12,14 @@
         </ol>
     </nav>
 
-    <!-- Sidebar Filters (Moved to Top) -->
-    <div class="row mb-4">
-        <div class="col-12">
+    <div class="row">
+        <div class="col-lg-3 mb-3"> {# Reduced margin-bottom for mobile #}
             <div class="filter-sidebar">
-                <h5 class="filter-title">
+                <h5 class="filter-title mb-3">
                     <i class="fas fa-filter"></i> {% trans "Filters" %}
                 </h5>
 
-                <!-- Category Filter -->
-                <div class="mb-4">
+                <div class="mb-3"> {# Reduced margin for compactness #}
                     <h6>{% trans "Categories" %}</h6>
                     {% for category in categories %}
                     <div class="form-check">
@@ -30,15 +27,14 @@
                                value="{{ category.slug }}" id="cat-{{ category.id }}"
                                {% if current_category == category.slug %}checked{% endif %}
                                onchange="filterProducts()">
-                        <label class="form-check-label" for="cat-{{ category.id }}">
+                        <label class="form-check-label" for="cat-{{ category.id }}" style="font-size: 0.85rem;">{# Smaller font for mobile #}
                             {{ category.name }}
                         </label>
                     </div>
                     {% endfor %}
                 </div>
 
-                <!-- Brand Filter -->
-                <div class="mb-4">
+                <div class="mb-3">
                     <h6>{% trans "Brands" %}</h6>
                     {% for brand in brands %}
                     <div class="form-check">
@@ -46,32 +42,44 @@
                                value="{{ brand.slug }}" id="brand-{{ brand.id }}"
                                {% if current_brand == brand.slug %}checked{% endif %}
                                onchange="filterProducts()">
-                        <label class="form-check-label" for="brand-{{ brand.id }}">
+                        <label class="form-check-label" for="brand-{{ brand.id }}" style="font-size: 0.85rem;">
                             {{ brand.name }}
                         </label>
                     </div>
                     {% endfor %}
                 </div>
 
-                <!-- Clear Filters -->
-                <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+                {% if models %}
+                <div class="mb-3">
+                    <h6>{% trans "Models" %}</h6>
+                    {% for model in models %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="model"
+                               value="{{ model.slug }}" id="model-{{ model.id }}"
+                               {% if current_model == model.slug %}checked{% endif %}
+                               onchange="filterProducts()">
+                        <label class="form-check-label" for="model-{{ model.id }}" style="font-size: 0.85rem;">
+                            {{ model.name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <button class="btn btn-outline-secondary btn-sm w-100" onclick="clearFilters()"> {# Added btn-sm for mobile #}
                     <i class="fas fa-times"></i> {% trans "Clear Filters" %}
                 </button>
             </div>
         </div>
-    </div>
 
-    <!-- Products Section -->
-    <div class="row">
-        <!-- Sort and Results Info -->
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-3"> {# Reduced margin #}
                 <div>
-                    <h4>{% trans "Products" %}</h4>
-                    <small class="text-muted">{{ page_obj.paginator.count }} {% trans "results found" %}</small>
+                    <h4 class="fs-5">{% trans "Products" %}</h4> {# Smaller heading for mobile #}
+                    <small class="text-muted" style="font-size: 0.8rem;">{{ page_obj.paginator.count }} {% trans "results found" %}</small>
                 </div>
                 <div>
-                    <select class="form-select" id="sortSelect" onchange="sortProducts()">
+                    <select class="form-select form-select-sm" id="sortSelect" onchange="sortProducts()"> {# Added form-select-sm #}
                         <option value="name" {% if sort_by == 'name' %}selected{% endif %}>{% trans "Name A-Z" %}</option>
                         <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>{% trans "Price: Low to High" %}</option>
                         <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>{% trans "Price: High to Low" %}</option>
@@ -81,31 +89,30 @@
                 </div>
             </div>
 
-            <!-- Products Grid -->
-            <div class="row row-cols-1 row-cols-md-4 g-4 product-list">
+            <div class="row g-2"> {# Reduced gutter size for tighter mobile spacing #}
                 {% for product in page_obj %}
-                <div class="col">
-                    <div class="card product-card h-100">
+                <div class="col-6 col-md-4 col-lg-4 mb-2"> {# Two per row on mobile, three on tablet, four on desktop #}
+                    <div class="card product-card h-100 border-0 shadow-sm"> {# Added shadow-sm for visual appeal #}
                         <div class="position-relative">
-                            <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            <img src="{{ product.main_image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;"> {# Optimized for desktop and mobile #}
                             <div class="product-actions">
-                                <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Like" %}">
+                                <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Like' %}">
                                     <i class="far fa-heart"></i>
                                 </button>
-                                <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Add to Favorites" %}">
+                                <button class="btn-action" id="favorite-btn-{{ product.id }}" onclick="favoriteProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Favorites' %}">
                                     <i class="far fa-star"></i>
                                 </button>
                             </div>
                             {% if not product.is_in_stock %}
-                            <div class="position-absolute top-0 start-0 m-2">
-                                <span class="badge bg-danger">{% trans "Out of Stock" %}</span>
+                            <div class="position-absolute top-0 start-0 m-1">
+                                <span class="badge bg-danger" style="font-size: 0.65rem;">{% trans "Out of Stock" %}</span>
                             </div>
                             {% endif %}
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text text-muted">{{ product.short_description|truncatewords:15 }}</p>
-                            <div class="mb-2">
+                        <div class="card-body d-flex flex-column p-2"> {# Reduced padding for mobile #}
+                            <h5 class="card-title mb-1" style="font-size: 0.85rem; line-height: 1.2;">{{ product.name }}</h5> {# Smaller title #}
+                            <p class="card-text text-muted mb-1" style="font-size: 0.65rem;">{{ product.short_description|truncatewords:7 }}</p> {# Smaller description and word count #}
+                            <div class="mb-1" style="font-size: 0.6rem;"> {# Smaller text for details #}
                                 <small class="text-muted">
                                     <i class="fas fa-tag"></i> {{ product.category.name }}
                                 </small>
@@ -123,20 +130,20 @@
                                 {% endif %}
                             </div>
                             <div class="mt-auto">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="price">{{ product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
-                                    <small class="text-muted">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <div class="price" style="font-size: 0.9rem; font-weight: bold;">{{ product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                                    <small class="text-muted" style="font-size: 0.65rem;">
                                         <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count }}</span>
                                     </small>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary flex-fill">{% trans "View Details" %}</a>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
                                     {% if product.is_in_stock %}
-                                    <button class="btn btn-secondary" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans "Add to Cart" %}">
+                                    <button class="btn btn-secondary btn-sm" onclick="addToCart({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                     {% else %}
-                                    <button class="btn btn-secondary" disabled data-bs-toggle="tooltip" title="{% trans "Out of Stock" %}">
+                                    <button class="btn btn-secondary btn-sm" disabled data-bs-toggle="tooltip" title="{% trans 'Out of Stock' %}">
                                         <i class="fas fa-ban"></i>
                                     </button>
                                     {% endif %}
@@ -147,23 +154,22 @@
                 </div>
                 {% empty %}
                 <div class="col-12">
-                    <div class="text-center py-5">
-                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h4>{% trans "No products found" %}</h4>
-                        <p class="text-muted">{% trans "Try adjusting your search or filter criteria" %}</p>
-                        <a href="{% url 'product_list' %}" class="btn btn-primary">{% trans "View All Products" %}</a>
+                    <div class="text-center py-4">
+                        <i class="fas fa-search fa-2x text-muted mb-2"></i> {# Smaller icon for mobile #}
+                        <h4 class="fs-5">{% trans "No products found" %}</h4> {# Smaller heading #}
+                        <p class="text-muted" style="font-size: 0.9rem;">{% trans "Try adjusting your search or filter criteria" %}</p>
+                        <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm">{% trans "View All Products" %}</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <!-- Pagination -->
             {% if page_obj.has_other_pages %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
+            <nav aria-label="{% trans 'Page navigation' %}">
+                <ul class="pagination justify-content-center mt-3"> {# Reduced margin-top #}
                     {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
                             <i class="fas fa-chevron-left"></i>
                         </a>
                     </li>
@@ -176,14 +182,14 @@
                     </li>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ num }}</a>
+                        <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ num }}</a>
                     </li>
                     {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.model %}&model={{ request.GET.model }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </li>
@@ -194,6 +200,68 @@
         </div>
     </div>
 </div>
+
+{# Custom CSS for mobile and desktop responsiveness #}
+<style>
+.product-card {
+    transition: transform 0.2s;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+}
+.product-actions {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+}
+.btn-action {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+}
+.filter-sidebar {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+@media (max-width: 576px) {
+    .product-card:hover {
+        transform: none; /* Disable hover effect on mobile */
+    }
+    .card-img-top {
+        max-height: 120px; /* Smaller image height on mobile */
+        object-fit: cover; /* Fill space on mobile */
+    }
+    .card-body {
+        padding: 8px; /* Tighter padding on mobile */
+    }
+    .price {
+        font-size: 0.8rem; /* Smaller price font on mobile */
+    }
+    .btn-sm {
+        font-size: 0.7rem; /* Smaller button text on mobile */
+        padding: 4px 8px; /* Smaller button padding */
+    }
+    .filter-sidebar {
+        padding: 10px; /* Smaller padding for sidebar on mobile */
+    }
+    .form-select-sm {
+        font-size: 0.8rem; /* Smaller select dropdown on mobile */
+    }
+}
+@media (min-width: 577px) {
+    .card-img-top {
+        max-height: 200px; /* Larger image height on desktop */
+        object-fit: contain; /* Full image visibility on desktop */
+        width: 100%; /* Full width to avoid stretching */
+    }
+}
+</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -203,7 +271,6 @@ function filterProducts() {
     form.method = 'GET';
     form.action = '{% url "product_list" %}';
 
-    // Add category filter
     const categoryRadios = document.querySelectorAll('input[name="category"]:checked');
     if (categoryRadios.length > 0) {
         const categoryInput = document.createElement('input');
@@ -213,7 +280,6 @@ function filterProducts() {
         form.appendChild(categoryInput);
     }
 
-    // Add brand filter
     const brandRadios = document.querySelectorAll('input[name="brand"]:checked');
     if (brandRadios.length > 0) {
         const brandInput = document.createElement('input');
@@ -223,7 +289,15 @@ function filterProducts() {
         form.appendChild(brandInput);
     }
 
-    // Add search if exists
+    const modelRadios = document.querySelectorAll('input[name="model"]:checked');
+    if (modelRadios.length > 0) {
+        const modelInput = document.createElement('input');
+        modelInput.type = 'hidden';
+        modelInput.name = 'model';
+        modelInput.value = modelRadios[0].value;
+        form.appendChild(modelInput);
+    }
+
     const searchParam = new URLSearchParams(window.location.search).get('search');
     if (searchParam) {
         const searchInput = document.createElement('input');
@@ -233,7 +307,6 @@ function filterProducts() {
         form.appendChild(searchInput);
     }
 
-    // Add sort if exists
     const sortParam = new URLSearchParams(window.location.search).get('sort');
     if (sortParam) {
         const sortInput = document.createElement('input');
@@ -255,12 +328,10 @@ function sortProducts() {
 }
 
 function clearFilters() {
-    // Uncheck all radio buttons
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
     });
 
-    // Go to products page without filters
     const url = new URL(window.location);
     url.searchParams.delete('category');
     url.searchParams.delete('brand');
@@ -268,42 +339,4 @@ function clearFilters() {
     window.location.href = url.toString();
 }
 </script>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-    /* Telefon formatiga moslashish (max-width: 768px) */
-    @media (max-width: 768px) {
-        .section-title {
-            font-size: 1.5rem !important; /* Sarlavhalar kichraytirildi */
-        }
-        .section-subtitle {
-            font-size: 0.875rem !important; /* Matn kichraytirildi */
-        }
-        .card-title {
-            font-size: 0.9rem !important; /* Mahsulot nomlari kichraytirildi */
-        }
-        .card-text, .price, .product-stats {
-            font-size: 0.75rem !important; /* Matn va narx kichraytirildi */
-        }
-        .btn {
-            font-size: 0.7rem !important; /* Tugma shriftlari kichraytirildi */
-            padding: 0.25rem 0.5rem !important;
-        }
-
-        /* Mahsulotlar 1 qatorda 2 ta */
-        .product-list {
-            row-cols-md-4 !important;
-            row-cols-2 !important;
-        }
-
-        /* Kartochka hajmi va joylashuvi */
-        .product-card .card-img-top {
-            height: 150px !important; /* Mahsulot rasmlari kichraytirildi */
-        }
-        .product-card .card-body {
-            padding: 0.5rem !important; /* Ichki padding kamaytirildi */
-        }
-    }
-</style>
 {% endblock %}

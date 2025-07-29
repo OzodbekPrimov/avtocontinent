@@ -14,34 +14,38 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    {% for item in cart_items %}
-                    <div class="row align-items-center border-bottom pb-3 mb-3 cart-item" id="cart-item-{{ item.id }}">
-                        <div class="col-md-2">
-                            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
-                        </div>
-                        <div class="col-md-4">
-                            <h6>{{ item.product.name }}</h6>
-                            <p class="text-muted">{{ item.product.sku }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'-1' }})">-</button>
-                                <input type="number" class="form-control text-center" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}"
-                                       onchange="updateQuantity({{ item.id }}, this.value)" id="quantity-{{ item.id }}">
-                                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'1' }})">+</button>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-3">
+                        {% for item in cart_items %}
+                        <div class="col">
+                            <div class="row align-items-center border-bottom pb-3 mb-3 cart-item" id="cart-item-{{ item.id }}">
+                                <div class="col-4 col-md-2">
+                                    <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
+                                </div>
+                                <div class="col-8 col-md-4">
+                                    <h6>{{ item.product.name }}</h6>
+                                    <p class="text-muted">{{ item.product.sku }}</p>
+                                </div>
+                                <div class="col-6 col-md-2 mt-3 mt-md-0">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'-1' }})">-</button>
+                                        <input type="number" class="form-control text-center" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}"
+                                               onchange="updateQuantity({{ item.id }}, this.value)" id="quantity-{{ item.id }}">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'1' }})">+</button>
+                                    </div>
+                                    <small class="text-muted">Stock: {{ item.product.stock_quantity }}</small>
+                                </div>
+                                <div class="col-4 col-md-2 mt-3 mt-md-0">
+                                    <strong>{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</strong>
+                                </div>
+                                <div class="col-2 col-md-2 mt-3 mt-md-0">
+                                    <button class="btn btn-danger btn-sm" onclick="removeFromCart({{ item.id }})" title="Remove item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <small class="text-muted">Stock: {{ item.product.stock_quantity }}</small>
                         </div>
-                        <div class="col-md-2">
-                            <strong>{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</strong>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-danger btn-sm" onclick="removeFromCart({{ item.id }})" title="Remove item">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -124,7 +128,7 @@ function removeFromCart(itemId) {
             success: function(response) {
                 if (response.success) {
                     updateCartCount(response.cart_total);
-                    $(`#cart-item-${itemId}`).fadeOut(300, function() {
+                    $(`#cart-item-${itemId}`).parents('.col').fadeOut(300, function() {
                         $(this).remove();
                         if ($('.cart-item').length === 0) {
                             location.reload();

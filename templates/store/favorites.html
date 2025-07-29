@@ -4,18 +4,18 @@
 {% block title %}{% trans "Favorites - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <h2 class="mb-4">
+<div class="container py-3">
+    <h2 class="mb-3">
         <i class="fas fa-star"></i> {% trans "My Favorites" %}
     </h2>
-    
+
     {% if favorites %}
-    <div class="row">
+    <div class="row g-2"> {# Reduced gutter size for tighter spacing on mobile #}
         {% for favorite in favorites %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card product-card h-100">
+        <div class="col-6 col-md-4 col-lg-3 mb-2"> {# Two per row on mobile, 3 on tablet, 4 on desktop #}
+            <div class="card product-card h-100 border-0 shadow-sm"> {# Subtle shadow for better card visibility #}
                 <div class="position-relative">
-                    <img src="{{ favorite.product.main_image.url }}" class="card-img-top" alt="{{ favorite.product.name }}">
+                    <img src="{{ favorite.product.main_image.url }}" class="card-img-top img-fluid" alt="{{ favorite.product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;"> {# Use object-fit: contain and max-height for desktop #}
                     <div class="product-actions">
                         <button class="btn-action favorited" onclick="favoriteProduct({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Remove from Favorites' %}">
                             <i class="fas fa-star"></i>
@@ -25,34 +25,34 @@
                         </button>
                     </div>
                     {% if not favorite.product.is_in_stock %}
-                    <div class="position-absolute top-0 start-0 m-2">
-                        <span class="badge bg-danger">{% trans "Out of Stock" %}</span>
+                    <div class="position-absolute top-0 start-0 m-1">
+                        <span class="badge bg-danger" style="font-size: 0.65rem;">{% trans "Out of Stock" %}</span>
                     </div>
                     {% endif %}
                 </div>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ favorite.product.name }}</h5>
-                    <p class="card-text text-muted">{{ favorite.product.short_description|truncatewords:15 }}</p>
-                    <div class="mb-2">
+                <div class="card-body d-flex flex-column p-2"> {# Reduced padding for compact mobile view #}
+                    <h6 class="card-title mb-1" style="font-size: 0.85rem; line-height: 1.2;">{{ favorite.product.name }}</h6>
+                    <p class="card-text text-muted mb-1" style="font-size: 0.65rem;">{{ favorite.product.short_description|truncatewords:5 }}</p>
+                    <div class="mb-1" style="font-size: 0.6rem;">
                         <small class="text-muted">
                             <i class="fas fa-tag"></i> {{ favorite.product.category.name }}
                         </small>
                     </div>
                     <div class="mt-auto">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="price">{{ favorite.product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
-                            <small class="text-muted">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div class="price" style="font-size: 0.9rem; font-weight: bold;">{{ favorite.product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                            <small class="text-muted" style="font-size: 0.65rem;">
                                 <i class="fas fa-heart"></i> {{ favorite.product.like_count }}
                             </small>
                         </div>
-                        <div class="d-flex gap-2">
-                            <a href="{{ favorite.product.get_absolute_url }}" class="btn btn-primary flex-fill">{% trans "View Details" %}</a>
+                        <div class="d-flex gap-1">
+                            <a href="{{ favorite.product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
                             {% if favorite.product.is_in_stock %}
-                            <button class="btn btn-secondary" onclick="addToCart({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
+                            <button class="btn btn-secondary btn-sm" onclick="addToCart({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
                             {% else %}
-                            <button class="btn btn-secondary" disabled data-bs-toggle="tooltip" title="{% trans 'Out of Stock' %}">
+                            <button class="btn btn-secondary btn-sm" disabled data-bs-toggle="tooltip" title="{% trans 'Out of Stock' %}">
                                 <i class="fas fa-ban"></i>
                             </button>
                             {% endif %}
@@ -64,12 +64,63 @@
         {% endfor %}
     </div>
     {% else %}
-    <div class="text-center py-5">
-        <i class="fas fa-star fa-3x text-muted mb-3"></i>
-        <h4>{% trans "No favorites yet" %}</h4>
-        <p class="text-muted">{% trans "Start adding products to your favorites to see them here" %}</p>
-        <a href="{% url 'product_list' %}" class="btn btn-primary">{% trans "Browse Products" %}</a>
+    <div class="text-center py-4">
+        <i class="fas fa-star fa-2x text-muted mb-2"></i>
+        <h4 class="fs-5">{% trans "No favorites yet" %}</h4>
+        <p class="text-muted" style="font-size: 0.9rem;">{% trans "Start adding products to your favorites to see them here" %}</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm">{% trans "Browse Products" %}</a>
     </div>
     {% endif %}
 </div>
+
+{# Custom CSS for fine-tuned mobile and desktop responsiveness #}
+<style>
+.product-card {
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+.product-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover, disabled on mobile */
+}
+.product-actions {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+}
+.btn-action {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+}
+@media (max-width: 576px) {
+    .product-card:hover {
+        transform: none; /* Disable hover effect on mobile */
+    }
+    .card-img-top {
+        max-height: 120px; /* Smaller image height on mobile */
+        object-fit: cover; /* Use cover on mobile to fill space */
+    }
+    .card-body {
+        padding: 8px; /* Tighter padding on mobile */
+    }
+    .price {
+        font-size: 0.8rem; /* Smaller price font on mobile */
+    }
+    .btn-sm {
+        font-size: 0.7rem; /* Smaller button text on mobile */
+        padding: 4px 8px; /* Smaller button padding */
+    }
+}
+@media (min-width: 577px) {
+    .card-img-top {
+        max-height: 200px; /* Larger image height on desktop */
+        object-fit: contain; /* Ensure full image visibility on desktop */
+        width: 100%; /* Full width to avoid stretching */
+    }
+}
+</style>
 {% endblock %}

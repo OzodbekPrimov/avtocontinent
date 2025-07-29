@@ -286,6 +286,8 @@ def advanced_search(products, query, current_lang='uz'):
 #     return results
 
 
+from django.contrib import messages
+
 def product_detail(request, slug):
     """Product detail view"""
     product = get_object_or_404(Product, slug=slug, is_active=True)
@@ -301,7 +303,7 @@ def product_detail(request, slug):
         product=product,
         is_approved=True,
         parent__isnull=True
-    ).order_by('-created_at')
+    ).order_by('-created_at')[:4]
 
     # Check if user has liked this product
     user_liked = False
@@ -309,6 +311,36 @@ def product_detail(request, slug):
     if request.user.is_authenticated:
         user_liked = ProductLike.objects.filter(user=request.user, product=product).exists()
         user_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            messages.error(request, "Koment yozish uchun tizimga kirishingiz kerak!")
+            return redirect('login')
+
+        rating = request.POST.get('rating')
+        comment_text = request.POST.get('comment')
+
+        if rating and comment_text:
+            try:
+                rating = int(rating)
+                if rating < 1 or rating > 5:
+                    messages.error(request, "Reyting 1 dan 5 gacha bo‘lishi kerak!")
+                    return redirect('product_detail', slug=product.slug)
+
+                ProductComment.objects.create(
+                    product=product,
+                    user=request.user,
+                    rating=rating,
+                    comment=comment_text,
+                    is_approved=True  # Agar avtomatik tasdiqlash kerak bo‘lsa
+                )
+                messages.success(request, "Koment muvaffaqiyatli yuborildi!")
+            except ValueError:
+                messages.error(request, "Noto‘g‘ri reyting formati!")
+        else:
+            messages.error(request, "Reyting va koment kiritish shart!")
+
+        return redirect('product_detail', slug=product.slug)
 
     context = {
         'product': product,
