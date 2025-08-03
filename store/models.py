@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -14,29 +15,44 @@ class Category(models.Model):
     image = models.ImageField(upload_to='categories/', blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'Categories'
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
 
-class SubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
-    description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='subcategories/', blank=True)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        verbose_name_plural = 'Sub Categories'
-        ordering = ['name']
-    
-    def __str__(self):
-        return f"{self.category.name} - {self.name}"
+    def save(self, *args, **kwargs):
+        # Generate slug from name_uz if slug is empty
+        if not self.slug and self.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(self.name_uz)
+            slug = base_slug
+            counter = 1
+            while Category.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+
+# class SubCategory(models.Model):
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
+#     name = models.CharField(max_length=100)
+#     slug = models.SlugField(unique=True)
+#     description = models.TextField(blank=True)
+#     image = models.ImageField(upload_to='subcategories/', blank=True)
+#     is_active = models.BooleanField(default=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     class Meta:
+#         verbose_name_plural = 'Sub Categories'
+#         ordering = ['name']
+#
+#     def __str__(self):
+#         return f"{self.category.name} - {self.name}"
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
@@ -45,31 +61,58 @@ class Brand(models.Model):
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Generate slug from name_uz if slug is empty
+        if not self.slug and self.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(self.name_uz)
+            slug = base_slug
+            counter = 1
+            while Brand.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
 
 class CarModel(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='models')
     name = models.CharField(max_length=100)
     slug = models.SlugField()
-    year_from = models.IntegerField(blank=True, null=True)
-    year_to = models.IntegerField(blank=True, null=True)
-    engine_types = models.CharField(max_length=200, blank=True)
+    # year_from = models.IntegerField(blank=True, null=True)
+    # year_to = models.IntegerField(blank=True, null=True)
+    # engine_types = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='models/', blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ['brand', 'slug']
         ordering = ['brand', 'name']
-    
+
     def __str__(self):
         return f"{self.brand.name} {self.name}"
+
+    def save(self, *args, **kwargs):
+        # Generate slug from name_uz if slug is empty
+        if not self.slug and self.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(self.name_uz)
+            slug = base_slug
+            counter = 1
+            while CarModel.objects.filter(brand=self.brand, slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 from django.db import models
@@ -79,13 +122,12 @@ from ckeditor.fields import RichTextField
 from django.urls import reverse
 
 
-
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     sku = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, blank=True, null=True)
+    # subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, blank=True, null=True)
     compatible_models = models.ManyToManyField('CarModel', related_name='products')
     description = RichTextField()
     short_description = models.TextField(max_length=500, blank=True)
@@ -127,6 +169,19 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'slug': self.slug})
 
+    def save(self, *args, **kwargs):
+        # Generate slug from name_uz if slug is empty
+        if not self.slug and self.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(self.name_uz)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
     @property
     def price_uzs(self):
         """Convert USD price to UZS"""
@@ -149,53 +204,53 @@ class Product(models.Model):
         return self.comments.filter(is_approved=True).count()
 
 
-
-
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='products/')
     alt_text = models.CharField(max_length=200, blank=True)
     is_primary = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ['-is_primary', 'created_at']
-    
+
     def __str__(self):
         return f"{self.product.name} - Image"
+
 
 class ExchangeRate(models.Model):
     usd_to_uzs = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return f"1 USD = {self.usd_to_uzs} UZS"
-    
+
     def save(self, *args, **kwargs):
         if self.is_active:
             # Deactivate other exchange rates
             ExchangeRate.objects.filter(is_active=True).update(is_active=False)
         super().save(*args, **kwargs)
 
+
 class Banner(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=200,  blank=True)
     image = models.ImageField(upload_to='banners/')
     link = models.URLField(blank=True)
     is_active = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ['order', '-created_at']
-    
+
     def __str__(self):
         return self.title
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -206,6 +261,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.phone_number}"
+
 
 class TelegramAuth(models.Model):
     session_token = models.CharField(max_length=12, unique=True, null=True)  # QO'SHILDI!
@@ -226,16 +282,18 @@ class TelegramAuth(models.Model):
     def is_expired(self):
         return timezone.now() > self.expires_at
 
+
 class ProductLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ['user', 'product']
-    
+
     def __str__(self):
         return f"{self.user.username} likes {self.product.name}"
+
 
 class ProductComment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
@@ -245,23 +303,25 @@ class ProductComment(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=True, null=True)
     is_approved = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorites')
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ['user', 'product']
-    
+
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"
+
 
 class PaymentSettings(models.Model):
     card_number = models.CharField(max_length=20)
@@ -269,12 +329,13 @@ class PaymentSettings(models.Model):
     bank_name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return f"{self.card_number} - {self.bank_name}"
+
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -285,8 +346,8 @@ class Order(models.Model):
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
-    
-    order_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    order_id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total_amount_usd = models.DecimalField(max_digits=10, decimal_places=2)
@@ -297,25 +358,26 @@ class Order(models.Model):
     customer_name = models.CharField(max_length=100)
     customer_phone = models.CharField(max_length=20)
     customer_address = models.TextField()
-    
+
     # Payment
     payment_screenshot = models.ImageField(upload_to='payments/', blank=True)
     payment_confirmed = models.BooleanField(default=False)
     payment_confirmed_at = models.DateTimeField(blank=True, null=True)
-    
+
     # Delivery
     estimated_delivery_date = models.DateField(blank=True, null=True)
     delivery_address = models.TextField(blank=True)
-    
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return f"Order {self.order_id} - {self.user.username}"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
@@ -339,48 +401,50 @@ class OrderItem(models.Model):
             return self.price_uzs * self.quantity
         return 0  # yoki None
 
+
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     session_key = models.CharField(max_length=40, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['-updated_at']
-    
+
     def __str__(self):
         if self.user:
             return f"Cart - {self.user.username}"
         return f"Cart - Session {self.session_key}"
-    
+
     @property
     def total_items(self):
         return sum(item.quantity for item in self.items.all())
-    
+
     @property
     def total_price_usd(self):
         return sum(item.total_price_usd for item in self.items.all())
-    
+
     @property
     def total_price_uzs(self):
         return sum(item.total_price_uzs for item in self.items.all())
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ['cart', 'product']
-    
+
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
-    
+
     @property
     def total_price_usd(self):
         return self.product.price_usd * self.quantity
-    
+
     @property
     def total_price_uzs(self):
         return self.product.price_uzs * self.quantity

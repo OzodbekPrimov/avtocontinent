@@ -1,7 +1,7 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 
 {% block title %}Products Management - Dashboard{% endblock %}
-
 {% block page_title %}Products Management{% endblock %}
 
 {% block content %}
@@ -10,22 +10,22 @@
     <div class="card-body">
         <form method="get" class="row g-3">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="search" 
-                       placeholder="Search products..." value="{{ search_query }}">
+                <input type="text" class="form-control" name="search"
+                       placeholder="Search by product name or SKU..." value="{{ search_query }}">
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="category">
                     <option value="">All Categories</option>
                     {% for category in categories %}
                     <option value="{{ category.id }}" {% if category_filter == category.id|stringformat:"s" %}selected{% endif %}>
-                        {{ category.name }}
+                        {{ category.name_uz|default:category.name }}
                     </option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="status">
-                    <option value="">All Status</option>
+                    <option value="">All Statuses</option>
                     <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
                     <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
                     <option value="featured" {% if status_filter == 'featured' %}selected{% endif %}>Featured</option>
@@ -45,8 +45,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">Products ({{ page_obj.paginator.count }})</h5>
-        <a href="{% url 'admin:store_product_add' %}" class="btn btn-primary" target="_blank">
-            <i class="fas fa-plus"></i> Add Product
+        <a href="{% url 'dashboard:product_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Product
         </a>
     </div>
     <div class="card-body">
@@ -68,60 +68,76 @@
                     {% for product in page_obj %}
                     <tr>
                         <td>
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
-                                 class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name_uz|default:product.name }}"
+                                     class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                     style="width: 50px; height: 50px;">
+                                    <i class="fas fa-image text-muted"></i>
+                                </div>
+                            {% endif %}
                         </td>
                         <td>
-                            <div class="fw-semibold">{{ product.name|truncatechars:40 }}</div>
-                            <small class="text-muted">
-                                <i class="fas fa-heart text-danger"></i> {{ product.like_count }}
-                                <i class="fas fa-comment text-primary ms-2"></i> {{ product.comment_count }}
-                            </small>
+                            <div class="fw-semibold">
+                                {{ product.name_uz|default:product.name_en|default:product.name_ru|default:"No Name"|truncatechars:40 }}
+                            </div>
+                            {% if product.name_en or product.name_ru %}
+                                <small class="text-muted">
+                                    {% if product.name_en and product.name_en != product.name_uz %}
+                                        {{ product.name_en|truncatechars:30 }}
+                                    {% endif %}
+                                    {% if product.name_en and product.name_ru and product.name_en != product.name_uz and product.name_ru != product.name_uz %} | {% endif %}
+                                    {% if product.name_ru and product.name_ru != product.name_uz %}
+                                        {{ product.name_ru|truncatechars:30 }}
+                                    {% endif %}
+                                </small>
+                            {% endif %}
+                            {% if product.youtube_video_id %}
+                                <br><small class="text-info">
+                                    <i class="fab fa-youtube"></i> Video Available
+                                </small>
+                            {% endif %}
                         </td>
                         <td>
                             <code>{{ product.sku }}</code>
                         </td>
-                        <td>{{ product.category.name }}</td>
+                        <td>
+                            {{ product.category.name_uz|default:product.category.name }}
+                        </td>
                         <td>
                             <div class="fw-semibold">${{ product.price_usd }}</div>
                             <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
                         </td>
                         <td>
                             {% if product.stock_quantity > 0 %}
-                                <span class="badge badge-success">{{ product.stock_quantity }}</span>
+                                <span class="badge bg-success">{{ product.stock_quantity }}</span>
                             {% else %}
-                                <span class="badge badge-danger">Out of Stock</span>
+                                <span class="badge bg-danger">Out of Stock</span>
                             {% endif %}
                         </td>
                         <td>
-                            <div class="d-flex gap-1">
-                                <button class="btn btn-sm {% if product.is_active %}btn-success{% else %}btn-secondary{% endif %}" 
-                                        onclick="toggleProductStatus({{ product.id }})" 
-                                        id="status-btn-{{ product.id }}">
-                                    {% if product.is_active %}
-                                        <i class="fas fa-check"></i>
-                                    {% else %}
-                                        <i class="fas fa-times"></i>
-                                    {% endif %}
-                                </button>
-                                <button class="btn btn-sm {% if product.is_featured %}btn-warning{% else %}btn-outline-warning{% endif %}" 
-                                        onclick="toggleProductFeatured({{ product.id }})" 
-                                        id="featured-btn-{{ product.id }}"
-                                        title="Featured">
-                                    <i class="fas fa-star"></i>
-                                </button>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input toggle-status" type="checkbox"
+                                       data-product-id="{{ product.id }}"
+                                       {% if product.is_active %}checked{% endif %}>
                             </div>
                         </td>
                         <td>
                             <div class="d-flex gap-1">
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-outline-primary" 
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-outline-primary"
                                    target="_blank" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{% url 'admin:store_product_change' product.id %}" 
-                                   class="btn btn-sm btn-outline-secondary" target="_blank" title="Edit">
+                                <a href="{% url 'dashboard:product_edit' product.id %}"
+                                   class="btn btn-sm btn-outline-secondary" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                <button class="btn btn-sm btn-outline-danger"
+                                        onclick="deleteProduct({{ product.id }}, '{{ product.name_uz|default:product.name_en|default:product.name_ru }}')"
+                                        title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -129,17 +145,18 @@
                     <tr>
                         <td colspan="8" class="text-center text-muted py-4">
                             <i class="fas fa-box fa-2x mb-2"></i>
-                            <div>No products found</div>
+                            <div>No Products Found</div>
+                            <small>Add a new product using the button above</small>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         {% if page_obj.has_other_pages %}
-        <nav aria-label="Page navigation" class="mt-4">
+        <nav aria-label="Pagination" class="mt-4">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
@@ -148,7 +165,7 @@
                     </a>
                 </li>
                 {% endif %}
-                
+
                 {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
                 <li class="page-item active">
@@ -160,7 +177,7 @@
                 </li>
                 {% endif %}
                 {% endfor %}
-                
+
                 {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
@@ -173,52 +190,198 @@
         {% endif %}
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the product <strong id="productName"></strong>?</p>
+                <p class="text-danger small">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    This action cannot be undone and all related data will be deleted.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-function toggleProductStatus(productId) {
-    $.ajax({
-        url: '{% url "dashboard:ajax_toggle_product_status" %}',
-        type: 'POST',
-        data: {
-            'product_id': productId,
-            'csrfmiddlewaretoken': csrftoken
-        },
-        success: function(response) {
-            if (response.success) {
-                const btn = $(`#status-btn-${productId}`);
-                if (response.is_active) {
-                    btn.removeClass('btn-secondary').addClass('btn-success');
-                    btn.html('<i class="fas fa-check"></i>');
-                } else {
-                    btn.removeClass('btn-success').addClass('btn-secondary');
-                    btn.html('<i class="fas fa-times"></i>');
-                }
+let deleteProductId = null;
+
+// Toggle product status
+document.querySelectorAll('.toggle-status').forEach(function(toggle) {
+    toggle.addEventListener('change', function() {
+        const productId = this.dataset.productId;
+        const isActive = this.checked;
+        const toggleElement = this;
+
+        // Show loading state
+        toggleElement.disabled = true;
+
+        fetch('{% url "dashboard:ajax_toggle_product_status" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: 'product_id=' + productId + '&is_active=' + isActive
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
             }
-        }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Update toggle state based on server response
+                toggleElement.checked = data.is_active;
+                showAlert('Product status updated successfully!', 'success');
+            } else {
+                // Revert to previous state on error
+                toggleElement.checked = !isActive;
+                showAlert('Error updating product status: ' + (data.message || 'Unknown error'), 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log error for debugging
+            // Revert to previous state on error
+            toggleElement.checked = !isActive;
+            showAlert('Error updating product status: ' + error.message, 'danger');
+        })
+        .finally(() => {
+            toggleElement.disabled = false;
+        });
     });
+});
+
+// Toggle product featured status
+document.querySelectorAll('.toggle-featured').forEach(function(toggle) {
+    toggle.addEventListener('change', function() {
+        const productId = this.dataset.productId;
+        const isFeatured = this.checked;
+        const toggleElement = this;
+
+        // Show loading state
+        toggleElement.disabled = true;
+
+        fetch('{% url "dashboard:ajax_toggle_product_featured" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: 'product_id=' + productId + '&is_featured=' + isFeatured
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Update toggle state based on server response
+                toggleElement.checked = data.is_featured;
+                showAlert('Product featured status updated successfully!', 'success');
+            } else {
+                // Revert to previous state on error
+                toggleElement.checked = !isFeatured;
+                showAlert('Error updating product featured status: ' + (data.message || 'Unknown error'), 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log error for debugging
+            // Revert to previous state on error
+            toggleElement.checked = !isFeatured;
+            showAlert('Error updating product featured status: ' + error.message, 'danger');
+        })
+        .finally(() => {
+            toggleElement.disabled = false;
+        });
+    });
+});
+
+// Delete product function
+function deleteProduct(productId, productName) {
+    deleteProductId = productId;
+    document.getElementById('productName').textContent = productName;
+
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
 }
 
-function toggleProductFeatured(productId) {
-    $.ajax({
-        url: '{% url "dashboard:ajax_toggle_product_featured" %}',
-        type: 'POST',
-        data: {
-            'product_id': productId,
-            'csrfmiddlewaretoken': csrftoken
-        },
-        success: function(response) {
-            if (response.success) {
-                const btn = $(`#featured-btn-${productId}`);
-                if (response.is_featured) {
-                    btn.removeClass('btn-outline-warning').addClass('btn-warning');
+// Confirm delete button click
+document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+    if (deleteProductId) {
+        $.ajax({
+            url: '{% url "dashboard:product_delete" 0 %}'.replace('0', deleteProductId),
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    showAlert('Product deleted successfully!', 'success');
+                    // Reload page after short delay
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 } else {
-                    btn.removeClass('btn-warning').addClass('btn-outline-warning');
+                    showAlert(response.message || 'Error occurred', 'danger');
                 }
+
+                // Hide modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                modal.hide();
+            },
+            error: function() {
+                showAlert('Error connecting to server', 'danger');
+
+                // Hide modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                modal.hide();
             }
-        }
-    });
+        });
+    }
+});
+
+// Show alert function
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    const contentArea = document.querySelector('.card-body');
+    contentArea.insertBefore(alertDiv, contentArea.firstChild);
+
+    // Auto dismiss after 5 seconds
+    setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alertDiv);
+        bsAlert.close();
+    }, 5000);
 }
+
+// Search form enhancement
+document.querySelector('input[name="search"]').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') {
+        e.target.closest('form').submit();
+    }
+});
 </script>
 {% endblock %}

@@ -1,0 +1,1173 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-gradient-primary text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-box me-3"></i>
+                    <h5 class="card-title mb-0 text-white">{{ title }}</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" id="product-form" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- Main Content Column -->
+                        <div class="col-lg-8">
+                            <!-- Basic Information -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Asosiy Ma'lumotlar
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Name Fields -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_uz.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-uz me-2"></span>
+                                            Nomi (Oʻzbekcha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_uz.id_for_label }}"
+                                                   name="{{ form.name_uz.name }}" value="{{ form.name_uz.value|default:'' }}"
+                                                   placeholder="O'zbekcha nom kiriting" required>
+                                        </div>
+                                        {% if form.name_uz.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_uz.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_ru.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-ru me-2"></span>
+                                            Nomi (Ruscha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_ru.id_for_label }}"
+                                                   name="{{ form.name_ru.name }}" value="{{ form.name_ru.value|default:'' }}"
+                                                   placeholder="Ruscha nom kiriting" required>
+                                        </div>
+                                        {% if form.name_ru.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_ru.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_en.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-gb me-2"></span>
+                                            Nomi (Inglizcha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
+                                                   name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
+                                                   placeholder="Inglizcha nom kiriting" required>
+                                        </div>
+                                        {% if form.name_en.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_en.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Slug Field (Auto-generated) -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.slug.id_for_label }}" class="form-label">
+                                            <i class="fas fa-link me-2"></i>
+                                            Slug (URL uchun)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-globe"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.slug.id_for_label }}"
+                                                   name="{{ form.slug.name }}" value="{{ form.slug.value|default:'' }}"
+                                                   placeholder="Avtomatik yaratiladi" readonly>
+                                            <button type="button" class="btn btn-outline-secondary" id="edit-slug-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                        <small class="form-text text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            Slug avtomatik yaratiladi, lekin siz uni tahrirlashingiz mumkin
+                                        </small>
+                                        {% if form.slug.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.slug.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- SKU -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.sku.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-barcode me-2"></i>
+                                            SKU
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-tag"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.sku.id_for_label }}"
+                                                   name="{{ form.sku.name }}" value="{{ form.sku.value|default:'' }}"
+                                                   placeholder="Mahsulot SKU kodi" required>
+                                        </div>
+                                        {% if form.sku.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.sku.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.category.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-folder me-2"></i>
+                                            Kategoriya
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-tags"></i>
+                                            </span>
+                                            <select class="form-control" id="{{ form.category.id_for_label }}"
+                                                    name="{{ form.category.name }}" required>
+                                                <option value="">Kategoriyani tanlang</option>
+                                                {% for category in categories %}
+                                                <option value="{{ category.id }}"
+                                                        {% if form.category.value == category.id %}selected{% endif %}>
+                                                    {{ category.name_uz }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        {% if form.category.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.category.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compatible Models -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-car me-2"></i>
+                                            Mos Avtomobil Modellari
+                                        </h6>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="button" class="btn btn-outline-primary" id="select-all-cars">
+                                                <i class="fas fa-check-square me-1"></i> Barchasini tanlash
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary" id="deselect-all-cars">
+                                                <i class="fas fa-square me-1"></i> Barchasini bekor qilish
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Search Filter -->
+                                    <div class="form-group mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="car-search"
+                                                   placeholder="Avtomobil qidirish (marka yoki model)...">
+                                        </div>
+                                    </div>
+
+                                    <!-- Cars Table -->
+                                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                        <table class="table table-hover table-sm">
+                                            <thead class="table-light sticky-top">
+                                                <tr>
+                                                    <th width="50">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input" id="select-all-checkbox">
+                                                        </div>
+                                                    </th>
+                                                    <th>Marka</th>
+                                                    <th>Model</th>
+                                                    <th>Yil</th>
+                                                    <th>Dvigatel</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="cars-table-body">
+                                                {% for model in car_models %}
+                                                <tr class="car-row" data-brand="{{ model.brand.name_uz|lower }}" data-model="{{ model.name_uz|lower }}">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                   class="form-check-input car-checkbox"
+                                                                   name="{{ form.compatible_models.name }}"
+                                                                   value="{{ model.id }}"
+                                                                   id="car_{{ model.id }}"
+                                                                   {% if model.id in form.compatible_models.value %}checked{% endif %}>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            {% if model.brand.logo %}
+                                                            <img src="{{ model.brand.logo.url }}" alt="{{ model.brand.name_uz }}"
+                                                                 class="me-2 rounded" style="width: 24px; height: 24px; object-fit: contain;">
+                                                            {% else %}
+                                                            <i class="fas fa-car me-2 text-muted"></i>
+                                                            {% endif %}
+                                                            <strong>{{ model.brand.name_uz }}</strong>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ model.name_uz }}</td>
+                                                    <td>
+                                                        <span class="badge bg-secondary">
+                                                            {{ model.year_start }}{% if model.year_end %} - {{ model.year_end }}{% else %} - hozir{% endif %}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {% if model.engine_type %}
+                                                        <small class="text-muted">{{ model.engine_type }}</small>
+                                                        {% else %}
+                                                        <small class="text-muted">-</small>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center text-muted py-4">
+                                                        <i class="fas fa-car me-2"></i>
+                                                        Avtomobil modellari topilmadi
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Selected Cars Summary -->
+                                    <div class="mt-3">
+                                        <div class="alert alert-info" id="selected-cars-summary">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <span id="selected-count">0</span> ta avtomobil tanlandi
+                                        </div>
+                                    </div>
+
+                                    {% if form.compatible_models.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.compatible_models.errors %}
+                                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Description Fields -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-align-left me-2"></i>
+                                        Mahsulot Tavsifi
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Short Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.short_description.id_for_label }}" class="form-label">
+                                            <i class="fas fa-align-center me-2"></i>
+                                            Qisqa Tavsif
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.short_description.id_for_label }}"
+                                                  name="{{ form.short_description.name }}" rows="3"
+                                                  placeholder="Qisqa mahsulot tavsifi (maksimal 500 belgi)">{{ form.short_description.value|default:'' }}</textarea>
+                                        {% if form.short_description.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.short_description.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Uzbek Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_uz.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-uz me-2"></span>
+                                            Tavsif (Oʻzbekcha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_uz.id_for_label }}"
+                                                  name="{{ form.description_uz.name }}" rows="4"
+                                                  placeholder="O'zbekcha tavsif kiriting">{{ form.description_uz.value|default:'' }}</textarea>
+                                        {% if form.description_uz.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_uz.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Russian Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_ru.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-ru me-2"></span>
+                                            Tavsif (Ruscha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_ru.id_for_label }}"
+                                                  name="{{ form.description_ru.name }}" rows="4"
+                                                  placeholder="Ruscha tavsif kiriting">{{ form.description_ru.value|default:'' }}</textarea>
+                                        {% if form.description_ru.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_ru.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- English Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_en.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-gb me-2"></span>
+                                            Tavsif (Inglizcha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
+                                                  name="{{ form.description_en.name }}" rows="4"
+                                                  placeholder="Inglizcha tavsif kiriting">{{ form.description_en.value|default:'' }}</textarea>
+                                        {% if form.description_en.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_en.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pricing & Inventory -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-dollar-sign me-2"></i>
+                                        Narx va Ombordagi Miqdori
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Price -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.price_usd.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-dollar-sign me-2"></i>
+                                            Narx (USD)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" id="{{ form.price_usd.id_for_label }}"
+                                                   name="{{ form.price_usd.name }}" value="{{ form.price_usd.value|default:'' }}"
+                                                   placeholder="0.00" step="0.01" min="0" required>
+                                        </div>
+                                        {% if form.price_usd.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.price_usd.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Stock Quantity -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.stock_quantity.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-boxes me-2"></i>
+                                            Ombordagi Miqdori
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-cubes"></i>
+                                            </span>
+                                            <input type="number" class="form-control" id="{{ form.stock_quantity.id_for_label }}"
+                                                   name="{{ form.stock_quantity.name }}" value="{{ form.stock_quantity.value|default:'0' }}"
+                                                   placeholder="0" min="0" required>
+                                        </div>
+                                        {% if form.stock_quantity.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.stock_quantity.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Status Fields -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-check form-switch">
+                                                    <input type="checkbox" class="form-check-input" id="{{ form.is_active.id_for_label }}"
+                                                           name="{{ form.is_active.name }}" {% if form.is_active.value %}checked{% endif %}>
+                                                    <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                                        <i class="fas fa-toggle-on me-2"></i>
+                                                        Faol holati
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-check form-switch">
+                                                    <input type="checkbox" class="form-check-input" id="{{ form.is_featured.id_for_label }}"
+                                                           name="{{ form.is_featured.name }}" {% if form.is_featured.value %}checked{% endif %}>
+                                                    <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
+                                                        <i class="fas fa-star me-2"></i>
+                                                        Tavsiya etiladi
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Column -->
+                        <div class="col-lg-4">
+                            <!-- Media Upload Card -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-image me-2"></i>
+                                        Mahsulot Rasmi
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Current Image Preview -->
+                                    {% if product and product.main_image %}
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                        </label>
+                                        <div class="image-preview">
+                                            <img src="{{ product.main_image.url }}" alt="Joriy mahsulot rasmi"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted">{{ product.main_image.name }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- File Upload -->
+                                    <div class="file-upload-wrapper" id="fileUploadWrapper">
+                                        <div class="file-upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-upload-text">
+                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                        </div>
+                                        <div class="file-upload-hint">
+                                            PNG, JPG, WebP (maksimum 5MB)
+                                        </div>
+                                        <input type="file" class="d-none" id="{{ form.main_image.id_for_label }}"
+                                               name="{{ form.main_image.name }}" accept="image/*" {% if not product %}required{% endif %}>
+                                    </div>
+
+                                    {% if form.main_image.errors %}
+                                        <div class="invalid-feedback d-block mt-2">
+                                            {% for error in form.main_image.errors %}
+                                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Image Preview -->
+                                    <div id="imagePreview" class="mt-3" style="display: none;">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                        </label>
+                                        <div class="image-preview">
+                                            <img id="previewImg" src="" alt="Ko'rish"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted" id="fileName"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Requirements -->
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <h6 class="alert-heading">
+                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                            </h6>
+                                            <ul class="mb-0 small">
+                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 800x600 piksel</li>
+                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
+                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- YouTube Video -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fab fa-youtube me-2"></i>
+                                        YouTube Video
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.youtube_video_id.id_for_label }}" class="form-label">
+                                            <i class="fas fa-video me-2"></i>
+                                            Video ID
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fab fa-youtube"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.youtube_video_id.id_for_label }}"
+                                                   name="{{ form.youtube_video_id.name }}" value="{{ form.youtube_video_id.value|default:'' }}"
+                                                   placeholder="Video ID (masalan: jL14SRWKA6c)">
+                                        </div>
+                                        {% if form.youtube_video_id.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.youtube_video_id.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Video Preview -->
+                                    <div id="videoPreview" class="mt-3" style="display: none;">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Video ko'rish
+                                        </label>
+                                        <div class="ratio ratio-16x9">
+                                            <iframe id="youtubeFrame" src="" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                        <a href="{% url 'dashboard:products' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Mahsulotlarga qaytish
+                        </a>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <i class="fas fa-save me-2"></i> {{ action }} Mahsulot
+                            </button>
+                            {% if product %}
+                            <a href="{% url 'dashboard:product_delete' product.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i> O'chirish
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.required-field:after {
+    content: " *";
+    color: #dc3545;
+}
+.has-error .form-control {
+    border-color: #dc3545;
+}
+.has-error .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+.file-upload-wrapper {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #f8f9fa;
+}
+.file-upload-wrapper:hover {
+    border-color: #86b7fe;
+    background-color: #f0f7ff;
+}
+.file-upload-wrapper.dragover {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+}
+.car-row {
+    transition: background-color 0.2s;
+}
+.car-row:hover {
+    background-color: #f8f9fa;
+}
+.car-row.selected {
+    background-color: #e3f2fd;
+}
+.table-responsive {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+}
+.sticky-top {
+    background-color: #f8f9fa !important;
+    z-index: 10;
+}
+#car-search {
+    background-color: #fff;
+}
+.car-checkbox:checked + label {
+    font-weight: 500;
+}
+.slug-readonly {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Global error handler to prevent white screen
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        showAlert('Xatolik yuz berdi. Iltimos, sahifani yangilang.', 'danger');
+    });
+
+    // Handle server-side validation errors on page load
+    handleServerValidationErrors();
+
+    // Slug generation functionality
+    const nameUzInput = document.getElementById('{{ form.name_uz.id_for_label }}');
+    const slugInput = document.getElementById('{{ form.slug.id_for_label }}');
+    const editSlugBtn = document.getElementById('edit-slug-btn');
+    let slugManuallyEdited = false;
+
+    if (nameUzInput && slugInput && editSlugBtn) {
+        // Generate slug from name_uz
+        nameUzInput.addEventListener('input', function() {
+            if (!slugManuallyEdited) {
+                const slug = generateSlug(this.value);
+                slugInput.value = slug;
+            }
+        });
+
+        // Enable slug editing
+        editSlugBtn.addEventListener('click', function() {
+            if (slugInput.readOnly) {
+                slugInput.readOnly = false;
+                slugInput.classList.remove('slug-readonly');
+                slugInput.focus();
+                slugManuallyEdited = true;
+                this.innerHTML = '<i class="fas fa-lock"></i>';
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('btn-outline-warning');
+                this.title = 'Slug tahrirlash rejimi yoqilgan';
+            } else {
+                slugInput.readOnly = true;
+                slugInput.classList.add('slug-readonly');
+                slugManuallyEdited = false;
+                this.innerHTML = '<i class="fas fa-edit"></i>';
+                this.classList.remove('btn-outline-warning');
+                this.classList.add('btn-outline-secondary');
+                this.title = 'Slug-ni tahrirlash';
+            }
+        });
+
+        // Validate slug format on input
+        slugInput.addEventListener('input', function() {
+            const slug = this.value;
+            const validSlug = generateSlug(slug);
+            if (slug !== validSlug) {
+                this.value = validSlug;
+            }
+        });
+
+        // Initialize slug readonly state
+        if (slugInput.value) {
+            slugManuallyEdited = true;
+        }
+    }
+
+    function generateSlug(text) {
+        if (!text) return '';
+
+        // Cyrillic to Latin transliteration for Uzbek
+        const transliterationMap = {
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+            'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+            'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+            'ф': 'f', 'х': 'x', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+            'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+            'ў': 'o', 'қ': 'q', 'ҳ': 'h', 'ғ': 'g', 'ё': 'yo'
+        };
+
+        return text
+            .toLowerCase()
+            .split('')
+            .map(char => transliterationMap[char] || char)
+            .join('')
+            .replace(/[^a-z0-9\s-]/g, '')
+            .trim()
+            .replace(/[\s-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+    }
+
+    // Car selection functionality
+    const selectAllBtn = document.getElementById('select-all-cars');
+    const deselectAllBtn = document.getElementById('deselect-all-cars');
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    const carCheckboxes = document.querySelectorAll('.car-checkbox');
+    const carSearch = document.getElementById('car-search');
+    const selectedCountSpan = document.getElementById('selected-count');
+
+    // Initialize selected count
+    updateSelectedCount();
+
+    // Select all functionality
+    if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', function() {
+            const visibleCheckboxes = getVisibleCarCheckboxes();
+            visibleCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                updateRowSelection(checkbox);
+            });
+            updateSelectedCount();
+            updateSelectAllCheckbox();
+        });
+    }
+
+    // Deselect all functionality
+    if (deselectAllBtn) {
+        deselectAllBtn.addEventListener('click', function() {
+            const visibleCheckboxes = getVisibleCarCheckboxes();
+            visibleCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                updateRowSelection(checkbox);
+            });
+            updateSelectedCount();
+            updateSelectAllCheckbox();
+        });
+    }
+
+    // Select all checkbox functionality
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            const visibleCheckboxes = getVisibleCarCheckboxes();
+            visibleCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+                updateRowSelection(checkbox);
+            });
+            updateSelectedCount();
+        });
+    }
+
+    // Individual checkbox functionality
+    carCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateRowSelection(this);
+            updateSelectedCount();
+            updateSelectAllCheckbox();
+        });
+
+        // Initialize row selection state
+        updateRowSelection(checkbox);
+    });
+
+    // Car search functionality
+    if (carSearch) {
+        carSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.car-row');
+
+            rows.forEach(row => {
+                const brand = row.dataset.brand || '';
+                const model = row.dataset.model || '';
+                const isVisible = brand.includes(searchTerm) || model.includes(searchTerm);
+
+                row.style.display = isVisible ? '' : 'none';
+            });
+
+            updateSelectAllCheckbox();
+        });
+    }
+
+    function getVisibleCarCheckboxes() {
+        return Array.from(carCheckboxes).filter(checkbox => {
+            const row = checkbox.closest('.car-row');
+            return row && row.style.display !== 'none';
+        });
+    }
+
+    function updateRowSelection(checkbox) {
+        const row = checkbox.closest('.car-row');
+        if (row) {
+            if (checkbox.checked) {
+                row.classList.add('selected');
+            } else {
+                row.classList.remove('selected');
+            }
+        }
+    }
+
+    function updateSelectedCount() {
+        const selectedCount = document.querySelectorAll('.car-checkbox:checked').length;
+        if (selectedCountSpan) {
+            selectedCountSpan.textContent = selectedCount;
+        }
+    }
+
+    function updateSelectAllCheckbox() {
+        if (!selectAllCheckbox) return;
+
+        const visibleCheckboxes = getVisibleCarCheckboxes();
+        const checkedVisibleCheckboxes = visibleCheckboxes.filter(cb => cb.checked);
+
+        if (visibleCheckboxes.length === 0) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = false;
+        } else if (checkedVisibleCheckboxes.length === visibleCheckboxes.length) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = true;
+        } else if (checkedVisibleCheckboxes.length > 0) {
+            selectAllCheckbox.indeterminate = true;
+            selectAllCheckbox.checked = false;
+        } else {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = false;
+        }
+    }
+
+    // File upload functionality
+    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+    const fileInput = document.getElementById('{{ form.main_image.id_for_label }}');
+
+    if (fileUploadWrapper && fileInput) {
+        fileUploadWrapper.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.add('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('dragleave', () => {
+            fileUploadWrapper.classList.remove('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileUploadWrapper.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileSelect(file);
+            }
+        });
+    }
+
+    function handleFileSelect(file) {
+        const preview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const fileName = document.getElementById('fileName');
+        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+
+        // Show preview
+        preview.style.display = 'block';
+        fileName.textContent = file.name;
+        uploadText.innerHTML = `<strong>${file.name}</strong>`;
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Validate file
+        validateFile(file);
+    }
+
+    function validateFile(file) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!allowedTypes.includes(file.type)) {
+            showAlert('Iltimos, rasm faylini tanlang (JPG, PNG yoki WebP)', 'danger');
+            resetFileInput();
+            return false;
+        }
+
+        if (file.size > maxSize) {
+            showAlert('Fayl hajmi 5MB dan oshmasligi kerak', 'danger');
+            resetFileInput();
+            return false;
+        }
+
+        return true;
+    }
+
+    function resetFileInput() {
+        const fileInput = document.getElementById('{{ form.main_image.id_for_label }}');
+        const preview = document.getElementById('imagePreview');
+        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+
+        fileInput.value = '';
+        preview.style.display = 'none';
+        uploadText.innerHTML = '<strong>Yuklash uchun bosing</strong> yoki sudrab tashlang';
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        const cardBody = document.querySelector('.card-body');
+        cardBody.insertBefore(alertDiv, cardBody.firstChild);
+
+        setTimeout(() => {
+            if (alertDiv && alertDiv.parentNode) {
+                try {
+                    const bsAlert = new bootstrap.Alert(alertDiv);
+                    bsAlert.close();
+                } catch (e) {
+                    alertDiv.remove();
+                }
+            }
+        }, 5000);
+    }
+
+    // YouTube video preview
+    const youtubeInput = document.getElementById('{{ form.youtube_video_id.id_for_label }}');
+    if (youtubeInput) {
+        youtubeInput.addEventListener('input', function() {
+            const videoId = this.value.trim();
+            const preview = document.getElementById('videoPreview');
+            const frame = document.getElementById('youtubeFrame');
+
+            if (videoId && videoId.length === 11) {
+                preview.style.display = 'block';
+                frame.src = `https://www.youtube.com/embed/${videoId}`;
+            } else {
+                preview.style.display = 'none';
+                frame.src = '';
+            }
+        });
+
+        // Initialize video preview if value exists
+        const existingVideoId = youtubeInput.value.trim();
+        if (existingVideoId && existingVideoId.length === 11) {
+            const preview = document.getElementById('videoPreview');
+            const frame = document.getElementById('youtubeFrame');
+            preview.style.display = 'block';
+            frame.src = `https://www.youtube.com/embed/${existingVideoId}`;
+        }
+    }
+
+    // Form validation
+    const form = document.getElementById('product-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            const submitBtn = document.getElementById('submit-btn');
+
+            // Clear previous validation states
+            document.querySelectorAll('.is-invalid').forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+
+            // Validate at least one name is provided
+            const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
+            const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}').value.trim();
+            const nameEn = document.getElementById('{{ form.name_en.id_for_label }}').value.trim();
+
+            if (!nameUz && !nameRu && !nameEn) {
+                showAlert('Iltimos, kamida bitta tilda nom kiriting', 'danger');
+                markFieldInvalid('{{ form.name_uz.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate at least one description is provided
+            const descUz = document.getElementById('{{ form.description_uz.id_for_label }}').value.trim();
+            const descRu = document.getElementById('{{ form.description_ru.id_for_label }}').value.trim();
+            const descEn = document.getElementById('{{ form.description_en.id_for_label }}').value.trim();
+
+            if (!descUz && !descRu && !descEn) {
+                showAlert('Iltimos, kamida bitta tilda tavsif kiriting', 'danger');
+                markFieldInvalid('{{ form.description_uz.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate other required fields
+            const sku = document.getElementById('{{ form.sku.id_for_label }}').value.trim();
+            const category = document.getElementById('{{ form.category.id_for_label }}').value;
+            const price = document.getElementById('{{ form.price_usd.id_for_label }}').value;
+            const stock = document.getElementById('{{ form.stock_quantity.id_for_label }}').value;
+
+            if (!sku) {
+                markFieldInvalid('{{ form.sku.id_for_label }}');
+                isValid = false;
+            }
+            if (!category) {
+                markFieldInvalid('{{ form.category.id_for_label }}');
+                isValid = false;
+            }
+            if (!price || price <= 0) {
+                markFieldInvalid('{{ form.price_usd.id_for_label }}');
+                isValid = false;
+            }
+            if (stock === '' || stock < 0) {
+                markFieldInvalid('{{ form.stock_quantity.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate slug
+            const slug = document.getElementById('{{ form.slug.id_for_label }}').value.trim();
+            if (!slug) {
+                markFieldInvalid('{{ form.slug.id_for_label }}');
+                showAlert('Slug maydoni bo\'sh bo\'lishi mumkin emas', 'danger');
+                isValid = false;
+            }
+
+            // Validate image for new products
+            {% if not product %}
+            const fileInput = document.getElementById('{{ form.main_image.id_for_label }}');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showAlert('Iltimos, mahsulot rasmini yuklang', 'danger');
+                isValid = false;
+            }
+            {% endif %}
+
+            if (!isValid) {
+                e.preventDefault();
+                showAlert('Iltimos, barcha majburiy maydonlarni to\'ldiring', 'danger');
+
+                // Scroll to first error
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            } else {
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+                submitBtn.disabled = true;
+
+                // Add a timeout to prevent infinite loading
+                setTimeout(() => {
+                    if (submitBtn.disabled) {
+                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Mahsulot';
+                        submitBtn.disabled = false;
+                        showAlert('Saqlash vaqti oshdi. Iltimos, qaytadan urinib ko\'ring.', 'warning');
+                    }
+                }, 30000); // 30 seconds timeout
+            }
+        });
+    }
+
+    function markFieldInvalid(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.classList.add('is-invalid');
+        }
+    }
+
+    function handleServerValidationErrors() {
+        // Check if there are any server-side validation errors
+        const errorFields = document.querySelectorAll('.invalid-feedback');
+        if (errorFields.length > 0) {
+            // Add is-invalid class to parent input fields
+            errorFields.forEach(errorField => {
+                const inputField = errorField.previousElementSibling?.querySelector('input, textarea, select') ||
+                                  errorField.parentElement?.querySelector('input, textarea, select');
+                if (inputField) {
+                    inputField.classList.add('is-invalid');
+                }
+            });
+
+            // Show a general error message
+            showAlert('Formada xatoliklar mavjud. Iltimos, qizil belgilangan maydonlarni to\'ldiring.', 'danger');
+
+            // Scroll to first error
+            const firstError = document.querySelector('.is-invalid');
+            if (firstError) {
+                setTimeout(() => {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 100);
+            }
+        }
+
+        // Also check for any Django form errors that might not be in invalid-feedback
+        const formErrors = document.querySelectorAll('.errorlist');
+        if (formErrors.length > 0) {
+            showAlert('Formada xatoliklar mavjud. Iltimos, barcha maydonlarni to\'g\'ri to\'ldiring.', 'danger');
+        }
+    }
+
+    // Initialize on page load
+    updateSelectAllCheckbox();
+});
+</script>
+{% endblock %}

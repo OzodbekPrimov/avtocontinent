@@ -1,0 +1,530 @@
+{% extends 'dashboard/base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Car Models Management" %} - Dashboard{% endblock %}
+
+{% block page_title %}
+<div class="d-flex align-items-center">
+    <i class="fas fa-car me-2"></i>{% trans "Car Models Management" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- CSRF token for AJAX requests -->
+{% csrf_token %}
+
+<div class="container-fluid py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light text-dark d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-car me-3"></i>
+                <h5 class="card-title mb-0">{% trans "All Car Models" %}</h5>
+            </div>
+            <a href="{% url 'dashboard:model_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> {% trans "Add New Model" %}
+            </a>
+        </div>
+
+        <div class="card-body">
+            <!-- Alert container for messages -->
+            <div id="alert-container"></div>
+
+            <!-- Search and Filter Section -->
+            <form method="get" id="filterForm">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" name="search" class="form-control"
+                                   placeholder="{% trans 'Search models...' %}"
+                                   value="{{ request.GET.search|default:'' }}">
+                            {% if request.GET.search %}
+                            <a href="{% url 'dashboard:models' %}{% if request.GET.brand %}?brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}"
+                               class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">
+                                {% trans "Search" %}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-end gap-2">
+                            <div class="filter-group">
+                                <label class="form-label me-2">{% trans "Brand" %}:</label>
+                                <select name="brand" class="form-select select2">
+                                    <option value="">{% trans "All Brands" %}</option>
+                                    {% for brand in brands %}
+                                    <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ brand.name_uz }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label me-2">{% trans "Status" %}:</label>
+                                <select name="status" class="form-select">
+                                    <option value="">{% trans "All Status" %}</option>
+                                    <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>
+                                        {% trans "Active" %}
+                                    </option>
+                                    <option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>
+                                        {% trans "Inactive" %}
+                                    </option>
+                                </select>
+                            </div>
+                            {% if request.GET.search or request.GET.brand or request.GET.status %}
+                            <a href="{% url 'dashboard:models' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> {% trans "Clear" %}
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Models Table -->
+            {% if page_obj %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 80px;">{% trans "Image" %}</th>
+                            <th>{% trans "Model Name" %}</th>
+                            <th>{% trans "Brand" %}</th>
+                            <th>{% trans "Status" %}</th>
+                            <th>{% trans "Products" %}</th>
+                            <th>{% trans "Created" %}</th>
+                            <th style="width: 120px;">{% trans "Actions" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for model in page_obj %}
+                        <tr id="model-row-{{ model.id }}">
+                            <!-- Image Column -->
+                            <td>
+                                {% if model.image %}
+                                <img src="{{ model.image.url }}" alt="{{ model.name_uz }}"
+                                     class="img-thumbnail" style="width: 60px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                <div class="no-image bg-light d-flex align-items-center justify-content-center"
+                                     style="width: 60px; height: 40px; border-radius: 4px;">
+                                    <i class="fas fa-car text-muted"></i>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <!-- Name Column -->
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <strong>{{ model.name_uz }}</strong>
+                                    <div class="text-muted small">
+                                        {% if model.name_en %}{{ model.name_en }}{% endif %}
+                                        {% if model.name_en and model.name_ru %} | {% endif %}
+                                        {% if model.name_ru %}{{ model.name_ru }}{% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- Brand Column -->
+                            <td>
+                                <span class="badge bg-secondary">{{ model.brand.name_uz }}</span>
+                            </td>
+                            <!-- Status Column -->
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input toggle-status"
+                                           type="checkbox"
+                                           id="status-{{ model.id }}"
+                                           data-model-id="{{ model.id }}"
+                                           {% if model.is_active %}checked{% endif %}
+                                           data-bs-toggle="tooltip"
+                                           title="{% trans 'Toggle status' %}">
+                                    <label class="form-check-label" for="status-{{ model.id }}">
+                                        <span class="status-text">
+                                            {% if model.is_active %}
+                                            <small class="text-success">{% trans "Active" %}</small>
+                                            {% else %}
+                                            <small class="text-danger">{% trans "Inactive" %}</small>
+                                            {% endif %}
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <!-- Products Count -->
+                            <td>
+                                <span class="badge rounded-pill bg-info">
+                                    {{ model.product_count|default:0 }} {% trans "products" %}
+                                </span>
+                            </td>
+                            <!-- Created Date -->
+                            <td>
+                                <small class="text-muted">{{ model.created_at|date:"M d, Y" }}</small>
+                            </td>
+                            <!-- Actions Column -->
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{% url 'dashboard:model_edit' model.id %}"
+                                       class="btn btn-outline-primary"
+                                       data-bs-toggle="tooltip"
+                                       title="{% trans 'Edit' %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-outline-danger delete-model"
+                                            data-model-id="{{ model.id }}"
+                                            data-model-name="{{ model.name_uz }}"
+                                            data-bs-toggle="tooltip"
+                                            title="{% trans 'Delete' %}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="{% trans 'Models pagination' %}">
+                <ul class="pagination justify-content-center mt-4">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                                {{ num }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            <!-- Results Summary -->
+            <div class="text-center text-muted mt-3">
+                {% blocktrans with start=page_obj.start_index end=page_obj.end_index total=page_obj.paginator.count %}
+                Showing {{ start }} to {{ end }} of {{ total }} models
+                {% endblocktrans %}
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="empty-state text-center py-5">
+                <div class="empty-state-icon bg-light-primary rounded-circle p-4 mb-3">
+                    <i class="fas fa-car fa-3x text-primary"></i>
+                </div>
+                <h5 class="mb-3">{% trans "No car models found" %}</h5>
+                <p class="text-muted mb-4">
+                    {% if request.GET.search or request.GET.brand or request.GET.status %}
+                    {% trans "Try adjusting your search or filter criteria" %}
+                    <a href="{% url 'dashboard:models' %}" class="ms-2">{% trans "Clear all filters" %}</a>
+                    {% else %}
+                    {% trans "You haven't created any car models yet" %}
+                    {% endif %}
+                </p>
+                {% if not request.GET.search and not request.GET.brand and not request.GET.status %}
+                <a href="{% url 'dashboard:model_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i> {% trans "Create First Model" %}
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">{% trans "Confirm Delete" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Are you sure you want to delete the model" %} "<span id="model-name-to-delete"></span>"?</p>
+                <p class="text-danger"><small>{% trans "This action cannot be undone." %}</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">{% trans "Delete" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-2px);
+}
+.table th, .table td {
+    vertical-align: middle;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+}
+.form-select {
+    min-width: 150px;
+}
+.empty-state-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-primary {
+    background: linear-gradient(90deg, #007bff, #00b4d8);
+    border: none;
+}
+.btn-primary:hover {
+    background: linear-gradient(90deg, #0056b3, #0096c7);
+}
+.alert {
+    margin-bottom: 20px;
+}
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Select2 for brand filter
+    if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+            width: '200px',
+            placeholder: "{% trans 'Filter by brand' %}"
+        });
+
+        // Auto-submit filter form when select changes
+        $('select[name="brand"], select[name="status"]').on('change', function() {
+            $('#filterForm').submit();
+        });
+    } else {
+        // Fallback if jQuery/Select2 not available
+        document.querySelectorAll('select[name="brand"], select[name="status"]').forEach(function(select) {
+            select.addEventListener('change', function() {
+                document.getElementById('filterForm').submit();
+            });
+        });
+    }
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Get CSRF token
+    function getCSRFToken() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        return csrfToken ? csrfToken.value : '';
+    }
+
+    // Show alert function
+    function showAlert(message, type) {
+        // Remove existing alerts
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+
+        // Insert alert
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.appendChild(alertDiv);
+
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            if (alertDiv && alertDiv.parentNode) {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }
+        }, 5000);
+    }
+
+    // Status toggle functionality
+    document.querySelectorAll('.toggle-status').forEach(function(toggle) {
+        toggle.addEventListener('change', function() {
+            const modelId = this.dataset.modelId;
+            const checkbox = this;
+            const statusText = checkbox.closest('td').querySelector('.status-text');
+            const originalChecked = !checkbox.checked; // Original state before change
+
+            // Show loading state
+            checkbox.disabled = true;
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('model_id', modelId);
+            formData.append('csrfmiddlewaretoken', getCSRFToken());
+
+            console.log('Toggling model status:', modelId, 'New status:', checkbox.checked);
+
+            fetch('{% url "dashboard:ajax_toggle_model_status" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                }
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.success) {
+                    // Update status text
+                    statusText.innerHTML = data.new_status ?
+                        '<small class="text-success">{% trans "Active" %}</small>' :
+                        '<small class="text-danger">{% trans "Inactive" %}</small>';
+
+                    // Ensure checkbox reflects the actual status
+                    checkbox.checked = data.new_status;
+
+                    showAlert('{% trans "Model status updated successfully!" %}', 'success');
+                } else {
+                    // Revert checkbox to original state
+                    checkbox.checked = originalChecked;
+                    showAlert('{% trans "Failed to update model status: " %}' + (data.message || data.error || '{% trans "Unknown error" %}'), 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert checkbox to original state
+                checkbox.checked = originalChecked;
+                showAlert('{% trans "An error occurred while updating model status. Please try again." %}', 'danger');
+            })
+            .finally(() => {
+                checkbox.disabled = false;
+            });
+        });
+    });
+
+    // Delete model functionality
+    let modelIdToDelete = null;
+
+    document.querySelectorAll('.delete-model').forEach(function(button) {
+        button.addEventListener('click', function() {
+            modelIdToDelete = this.dataset.modelId;
+            const modelName = this.dataset.modelName;
+
+            document.getElementById('model-name-to-delete').textContent = modelName;
+
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        });
+    });
+
+    // Confirm delete
+    document.getElementById('confirm-delete').addEventListener('click', function() {
+        if (!modelIdToDelete) return;
+
+        const button = this;
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {% trans "Deleting..." %}';
+
+        const formData = new FormData();
+        formData.append('model_id', modelIdToDelete);
+        formData.append('csrfmiddlewaretoken', getCSRFToken());
+
+        fetch('{% url "dashboard:ajax_delete_model" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the model row from table
+                const modelRow = document.getElementById(`model-row-${modelIdToDelete}`);
+                if (modelRow) {
+                    modelRow.remove();
+                }
+
+                // Close modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                deleteModal.hide();
+
+                showAlert('{% trans "Model deleted successfully!" %}', 'success');
+
+                // Refresh page if no models left
+                const tbody = document.querySelector('tbody');
+                if (tbody && tbody.children.length === 0) {
+                    location.reload();
+                }
+            } else {
+                showAlert('{% trans "Failed to delete model: " %}' + (data.message || data.error || '{% trans "Unknown error" %}'), 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('{% trans "An error occurred while deleting model. Please try again." %}', 'danger');
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = '{% trans "Delete" %}';
+            modelIdToDelete = null;
+        });
+    });
+
+    // Debug information
+    console.log('CSRF Token:', getCSRFToken());
+    console.log('Toggle status elements found:', document.querySelectorAll('.toggle-status').length);
+});
+</script>
+{% endblock %}

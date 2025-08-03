@@ -3,13 +3,15 @@ import secrets
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from store.models import TelegramAuth, UserProfile, Cart, CartItem, Product, Favorite
+from store.models import TelegramAuth, UserProfile, Cart, CartItem, Product, Favorite, Category
 from django.contrib.auth.models import User
 import json
 from django.contrib.auth import login as auth_login
 import re
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib import messages
 
 
 def merge_session_data_to_user(request, user):
@@ -136,6 +138,7 @@ def verify_code(request):
 def login_request(request):
     # 6 belgi: login_a1b2c3 (jami 12 belgi)
     session_token = "login_" + secrets.token_hex(3)  # login_ + 6 hex → 12 belgi
+    categories = Category.objects.filter(is_active=True)[:6]
 
     TelegramAuth.objects.create(
         session_token=session_token,
@@ -148,5 +151,13 @@ def login_request(request):
     start_link = f"https://t.me/{bot_username}?start={session_token}"
 
     return render(request, 'store/login.html', {
-        'telegram_link': start_link
+        'telegram_link': start_link,
+        'categories':categories
     })
+
+
+def store_logout(request):
+    """Store logout view"""
+    logout(request)
+    messages.success(request, 'You have been successfully logged out.')
+    return redirect('home')

@@ -16,8 +16,9 @@ urlpatterns = [
 ] + i18n_patterns(
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('dashboard/', include('dashboard.urls')),
+    path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('', include('store.urls')),
+
 )
 
 # Statik va media fayllar

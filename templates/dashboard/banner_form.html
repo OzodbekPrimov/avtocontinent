@@ -1,0 +1,641 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="text-center text-white">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Yuklanmoqda...</span>
+        </div>
+        <p class="mt-3">Iltimos kuting...</p>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-gradient-primary text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-image me-3"></i>
+                    <h5 class="card-title mb-0 text-white">{{ title }}</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form id="bannerForm" method="post" enctype="multipart/form-data" novalidate class="needs-validation">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- Main Content Column -->
+                        <div class="col-lg-8">
+                            <!-- Title Fields -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-heading me-2"></i>
+                                        Banner Sarlavhalari <small class="text-muted">(Ixtiyoriy)</small>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Uzbek Title -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.title_uz.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-uz me-2"></span>
+                                            {{ form.title_uz.label }}
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            {{ form.title_uz }}
+                                        </div>
+                                        <div class="error-message text-danger" id="title_uz_error"></div>
+                                        {% if form.title_uz.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.title_uz.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Russian Title -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.title_ru.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-ru me-2"></span>
+                                            {{ form.title_ru.label }}
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            {{ form.title_ru }}
+                                        </div>
+                                        <div class="error-message text-danger" id="title_ru_error"></div>
+                                        {% if form.title_ru.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.title_ru.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- English Title -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.title_en.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-gb me-2"></span>
+                                            {{ form.title_en.label }}
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            {{ form.title_en }}
+                                        </div>
+                                        <div class="error-message text-danger" id="title_en_error"></div>
+                                        {% if form.title_en.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.title_en.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Settings Card -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-cog me-2"></i>
+                                        Banner Sozlamalari
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Link URL -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.link.id_for_label }}" class="form-label">
+                                            <i class="fas fa-link me-2"></i>
+                                            {{ form.link.label }} <small class="text-muted">(Ixtiyoriy)</small>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-globe"></i>
+                                            </span>
+                                            {{ form.link }}
+                                        </div>
+                                        <div class="error-message text-danger" id="link_error"></div>
+                                        {% if form.link.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.link.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Display Order (Required) -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.order.id_for_label }}" class="form-label">
+                                            <i class="fas fa-sort-numeric-up me-2"></i>
+                                            {{ form.order.label }} <span class="text-danger">*</span>
+                                        </label>
+                                        {{ form.order }}
+                                        <div class="form-text">Bannerlar ushbu tartib bo'yicha ko'rsatiladi</div>
+                                        <div class="error-message text-danger" id="order_error"></div>
+                                        {% if form.order.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.order.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="form-group">
+                                        <div class="form-check form-switch">
+                                            {{ form.is_active }}
+                                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                                <i class="fas fa-toggle-on me-2"></i>
+                                                {{ form.is_active.label }}
+                                            </label>
+                                        </div>
+                                        <div class="error-message text-danger" id="is_active_error"></div>
+                                        {% if form.is_active.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.is_active.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Column -->
+                        <div class="col-lg-4">
+                            <!-- Image Upload Card -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-image me-2"></i>
+                                        {{ form.image.label }} <span class="text-danger">*</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Current Image Preview -->
+                                    {% if banner and banner.image %}
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                        </label>
+                                        <div class="image-preview">
+                                            <img src="{{ banner.image.url }}" alt="Joriy banner"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted">{{ banner.image.name }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- File Upload -->
+                                    <div class="file-upload-wrapper" id="fileUploadWrapper">
+                                        <div class="file-upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-upload-text">
+                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                        </div>
+                                        <div class="file-upload-hint">
+                                            PNG, JPG, WebP (maksimum 5MB)
+                                        </div>
+                                        <div class="d-none">
+                                            {{ form.image }}
+                                        </div>
+                                    </div>
+
+                                    <div class="error-message text-danger" id="image_error"></div>
+                                    {% if form.image.errors %}
+                                        <div class="invalid-feedback d-block mt-2">
+                                            {% for error in form.image.errors %}
+                                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Image Preview -->
+                                    <div id="imagePreview" class="mt-3" style="display: none;">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                        </label>
+                                        <div class="image-preview">
+                                            <img id="previewImg" src="" alt="Ko'rish"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted" id="fileName"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Requirements -->
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <h6 class="alert-heading">
+                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                            </h6>
+                                            <ul class="mb-0 small">
+                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 1920x600 piksel</li>
+                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
+                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                                <li><strong>Majburiy:</strong> Rasm yuklash shart</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                        <a href="{% url 'dashboard:banners' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Bannerlar ro'yxatiga qaytish
+                        </a>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span id="submitText"><i class="fas fa-save me-2"></i> {{ action }} Banner</span>
+                                <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                            </button>
+                            {% if banner %}
+                            <a href="{% url 'dashboard:banner_delete' banner.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i> O'chirish
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-overlay .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #fff;
+}
+
+/* Error message styling */
+.error-message {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* Improved form styling */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #495057;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-radius: 6px 0 0 6px !important;
+    color: #6c757d;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    padding: 12px 20px;
+}
+
+.card-header h6 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* File upload styling */
+.file-upload-wrapper {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #f8f9fa;
+}
+
+.file-upload-wrapper:hover {
+    border-color: #86b7fe;
+    background-color: #f0f7ff;
+}
+
+.file-upload-wrapper.dragover {
+    border-color: #0d6efd;
+    background-color: #e7f3ff;
+}
+
+.file-upload-icon {
+    font-size: 24px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.file-upload-text {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.file-upload-text strong {
+    color: #0d6efd;
+}
+
+.file-upload-hint {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Image preview */
+.image-preview {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+}
+
+/* Flag icons */
+.flag-icon {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.5);
+}
+
+.flag-icon-uz {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 6'%3E%3Cpath fill='%231E9B62' d='M0 0h9v6H0z'/%3E%3Cpath fill='%230098C3' d='M0 0h9v4H0z'/%3E%3Cpath fill='%23CE1126' d='M0 0h9v2H0z'/%3E%3Cpath fill='%23fff' d='M0 2h9v2H0z'/%3E%3Ccircle cx='4.5' cy='3' r='1' fill='%23fff'/%3E%3Ccircle cx='4.5' cy='3' r='0.8' fill='%23CE1126'/%3E%3Ccircle cx='4.5' cy='3' r='0.5' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.flag-icon-ru {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 6'%3E%3Cpath fill='%23fff' d='M0 0h9v6H0z'/%3E%3Cpath fill='%230039A6' d='M0 2h9v2H0z'/%3E%3Cpath fill='%23D52B1E' d='M0 4h9v2H0z'/%3E%3C/svg%3E");
+}
+
+.flag-icon-gb {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23012169' d='M0 0h60v30H0z'/%3E%3Cpath fill='%23fff' d='M0 0v30l30-15z'/%3E%3Cpath fill='%23C8102E' d='M0 0v12l20-10zM30 15l30-15v30z'/%3E%3Cpath fill='%23fff' d='M30 15l30 15V0z'/%3E%3Cpath fill='%23C8102E' d='M0 30l30-15L0 0v30z'/%3E%3C/svg%3E");
+}
+
+/* Form group spacing */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Switch styling */
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
+    margin-right: 10px;
+}
+
+/* Invalid feedback styling */
+.invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    color: #dc3545;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .col-lg-8, .col-lg-4 {
+        width: 100%;
+    }
+
+    .col-lg-4 {
+        margin-top: 20px;
+    }
+
+    .file-upload-wrapper {
+        padding: 20px;
+    }
+
+    .card-header h6 {
+        font-size: 15px;
+    }
+}
+
+/* Button styling */
+.btn {
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-outline-secondary {
+    border-color: #dee2e6;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('bannerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+    const fileInput = document.querySelector("input[name='image']");
+    const previewImg = document.getElementById('previewImg');
+    const fileName = document.getElementById('fileName');
+    const imagePreview = document.getElementById('imagePreview');
+
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        errorElements.forEach(el => {
+            el.style.display = 'none';
+            el.textContent = '';
+        });
+        const inputElements = document.querySelectorAll('.form-control, .form-check-input');
+        inputElements.forEach(el => el.classList.remove('is-invalid'));
+    }
+
+    function showError(fieldName, message) {
+        const errorElement = document.getElementById(fieldName + '_error');
+        const inputElement = document.getElementById('id_' + fieldName);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        if (inputElement) {
+            inputElement.classList.add('is-invalid');
+        }
+    }
+
+    function setLoading(loading) {
+        if (loading) {
+            submitBtn.disabled = true;
+            submitText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+            submitSpinner.style.display = 'inline-block';
+            loadingOverlay.style.display = 'flex';
+        } else {
+            submitBtn.disabled = false;
+            submitText.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Banner';
+            submitSpinner.style.display = 'none';
+            loadingOverlay.style.display = 'none';
+        }
+    }
+
+    if (fileUploadWrapper && fileInput) {
+        fileUploadWrapper.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileUploadWrapper.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.add('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('dragleave', () => {
+            fileUploadWrapper.classList.remove('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    fileName.textContent = file.name;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+                previewImg.src = '';
+                fileName.textContent = '';
+            }
+        }
+    }
+
+    form.addEventListener('submit', function(e) {
+        // Prevent the default form submission
+        e.preventDefault();
+
+        clearErrors();
+        setLoading(true);
+
+        const requiredFields = ['order', 'image'];
+        let hasError = false;
+
+        requiredFields.forEach(field => {
+            const input = document.getElementById('id_' + field);
+            if (input) {
+                if (!input.value.trim()) {
+                    showError(field, 'Bu maydon toʻldirilishi shart');
+                    hasError = true;
+                }
+            }
+        });
+
+        // Check if the image is selected
+        if (!fileInput.files || fileInput.files.length === 0) {
+            showError('image', 'Rasm yuklash shart');
+            hasError = true;
+        }
+
+        if (hasError) {
+            // Hide the loading overlay and re-enable the submit button
+            setLoading(false);
+        } else {
+            // If no errors, proceed with the form submission
+            form.submit();
+        }
+    });
+});
+</script>
+{% endblock %}

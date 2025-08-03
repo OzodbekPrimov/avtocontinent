@@ -66,18 +66,20 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if user.userprofile.is_phone_verified %}
-                                <span class="badge badge-success">
+                            {% if user.userprofile and user.userprofile.is_phone_verified %}
+                                <span class="badge bg-success text-white">
                                     <i class="fas fa-check"></i> Verified
                                 </span>
                             {% else %}
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning text-dark">
                                     <i class="fas fa-clock"></i> Pending
                                 </span>
                             {% endif %}
                         </td>
                         <td>
-                            <span class="badge badge-primary">{{ user.orders.count }}</span>
+                            <span class="badge bg-primary text-white">
+                                {{ user.orders.count|default:0 }}
+                            </span>
                         </td>
                         <td>
                             <div>{{ user.date_joined|date:"M d, Y" }}</div>
@@ -92,7 +94,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{% url 'admin:auth_user_change' user.id %}" 
+                            <a href="{% url 'admin:auth_user_change' user.id %}"
                                class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -109,7 +111,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         {% if page_obj.has_other_pages %}
         <nav aria-label="Page navigation" class="mt-4">
@@ -121,7 +123,7 @@
                     </a>
                 </li>
                 {% endif %}
-                
+
                 {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
                 <li class="page-item active">
@@ -133,7 +135,7 @@
                 </li>
                 {% endif %}
                 {% endfor %}
-                
+
                 {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
@@ -146,4 +148,22 @@
         {% endif %}
     </div>
 </div>
+
+<!-- Custom CSS for additional styling -->
+<style>
+.badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.table td .badge {
+    min-width: 60px;
+    text-align: center;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+</style>
 {% endblock %}

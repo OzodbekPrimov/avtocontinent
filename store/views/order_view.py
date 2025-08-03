@@ -1,13 +1,24 @@
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from store.models import Cart, Order, OrderItem, PaymentSettings, ExchangeRate
+from store.models import Cart, Order, OrderItem, PaymentSettings, ExchangeRate, Category
+from functools import wraps
 
 
-@login_required
+def store_login_required(view_func):
+    """Custom login_required decorator for store that redirects to store login"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+
+@store_login_required
 def checkout(request):
     """Checkout view"""
+    categories = Category.objects.filter(is_active=True)[:6]
     try:
 
         cart = Cart.objects.get(user=request.user)
@@ -58,13 +69,15 @@ def checkout(request):
     context = {
         'cart': cart,
         'payment_settings': payment_settings,
+        'categories':categories
     }
 
     return render(request, 'store/checkout.html', context)
 
-@login_required
+@store_login_required
 def order_payment(request, order_id):
     """Order payment view"""
+    categories = Category.objects.filter(is_active=True)[:4]
     order = get_object_or_404(Order, order_id=order_id, user=request.user)
     payment_settings = PaymentSettings.objects.filter(is_active=True).first()
 
@@ -78,30 +91,35 @@ def order_payment(request, order_id):
     context = {
         'order': order,
         'payment_settings': payment_settings,
+        'categories':categories
     }
 
     return render(request, 'store/order_payment.html', context)
 
 
-@login_required
+@store_login_required
 def order_detail(request, order_id):
     """Order detail view"""
     order = get_object_or_404(Order, order_id=order_id, user=request.user)
+    categories = Category.objects.filter(is_active=True)[:4]
 
     context = {
         'order': order,
+        'categories':categories
     }
 
     return render(request, 'store/order_detail.html', context)
 
 
-@login_required
+@store_login_required
 def order_history(request):
     """Order history view"""
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    categories = Category.objects.filter(is_active=True)[:4]
 
     context = {
         'orders': orders,
+        'categories':categories
     }
 
     return render(request, 'store/order_history.html', context)

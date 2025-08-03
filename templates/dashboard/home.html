@@ -1,236 +1,287 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 
-{% block title %}Dashboard Overview - Avtokontinent.uz{% endblock %}
-
+{% block title %}Dashboard - Avtokontinent.uz{% endblock %}
 {% block page_title %}Dashboard Overview{% endblock %}
 
 {% block content %}
-<!-- Stats Grid -->
-<div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-header">
-            <div class="stat-title">Total Products</div>
-            <div class="stat-icon primary">
-                <i class="fas fa-box"></i>
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <i class="fas fa-box fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Products</h6>
+                        <h3 class="mb-0 fw-bold">{{ total_products|floatformat:0 }}</h3>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up"></i> Active products
+                        </small>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="stat-value">{{ total_products|floatformat:0 }}</div>
-        <div class="stat-change positive">
-            <i class="fas fa-arrow-up"></i>
-            Active products
         </div>
     </div>
-    
-    <div class="stat-card">
-        <div class="stat-header">
-            <div class="stat-title">Total Orders</div>
-            <div class="stat-icon success">
-                <i class="fas fa-shopping-cart"></i>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="bg-success bg-opacity-10 rounded p-3">
+                            <i class="fas fa-shopping-cart fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Orders</h6>
+                        <h3 class="mb-0 fw-bold">{{ total_orders|floatformat:0 }}</h3>
+                        <small class="text-info">
+                            <i class="fas fa-clock"></i> All time
+                        </small>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="stat-value">{{ total_orders|floatformat:0 }}</div>
-        <div class="stat-change positive">
-            <i class="fas fa-arrow-up"></i>
-            +{{ recent_orders }} this week
         </div>
     </div>
-    
-    <div class="stat-card">
-        <div class="stat-header">
-            <div class="stat-title">Total Users</div>
-            <div class="stat-icon warning">
-                <i class="fas fa-users"></i>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <i class="fas fa-users fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Users</h6>
+                        <h3 class="mb-0 fw-bold">{{ total_users|floatformat:0 }}</h3>
+                        <small class="text-success">
+                            <i class="fas fa-plus"></i> {{ recent_users }} this week
+                        </small>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="stat-value">{{ total_users|floatformat:0 }}</div>
-        <div class="stat-change positive">
-            <i class="fas fa-arrow-up"></i>
-            +{{ recent_users }} this week
         </div>
     </div>
-    
-    <div class="stat-card">
-        <div class="stat-header">
-            <div class="stat-title">Total Revenue</div>
-            <div class="stat-icon secondary">
-                <i class="fas fa-dollar-sign"></i>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="bg-info bg-opacity-10 rounded p-3">
+                            <i class="fas fa-dollar-sign fa-2x text-info"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Revenue</h6>
+                        <h3 class="mb-0 fw-bold">{{ total_revenue|floatformat:0 }} UZS</h3>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up"></i> {{ recent_revenue|floatformat:0 }} this week
+                        </small>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="stat-value">{{ total_revenue|floatformat:0 }}</div>
-        <div class="stat-change positive">
-            <i class="fas fa-arrow-up"></i>
-            +{{ recent_revenue|floatformat:0 }} this week
         </div>
     </div>
 </div>
 
 <div class="row">
     <!-- Revenue Chart -->
-    <div class="col-lg-8">
-        <div class="card">
+    <div class="col-xl-8 mb-4">
+        <div class="card border-0 shadow-sm">
             <div class="card-header">
-                <h5 class="card-title">Monthly Revenue Trend</h5>
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line text-primary"></i> Monthly Revenue
+                </h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="revenueChart"></canvas>
-                </div>
+                <canvas id="revenueChart" height="100"></canvas>
             </div>
         </div>
     </div>
-    
+
     <!-- Order Status Distribution -->
-    <div class="col-lg-4">
-        <div class="card">
+    <div class="col-xl-4 mb-4">
+        <div class="card border-0 shadow-sm">
             <div class="card-header">
-                <h5 class="card-title">Order Status</h5>
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie text-success"></i> Order Status
+                </h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="orderStatusChart"></canvas>
-                </div>
+                <canvas id="orderStatusChart" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <!-- Top Products -->
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Top Selling Products</h5>
+    <!-- Recent Orders -->
+    <div class="col-xl-6 mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock text-warning"></i> Recent Orders
+                </h5>
+                <a href="{% url 'dashboard:orders' %}" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body">
-                {% for product in top_products %}
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
-                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
-                        <div>
-                            <div class="fw-semibold">{{ product.name|truncatechars:30 }}</div>
-                            <small class="text-muted">{{ product.category.name }}</small>
-                        </div>
-                    </div>
-                    <div class="text-end">
-                        <div class="fw-semibold">{{ product.order_count }} orders</div>
-                        <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
-                    </div>
+            <div class="card-body p-0">
+                {% if recent_orders_list %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders_list %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'dashboard:order_detail' order.order_id %}" class="text-decoration-none">
+                                        {{ order.order_id|truncatechars:8 }}
+                                    </a>
+                                </td>
+                                <td>{{ order.customer_name }}</td>
+                                <td>{{ order.total_amount_uzs|floatformat:0 }} UZS</td>
+                                <td>
+                                    <span class="badge bg-{% if order.status == 'pending' %}warning{% elif order.status == 'confirmed' %}info{% elif order.status == 'delivered' %}success{% elif order.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <small class="text-muted">{{ order.created_at|date:"M d, Y" }}</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                {% empty %}
-                <p class="text-muted">No sales data available</p>
-                {% endfor %}
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-shopping-cart fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">No recent orders</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
-    
-    <!-- Most Liked Products -->
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Most Liked Products</h5>
+
+    <!-- Top Products -->
+    <div class="col-xl-6 mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star text-warning"></i> Top Selling Products
+                </h5>
+                <a href="{% url 'dashboard:products' %}" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body">
-                {% for product in most_liked %}
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
-                             class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
-                        <div>
-                            <div class="fw-semibold">{{ product.name|truncatechars:30 }}</div>
-                            <small class="text-muted">{{ product.category.name }}</small>
+            <div class="card-body p-0">
+                {% if top_products %}
+                <div class="list-group list-group-flush">
+                    {% for product in top_products %}
+                    <div class="list-group-item border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                {% if product.main_image %}
+                                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                         class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                         style="width: 40px; height: 40px;">
+                                        <i class="fas fa-image text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">{{ product.name|truncatechars:30 }}</h6>
+                                <small class="text-muted">{{ product.category.name }}</small>
+                            </div>
+                            <div class="flex-shrink-0 text-end">
+                                <span class="badge bg-primary">{{ product.order_count }} orders</span>
+                                <br>
+                                <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
+                            </div>
                         </div>
                     </div>
-                    <div class="text-end">
-                        <div class="fw-semibold text-danger">
-                            <i class="fas fa-heart"></i> {{ product.like_count }}
-                        </div>
-                        <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p class="text-muted">No likes data available</p>
-                {% endfor %}
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-box fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">No products with orders yet</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Recent Orders -->
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title">Recent Orders</h5>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for order in recent_orders_list %}
-                    <tr>
-                        <td>
-                            <span class="fw-semibold">#{{ order.order_id|truncatechars:8 }}</span>
-                        </td>
-                        <td>
-                            <div>{{ order.customer_name }}</div>
-                            <small class="text-muted">{{ order.customer_phone }}</small>
-                        </td>
-                        <td>
-                            {% if order.status == 'pending' %}
-                                <span class="badge badge-warning">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'confirmed' %}
-                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'delivered' %}
-                                <span class="badge badge-success">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'cancelled' %}
-                                <span class="badge badge-danger">{{ order.get_status_display }}</span>
-                            {% else %}
-                                <span class="badge badge-secondary">{{ order.get_status_display }}</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <span class="fw-semibold">{{ order.total_amount_uzs|floatformat:0 }} UZS</span>
-                        </td>
-                        <td>{{ order.created_at|date:"M d, Y" }}</td>
-                        <td>
-                            <a href="{% url 'dashboard:order_detail' order.order_id %}" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">No recent orders</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-bolt text-primary"></i> Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'dashboard:product_create' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-plus fa-2x mb-2"></i>
+                            <span>Add Product</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'dashboard:category_create' %}" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-tags fa-2x mb-2"></i>
+                            <span>Add Category</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'dashboard:banner_create' %}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-images fa-2x mb-2"></i>
+                            <span>Add Banner</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'dashboard:analytics' %}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-chart-bar fa-2x mb-2"></i>
+                            <span>View Analytics</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // Revenue Chart
-const revenueData = {{ monthly_revenue|safe }};
 const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-new Chart(revenueCtx, {
+const revenueChart = new Chart(revenueCtx, {
     type: 'line',
     data: {
-        labels: revenueData.map(item => item.month),
+        labels: {{ monthly_revenue|safe }}.map(item => item.month),
         datasets: [{
             label: 'Revenue (UZS)',
-            data: revenueData.map(item => item.revenue),
+            data: {{ monthly_revenue|safe }}.map(item => item.revenue),
             borderColor: '#2563EB',
             backgroundColor: 'rgba(37, 99, 235, 0.1)',
             borderWidth: 2,
@@ -260,30 +311,22 @@ new Chart(revenueCtx, {
 });
 
 // Order Status Chart
-const orderStatusData = [
-    {% for status in order_status_data %}
-    {
-        label: '{{ status.status|capfirst }}',
-        value: {{ status.count }}
-    }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-];
-
-const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
-new Chart(statusCtx, {
+const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+const orderStatusData = {{ order_status_data|safe }};
+const orderStatusChart = new Chart(orderStatusCtx, {
     type: 'doughnut',
     data: {
-        labels: orderStatusData.map(item => item.label),
+        labels: orderStatusData.map(item => item.status),
         datasets: [{
-            data: orderStatusData.map(item => item.value),
+            data: orderStatusData.map(item => item.count),
             backgroundColor: [
-                '#F59E0B',
-                '#2563EB',
-                '#10B981',
-                '#EF4444',
-                '#6B7280',
-                '#EA580C'
-            ]
+                '#F59E0B', // warning
+                '#3B82F6', // info
+                '#10B981', // success
+                '#EF4444', // danger
+                '#6B7280'  // secondary
+            ],
+            borderWidth: 0
         }]
     },
     options: {

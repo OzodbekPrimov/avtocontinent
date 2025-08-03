@@ -1,0 +1,647 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-gradient-primary text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-car me-3"></i>
+                    <h5 class="card-title mb-0 text-white">{{ title }}</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" id="model-form" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- Main Content Column -->
+                        <div class="col-lg-8">
+                            <!-- Brand Selection -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-trademark me-2"></i>
+                                        Brend Ma'lumotlari
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.brand.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-building me-2"></i>
+                                            Brend
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-trademark"></i>
+                                            </span>
+                                            <select class="form-control" id="{{ form.brand.id_for_label }}"
+                                                    name="{{ form.brand.name }}" required>
+                                                <option value="">Brendni tanlang</option>
+                                                {% for brand in brands %}
+                                                <option value="{{ brand.id }}" 
+                                                        {% if form.brand.value == brand.id %}selected{% endif %}>
+                                                    {{ brand.name_uz }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        {% if form.brand.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.brand.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Name Fields -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-heading me-2"></i>
+                                        Model Nomi
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Uzbek Name -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_uz.id_for_label }}" class="form-label required-field">
+                                            <span class="flag-icon flag-icon-uz me-2"></span>
+                                            Nomi (Oʻzbekcha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_uz.id_for_label }}"
+                                                   name="{{ form.name_uz.name }}" value="{{ form.name_uz.value|default:'' }}"
+                                                   placeholder="O'zbekcha nom kiriting" required>
+                                        </div>
+                                        {% if form.name_uz.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_uz.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Russian Name -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_ru.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-ru me-2"></span>
+                                            Nomi (Ruscha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_ru.id_for_label }}"
+                                                   name="{{ form.name_ru.name }}" value="{{ form.name_ru.value|default:'' }}"
+                                                   placeholder="Ruscha nom kiriting">
+                                        </div>
+                                        {% if form.name_ru.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_ru.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- English Name -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.name_en.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-gb me-2"></span>
+                                            Nomi (Inglizcha)
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-font"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
+                                                   name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
+                                                   placeholder="Inglizcha nom kiriting">
+                                        </div>
+                                        {% if form.name_en.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.name_en.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description Fields -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-align-left me-2"></i>
+                                        Model Tavsifi
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Uzbek Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_uz.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-uz me-2"></span>
+                                            Tavsif (Oʻzbekcha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_uz.id_for_label }}"
+                                                  name="{{ form.description_uz.name }}" rows="3"
+                                                  placeholder="O'zbekcha tavsif kiriting">{{ form.description_uz.value|default:'' }}</textarea>
+                                        {% if form.description_uz.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_uz.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Russian Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_ru.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-ru me-2"></span>
+                                            Tavsif (Ruscha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_ru.id_for_label }}"
+                                                  name="{{ form.description_ru.name }}" rows="3"
+                                                  placeholder="Ruscha tavsif kiriting">{{ form.description_ru.value|default:'' }}</textarea>
+                                        {% if form.description_ru.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_ru.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- English Description -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.description_en.id_for_label }}" class="form-label">
+                                            <span class="flag-icon flag-icon-gb me-2"></span>
+                                            Tavsif (Inglizcha)
+                                        </label>
+                                        <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
+                                                  name="{{ form.description_en.name }}" rows="3"
+                                                  placeholder="Inglizcha tavsif kiriting">{{ form.description_en.value|default:'' }}</textarea>
+                                        {% if form.description_en.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.description_en.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Settings Card -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-cog me-2"></i>
+                                        Sozlamalar
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Slug -->
+                                    <div class="form-group mb-3">
+                                        <label for="{{ form.slug.id_for_label }}" class="form-label required-field">
+                                            <i class="fas fa-link me-2"></i>
+                                            Slug
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-globe"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="{{ form.slug.id_for_label }}"
+                                                   name="{{ form.slug.name }}" value="{{ form.slug.value|default:'' }}"
+                                                   placeholder="model-slugi" required>
+                                            <button class="btn btn-outline-secondary" type="button" id="generateSlug">
+                                                <i class="fas fa-magic"></i> Avtomatik
+                                            </button>
+                                        </div>
+                                        {% if form.slug.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {% for error in form.slug.errors %}
+                                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="form-group">
+                                        <div class="form-check form-switch">
+                                            <input type="checkbox" class="form-check-input" id="{{ form.is_active.id_for_label }}"
+                                                   name="{{ form.is_active.name }}" {% if form.is_active.value %}checked{% endif %}>
+                                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                                <i class="fas fa-toggle-on me-2"></i>
+                                                Faol holati
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Column -->
+                        <div class="col-lg-4">
+                            <!-- Image Upload Card -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-image me-2"></i>
+                                        Model Rasmi
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Current Image Preview -->
+                                    {% if model and model.image %}
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                        </label>
+                                        <div class="image-preview">
+                                            <img src="{{ model.image.url }}" alt="Joriy model rasmi"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted">{{ model.image.name }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- File Upload -->
+                                    <div class="file-upload-wrapper" id="fileUploadWrapper">
+                                        <div class="file-upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-upload-text">
+                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                        </div>
+                                        <div class="file-upload-hint">
+                                            PNG, JPG, WebP (maksimum 5MB)
+                                        </div>
+                                        <input type="file" class="d-none" id="{{ form.image.id_for_label }}"
+                                               name="{{ form.image.name }}" accept="image/*" {% if not model %}required{% endif %}>
+                                    </div>
+
+                                    {% if form.image.errors %}
+                                        <div class="invalid-feedback d-block mt-2">
+                                            {% for error in form.image.errors %}
+                                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Image Preview -->
+                                    <div id="imagePreview" class="mt-3" style="display: none;">
+                                        <label class="form-label text-muted">
+                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                        </label>
+                                        <div class="image-preview">
+                                            <img id="previewImg" src="" alt="Ko'rish"
+                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            <div class="mt-2">
+                                                <small class="text-muted" id="fileName"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Requirements -->
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <h6 class="alert-heading">
+                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                            </h6>
+                                            <ul class="mb-0 small">
+                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 400x300 piksel</li>
+                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
+                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                        <a href="{% url 'dashboard:models' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Modellarga qaytish
+                        </a>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <i class="fas fa-save me-2"></i> {{ action }} Model
+                            </button>
+                            {% if model %}
+                            <a href="{% url 'dashboard:model_delete' model.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i> O'chirish
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.required-field:after {
+    content: " *";
+    color: #dc3545;
+}
+.has-error .form-control {
+    border-color: #dc3545;
+}
+.has-error .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+.file-upload-wrapper {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #f8f9fa;
+}
+.file-upload-wrapper:hover {
+    border-color: #86b7fe;
+    background-color: #f0f7ff;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Global error handler to prevent white screen
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        showAlert('Xatolik yuz berdi. Iltimos, sahifani yangilang.', 'danger');
+    });
+    
+    // Handle server-side validation errors on page load
+    handleServerValidationErrors();
+    
+    // File upload functionality
+    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+    const fileInput = document.getElementById('{{ form.image.id_for_label }}');
+
+    if (fileUploadWrapper && fileInput) {
+        fileUploadWrapper.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.add('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('dragleave', () => {
+            fileUploadWrapper.classList.remove('dragover');
+        });
+
+        fileUploadWrapper.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadWrapper.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileUploadWrapper.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileSelect(file);
+            }
+        });
+    }
+
+    function handleFileSelect(file) {
+        const preview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const fileName = document.getElementById('fileName');
+        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+
+        // Show preview
+        preview.style.display = 'block';
+        fileName.textContent = file.name;
+        uploadText.innerHTML = `<strong>${file.name}</strong>`;
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Validate file
+        validateFile(file);
+    }
+
+    function validateFile(file) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!allowedTypes.includes(file.type)) {
+            showAlert('Iltimos, rasm faylini tanlang (JPG, PNG yoki WebP)', 'danger');
+            resetFileInput();
+            return false;
+        }
+
+        if (file.size > maxSize) {
+            showAlert('Fayl hajmi 5MB dan oshmasligi kerak', 'danger');
+            resetFileInput();
+            return false;
+        }
+
+        return true;
+    }
+
+    function resetFileInput() {
+        const fileInput = document.getElementById('{{ form.image.id_for_label }}');
+        const preview = document.getElementById('imagePreview');
+        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+
+        fileInput.value = '';
+        preview.style.display = 'none';
+        uploadText.innerHTML = '<strong>Yuklash uchun bosing</strong> yoki sudrab tashlang';
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        const cardBody = document.querySelector('.card-body');
+        cardBody.insertBefore(alertDiv, cardBody.firstChild);
+
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alertDiv);
+            bsAlert.close();
+        }, 5000);
+    }
+
+    // Slug generation
+    document.getElementById('generateSlug').addEventListener('click', function() {
+        const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
+        const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+
+        if (nameUz) {
+            slugField.value = slugify(nameUz);
+            showAlert('Slug muvaffaqiyatli yaratildi!', 'success');
+        } else {
+            showAlert('Iltimos, avval model nomini kiriting (Oʻzbekcha)', 'warning');
+        }
+    });
+
+    // Auto-generate slug when typing in Uzbek name
+    document.getElementById('{{ form.name_uz.id_for_label }}').addEventListener('input', function() {
+        const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+        if (slugField && !slugField.value) {
+            slugField.value = slugify(this.value);
+        }
+    });
+
+    // Form validation
+    const form = document.getElementById('model-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            const submitBtn = document.getElementById('submit-btn');
+
+            // Validate brand
+            const brand = document.getElementById('{{ form.brand.id_for_label }}').value.trim();
+            if (!brand) {
+                markFieldInvalid('{{ form.brand.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate Uzbek name
+            const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
+            if (!nameUz) {
+                markFieldInvalid('{{ form.name_uz.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate slug
+            const slug = document.getElementById('{{ form.slug.id_for_label }}').value.trim();
+            if (!slug) {
+                markFieldInvalid('{{ form.slug.id_for_label }}');
+                isValid = false;
+            }
+
+            // Validate image for new model
+            {% if not model %}
+            const fileInput = document.getElementById('{{ form.image.id_for_label }}');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showAlert('Iltimos, model rasmini yuklang', 'danger');
+                isValid = false;
+            }
+            {% endif %}
+
+            if (!isValid) {
+                e.preventDefault();
+                showAlert('Iltimos, barcha majburiy maydonlarni to\'ldiring', 'danger');
+
+                // Scroll to first error
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            } else {
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+                submitBtn.disabled = true;
+                
+                // Add a timeout to prevent infinite loading
+                setTimeout(() => {
+                    if (submitBtn.disabled) {
+                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Model';
+                        submitBtn.disabled = false;
+                        showAlert('Saqlash vaqti oshdi. Iltimos, qaytadan urinib ko\'ring.', 'warning');
+                    }
+                }, 10000); // 10 seconds timeout
+            }
+        });
+    }
+
+    function markFieldInvalid(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.classList.add('is-invalid');
+        }
+    }
+
+    function slugify(text) {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+    function handleServerValidationErrors() {
+        // Check if there are any server-side validation errors
+        const errorFields = document.querySelectorAll('.invalid-feedback');
+        if (errorFields.length > 0) {
+            // Add is-invalid class to parent input fields
+            errorFields.forEach(errorField => {
+                const inputField = errorField.previousElementSibling?.querySelector('input, textarea, select') || 
+                                  errorField.parentElement?.querySelector('input, textarea, select');
+                if (inputField) {
+                    inputField.classList.add('is-invalid');
+                }
+            });
+            
+            // Show a general error message
+            showAlert('Formada xatoliklar mavjud. Iltimos, qizil belgilangan maydonlarni to\'ldiring.', 'danger');
+            
+            // Scroll to first error
+            const firstError = document.querySelector('.is-invalid');
+            if (firstError) {
+                firstError.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+        
+        // Also check for any Django form errors that might not be in invalid-feedback
+        const formErrors = document.querySelectorAll('.errorlist');
+        if (formErrors.length > 0) {
+            showAlert('Formada xatoliklar mavjud. Iltimos, barcha maydonlarni to\'g\'ri to\'ldiring.', 'danger');
+        }
+    }
+});
+</script>
+{% endblock %}

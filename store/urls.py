@@ -1,9 +1,8 @@
 from django.urls import path
-from django.contrib.auth.views import LogoutView
 from . import views
-from django.conf.urls.i18n import i18n_patterns
-
 from . import signals
+
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -14,7 +13,7 @@ urlpatterns = [
 
     # Authentication
     path('login/', views.login_request, name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', views.store_logout, name='logout'),
     path('profile/', views.profile_view, name='profile'),
     # path("save-auth/", views.save_auth, name="save_auth"),
     path("verify-code/", views.verify_code, name="verify_code"),
@@ -22,8 +21,8 @@ urlpatterns = [
     # Cart and Orders
     path('cart/', views.cart_view, name='cart'),
     path('checkout/', views.checkout, name='checkout'),
-    path('order/<uuid:order_id>/', views.order_detail, name='order_detail'),
-    path('order/<uuid:order_id>/payment/', views.order_payment, name='order_payment'),
+    path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('order/<int:order_id>/payment/', views.order_payment, name='order_payment'),
     path('orders/', views.order_history, name='order_history'),
     path('favorites/', views.favorites, name='favorites'),
 
@@ -41,4 +40,8 @@ urlpatterns = [
     # elasticsearch urls
     # path('search/', views.search_products, name='search_products'),
     # path('autocomplete/', views.autocomplete_products, name='autocomplete_products'),
+
+
+    # path('simple-login/', views.simple_login_request, name='simple_login'),
 ]
+

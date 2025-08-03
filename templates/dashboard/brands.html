@@ -1,0 +1,422 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}Brands Management - Dashboard{% endblock %}
+{% block page_title %}Brands Management{% endblock %}
+
+{% block content %}
+<!-- CSRF token for AJAX requests -->
+{% csrf_token %}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">All Brands</h5>
+        <a href="{% url 'dashboard:brand_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Brand
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Alert container for messages -->
+        <div id="alert-container"></div>
+
+        <!-- Search and Filter -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form method="get" class="d-flex">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Search brands..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form method="get" class="d-flex justify-content-end gap-2">
+                    <input type="hidden" name="search" value="{{ search_query }}">
+                    <select name="status" class="form-select" style="width: auto;" onchange="this.form.submit()">
+                        <option value="">All Status</option>
+                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+                        <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
+                    </select>
+                    {% if search_query or status_filter %}
+                        <a href="{% url 'dashboard:brands' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <!-- Brands Table -->
+        {% if page_obj %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Logo</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Models</th>
+                        <th>Products</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for brand in page_obj %}
+                    <tr id="brand-row-{{ brand.id }}">
+                        <td>
+                            {% if brand.logo %}
+                                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" style="width: 60px; height: 40px; object-fit: contain; border-radius: 4px;">
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center justify-content-center" style="width: 60px; height: 40px; border-radius: 4px;">
+                                    <i class="fas fa-copyright text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong>{{ brand.name_uz }}</strong>
+                            {% if brand.name_en or brand.name_ru %}
+                                <br><small class="text-muted">
+                                    {% if brand.name_en %}{{ brand.name_en }}{% endif %}
+                                    {% if brand.name_en and brand.name_ru %} | {% endif %}
+                                    {% if brand.name_ru %}{{ brand.name_ru }}{% endif %}
+                                </small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if brand.description_uz or brand.description_en or brand.description_ru %}
+                                {% if brand.description_uz %}
+                                    {{ brand.description_uz|truncatechars:50 }}
+                                {% elif brand.description_en %}
+                                    {{ brand.description_en|truncatechars:50 }}
+                                {% elif brand.description_ru %}
+                                    {{ brand.description_ru|truncatechars:50 }}
+                                {% endif %}
+                            {% else %}
+                                <span class="text-muted">No description</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ brand.model_count|default:0 }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary">{{ brand.product_count|default:0 }}</span>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input toggle-status"
+                                       type="checkbox"
+                                       id="status-{{ brand.id }}"
+                                       data-brand-id="{{ brand.id }}"
+                                       {% if brand.is_active %}checked{% endif %}
+                                       data-bs-toggle="tooltip"
+                                       title="Toggle status">
+                                <label class="form-check-label" for="status-{{ brand.id }}">
+                                    <span class="status-text">
+                                        {% if brand.is_active %}
+                                            <small class="text-success">Active</small>
+                                        {% else %}
+                                            <small class="text-muted">Inactive</small>
+                                        {% endif %}
+                                    </span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <small class="text-muted">{{ brand.created_at|date:"M d, Y" }}</small>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'dashboard:brand_edit' brand.id %}"
+                                   class="btn btn-sm btn-outline-primary"
+                                   data-bs-toggle="tooltip"
+                                   title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger delete-brand"
+                                        data-brand-id="{{ brand.id }}"
+                                        data-brand-name="{{ brand.name_uz }}"
+                                        data-bs-toggle="tooltip"
+                                        title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Brands pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        <!-- Results Summary -->
+        <div class="text-center text-muted">
+            Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} brands
+        </div>
+
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-copyright fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No brands found</h5>
+            <p class="text-muted">
+                {% if search_query or status_filter %}
+                    Try adjusting your search criteria or
+                    <a href="{% url 'dashboard:brands' %}">clear all filters</a>
+                {% else %}
+                    Get started by creating your first brand.
+                {% endif %}
+            </p>
+            {% if not search_query and not status_filter %}
+                <a href="{% url 'dashboard:brand_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create First Brand
+                </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the brand "<span id="brand-name-to-delete"></span>"?</p>
+                <p class="text-danger"><small>This action cannot be undone.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Get CSRF token
+    function getCSRFToken() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        return csrfToken ? csrfToken.value : '';
+    }
+
+    // Show alert function
+    function showAlert(message, type) {
+        // Remove existing alerts
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+
+        // Insert alert at the top of card body
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.appendChild(alertDiv);
+
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            if (alertDiv && alertDiv.parentNode) {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }
+        }, 5000);
+    }
+
+    // Toggle brand status
+    document.querySelectorAll('.toggle-status').forEach(function(toggle) {
+        toggle.addEventListener('change', function() {
+            const brandId = this.dataset.brandId;
+            const checkbox = this;
+            const statusText = checkbox.closest('td').querySelector('.status-text');
+            const originalChecked = !checkbox.checked; // Original state before change
+
+            // Show loading state
+            checkbox.disabled = true;
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('brand_id', brandId);
+            formData.append('csrfmiddlewaretoken', getCSRFToken());
+
+            fetch('{% url "dashboard:ajax_toggle_brand_status" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                }
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.success) {
+                    // Update status text
+                    statusText.innerHTML = data.new_status ?
+                        '<small class="text-success">Active</small>' :
+                        '<small class="text-muted">Inactive</small>';
+
+                    // Ensure checkbox reflects the actual status
+                    checkbox.checked = data.new_status;
+
+                    showAlert('Brand status updated successfully!', 'success');
+                } else {
+                    // Revert checkbox to original state
+                    checkbox.checked = originalChecked;
+                    showAlert('Failed to update brand status: ' + (data.message || 'Unknown error'), 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert checkbox to original state
+                checkbox.checked = originalChecked;
+                showAlert('An error occurred while updating brand status. Please try again.', 'danger');
+            })
+            .finally(() => {
+                checkbox.disabled = false;
+            });
+        });
+    });
+
+    // Delete brand functionality
+    let brandIdToDelete = null;
+
+    document.querySelectorAll('.delete-brand').forEach(function(button) {
+        button.addEventListener('click', function() {
+            brandIdToDelete = this.dataset.brandId;
+            const brandName = this.dataset.brandName;
+
+            document.getElementById('brand-name-to-delete').textContent = brandName;
+
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        });
+    });
+
+    // Confirm delete
+    document.getElementById('confirm-delete').addEventListener('click', function() {
+        if (!brandIdToDelete) return;
+
+        const button = this;
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deleting...';
+
+        const formData = new FormData();
+        formData.append('brand_id', brandIdToDelete);
+        formData.append('csrfmiddlewaretoken', getCSRFToken());
+
+        fetch('{% url "dashboard:ajax_delete_brand" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the brand row from table
+                const brandRow = document.getElementById(`brand-row-${brandIdToDelete}`);
+                if (brandRow) {
+                    brandRow.remove();
+                }
+
+                // Close modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                deleteModal.hide();
+
+                showAlert('Brand deleted successfully!', 'success');
+
+                // Refresh page if no brands left
+                const tbody = document.querySelector('tbody');
+                if (tbody && tbody.children.length === 0) {
+                    location.reload();
+                }
+            } else {
+                showAlert('Failed to delete brand: ' + (data.message || 'Unknown error'), 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('An error occurred while deleting brand. Please try again.', 'danger');
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = 'Delete';
+            brandIdToDelete = null;
+        });
+    });
+
+    // Debug information
+    console.log('CSRF Token:', getCSRFToken());
+    console.log('Toggle status elements found:', document.querySelectorAll('.toggle-status').length);
+});
+</script>
+{% endblock %}

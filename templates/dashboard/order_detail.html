@@ -1,84 +1,120 @@
 {% extends 'dashboard/base.html' %}
 
-{% block title %}Order #{{ order.order_id }} - Dashboard{% endblock %}
+{% block title %}Buyurtma #{{ order.order_id }} - Dashboard{% endblock %}
 
-{% block page_title %}Order #{{ order.order_id|truncatechars:8 }}{% endblock %}
+{% block page_title %}Buyurtma #{{ order.order_id|truncatechars:8 }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <!-- Order Details -->
     <div class="col-lg-8">
         <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Order Information</h5>
+            <div class="card-header bg-gradient-primary text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-shopping-cart me-3"></i>
+                    <h5 class="card-title mb-0 text-white">Buyurtma Ma'lumotlari</h5>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h6>Customer Details</h6>
-                        <p><strong>Name:</strong> {{ order.customer_name }}</p>
-                        <p><strong>Phone:</strong> {{ order.customer_phone }}</p>
-                        <p><strong>Address:</strong> {{ order.customer_address }}</p>
-                        {% if order.delivery_address %}
-                        <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
-                        {% endif %}
-                        {% if order.user %}
-                        <p><strong>User Account:</strong> @{{ order.user.username }}</p>
-                        {% endif %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-user me-2"></i>
+                                    Mijoz Ma'lumotlari
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Ism:</strong> {{ order.customer_name }}</p>
+                                <p><strong>Telefon:</strong> {{ order.customer_phone }}</p>
+                                <p><strong>Manzil:</strong> {{ order.customer_address }}</p>
+                                {% if order.delivery_address %}
+                                <p><strong>Yetkazib berish manzili:</strong> {{ order.delivery_address }}</p>
+                                {% endif %}
+                                {% if order.user %}
+                                <p><strong>Foydalanuvchi hisobi:</strong> @{{ order.user.username }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <h6>Order Details</h6>
-                        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-                        <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
-                        <p><strong>Status:</strong> 
-                            {% if order.status == 'pending' %}
-                                <span class="badge badge-warning">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'confirmed' %}
-                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'preparing' %}
-                                <span class="badge badge-secondary">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'shipped' %}
-                                <span class="badge badge-primary">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'delivered' %}
-                                <span class="badge badge-success">{{ order.get_status_display }}</span>
-                            {% elif order.status == 'cancelled' %}
-                                <span class="badge badge-danger">{{ order.get_status_display }}</span>
-                            {% endif %}
-                        </p>
-                        <p><strong>Payment:</strong> 
-                            {% if order.payment_confirmed %}
-                                <span class="badge badge-success">
-                                    <i class="fas fa-check"></i> Confirmed
-                                </span>
-                                {% if order.payment_confirmed_at %}
-                                <br><small class="text-muted">{{ order.payment_confirmed_at|date:"M d, Y H:i" }}</small>
-                                {% endif %}
-                            {% else %}
-                                <span class="badge badge-warning">
-                                    <i class="fas fa-clock"></i> Pending
-                                </span>
-                            {% endif %}
-                        </p>
-                        <p><strong>Exchange Rate:</strong> 1 USD = {{ order.exchange_rate_used }} UZS</p>
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Buyurtma Ma'lumotlari
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Buyurtma ID:</strong> <code>{{ order.order_id }}</code></p>
+                                <p><strong>Sana:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+                                <p><strong>Holat:</strong> 
+                                    {% if order.status == 'pending' %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-clock me-1"></i>Kutilmoqda
+                                        </span>
+                                    {% elif order.status == 'confirmed' %}
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-check me-1"></i>Tasdiqlangan
+                                        </span>
+                                    {% elif order.status == 'preparing' %}
+                                        <span class="badge bg-info">
+                                            <i class="fas fa-cog me-1"></i>Tayyorlanmoqda
+                                        </span>
+                                    {% elif order.status == 'shipped' %}
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-shipping-fast me-1"></i>Yuborilgan
+                                        </span>
+                                    {% elif order.status == 'delivered' %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle me-1"></i>Yetkazilgan
+                                        </span>
+                                    {% elif order.status == 'cancelled' %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times me-1"></i>Bekor qilingan
+                                        </span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>To'lov:</strong> 
+                                    {% if order.payment_confirmed %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Tasdiqlangan
+                                        </span>
+                                        {% if order.payment_confirmed_at %}
+                                        <br><small class="text-muted">{{ order.payment_confirmed_at|date:"d.m.Y H:i" }}</small>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-clock me-1"></i>Kutilmoqda
+                                        </span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>Valyuta kursi:</strong> 1 USD = {{ order.exchange_rate_used }} UZS</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Order Items -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Order Items</h5>
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-box me-2"></i>
+                    Buyurtma Mahsulotlari
+                </h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+                    <table class="table table-hover">
+                        <thead class="table-light">
                             <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
+                                <th>Mahsulot</th>
+                                <th>Narx</th>
+                                <th>Miqdori</th>
+                                <th>Jami</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,10 +122,10 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" 
+                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name_uz }}" 
                                              class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
                                         <div>
-                                            <div class="fw-semibold">{{ item.product.name }}</div>
+                                            <div class="fw-semibold">{{ item.product.name_uz }}</div>
                                             <small class="text-muted">{{ item.product.sku }}</small>
                                         </div>
                                     </div>
@@ -100,18 +136,18 @@
                                 </td>
                                 <td>{{ item.quantity }}</td>
                                 <td>
-                                    <div class="fw-semibold">${{ item.total_price_usd }}</div>
+                                    <div class="fw-bold">${{ item.total_price_usd }}</div>
                                     <small class="text-muted">{{ item.total_price_uzs|floatformat:0 }} UZS</small>
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
-                        <tfoot>
+                        <tfoot class="table-active">
                             <tr>
-                                <th colspan="3">Total</th>
+                                <th colspan="3" class="text-end">Jami:</th>
                                 <th>
-                                    <div class="fw-semibold">${{ order.total_amount_usd }}</div>
-                                    <div class="text-primary">{{ order.total_amount_uzs|floatformat:0 }} UZS</div>
+                                    <div class="fw-bold">${{ order.total_amount_usd }}</div>
+                                    <small class="text-muted">{{ order.total_amount_uzs|floatformat:0 }} UZS</small>
                                 </th>
                             </tr>
                         </tfoot>
@@ -119,85 +155,405 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Actions -->
-    <div class="col-lg-4">
-        <!-- Status Update -->
+
+        <!-- Payment Screenshot -->
+        <!-- To'lov Skrinshoti -->
+        {% if order.payment_screenshot %}
         <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Update Status</h5>
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-image me-2"></i>
+                    To'lov Skrinshoti
+                </h6>
+            </div>
+            <div class="card-body text-center">
+                <img src="{{ order.payment_screenshot.url }}" alt="To'lov Skrinshoti"
+                     class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+            </div>
+        </div>
+        {% else %}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-image me-2"></i>
+                    To'lov Skrinshoti
+                </h6>
+            </div>
+            <div class="card-body text-center">
+                <p class="text-muted">To'lov skrini yo'q</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Order Management -->
+    <div class="col-lg-4">
+        <!-- Order Status & Payment -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-cogs me-2"></i>
+                    Buyurtma Boshqaruvi
+                </h6>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" id="order-form">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="update_status">
-                    <div class="mb-3">
-                        <select class="form-control" name="status" required>
-                            {% for status_key, status_label in status_choices %}
-                            <option value="{{ status_key }}" {% if order.status == status_key %}selected{% endif %}>
-                                {{ status_label }}
+                    
+                    <!-- Order Status -->
+                    <div class="form-group mb-3">
+                        <label for="{{ form.status.id_for_label }}" class="form-label">
+                            <i class="fas fa-tasks me-2"></i>
+                            Buyurtma Holati
+                        </label>
+                        <select class="form-control" id="{{ form.status.id_for_label }}" name="{{ form.status.name }}">
+                            <option value="pending" {% if form.status.value == 'pending' %}selected{% endif %}>
+                                <i class="fas fa-clock"></i> Kutilmoqda
                             </option>
-                            {% endfor %}
+                            <option value="confirmed" {% if form.status.value == 'confirmed' %}selected{% endif %}>
+                                <i class="fas fa-check"></i> Tasdiqlangan
+                            </option>
+                            <option value="preparing" {% if form.status.value == 'preparing' %}selected{% endif %}>
+                                <i class="fas fa-cog"></i> Tayyorlanmoqda
+                            </option>
+                            <option value="shipped" {% if form.status.value == 'shipped' %}selected{% endif %}>
+                                <i class="fas fa-shipping-fast"></i> Yuborilgan
+                            </option>
+                            <option value="delivered" {% if form.status.value == 'delivered' %}selected{% endif %}>
+                                <i class="fas fa-check-circle"></i> Yetkazilgan
+                            </option>
+                            <option value="cancelled" {% if form.status.value == 'cancelled' %}selected{% endif %}>
+                                <i class="fas fa-times"></i> Bekor qilingan
+                            </option>
                         </select>
+                        {% if form.status.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.status.errors %}
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-save"></i> Update Status
-                    </button>
+
+                    <!-- Payment Confirmation -->
+                    <div class="form-group mb-3">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="{{ form.payment_confirmed.id_for_label }}"
+                                   name="{{ form.payment_confirmed.name }}" {% if form.payment_confirmed.value %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ form.payment_confirmed.id_for_label }}">
+                                <i class="fas fa-credit-card me-2"></i>
+                                To'lov Tasdiqlangan
+                            </label>
+                        </div>
+                        {% if form.payment_confirmed.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.payment_confirmed.errors %}
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Estimated Delivery Date -->
+                    <div class="form-group mb-3">
+                        <label for="{{ form.estimated_delivery_date.id_for_label }}" class="form-label">
+                            <i class="fas fa-calendar me-2"></i>
+                            Taxminiy Yetkazib Berish Sanasi
+                        </label>
+                        <input type="date" class="form-control" id="{{ form.estimated_delivery_date.id_for_label }}"
+                               name="{{ form.estimated_delivery_date.name }}" value="{{ form.estimated_delivery_date.value|date:'Y-m-d' }}">
+                        {% if form.estimated_delivery_date.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.estimated_delivery_date.errors %}
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" id="update-btn">
+                            <i class="fas fa-save me-2"></i> Yangilash
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
-        
+
         <!-- Payment Actions -->
         {% if not order.payment_confirmed %}
         <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Payment Actions</h5>
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-credit-card me-2"></i>
+                    To'lov Amallari
+                </h6>
             </div>
             <div class="card-body">
-                {% if order.payment_screenshot %}
-                <div class="mb-3">
-                    <img src="{{ order.payment_screenshot.url }}" alt="Payment Screenshot" 
-                         class="img-fluid rounded" style="max-height: 200px;">
-                </div>
-                {% endif %}
-                
                 <div class="d-grid gap-2">
-                    <form method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="confirm_payment">
-                        <button type="submit" class="btn btn-success w-100">
-                            <i class="fas fa-check"></i> Confirm Payment
-                        </button>
-                    </form>
-                    <form method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="reject_payment">
-                        <button type="submit" class="btn btn-danger w-100">
-                            <i class="fas fa-times"></i> Reject Payment
-                        </button>
-                    </form>
+                    <button type="button" class="btn btn-success" onclick="confirmPayment()">
+                        <i class="fas fa-check me-2"></i> To'lovni Tasdiqlash
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="rejectPayment()">
+                        <i class="fas fa-times me-2"></i> To'lovni Rad Etilish
+                    </button>
                 </div>
             </div>
         </div>
         {% endif %}
-        
+
         <!-- Quick Actions -->
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Quick Actions</h5>
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>
+                    Tezkor Amallar
+                </h6>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
                     <a href="{% url 'dashboard:orders' %}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Orders
+                        <i class="fas fa-arrow-left me-2"></i> Buyurtmalarga qaytish
                     </a>
-                    <a href="{% url 'admin:store_order_change' order.id %}" class="btn btn-outline-primary" target="_blank">
-                        <i class="fas fa-edit"></i> Edit in Admin
-                    </a>
+                    
+<!--                    {% if order.status != 'cancelled' %}-->
+<!--                    <button type="button" class="btn btn-outline-danger" onclick="cancelOrder()">-->
+<!--                        <i class="fas fa-times me-2"></i> Buyurtmani Bekor Qilish-->
+<!--                    </button>-->
+<!--                    {% endif %}-->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Payment Confirmation Modal -->
+<div class="modal fade" id="confirmPaymentModal" tabindex="-1" aria-labelledby="confirmPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="confirmPaymentModalLabel">
+                    <i class="fas fa-check me-2"></i>To'lovni Tasdiqlash
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Siz buyurtma #<strong>{{ order.order_id }}</strong> uchun to'lovni tasdiqlamoqchimisiz?</p>
+                <p class="text-success">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Bu amal to'lov holatini "Tasdiqlangan" ga o'zgartiradi.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                <button type="button" class="btn btn-success" id="confirmPaymentBtn">
+                    <i class="fas fa-check me-2"></i>Tasdiqlash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Rejection Modal -->
+<div class="modal fade" id="rejectPaymentModal" tabindex="-1" aria-labelledby="rejectPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="rejectPaymentModalLabel">
+                    <i class="fas fa-times me-2"></i>To'lovni Rad Etilish
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Siz buyurtma #<strong>{{ order.order_id }}</strong> uchun to'lovni rad etmoqchimisiz?</p>
+                <p class="text-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Bu amal to'lov holatini "Rad etilgan" ga o'zgartiradi.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                <button type="button" class="btn btn-danger" id="rejectPaymentBtn">
+                    <i class="fas fa-times me-2"></i>Rad Etilish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="cancelOrderModalLabel">
+                    <i class="fas fa-times me-2"></i>Buyurtmani Bekor Qilish
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Siz buyurtma #<strong>{{ order.order_id }}</strong> ni bekor qilmoqchimisiz?</p>
+                <p class="text-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Bu amal qaytarib bo'lmaydi va buyurtma holati "Bekor qilingan" ga o'zgaradi.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                <button type="button" class="btn btn-danger" id="cancelOrderBtn">
+                    <i class="fas fa-times me-2"></i>Bekor Qilish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Global error handler
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        showAlert('Xatolik yuz berdi. Iltimos, sahifani yangilang.', 'danger');
+    });
+
+    // Form validation
+    const form = document.getElementById('order-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('update-btn');
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Yangilanmoqda...';
+            submitBtn.disabled = true;
+            
+            // Add timeout to prevent infinite loading
+            setTimeout(() => {
+                if (submitBtn.disabled) {
+                    submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> Yangilash';
+                    submitBtn.disabled = false;
+                    showAlert('Yangilash vaqti oshdi. Iltimos, qaytadan urinib ko\'ring.', 'warning');
+                }
+            }, 10000);
+        });
+    }
+
+    // Payment confirmation
+    window.confirmPayment = function() {
+        const modal = new bootstrap.Modal(document.getElementById('confirmPaymentModal'));
+        modal.show();
+    };
+
+    document.getElementById('confirmPaymentBtn').addEventListener('click', function() {
+        // Send AJAX request to confirm payment
+        fetch('{% url "dashboard:ajax_confirm_payment" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                order_id: '{{ order.id }}'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('To\'lov muvaffaqiyatli tasdiqlandi!', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('Xatolik yuz berdi: ' + data.error, 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring.', 'danger');
+        });
+
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirmPaymentModal'));
+        modal.hide();
+    };
+
+    // Payment rejection
+    window.rejectPayment = function() {
+        const modal = new bootstrap.Modal(document.getElementById('rejectPaymentModal'));
+        modal.show();
+    };
+
+    document.getElementById('rejectPaymentBtn').addEventListener('click', function() {
+        // Send AJAX request to reject payment
+        fetch('{% url "dashboard:ajax_reject_payment" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                order_id: '{{ order.id }}'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('To\'lov muvaffaqiyatli rad etildi!', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('Xatolik yuz berdi: ' + data.error, 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring.', 'danger');
+        });
+
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('rejectPaymentModal'));
+        modal.hide();
+    };
+
+    // Cancel order
+    window.cancelOrder = function() {
+        const modal = new bootstrap.Modal(document.getElementById('cancelOrderModal'));
+        modal.show();
+    };
+
+    document.getElementById('cancelOrderBtn').addEventListener('click', function() {
+        // Update order status to cancelled
+        const statusSelect = document.getElementById('{{ form.status.id_for_label }}');
+        statusSelect.value = 'cancelled';
+        
+        // Submit the form
+        document.getElementById('order-form').submit();
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+        modal.hide();
+    });
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
+        alertDiv.style.zIndex = '9999';
+        alertDiv.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(alertDiv);
+
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alertDiv);
+            bsAlert.close();
+        }, 5000);
+    }
+});
+</script>
 {% endblock %}

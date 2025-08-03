@@ -85,6 +85,25 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -154,23 +173,24 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 86400  # 24 hours
 SESSION_SAVE_EVERY_REQUEST = True
 
-# Authentication settings
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+# Authentication settings - Removed global settings to avoid conflicts
+# Each app will handle its own authentication redirects
 
 # Email configuration (for production)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Telegram Bot Configuration
 TELEGRAM_BOT_TOKEN = '7849223276:AAHo4EAuyoTz_wF6CZ0J9vWlTdCBsE37mXQ'
-TELEGRAM_BOT_USERNAME = config('TELEGRAM_BOT_USERNAME', default='')
+TELEGRAM_BOT_USERNAME = 'avtokon_bot'
 TELEGRAM_ADMIN_CHAT_ID = 6215451224
-ADMIN_PHONE_NUMBER = 940075950
+ADMIN_PHONE_NUMBER = 772225555
 # Site settings
 SITE_NAME = 'Avtokontinent.uz'
 SITE_DESCRIPTION = 'Online Auto Spare Parts Store'
 
+TELEGRAM_AUTH_EXPIRY_MINUTES = 5
+MAX_LOGIN_ATTEMPTS = 3
+AUTH_CLEANUP_INTERVAL_HOURS = 1
 
 import os
 from celery import Celery
@@ -198,3 +218,5 @@ ELASTICSEARCH_DSL = {
         'hosts': 'http://localhost:9201'  # 9201-portga moslashtirildi
     },
 }
+
+

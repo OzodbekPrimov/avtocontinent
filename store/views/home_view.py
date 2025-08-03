@@ -1,43 +1,49 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
-
 from django.contrib.auth.decorators import login_required
-
 from django.db.models import Q, Count, Avg, F, Func
 from django.core.paginator import Paginator
+from functools import wraps
 
 
 from store.models import (
-    Product, Category, SubCategory, Brand, CarModel, Banner,
+    Product, Category, Brand, CarModel, Banner,
     ProductLike, ProductComment, Favorite, Cart, CartItem,
     Order, OrderItem, UserProfile, TelegramAuth, ExchangeRate,
     PaymentSettings
 )
 
 
+def store_login_required(view_func):
+    """Custom login_required decorator for store that redirects to store login"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+
 def home(request):
     """Home page view"""
     # Get banners
     banners = Banner.objects.filter(is_active=True)[:5]
-
     # Get brands
     brands = Brand.objects.filter(is_active=True)[:8]
-
     # Get featured products
     featured_products = Product.objects.filter(is_active=True, is_featured=True)[:8]
-
-    # Get best selling products (products with most orders)
+    # Get best selling products
     best_selling = Product.objects.filter(is_active=True).annotate(
         order_count=Count('orderitem')
     ).order_by('-order_count')[:8]
-
     # Get most liked products
     most_liked = Product.objects.annotate(
         total_likes=Count('likes')
     ).order_by('-total_likes')[:10]
-
     # Get latest products
     latest_products = Product.objects.filter(is_active=True).order_by('-created_at')[:8]
+    # Get categories (only top-level)
+    categories = Category.objects.filter(is_active=True)[:6]  # prefetch_related olib tashlandi
 
     context = {
         'banners': banners,
@@ -46,11 +52,10 @@ def home(request):
         'best_selling': best_selling,
         'most_liked': most_liked,
         'latest_products': latest_products,
+        'categories': categories,
     }
-
     return render(request, 'store/home.html', context)
-
-@login_required
+@store_login_required
 def profile_view(request):
     """Foydalanuvchi profilinga ko'rish"""
     user = request.user
@@ -72,7 +77,7 @@ def product_list(request):
 
     # Get filter parameters
     category_slug = request.GET.get('category')
-    subcategory_slug = request.GET.get('subcategory')
+    # subcategory_slug = request.GET.get('subcategory')
     brand_slug = request.GET.get('brand')
     model_slug = request.GET.get('model')
     search_query = request.GET.get('search', '').strip()
@@ -81,8 +86,8 @@ def product_list(request):
     if category_slug:
         products = products.filter(category__slug=category_slug)
 
-    if subcategory_slug:
-        products = products.filter(subcategory__slug=subcategory_slug)
+    # if subcategory_slug:
+    #     products = products.filter(subcategory__slug=subcategory_slug)
 
     if brand_slug:
         products = products.filter(compatible_models__brand__slug=brand_slug).distinct()
@@ -291,20 +296,16 @@ from django.contrib import messages
 def product_detail(request, slug):
     """Product detail view"""
     product = get_object_or_404(Product, slug=slug, is_active=True)
-
     # Get related products
     related_products = Product.objects.filter(
-        category=product.category,
-        is_active=True
+        category=product.category, is_active=True
     ).exclude(pk=product.pk)[:4]
-
     # Get comments
     comments = ProductComment.objects.filter(
-        product=product,
-        is_approved=True,
-        parent__isnull=True
+        product=product, is_approved=True, parent__isnull=True
     ).order_by('-created_at')[:4]
-
+    # Get categories
+    categories = Category.objects.filter(is_active=True)[:4]  # prefetch_related olib tashlandi
     # Check if user has liked this product
     user_liked = False
     user_favorited = False
@@ -316,30 +317,26 @@ def product_detail(request, slug):
         if not request.user.is_authenticated:
             messages.error(request, "Koment yozish uchun tizimga kirishingiz kerak!")
             return redirect('login')
-
         rating = request.POST.get('rating')
         comment_text = request.POST.get('comment')
-
         if rating and comment_text:
             try:
                 rating = int(rating)
                 if rating < 1 or rating > 5:
                     messages.error(request, "Reyting 1 dan 5 gacha bo‘lishi kerak!")
                     return redirect('product_detail', slug=product.slug)
-
                 ProductComment.objects.create(
                     product=product,
                     user=request.user,
                     rating=rating,
                     comment=comment_text,
-                    is_approved=True  # Agar avtomatik tasdiqlash kerak bo‘lsa
+                    is_approved=True
                 )
                 messages.success(request, "Koment muvaffaqiyatli yuborildi!")
             except ValueError:
                 messages.error(request, "Noto‘g‘ri reyting formati!")
         else:
             messages.error(request, "Reyting va koment kiritish shart!")
-
         return redirect('product_detail', slug=product.slug)
 
     context = {
@@ -348,10 +345,9 @@ def product_detail(request, slug):
         'comments': comments,
         'user_liked': user_liked,
         'user_favorited': user_favorited,
+        'categories': categories,
     }
-
     return render(request, 'store/product_detail.html', context)
-
 
 def brands(request):
     """Brands listing page"""
@@ -431,6 +427,7 @@ def brand_models(request, brand_slug):
 def cart_view(request):
     cart = None
     cart_items = []
+    categories = Category.objects.filter(is_active=True)
 
     if request.user.is_authenticated:
         # 1. Foydalanuvchi uchun savatni olish yoki yaratish
@@ -449,6 +446,7 @@ def cart_view(request):
     context = {
         'cart': cart,
         'cart_items': cart_items,
+        'categories':categories
     }
     return render(request, 'store/cart.html', context)
 
@@ -456,6 +454,7 @@ def cart_view(request):
 def favorites(request):
     """User favorites view"""
     favorites = []
+    categories = Category.objects.filter(is_active=True)[:6]
 
     if request.user.is_authenticated:
         favorites = Favorite.objects.filter(user=request.user).order_by('-created_at')
@@ -469,6 +468,7 @@ def favorites(request):
 
     context = {
         'favorites': favorites,
+        'categories':categories
     }
 
     return render(request, 'store/favorites.html', context)

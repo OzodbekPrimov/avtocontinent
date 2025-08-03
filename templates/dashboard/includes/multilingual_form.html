@@ -1,0 +1,81 @@
+<!-- Multilingual Form Fields Template -->
+<div class="multilingual-form-container">
+    <style>
+        .multilingual-tabs {
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .multilingual-tabs .nav-link {
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .multilingual-tabs .nav-link.active {
+            border-bottom-color: #007bff;
+            color: #007bff;
+            background: none;
+        }
+        
+        .multilingual-content {
+            display: none;
+        }
+        
+        .multilingual-content.active {
+            display: block;
+        }
+        
+        .language-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e9ecef;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            color: #6c757d;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+    </style>
+    
+    <script>
+        function initMultilingualTabs() {
+            // Initialize multilingual tabs functionality
+            document.querySelectorAll('.multilingual-tab').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetLang = this.dataset.lang;
+                    const baseField = this.dataset.baseField;
+                    
+                    // Update active tab
+                    document.querySelectorAll(`.multilingual-tab[data-base-field="${baseField}"]`).forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update active content
+                    document.querySelectorAll(`.multilingual-content[data-base-field="${baseField}"]`).forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.querySelector(`.multilingual-content[data-base-field="${baseField}"][data-lang="${targetLang}"]`).classList.add('active');
+                });
+            });
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initMultilingualTabs);
+    </script>
+</div>
+
+<!-- Macro for rendering multilingual field group -->
+{% comment %}
+Usage in templates:
+{% include 'dashboard/includes/multilingual_form.html' %}
+{% render_multilingual_field form.name 'Mahsulot nomi' 'Product name' 'Название товара' %}
+{% endcomment %}

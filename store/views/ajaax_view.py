@@ -2,11 +2,22 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from functools import wraps
 
 from store.models import Product, ProductLike, Cart, CartItem, Favorite
+
+
+def store_login_required(view_func):
+    """Custom login_required decorator for store that redirects to store login"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('store:login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 
 def ajax_like_product(request):
@@ -162,7 +173,7 @@ def ajax_add_to_cart(request):
 
 
 @csrf_exempt
-@login_required
+@store_login_required
 def ajax_sync_cart(request):
     try:
         cart_data = json.loads(request.POST.get('cart', '{}'))
@@ -197,7 +208,7 @@ def ajax_sync_cart(request):
 
 
 @csrf_exempt
-@login_required
+@store_login_required
 def ajax_sync_favorites(request):
     try:
         favorites_data = json.loads(request.POST.get('favorites', '[]'))

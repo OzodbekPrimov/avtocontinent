@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from admin_thumbnails import thumbnail
 from .models import (
-    Category, SubCategory, Brand, CarModel, Product, ProductImage,
+    Category, Brand, CarModel, Product, ProductImage,
     ExchangeRate, Banner, UserProfile, TelegramAuth, ProductLike,
     ProductComment, Favorite, PaymentSettings, Order, OrderItem,
     Cart, CartItem
@@ -13,16 +13,28 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['name', 'description']
-    prepopulated_fields = {'slug': ('name',)}
     list_editable = ['is_active']
+    
+    def save_model(self, request, obj, form, change):
+        # Generate slug from name_uz if slug is empty
+        if not obj.slug and obj.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(obj.name_uz)
+            slug = base_slug
+            counter = 1
+            while Category.objects.filter(slug=slug).exclude(pk=obj.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            obj.slug = slug
+        super().save_model(request, obj, form, change)
 
-@admin.register(SubCategory)
-class SubCategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'slug', 'is_active', 'created_at']
-    list_filter = ['category', 'is_active', 'created_at']
-    search_fields = ['name', 'description']
-    prepopulated_fields = {'slug': ('name',)}
-    list_editable = ['is_active']
+# @admin.register(SubCategory)
+# class SubCategoryAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'category', 'slug', 'is_active', 'created_at']
+#     list_filter = ['category', 'is_active', 'created_at']
+#     search_fields = ['name', 'description']
+#     prepopulated_fields = {'slug': ('name',)}
+#     list_editable = ['is_active']
 
 from django.contrib import admin
 from django.utils.html import format_html
@@ -33,8 +45,20 @@ class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'logo_thumbnail', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['name', 'description']
-    prepopulated_fields = {'slug': ('name',)}
     list_editable = ['is_active']
+    
+    def save_model(self, request, obj, form, change):
+        # Generate slug from name_uz if slug is empty
+        if not obj.slug and obj.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(obj.name_uz)
+            slug = base_slug
+            counter = 1
+            while Brand.objects.filter(slug=slug).exclude(pk=obj.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            obj.slug = slug
+        super().save_model(request, obj, form, change)
 
     def logo_thumbnail(self, obj):
         if obj.logo:
@@ -44,11 +68,23 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(CarModel)
 class CarModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'brand', 'year_from', 'year_to', 'is_active', 'created_at']
+    list_display = ['name', 'brand',  'is_active', 'created_at']
     list_filter = ['brand', 'is_active', 'created_at']
-    search_fields = ['name', 'brand__name', 'engine_types']
-    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['name', 'brand__name']
     list_editable = ['is_active']
+    
+    def save_model(self, request, obj, form, change):
+        # Generate slug from name_uz if slug is empty
+        if not obj.slug and obj.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(obj.name_uz)
+            slug = base_slug
+            counter = 1
+            while CarModel.objects.filter(brand=obj.brand, slug=slug).exclude(pk=obj.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            obj.slug = slug
+        super().save_model(request, obj, form, change)
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -57,12 +93,24 @@ class ProductImageInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'sku', 'category', 'price_usd', 'price_uzs_display', 'stock_quantity', 'is_active', 'is_featured']
-    list_filter = ['category', 'subcategory', 'is_active', 'is_featured', 'created_at']
+    list_filter = ['category',  'is_active', 'is_featured', 'created_at']
     search_fields = ['name', 'sku', 'description']
-    prepopulated_fields = {'slug': ('name',)}
     list_editable = ['is_active', 'is_featured']
     filter_horizontal = ['compatible_models']
     inlines = [ProductImageInline]
+    
+    def save_model(self, request, obj, form, change):
+        # Generate slug from name_uz if slug is empty
+        if not obj.slug and obj.name_uz:
+            from django.utils.text import slugify
+            base_slug = slugify(obj.name_uz)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exclude(pk=obj.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            obj.slug = slug
+        super().save_model(request, obj, form, change)
 
     def price_uzs_display(self, obj):
         return f"{obj.price_uzs:,.0f} UZS"
@@ -83,7 +131,7 @@ class ExchangeRateAdmin(admin.ModelAdmin):
 class BannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image_thumbnail', 'is_active', 'order', 'created_at']
     list_filter = ['is_active', 'created_at']
-    search_fields = ['title', 'description']
+    search_fields = ['title',]
     list_editable = ['is_active', 'order']
 
     def image_thumbnail(self, obj):
