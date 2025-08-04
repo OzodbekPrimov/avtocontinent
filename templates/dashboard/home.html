@@ -1,5 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
+{% load humanize %}
 
 {% block title %}Dashboard - Avtokontinent.uz{% endblock %}
 {% block page_title %}Dashboard Overview{% endblock %}
@@ -18,7 +19,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="text-muted mb-1">Total Products</h6>
-                        <h3 class="mb-0 fw-bold">{{ total_products|floatformat:0 }}</h3>
+                        <h3 class="mb-0 fw-bold">{{ total_products|intcomma }}</h3>
                         <small class="text-success">
                             <i class="fas fa-arrow-up"></i> Active products
                         </small>
@@ -39,7 +40,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="text-muted mb-1">Total Orders</h6>
-                        <h3 class="mb-0 fw-bold">{{ total_orders|floatformat:0 }}</h3>
+                        <h3 class="mb-0 fw-bold">{{ total_orders|intcomma }}</h3>
                         <small class="text-info">
                             <i class="fas fa-clock"></i> All time
                         </small>
@@ -60,9 +61,9 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="text-muted mb-1">Total Users</h6>
-                        <h3 class="mb-0 fw-bold">{{ total_users|floatformat:0 }}</h3>
+                        <h3 class="mb-0 fw-bold">{{ total_users|intcomma }}</h3>
                         <small class="text-success">
-                            <i class="fas fa-plus"></i> {{ recent_users }} this week
+                            <i class="fas fa-plus"></i> {{ recent_users|intcomma }} this week
                         </small>
                     </div>
                 </div>
@@ -81,9 +82,9 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="text-muted mb-1">Total Revenue</h6>
-                        <h3 class="mb-0 fw-bold">{{ total_revenue|floatformat:0 }} UZS</h3>
+                        <h3 class="mb-0 fw-bold">{{ total_revenue|floatformat:0|intcomma }} UZS</h3>
                         <small class="text-success">
-                            <i class="fas fa-arrow-up"></i> {{ recent_revenue|floatformat:0 }} this week
+                            <i class="fas fa-arrow-up"></i> {{ recent_revenue|floatformat:0|intcomma }} this week
                         </small>
                     </div>
                 </div>
@@ -154,7 +155,7 @@
                                     </a>
                                 </td>
                                 <td>{{ order.customer_name }}</td>
-                                <td>{{ order.total_amount_uzs|floatformat:0 }} UZS</td>
+                                <td>{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</td>
                                 <td>
                                     <span class="badge bg-{% if order.status == 'pending' %}warning{% elif order.status == 'confirmed' %}info{% elif order.status == 'delivered' %}success{% elif order.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
                                         {{ order.get_status_display }}
@@ -209,9 +210,9 @@
                                 <small class="text-muted">{{ product.category.name }}</small>
                             </div>
                             <div class="flex-shrink-0 text-end">
-                                <span class="badge bg-primary">{{ product.order_count }} orders</span>
+                                <span class="badge bg-primary">{{ product.order_count|intcomma }} orders</span>
                                 <br>
-                                <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
+                                <small class="text-muted">{{ product.price_uzs|floatformat:0|intcomma }} UZS</small>
                             </div>
                         </div>
                     </div>

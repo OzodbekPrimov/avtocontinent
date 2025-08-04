@@ -1,10 +1,21 @@
 {% extends 'dashboard/base.html' %}
+{% load humanize %}
 
 {% block title %}Analytics - Dashboard{% endblock %}
 
 {% block page_title %}Analytics{% endblock %}
 
 {% block content %}
+<script>
+// Debug user stats
+console.log('User Stats:', {
+    total_users: {{ user_stats.total_users|default:0 }},
+    active_users: {{ user_stats.active_users|default:0 }},
+    new_users_this_month: {{ user_stats.new_users_this_month|default:0 }},
+    users_with_orders: {{ user_stats.users_with_orders|default:0 }}
+});
+</script>
+
 <!-- User Stats -->
 <div class="stats-grid mb-4">
     <div class="stat-card">
@@ -14,7 +25,7 @@
                 <i class="fas fa-users"></i>
             </div>
         </div>
-        <div class="stat-value">{{ user_stats.total_users }}</div>
+        <div class="stat-value">{{ user_stats.total_users|default:"0"|intcomma }}</div>
         <div class="stat-change">All registered users</div>
     </div>
     
@@ -25,7 +36,7 @@
                 <i class="fas fa-user-check"></i>
             </div>
         </div>
-        <div class="stat-value">{{ user_stats.active_users }}</div>
+        <div class="stat-value">{{ user_stats.active_users|default:"0"|intcomma }}</div>
         <div class="stat-change">Active in last 30 days</div>
     </div>
     
@@ -36,7 +47,7 @@
                 <i class="fas fa-user-plus"></i>
             </div>
         </div>
-        <div class="stat-value">{{ user_stats.new_users_this_month }}</div>
+        <div class="stat-value">{{ user_stats.new_users_this_month|default:"0"|intcomma }}</div>
         <div class="stat-change">This month</div>
     </div>
     
@@ -47,7 +58,7 @@
                 <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
-        <div class="stat-value">{{ user_stats.users_with_orders }}</div>
+        <div class="stat-value">{{ user_stats.users_with_orders|default:"0"|intcomma }}</div>
         <div class="stat-change">Conversion rate</div>
     </div>
 </div>
@@ -60,7 +71,7 @@
                 <h5 class="card-title">Daily Sales (Last 30 Days)</h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
+                <div class="chart-container" style="min-height: 400px;">
                     <canvas id="dailySalesChart"></canvas>
                 </div>
             </div>
@@ -76,25 +87,38 @@
                 <h5 class="card-title">Top Products by Revenue</h5>
             </div>
             <div class="card-body">
+                <script>
+                console.log('Product Performance Count:', {{ product_performance|length }});
+                </script>
                 {% for product in product_performance %}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                        {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name_uz|default:product.name }}" 
                              class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                        {% else %}
+                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light" 
+                             style="width: 40px; height: 40px;">
+                            <i class="fas fa-image text-muted"></i>
+                        </div>
+                        {% endif %}
                         <div>
-                            <div class="fw-semibold">{{ product.name|truncatechars:25 }}</div>
+                            <div class="fw-semibold">{{ product.name_uz|default:product.name|truncatechars:25 }}</div>
                             <small class="text-muted">
-                                {{ product.order_count }} orders • 
-                                {{ product.like_count }} likes
+                                {{ product.order_count|intcomma }} orders • 
+                                {{ product.likes_count|intcomma }} likes
                             </small>
                         </div>
                     </div>
                     <div class="text-end">
-                        <div class="fw-semibold">{{ product.revenue|floatformat:0 }} UZS</div>
+                        <div class="fw-semibold">{{ product.revenue|default:0|floatformat:0|intcomma }} UZS</div>
                     </div>
                 </div>
                 {% empty %}
-                <p class="text-muted">No sales data available</p>
+                <div class="empty-state">
+                    <i class="fas fa-box"></i>
+                    <p>No sales data available</p>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -107,11 +131,14 @@
                 <h5 class="card-title">Category Performance</h5>
             </div>
             <div class="card-body">
+                <script>
+                console.log('Category Performance Count:', {{ category_performance|length }});
+                </script>
                 {% for category in category_performance %}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
                         {% if category.image %}
-                        <img src="{{ category.image.url }}" alt="{{ category.name }}" 
+                        <img src="{{ category.image.url }}" alt="{{ category.name_uz|default:category.name }}" 
                              class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
                         {% else %}
                         <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light" 
@@ -120,19 +147,22 @@
                         </div>
                         {% endif %}
                         <div>
-                            <div class="fw-semibold">{{ category.name }}</div>
+                            <div class="fw-semibold">{{ category.name_uz|default:category.name }}</div>
                             <small class="text-muted">
-                                {{ category.product_count }} products • 
-                                {{ category.order_count }} orders
+                                {{ category.products_count|intcomma }} products • 
+                                {{ category.order_count|intcomma }} orders
                             </small>
                         </div>
                     </div>
                     <div class="text-end">
-                        <div class="fw-semibold">{{ category.revenue|floatformat:0 }} UZS</div>
+                        <div class="fw-semibold">{{ category.revenue|default:0|floatformat:0|intcomma }} UZS</div>
                     </div>
                 </div>
                 {% empty %}
-                <p class="text-muted">No category data available</p>
+                <div class="empty-state">
+                    <i class="fas fa-tags"></i>
+                    <p>No category data available</p>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -142,10 +172,22 @@
 
 {% block extra_js %}
 <script>
+// Check if Chart.js is loaded
+if (typeof Chart === 'undefined') {
+    console.error('Chart.js is not loaded!');
+    document.getElementById('dailySalesChart').parentElement.innerHTML = '<p class="text-danger text-center">Chart.js failed to load. Please refresh the page.</p>';
+} else {
+    console.log('Chart.js loaded successfully');
+}
+
 // Daily Sales Chart
 const dailySalesData = {{ daily_sales|safe }};
-const salesCtx = document.getElementById('dailySalesChart').getContext('2d');
-new Chart(salesCtx, {
+console.log('Daily Sales Data:', dailySalesData);
+
+// Check if we have data
+if (dailySalesData && dailySalesData.length > 0) {
+    const salesCtx = document.getElementById('dailySalesChart').getContext('2d');
+    new Chart(salesCtx, {
     type: 'line',
     data: {
         labels: dailySalesData.map(item => {
@@ -223,5 +265,9 @@ new Chart(salesCtx, {
         }
     }
 });
+} else {
+    console.log('No sales data available');
+    document.getElementById('dailySalesChart').parentElement.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><p>No sales data available for the last 30 days</p></div>';
+}
 </script>
 {% endblock %}

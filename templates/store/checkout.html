@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
+{% load humanize %}
 
 {% block title %}{% trans "Checkout - Avtokontinent.uz" %}{% endblock %}
 
@@ -71,13 +71,13 @@
                     {% for item in cart.items.all %}
                     <div class="d-flex justify-content-between mb-2">
                         <span>{{ item.product.name }} x{{ item.quantity }}</span>
-                        <span>{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</span>
+                        <span>{{ item.total_price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</span>
                     </div>
                     {% endfor %}
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
                         <strong>{% trans "Total:" %}</strong>
-                        <strong>{{ cart.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</strong>
+                        <strong>{{ cart.total_price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</strong>
                     </div>
 
                     {% if payment_settings %}

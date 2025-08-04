@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load humanize %}
 
 {% block title %}{% trans "Products - Avtokontinent.uz" %}{% endblock %}
 
@@ -76,7 +77,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3"> {# Reduced margin #}
                 <div>
                     <h4 class="fs-5">{% trans "Products" %}</h4> {# Smaller heading for mobile #}
-                    <small class="text-muted" style="font-size: 0.8rem;">{{ page_obj.paginator.count }} {% trans "results found" %}</small>
+                    <small class="text-muted" style="font-size: 0.8rem;">{{ page_obj.paginator.count|intcomma }} {% trans "results found" %}</small>
                 </div>
                 <div>
                     <select class="form-select form-select-sm" id="sortSelect" onchange="sortProducts()"> {# Added form-select-sm #}
@@ -131,9 +132,9 @@
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <div class="price" style="font-size: 0.9rem; font-weight: bold;">{{ product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
+                                    <div class="price" style="font-size: 0.9rem; font-weight: bold;">{{ product.price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</div>
                                     <small class="text-muted" style="font-size: 0.65rem;">
-                                        <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count }}</span>
+                                        <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count|intcomma }}</span>
                                     </small>
                                 </div>
                                 <div class="d-flex gap-1">

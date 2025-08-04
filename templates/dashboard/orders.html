@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load humanize %}
 
 {% block title %}Orders Management - Dashboard{% endblock %}
 
@@ -100,8 +101,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <div class="fw-semibold">{{ order.total_amount_uzs|floatformat:0 }} UZS</div>
-                            <small class="text-muted">${{ order.total_amount_usd }}</small>
+                                                    <div class="fw-semibold">{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</div>
+                        <small class="text-muted">${{ order.total_amount_usd|floatformat:0|intcomma }}</small>
                         </td>
                         <td>
                             <div>{{ order.created_at|date:"M d, Y" }}</div>

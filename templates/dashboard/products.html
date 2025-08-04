@@ -1,5 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
+{% load humanize %}
 
 {% block title %}Products Management - Dashboard{% endblock %}
 {% block page_title %}Products Management{% endblock %}
@@ -106,12 +107,12 @@
                             {{ product.category.name_uz|default:product.category.name }}
                         </td>
                         <td>
-                            <div class="fw-semibold">${{ product.price_usd }}</div>
-                            <small class="text-muted">{{ product.price_uzs|floatformat:0 }} UZS</small>
+                            <div class="fw-semibold">${{ product.price_usd|floatformat:0|intcomma }}</div>
+                            <small class="text-muted">{{ product.price_uzs|floatformat:0|intcomma }} UZS</small>
                         </td>
                         <td>
                             {% if product.stock_quantity > 0 %}
-                                <span class="badge bg-success">{{ product.stock_quantity }}</span>
+                                <span class="badge bg-success">{{ product.stock_quantity|intcomma }}</span>
                             {% else %}
                                 <span class="badge bg-danger">Out of Stock</span>
                             {% endif %}

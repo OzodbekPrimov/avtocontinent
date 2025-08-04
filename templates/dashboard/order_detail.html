@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load humanize %}
 
 {% block title %}Buyurtma #{{ order.order_id }} - Dashboard{% endblock %}
 
@@ -136,8 +137,8 @@
                                 </td>
                                 <td>{{ item.quantity }}</td>
                                 <td>
-                                    <div class="fw-bold">${{ item.total_price_usd }}</div>
-                                    <small class="text-muted">{{ item.total_price_uzs|floatformat:0 }} UZS</small>
+                                    <div class="fw-bold">${{ item.total_price_usd|floatformat:0|intcomma }}</div>
+                                    <small class="text-muted">{{ item.total_price_uzs|floatformat:0|intcomma }} UZS</small>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -146,8 +147,8 @@
                             <tr>
                                 <th colspan="3" class="text-end">Jami:</th>
                                 <th>
-                                    <div class="fw-bold">${{ order.total_amount_usd }}</div>
-                                    <small class="text-muted">{{ order.total_amount_uzs|floatformat:0 }} UZS</small>
+                                    <div class="fw-bold">${{ order.total_amount_usd|floatformat:0|intcomma }}</div>
+                                    <small class="text-muted">{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</small>
                                 </th>
                             </tr>
                         </tfoot>
