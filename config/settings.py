@@ -80,29 +80,11 @@ DATABASES = {
         'NAME': 'avto',
         'USER': 'postgres',
         'PASSWORD': 'ozodbek2006',
-        'HOST': '127.0.0.1',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'INFO',
-#             'class': 'logging.FileHandler',
-#             'filename': 'debug.log',
-#         },
-#     },
-#     'loggers': {
-#         '': {
-#             'handlers': ['file'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#     },
-# }
 
 
 # Password validation
@@ -173,8 +155,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 86400  # 24 hours
 SESSION_SAVE_EVERY_REQUEST = True
 
-# Authentication settings - Removed global settings to avoid conflicts
-# Each app will handle its own authentication redirects
+
 
 # Email configuration (for production)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
