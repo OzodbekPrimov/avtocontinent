@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'admin_thumbnails',
-    'django_elasticsearch_dsl',
 
 ]
 
@@ -80,7 +79,7 @@ DATABASES = {
         'NAME': 'avto',
         'USER': 'postgres',
         'PASSWORD': 'ozodbek2006',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -203,20 +202,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 # # Celery sozlamalari
-# CELERY_BROKER_URL ='amqp://guest:guest@rabbitmq:5672/'
-# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'Asia/Tashkent'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 
 
-# Elasticsearch sozlamalari
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'http://localhost:9201'  # 9201-portga moslashtirildi
-    },
-}
 
 

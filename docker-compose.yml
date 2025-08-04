@@ -1,23 +1,129 @@
+
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: avto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ozodbek2006
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d avto"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   django:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_HOST=postgres
+      - DB_NAME=avto
+      - DB_USER=postgres
+      - DB_PASSWORD=ozodbek2006
+      - DB_PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app_network
+    restart: unless-stopped
 
   bot:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: python bot.py
     volumes:
       - .:/app
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_HOST=postgres
+      - DB_NAME=avto
+      - DB_USER=postgres
+      - DB_PASSWORD=ozodbek2006
+      - DB_PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      django:
+        condition: service_started
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A config worker --loglevel=info --concurrency=2
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_HOST=postgres
+      - DB_NAME=avto
+      - DB_USER=postgres
+      - DB_PASSWORD=ozodbek2006
+      - DB_PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      django:
+        condition: service_started
+    networks:
+      - app_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
 
 networks:
   app_network:
