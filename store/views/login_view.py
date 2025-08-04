@@ -14,6 +14,39 @@ from django.contrib.auth import logout
 from django.contrib import messages
 
 
+def cleanup_expired_telegram_auth():
+    """
+    Muddati tugagan va ishlatilgan TelegramAuth yozuvlarini o'chirish
+    """
+    now = timezone.now()
+
+    # Muddati tugagan yozuvlarni o'chirish
+    expired_count = TelegramAuth.objects.filter(expires_at__lt=now).count()
+    TelegramAuth.objects.filter(expires_at__lt=now).delete()
+
+    # Ishlatilgan va 1 soatdan eski yozuvlarni o'chirish
+    # Agar created_at fieldi mavjud bo'lsa
+    try:
+        used_count = TelegramAuth.objects.filter(
+            is_used=True,
+            created_at__lt=now - timezone.timedelta(hours=1)
+        ).count()
+        TelegramAuth.objects.filter(
+            is_used=True,
+            created_at__lt=now - timezone.timedelta(hours=1)
+        ).delete()
+    except:
+        # Agar created_at fieldi mavjud bo'lmasa, faqat is_used=True bo'lganlarni o'chirish
+        used_count = TelegramAuth.objects.filter(is_used=True).count()
+        TelegramAuth.objects.filter(is_used=True).delete()
+
+    total_deleted = expired_count + used_count
+    if total_deleted > 0:
+        print(f"🧹 Tozalash: {expired_count} muddati tugagan, {used_count} ishlatilgan yozuv o'chirildi")
+
+    return total_deleted
+
+
 def merge_session_data_to_user(request, user):
     session_key = request.session.session_key
     print("🔄 merge_session_data_to_user ishlayapti")
@@ -70,9 +103,72 @@ def merge_session_data_to_user(request, user):
 
 
 @csrf_exempt
+def telegram_callback(request):
+    if request.method == "GET":
+        session_token = request.GET.get("token")
+        code = request.GET.get("code")
+
+        if not session_token or not code:
+            return JsonResponse({"success": False, "message": "Token yoki kod topilmadi."}, status=400)
+
+        try:
+            auth = TelegramAuth.objects.get(
+                session_token=session_token,
+                code=code,
+                is_used=False
+            )
+
+            if auth.is_expired:
+                return JsonResponse({"success": False, "message": "Kod muddati o'tgan."}, status=400)
+
+            phone_number = auth.phone_number
+            username = re.sub(r'\D', '', phone_number)
+            if len(username) > 30:
+                username = username[-30:]
+
+            user, created = User.objects.get_or_create(
+                username=username,
+                defaults={
+                    'email': f'{username}@example.com',
+                    'first_name': 'Foydalanuvchi'
+                }
+            )
+
+            profile, profile_created = UserProfile.objects.get_or_create(
+                user=user,
+                defaults={
+                    'phone_number': phone_number,
+                    'is_phone_verified': True,
+                    'telegram_chat_id': auth.chat_id
+                }
+            )
+
+            # Muvaffaqiyatli autentifikatsiya
+            auth.is_used = True
+            auth.save()
+
+            # Django sessionga login qilish
+            if not request.session.session_key:
+                request.session.create()
+            request.session.save()
+            auth_login(request, user)
+
+            # Session ma'lumotlarini foydalanuvchiga ko'chirish
+            merge_session_data_to_user(request, user)
+
+            # Dashboardga yo'naltirish
+            return redirect('home')  # 'dashboard' o'rniga o'z URL nomingizni qo'ying
+
+        except TelegramAuth.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Noto'g'ri kod yoki sessiya."}, status=400)
+
+    return JsonResponse({"success": False, "message": "Noto'g'ri so'rov turi."}, status=400)
+
+
+@csrf_exempt
 def verify_code(request):
     if request.method != "POST":
-        return JsonResponse({"success": False, "message": "Notog'ri so'rov"})
+        return JsonResponse({"success": False, "message": "Noto'g'ri so'rov"})
 
     data = json.loads(request.body)
     code = data.get("code")
@@ -87,8 +183,6 @@ def verify_code(request):
             code=code,
             is_used=False
         )
-
-        tg_chat_id = auth.chat_id
 
         if auth.is_expired:
             return JsonResponse({"success": False, "message": "Kod muddati o'tgan."})
@@ -111,7 +205,7 @@ def verify_code(request):
             defaults={
                 'phone_number': phone_number,
                 'is_phone_verified': True,
-                'telegram_chat_id':tg_chat_id
+                'telegram_chat_id': auth.chat_id
             }
         )
 
@@ -119,15 +213,11 @@ def verify_code(request):
         auth.is_used = True
         auth.save()
 
-        # 🔥 MUHIM: session_key ni doimiy qilish
         if not request.session.session_key:
-            request.session.create()  # session_key yaratish
-        request.session.save()  # ✅ sessionni saqlash
-
-        # Django sessionga login qilish
+            request.session.create()
+        request.session.save()
         auth_login(request, user)
 
-        # 🔥 SESSIONDAGI MA'LUMOTLARNI Foydalanuvchiga KO'CHIRISH
         merge_session_data_to_user(request, user)
 
         return JsonResponse({"success": True, "message": "Kirish amalga oshirildi!"})
@@ -135,7 +225,11 @@ def verify_code(request):
     except TelegramAuth.DoesNotExist:
         return JsonResponse({"success": False, "message": "Noto'g'ri kod."})
 
+
 def login_request(request):
+    # Avval eski va keraksiz yozuvlarni tozalash
+    cleanup_expired_telegram_auth()
+
     # 6 belgi: login_a1b2c3 (jami 12 belgi)
     session_token = "login_" + secrets.token_hex(3)  # login_ + 6 hex → 12 belgi
     categories = Category.objects.filter(is_active=True)[:6]
@@ -152,7 +246,7 @@ def login_request(request):
 
     return render(request, 'store/login.html', {
         'telegram_link': start_link,
-        'categories':categories
+        'categories': categories
     })
 
 

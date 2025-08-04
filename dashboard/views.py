@@ -543,7 +543,7 @@ def model_delete(request, model_id):
 def categories_management(request):
     """Categories management page"""
     categories = Category.objects.annotate(
-        product_count=Count('product'),
+        products_count=Count('product'),
     ).order_by('name_uz')
 
     # Search
@@ -936,7 +936,7 @@ def analytics(request):
 
     # Category performance
     category_performance = Category.objects.annotate(
-        product_count=Count('product'),
+        products_count=Count('product'),
         order_count=Count('product__orderitem'),
         revenue=Sum('product__orderitem__price_uzs')
     ).filter(order_count__gt=0).order_by('-revenue')

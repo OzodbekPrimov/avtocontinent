@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     # path("save-auth/", views.save_auth, name="save_auth"),
     path("verify-code/", views.verify_code, name="verify_code"),
+    path('auth/telegram/callback/', views.telegram_callback, name='telegram_callback'),
 
     # Cart and Orders
     path('cart/', views.cart_view, name='cart'),

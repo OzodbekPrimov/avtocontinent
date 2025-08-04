@@ -37,6 +37,11 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 
+    @property
+    def product_count(self):
+        return self.product.count()
+
+
 # class SubCategory(models.Model):
 #     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
 #     name = models.CharField(max_length=100)
@@ -126,7 +131,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     sku = models.CharField(max_length=100, unique=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='product')
     # subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, blank=True, null=True)
     compatible_models = models.ManyToManyField('CarModel', related_name='products')
     description = RichTextField()

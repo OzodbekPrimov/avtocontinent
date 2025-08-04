@@ -399,7 +399,7 @@ def brand_models(request, brand_slug):
     elif sort_by == 'newest':
         products = products.order_by('-created_at')
     elif sort_by == 'popular':
-        products = products.annotate(like_count=Count('likes')).order_by('-like_count')
+        products = products.annotate(likes_count=Count('likes')).order_by('-likes_count')
     else:
         products = products.order_by('name')
 

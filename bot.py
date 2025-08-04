@@ -72,8 +72,7 @@ async def handle_contact(message: types.Message):
     phone = message.contact.phone_number
     chat_id = message.chat.id
 
-
-
+    # Session tokenni olish
     text = message.text
     if text and text.startswith("/start "):
         args = text.split(" ")[1]
@@ -94,7 +93,6 @@ async def handle_contact(message: types.Message):
             await message.answer("Sessiya topilmadi.")
             return
     else:
-        # Agar token bo'lmasa, oxirgi faol sessiyani topamiz
         try:
             pending = await sync_to_async(
                 lambda: TelegramAuth.objects.filter(
@@ -111,19 +109,25 @@ async def handle_contact(message: types.Message):
             await message.answer("Xatolik yuz berdi.")
             return
 
-    # Kod yaratish
+    # Tasdiqlash kodi yaratish
     import random
     code = str(random.randint(1000, 9999))
 
-    # Yangilash
+    # Login URL yaratish
+    login_url = f"http://127.0.0.1:8000/auth/telegram/callback/?token={session_token}&code={code}"
+
+    # TelegramAuth modelini yangilash
     pending.phone_number = phone
     pending.chat_id = chat_id
     pending.code = code
     pending.expires_at = timezone.now() + timezone.timedelta(minutes=1)
     await sync_to_async(pending.save)()
 
+    # Xabar va URL yuborish
     await message.answer(
-        f"🔐 Tasdiqlash kodingiz: `{code}`\n\n⏳ Kod 1 daqiqa amal qiladi.",
+        f"🔐 Tasdiqlash kodingiz: `{code}`\n\n"
+        f"⏳ Kod 1 daqiqa amal qiladi.\n\n"
+        f"👉 Kirish uchun: [Bu yerga bosing]({login_url})",
         parse_mode="Markdown",
         reply_markup=ReplyKeyboardRemove()
     )
