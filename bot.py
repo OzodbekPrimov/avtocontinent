@@ -114,7 +114,7 @@ async def handle_contact(message: types.Message):
     code = str(random.randint(1000, 9999))
 
     # Login URL yaratish
-    login_url = f"http://127.0.0.1:8000/auth/telegram/callback/?token={session_token}&code={code}"
+    login_url = f"{settings.SITE_URL}/auth/telegram/callback/?token={session_token}&code={code}"
 
     # TelegramAuth modelini yangilash
     pending.phone_number = phone
