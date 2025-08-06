@@ -1,22 +1,22 @@
 {% extends 'dashboard/base.html' %}
 {% load humanize %}
 
-{% block title %}Orders Management - Dashboard{% endblock %}
+{% block title %}Управление заказами - Панель управления{% endblock %}
 
-{% block page_title %}Orders Management{% endblock %}
+{% block page_title %}Управление заказами{% endblock %}
 
 {% block content %}
-<!-- Filters -->
+<!-- Фильтры -->
 <div class="card mb-4">
     <div class="card-body">
         <form method="get" class="row g-3">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="search" 
-                       placeholder="Search orders..." value="{{ search_query }}">
+                <input type="text" class="form-control" name="search"
+                       placeholder="Поиск заказов..." value="{{ search_query }}">
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="status">
-                    <option value="">All Status</option>
+                    <option value="">Все статусы</option>
                     {% for status_key, status_label in order_status_choices %}
                     <option value="{{ status_key }}" {% if status_filter == status_key %}selected{% endif %}>
                         {{ status_label }}
@@ -26,37 +26,37 @@
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="payment">
-                    <option value="">All Payments</option>
-                    <option value="confirmed" {% if payment_filter == 'confirmed' %}selected{% endif %}>Confirmed</option>
-                    <option value="pending" {% if payment_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="">Все платежи</option>
+                    <option value="confirmed" {% if payment_filter == 'confirmed' %}selected{% endif %}>Подтвержден</option>
+                    <option value="pending" {% if payment_filter == 'pending' %}selected{% endif %}>Ожидает</option>
                 </select>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="fas fa-search"></i> Filter
+                    <i class="fas fa-search"></i> Фильтр
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Orders Table -->
+<!-- Таблица заказов -->
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">Orders ({{ page_obj.paginator.count }})</h5>
+        <h5 class="card-title mb-0">Заказы ({{ page_obj.paginator.count }})</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Payment</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>№ Заказа</th>
+                        <th>Клиент</th>
+                        <th>Статус</th>
+                        <th>Оплата</th>
+                        <th>Сумма</th>
+                        <th>Дата</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,26 +92,26 @@
                         <td>
                             {% if order.payment_confirmed %}
                                 <span class="badge bg-success text-white">
-                                    <i class="fas fa-check"></i> Confirmed
+                                    <i class="fas fa-check"></i> Подтвержден
                                 </span>
                             {% else %}
                                 <span class="badge bg-warning text-dark">
-                                    <i class="fas fa-clock"></i> Pending
+                                    <i class="fas fa-clock"></i> Ожидает
                                 </span>
                             {% endif %}
                         </td>
                         <td>
-                                                    <div class="fw-semibold">{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</div>
-                        <small class="text-muted">${{ order.total_amount_usd|floatformat:0|intcomma }}</small>
+                            <div class="fw-semibold">{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</div>
+                            <small class="text-muted">${{ order.total_amount_usd|floatformat:0|intcomma }}</small>
                         </td>
                         <td>
-                            <div>{{ order.created_at|date:"M d, Y" }}</div>
+                            <div>{{ order.created_at|date:"d M Y" }}</div>
                             <small class="text-muted">{{ order.created_at|time:"H:i" }}</small>
                         </td>
                         <td>
                             <a href="{% url 'dashboard:order_detail' order.order_id %}"
                                class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i> View
+                                <i class="fas fa-eye"></i> Просмотр
                             </a>
                         </td>
                     </tr>
@@ -119,7 +119,7 @@
                     <tr>
                         <td colspan="7" class="text-center text-muted py-4">
                             <i class="fas fa-shopping-cart fa-2x mb-2"></i>
-                            <div>No orders found</div>
+                            <div>Заказы не найдены</div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -127,9 +127,9 @@
             </table>
         </div>
 
-        <!-- Pagination -->
+        <!-- Пагинация -->
         {% if page_obj.has_other_pages %}
-        <nav aria-label="Page navigation" class="mt-4">
+        <nav aria-label="Навигация по страницам" class="mt-4">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
@@ -164,7 +164,7 @@
     </div>
 </div>
 
-<!-- Custom CSS for additional styling -->
+<!-- Пользовательские стили -->
 <style>
 .badge {
     font-size: 0.75rem;

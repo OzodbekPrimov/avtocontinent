@@ -63,43 +63,64 @@ def merge_session_data_to_user(request, user):
         user_cart, created = Cart.objects.get_or_create(user=user)
         print("Foydalanuvchi savati:", user_cart.id, "Yaratilganmi:", created)
 
+        # Merge cart items with better error handling
+        items_merged = 0
         for item in session_cart.items.all():
-            cart_item, item_created = CartItem.objects.get_or_create(
-                cart=user_cart,
-                product=item.product,
-                defaults={'quantity': item.quantity}
-            )
-            if not item_created:
-                cart_item.quantity += item.quantity
-                if cart_item.quantity > item.product.stock_quantity:
-                    cart_item.quantity = item.product.stock_quantity
-                cart_item.save()
-                print(f"🔄 {item.product.name} miqdori yangilandi: {cart_item.quantity}")
-            else:
-                print(f"✅ {item.product.name} foydalanuvchi savatiga qo'shildi")
+            try:
+                cart_item, item_created = CartItem.objects.get_or_create(
+                    cart=user_cart,
+                    product=item.product,
+                    defaults={'quantity': item.quantity}
+                )
+                if not item_created:
+                    # If item already exists, add quantities but respect stock limits
+                    new_quantity = cart_item.quantity + item.quantity
+                    if new_quantity > item.product.stock_quantity:
+                        new_quantity = item.product.stock_quantity
+                    cart_item.quantity = new_quantity
+                    cart_item.save()
+                    print(f"🔄 {item.product.name} miqdori yangilandi: {cart_item.quantity}")
+                else:
+                    print(f"✅ {item.product.name} foydalanuvchi savatiga qo'shildi")
+                items_merged += 1
+            except Exception as e:
+                print(f"❌ Xatolik: {item.product.name} ni qo'shishda xatolik: {e}")
+                continue
 
+        # Delete session cart only after successful merge
         session_cart.delete()
-        print("🗑️ Session savati o'chirildi")
+        print(f"🗑️ Session savati o'chirildi. {items_merged} ta mahsulot ko'chirildi")
 
-        # Sevimlilarni ko'chirish
+        # Merge favorites with better error handling
+        favorites_merged = 0
         session_favorites = request.session.get('favorites', [])
         for product_id in session_favorites:
             try:
                 product = Product.objects.get(pk=product_id)
-                Favorite.objects.get_or_create(user=user, product=product)
+                favorite, created = Favorite.objects.get_or_create(user=user, product=product)
+                if created:
+                    favorites_merged += 1
+                    print(f"❤️ {product.name} sevimlilarga qo'shildi")
             except Product.DoesNotExist:
+                print(f"❌ Mahsulot topilmadi: ID {product_id}")
+                continue
+            except Exception as e:
+                print(f"❌ Xatolik: sevimlilarga qo'shishda xatolik: {e}")
                 continue
 
+        # Clear session favorites
         request.session['favorites'] = []
         request.session.modified = True
-        print("✅ Sessiya tozalandi")
+        print(f"✅ Sessiya tozalandi. {favorites_merged} ta sevimli ko'chirildi")
 
     except Cart.DoesNotExist:
         print("❌ Session savati topilmadi")
-        # Barcha session_keylarni ko'rish (debug uchun)
+        # Debug: show all session carts
         print("Barcha session_keylar:")
         for c in Cart.objects.filter(user=None):
             print(f"ID: {c.id}, session_key: {c.session_key}")
+    except Exception as e:
+        print(f"❌ Umumiy xatolik merge_session_data_to_user da: {e}")
 
 
 @csrf_exempt
@@ -156,8 +177,7 @@ def telegram_callback(request):
             # Session ma'lumotlarini foydalanuvchiga ko'chirish
             merge_session_data_to_user(request, user)
 
-            # Dashboardga yo'naltirish
-            return redirect('home')  # 'dashboard' o'rniga o'z URL nomingizni qo'ying
+            return redirect('home')
 
         except TelegramAuth.DoesNotExist:
             return JsonResponse({"success": False, "message": "Noto'g'ri kod yoki sessiya."}, status=400)
@@ -220,7 +240,21 @@ def verify_code(request):
 
         merge_session_data_to_user(request, user)
 
-        return JsonResponse({"success": True, "message": "Kirish amalga oshirildi!"})
+        # Get updated cart and favorites count after merging
+        try:
+            user_cart = Cart.objects.get(user=user)
+            cart_total = user_cart.total_items
+        except Cart.DoesNotExist:
+            cart_total = 0
+
+        favorites_count = Favorite.objects.filter(user=user).count()
+
+        return JsonResponse({
+            "success": True, 
+            "message": "Kirish amalga oshirildi!",
+            "cart_total": cart_total,
+            "favorites_count": favorites_count
+        })
 
     except TelegramAuth.DoesNotExist:
         return JsonResponse({"success": False, "message": "Noto'g'ri kod."})

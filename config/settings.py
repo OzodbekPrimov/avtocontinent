@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'avto',
         'USER': 'postgres',
         'PASSWORD': 'ozodbek2006',
-        'HOST': 'postgres',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -123,7 +123,7 @@ LOCALE_PATHS = [
 
 
 # Modeltranslation sozlamalari
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'  # Asosiy til
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'  # Asosiy til
 MODELTRANSLATION_LANGUAGES = ('uz', 'en', 'ru')
 
 # Static files (CSS, JavaScript, Images)

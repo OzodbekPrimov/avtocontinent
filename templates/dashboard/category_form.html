@@ -1,7 +1,7 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
-{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block title %}{{ title }} - Панель управления{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 
 {% block content %}
@@ -19,22 +19,22 @@
                     {% csrf_token %}
 
                     <div class="row">
-                        <!-- Main Content Column -->
+                        <!-- Основная колонка -->
                         <div class="col-lg-8">
-                            <!-- Name Fields -->
+                            <!-- Поля названий -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-heading me-2"></i>
-                                        Kategoriya Nomi
+                                        Название категории
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Uzbek Name -->
+                                    <!-- Узбекское название -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_uz.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Nomi (Oʻzbekcha)
+                                            Название (Узбекский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -42,7 +42,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_uz.id_for_label }}"
                                                    name="{{ form.name_uz.name }}" value="{{ form.name_uz.value|default:'' }}"
-                                                   placeholder="O'zbekcha nom kiriting" required>
+                                                   placeholder="Введите название на узбекском" required>
                                         </div>
                                         {% if form.name_uz.errors %}
                                             <div class="invalid-feedback d-block">
@@ -53,11 +53,11 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Russian Name -->
+                                    <!-- Русское название -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_ru.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Nomi (Ruscha)
+                                            Название (Русский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -65,7 +65,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_ru.id_for_label }}"
                                                    name="{{ form.name_ru.name }}" value="{{ form.name_ru.value|default:'' }}"
-                                                   placeholder="Ruscha nom kiriting" required>
+                                                   placeholder="Введите название на русском" required>
                                         </div>
                                         {% if form.name_ru.errors %}
                                             <div class="invalid-feedback d-block">
@@ -76,11 +76,11 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- English Name -->
+                                    <!-- Английское название -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_en.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Nomi (Inglizcha)
+                                            Название (Английский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -88,7 +88,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
                                                    name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
-                                                   placeholder="Inglizcha nom kiriting" required>
+                                                   placeholder="Введите название на английском" required>
                                         </div>
                                         {% if form.name_en.errors %}
                                             <div class="invalid-feedback d-block">
@@ -101,24 +101,24 @@
                                 </div>
                             </div>
 
-                            <!-- Description Fields -->
+                            <!-- Поля описаний -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-align-left me-2"></i>
-                                        Kategoriya Tavsifi
+                                        Описание категории
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Uzbek Description -->
+                                    <!-- Узбекское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_uz.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Tavsif (Oʻzbekcha)
+                                            Описание (Узбекский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_uz.id_for_label }}"
                                                   name="{{ form.description_uz.name }}" rows="3"
-                                                  placeholder="O'zbekcha tavsif kiriting">{{ form.description_uz.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на узбекском">{{ form.description_uz.value|default:'' }}</textarea>
                                         {% if form.description_uz.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_uz.errors %}
@@ -128,15 +128,15 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Russian Description -->
+                                    <!-- Русское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_ru.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Tavsif (Ruscha)
+                                            Описание (Русский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_ru.id_for_label }}"
                                                   name="{{ form.description_ru.name }}" rows="3"
-                                                  placeholder="Ruscha tavsif kiriting">{{ form.description_ru.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на русском">{{ form.description_ru.value|default:'' }}</textarea>
                                         {% if form.description_ru.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_ru.errors %}
@@ -146,15 +146,15 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- English Description -->
+                                    <!-- Английское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_en.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Tavsif (Inglizcha)
+                                            Описание (Английский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
                                                   name="{{ form.description_en.name }}" rows="3"
-                                                  placeholder="Inglizcha tavsif kiriting">{{ form.description_en.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на английском">{{ form.description_en.value|default:'' }}</textarea>
                                         {% if form.description_en.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_en.errors %}
@@ -166,12 +166,12 @@
                                 </div>
                             </div>
 
-                            <!-- Settings Card -->
+                            <!-- Карточка настроек -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-cog me-2"></i>
-                                        Sozlamalar
+                                        Настройки
                                     </h6>
                                 </div>
                                 <div class="card-body">
@@ -179,7 +179,7 @@
                                     <div class="form-group mb-3">
                                         <label for="{{ form.slug.id_for_label }}" class="form-label required-field">
                                             <i class="fas fa-link me-2"></i>
-                                            Slug
+                                            Slug (ЧПУ)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -187,9 +187,9 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.slug.id_for_label }}"
                                                    name="{{ form.slug.name }}" value="{{ form.slug.value|default:'' }}"
-                                                   placeholder="kategoriya-slugi" required>
+                                                   placeholder="slug-kategorii" required>
                                             <button class="btn btn-outline-secondary" type="button" id="generateSlug">
-                                                <i class="fas fa-magic"></i> Avtomatik
+                                                <i class="fas fa-magic"></i> Авто
                                             </button>
                                         </div>
                                         {% if form.slug.errors %}
@@ -201,14 +201,14 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Status -->
+                                    <!-- Статус -->
                                     <div class="form-group">
                                         <div class="form-check form-switch">
                                             <input type="checkbox" class="form-check-input" id="{{ form.is_active.id_for_label }}"
                                                    name="{{ form.is_active.name }}" {% if form.is_active.value %}checked{% endif %}>
                                             <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
                                                 <i class="fas fa-toggle-on me-2"></i>
-                                                Faol holati
+                                                Активный статус
                                             </label>
                                         </div>
                                     </div>
@@ -216,25 +216,25 @@
                             </div>
                         </div>
 
-                        <!-- Sidebar Column -->
+                        <!-- Боковая колонка -->
                         <div class="col-lg-4">
-                            <!-- Image Upload Card -->
+                            <!-- Карточка загрузки изображения -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-image me-2"></i>
-                                        Rasm
+                                        Изображение
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Current Image Preview -->
+                                    <!-- Предпросмотр текущего изображения -->
                                     {% if category and category.image %}
                                     <div class="mb-3">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                            <i class="fas fa-eye me-2"></i>Текущее изображение
                                         </label>
                                         <div class="image-preview">
-                                            <img src="{{ category.image.url }}" alt="Joriy kategoriya"
+                                            <img src="{{ category.image.url }}" alt="Текущая категория"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted">{{ category.image.name }}</small>
@@ -243,16 +243,16 @@
                                     </div>
                                     {% endif %}
 
-                                    <!-- File Upload -->
+                                    <!-- Загрузка файла -->
                                     <div class="file-upload-wrapper" id="fileUploadWrapper">
                                         <div class="file-upload-icon">
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
                                         <div class="file-upload-text">
-                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                            <strong>Нажмите для загрузки</strong> или перетащите файл
                                         </div>
                                         <div class="file-upload-hint">
-                                            PNG, JPG, WebP (maksimum 5MB)
+                                            PNG, JPG, WebP (максимум 5MB)
                                         </div>
                                         <input type="file" class="d-none" id="{{ form.image.id_for_label }}"
                                                name="{{ form.image.name }}" accept="image/*" {% if not category %}required{% endif %}>
@@ -266,13 +266,13 @@
                                         </div>
                                     {% endif %}
 
-                                    <!-- Image Preview -->
+                                    <!-- Предпросмотр изображения -->
                                     <div id="imagePreview" class="mt-3" style="display: none;">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                            <i class="fas fa-eye me-2"></i>Предпросмотр
                                         </label>
                                         <div class="image-preview">
-                                            <img id="previewImg" src="" alt="Ko'rish"
+                                            <img id="previewImg" src="" alt="Предпросмотр"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted" id="fileName"></small>
@@ -280,16 +280,16 @@
                                         </div>
                                     </div>
 
-                                    <!-- Image Requirements -->
+                                    <!-- Требования к изображению -->
                                     <div class="mt-3">
                                         <div class="alert alert-info">
                                             <h6 class="alert-heading">
-                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                                <i class="fas fa-info-circle me-2"></i>Требования к изображению
                                             </h6>
                                             <ul class="mb-0 small">
-                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 400x300 piksel</li>
-                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
-                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                                <li><strong>Рекомендуемый размер:</strong> 400x300 пикселей</li>
+                                                <li><strong>Максимальный размер файла:</strong> 5MB</li>
+                                                <li><strong>Поддерживаемые форматы:</strong> JPG, PNG, WebP</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -298,18 +298,18 @@
                         </div>
                     </div>
 
-                    <!-- Form Actions -->
+                    <!-- Действия формы -->
                     <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                         <a href="{% url 'dashboard:categories' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Kategoriyalarga qaytish
+                            <i class="fas fa-arrow-left me-2"></i> Вернуться к категориям
                         </a>
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-save me-2"></i> {{ action }} Kategoriya
+                                <i class="fas fa-save me-2"></i> {{ action }} Категорию
                             </button>
                             {% if category %}
                             <a href="{% url 'dashboard:category_delete' category.id %}" class="btn btn-outline-danger">
-                                <i class="fas fa-trash me-2"></i> O'chirish
+                                <i class="fas fa-trash me-2"></i> Удалить
                             </a>
                             {% endif %}
                         </div>
@@ -353,7 +353,7 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-    // File upload functionality
+    // Функциональность загрузки файлов
     const fileUploadWrapper = document.getElementById('fileUploadWrapper');
     const fileInput = document.getElementById('{{ form.image.id_for_label }}');
 
@@ -395,19 +395,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const fileName = document.getElementById('fileName');
         const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
 
-        // Show preview
+        // Показать предпросмотр
         preview.style.display = 'block';
         fileName.textContent = file.name;
         uploadText.innerHTML = `<strong>${file.name}</strong>`;
 
-        // Create preview
+        // Создать предпросмотр
         const reader = new FileReader();
         reader.onload = function(e) {
             previewImg.src = e.target.result;
         };
         reader.readAsDataURL(file);
 
-        // Validate file
+        // Проверить файл
         validateFile(file);
     }
 
@@ -416,13 +416,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxSize = 5 * 1024 * 1024; // 5MB
 
         if (!allowedTypes.includes(file.type)) {
-            showAlert('Iltimos, rasm faylini tanlang (JPG, PNG yoki WebP)', 'danger');
+            showAlert('Пожалуйста, выберите файл изображения (JPG, PNG или WebP)', 'danger');
             resetFileInput();
             return false;
         }
 
         if (file.size > maxSize) {
-            showAlert('Fayl hajmi 5MB dan oshmasligi kerak', 'danger');
+            showAlert('Размер файла не должен превышать 5MB', 'danger');
             resetFileInput();
             return false;
         }
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fileInput.value = '';
         preview.style.display = 'none';
-        uploadText.innerHTML = '<strong>Yuklash uchun bosing</strong> yoki sudrab tashlang';
+        uploadText.innerHTML = '<strong>Нажмите для загрузки</strong> или перетащите файл';
     }
 
     function showAlert(message, type) {
@@ -458,20 +458,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Slug generation
+    // Генерация slug
     document.getElementById('generateSlug').addEventListener('click', function() {
         const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
         const slugField = document.getElementById('{{ form.slug.id_for_label }}');
 
         if (nameUz) {
             slugField.value = slugify(nameUz);
-            showAlert('Slug muvaffaqiyatli yaratildi!', 'success');
+            showAlert('Slug успешно создан!', 'success');
         } else {
-            showAlert('Iltimos, avval kategoriya nomini kiriting (Oʻzbekcha)', 'warning');
+            showAlert('Пожалуйста, сначала введите название категории (Узбекский)', 'warning');
         }
     });
 
-    // Auto-generate slug when typing in Uzbek name
+    // Автоматическая генерация slug при вводе узбекского названия
     document.getElementById('{{ form.name_uz.id_for_label }}').addEventListener('input', function() {
         const slugField = document.getElementById('{{ form.slug.id_for_label }}');
         if (slugField && !slugField.value) {
@@ -479,14 +479,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Form validation
+    // Валидация формы
     const form = document.getElementById('category-form');
     if (form) {
         form.addEventListener('submit', function(e) {
             let isValid = true;
             const submitBtn = document.getElementById('submit-btn');
 
-            // Validate all name fields
+            // Проверить все поля названий
             const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
             const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}').value.trim();
             const nameEn = document.getElementById('{{ form.name_en.id_for_label }}').value.trim();
@@ -504,34 +504,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
 
-            // Validate slug
+            // Проверить slug
             const slug = document.getElementById('{{ form.slug.id_for_label }}').value.trim();
             if (!slug) {
                 markFieldInvalid('{{ form.slug.id_for_label }}');
                 isValid = false;
             }
 
-            // Validate image for new category
+            // Проверить изображение для новой категории
             {% if not category %}
             const fileInput = document.getElementById('{{ form.image.id_for_label }}');
             if (!fileInput.files || fileInput.files.length === 0) {
-                showAlert('Iltimos, kategoriya rasmini yuklang', 'danger');
+                showAlert('Пожалуйста, загрузите изображение категории', 'danger');
                 isValid = false;
             }
             {% endif %}
 
             if (!isValid) {
                 e.preventDefault();
-                showAlert('Iltimos, barcha majburiy maydonlarni to\'ldiring', 'danger');
+                showAlert('Пожалуйста, заполните все обязательные поля', 'danger');
 
-                // Scroll to first error
+                // Прокрутить к первой ошибке
                 document.querySelector('.is-invalid')?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
                 });
             } else {
-                // Show loading state
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+                // Показать состояние загрузки
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Сохранение...';
                 submitBtn.disabled = true;
             }
         });
@@ -546,11 +546,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function slugify(text) {
         return text.toString().toLowerCase()
-            .replace(/\s+/g, '-')           // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-            .replace(/^-+/, '')             // Trim - from start of text
-            .replace(/-+$/, '');            // Trim - from end of text
+            .replace(/\s+/g, '-')           // Заменить пробелы на -
+            .replace(/[^\w\-]+/g, '')       // Удалить все не-словесные символы
+            .replace(/\-\-+/g, '-')         // Заменить множественные - на один
+            .replace(/^-+/, '')             // Обрезать - с начала текста
+            .replace(/-+$/, '');            // Обрезать - с конца текста
     }
 });
 </script>

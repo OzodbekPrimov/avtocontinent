@@ -1,17 +1,17 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
-{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block title %}{{ title }} - Панель управления{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 
 {% block content %}
-<!-- Loading Overlay -->
+<!-- Загрузочный экран -->
 <div class="loading-overlay" id="loadingOverlay">
     <div class="text-center text-white">
         <div class="spinner-border" role="status">
-            <span class="visually-hidden">Yuklanmoqda...</span>
+            <span class="visually-hidden">Загрузка...</span>
         </div>
-        <p class="mt-3">Iltimos kuting...</p>
+        <p class="mt-3">Пожалуйста, подождите...</p>
     </div>
 </div>
 
@@ -29,18 +29,18 @@
                     {% csrf_token %}
 
                     <div class="row">
-                        <!-- Main Content Column -->
+                        <!-- Основная колонка -->
                         <div class="col-lg-8">
-                            <!-- Title Fields -->
+                            <!-- Поля заголовков -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-heading me-2"></i>
-                                        Banner Sarlavhalari <small class="text-muted">(Ixtiyoriy)</small>
+                                        Заголовки баннера <small class="text-muted">(Необязательно)</small>
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Uzbek Title -->
+                                    <!-- Узбекский заголовок -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.title_uz.id_for_label }}" class="form-label">
                                             {{ form.title_uz.label }}
@@ -61,7 +61,7 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Russian Title -->
+                                    <!-- Русский заголовок -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.title_ru.id_for_label }}" class="form-label">
                                             {{ form.title_ru.label }}
@@ -82,7 +82,7 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- English Title -->
+                                    <!-- Английский заголовок -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.title_en.id_for_label }}" class="form-label">
                                             {{ form.title_en.label }}
@@ -105,20 +105,20 @@
                                 </div>
                             </div>
 
-                            <!-- Settings Card -->
+                            <!-- Карточка настроек -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-cog me-2"></i>
-                                        Banner Sozlamalari
+                                        Настройки баннера
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Link URL -->
+                                    <!-- Ссылка -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.link.id_for_label }}" class="form-label">
                                             <i class="fas fa-link me-2"></i>
-                                            {{ form.link.label }} <small class="text-muted">(Ixtiyoriy)</small>
+                                            {{ form.link.label }} <small class="text-muted">(Необязательно)</small>
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -136,14 +136,14 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Display Order (Required) -->
+                                    <!-- Порядок отображения (Обязательно) -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.order.id_for_label }}" class="form-label">
                                             <i class="fas fa-sort-numeric-up me-2"></i>
                                             {{ form.order.label }} <span class="text-danger">*</span>
                                         </label>
                                         {{ form.order }}
-                                        <div class="form-text">Bannerlar ushbu tartib bo'yicha ko'rsatiladi</div>
+                                        <div class="form-text">Баннеры отображаются согласно этому порядку</div>
                                         <div class="error-message text-danger" id="order_error"></div>
                                         {% if form.order.errors %}
                                             <div class="invalid-feedback d-block">
@@ -154,7 +154,7 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Status -->
+                                    <!-- Статус -->
                                     <div class="form-group">
                                         <div class="form-check form-switch">
                                             {{ form.is_active }}
@@ -176,9 +176,9 @@
                             </div>
                         </div>
 
-                        <!-- Sidebar Column -->
+                        <!-- Боковая колонка -->
                         <div class="col-lg-4">
-                            <!-- Image Upload Card -->
+                            <!-- Карточка загрузки изображения -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
@@ -187,14 +187,14 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Current Image Preview -->
+                                    <!-- Предпросмотр текущего изображения -->
                                     {% if banner and banner.image %}
                                     <div class="mb-3">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                            <i class="fas fa-eye me-2"></i>Текущее изображение
                                         </label>
                                         <div class="image-preview">
-                                            <img src="{{ banner.image.url }}" alt="Joriy banner"
+                                            <img src="{{ banner.image.url }}" alt="Текущий баннер"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted">{{ banner.image.name }}</small>
@@ -203,16 +203,16 @@
                                     </div>
                                     {% endif %}
 
-                                    <!-- File Upload -->
+                                    <!-- Загрузка файла -->
                                     <div class="file-upload-wrapper" id="fileUploadWrapper">
                                         <div class="file-upload-icon">
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
                                         <div class="file-upload-text">
-                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                            <strong>Нажмите для загрузки</strong> или перетащите файл
                                         </div>
                                         <div class="file-upload-hint">
-                                            PNG, JPG, WebP (maksimum 5MB)
+                                            PNG, JPG, WebP (максимум 5МБ)
                                         </div>
                                         <div class="d-none">
                                             {{ form.image }}
@@ -228,13 +228,13 @@
                                         </div>
                                     {% endif %}
 
-                                    <!-- Image Preview -->
+                                    <!-- Предпросмотр изображения -->
                                     <div id="imagePreview" class="mt-3" style="display: none;">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                            <i class="fas fa-eye me-2"></i>Предпросмотр
                                         </label>
                                         <div class="image-preview">
-                                            <img id="previewImg" src="" alt="Ko'rish"
+                                            <img id="previewImg" src="" alt="Предпросмотр"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted" id="fileName"></small>
@@ -242,17 +242,17 @@
                                         </div>
                                     </div>
 
-                                    <!-- Image Requirements -->
+                                    <!-- Требования к изображению -->
                                     <div class="mt-3">
                                         <div class="alert alert-info">
                                             <h6 class="alert-heading">
-                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                                <i class="fas fa-info-circle me-2"></i>Требования к изображению
                                             </h6>
                                             <ul class="mb-0 small">
-                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 1920x600 piksel</li>
-                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
-                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
-                                                <li><strong>Majburiy:</strong> Rasm yuklash shart</li>
+                                                <li><strong>Рекомендуемый размер:</strong> 1920x600 пикселей</li>
+                                                <li><strong>Максимальный размер файла:</strong> 5МБ</li>
+                                                <li><strong>Поддерживаемые форматы:</strong> JPG, PNG, WebP</li>
+                                                <li><strong>Обязательно:</strong> Загрузка изображения</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -261,19 +261,19 @@
                         </div>
                     </div>
 
-                    <!-- Form Actions -->
+                    <!-- Действия формы -->
                     <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                         <a href="{% url 'dashboard:banners' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Bannerlar ro'yxatiga qaytish
+                            <i class="fas fa-arrow-left me-2"></i> Вернуться к списку баннеров
                         </a>
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary" id="submitBtn">
-                                <span id="submitText"><i class="fas fa-save me-2"></i> {{ action }} Banner</span>
+                                <span id="submitText"><i class="fas fa-save me-2"></i> {{ action }} баннер</span>
                                 <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>
                             </button>
                             {% if banner %}
                             <a href="{% url 'dashboard:banner_delete' banner.id %}" class="btn btn-outline-danger">
-                                <i class="fas fa-trash me-2"></i> O'chirish
+                                <i class="fas fa-trash me-2"></i> Удалить
                             </a>
                             {% endif %}
                         </div>
@@ -287,7 +287,7 @@
 
 {% block extra_css %}
 <style>
-/* Loading overlay */
+/* Загрузочный экран */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -307,14 +307,14 @@
     color: #fff;
 }
 
-/* Error message styling */
+/* Стили сообщений об ошибках */
 .error-message {
     font-size: 0.875rem;
     margin-top: 0.25rem;
     display: none;
 }
 
-/* Improved form styling */
+/* Улучшенные стили форм */
 .form-label {
     font-weight: 600;
     margin-bottom: 8px;
@@ -341,7 +341,7 @@
     color: #6c757d;
 }
 
-/* Card styling */
+/* Стили карточек */
 .card {
     border: none;
     border-radius: 10px;
@@ -360,7 +360,7 @@
     font-weight: 600;
 }
 
-/* File upload styling */
+/* Стили загрузки файлов */
 .file-upload-wrapper {
     border: 2px dashed #dee2e6;
     border-radius: 8px;
@@ -402,7 +402,7 @@
     color: #6c757d;
 }
 
-/* Image preview */
+/* Предпросмотр изображения */
 .image-preview {
     border: 1px solid #eee;
     border-radius: 8px;
@@ -410,7 +410,7 @@
     background: #fff;
 }
 
-/* Flag icons */
+/* Иконки флагов */
 .flag-icon {
     width: 20px;
     height: 15px;
@@ -433,19 +433,19 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23012169' d='M0 0h60v30H0z'/%3E%3Cpath fill='%23fff' d='M0 0v30l30-15z'/%3E%3Cpath fill='%23C8102E' d='M0 0v12l20-10zM30 15l30-15v30z'/%3E%3Cpath fill='%23fff' d='M30 15l30 15V0z'/%3E%3Cpath fill='%23C8102E' d='M0 30l30-15L0 0v30z'/%3E%3C/svg%3E");
 }
 
-/* Form group spacing */
+/* Отступы групп форм */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
-/* Switch styling */
+/* Стили переключателей */
 .form-switch .form-check-input {
     width: 3em;
     height: 1.5em;
     margin-right: 10px;
 }
 
-/* Invalid feedback styling */
+/* Стили сообщений об ошибках */
 .invalid-feedback {
     font-size: 0.85rem;
     margin-top: 5px;
@@ -460,7 +460,7 @@
     box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
 }
 
-/* Responsive adjustments */
+/* Адаптивные настройки */
 @media (max-width: 992px) {
     .col-lg-8, .col-lg-4 {
         width: 100%;
@@ -479,7 +479,7 @@
     }
 }
 
-/* Button styling */
+/* Стили кнопок */
 .btn {
     font-weight: 500;
     padding: 8px 16px;
@@ -541,12 +541,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function setLoading(loading) {
         if (loading) {
             submitBtn.disabled = true;
-            submitText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+            submitText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Сохранение...';
             submitSpinner.style.display = 'inline-block';
             loadingOverlay.style.display = 'flex';
         } else {
             submitBtn.disabled = false;
-            submitText.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Banner';
+            submitText.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} баннер';
             submitSpinner.style.display = 'none';
             loadingOverlay.style.display = 'none';
         }
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     form.addEventListener('submit', function(e) {
-        // Prevent the default form submission
+        // Предотвращаем стандартную отправку формы
         e.preventDefault();
 
         clearErrors();
@@ -613,23 +613,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('id_' + field);
             if (input) {
                 if (!input.value.trim()) {
-                    showError(field, 'Bu maydon toʻldirilishi shart');
+                    showError(field, 'Это поле обязательно для заполнения');
                     hasError = true;
                 }
             }
         });
 
-        // Check if the image is selected
+        // Проверяем, выбрано ли изображение
         if (!fileInput.files || fileInput.files.length === 0) {
-            showError('image', 'Rasm yuklash shart');
+            showError('image', 'Загрузка изображения обязательна');
             hasError = true;
         }
 
         if (hasError) {
-            // Hide the loading overlay and re-enable the submit button
+            // Скрываем загрузочный экран и снова включаем кнопку отправки
             setLoading(false);
         } else {
-            // If no errors, proceed with the form submission
+            // Если нет ошибок, продолжаем отправку формы
             form.submit();
         }
     });

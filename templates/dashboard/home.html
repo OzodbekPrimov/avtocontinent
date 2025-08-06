@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block title %}Dashboard - Avtokontinent.uz{% endblock %}
-{% block page_title %}Dashboard Overview{% endblock %}
+{% block title %}Панель управления - Avtokontinent.uz{% endblock %}
+{% block page_title %}Обзор панели управления{% endblock %}
 
 {% block content %}
 <!-- Statistics Cards -->
@@ -18,10 +18,10 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="text-muted mb-1">Total Products</h6>
+                        <h6 class="text-muted mb-1">Всего товаров</h6>
                         <h3 class="mb-0 fw-bold">{{ total_products|intcomma }}</h3>
                         <small class="text-success">
-                            <i class="fas fa-arrow-up"></i> Active products
+                            <i class="fas fa-arrow-up"></i> Активные товары
                         </small>
                     </div>
                 </div>
@@ -39,10 +39,10 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="text-muted mb-1">Total Orders</h6>
+                        <h6 class="text-muted mb-1">Всего заказов</h6>
                         <h3 class="mb-0 fw-bold">{{ total_orders|intcomma }}</h3>
                         <small class="text-info">
-                            <i class="fas fa-clock"></i> All time
+                            <i class="fas fa-clock"></i> За все время
                         </small>
                     </div>
                 </div>
@@ -60,10 +60,10 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="text-muted mb-1">Total Users</h6>
+                        <h6 class="text-muted mb-1">Всего пользователей</h6>
                         <h3 class="mb-0 fw-bold">{{ total_users|intcomma }}</h3>
                         <small class="text-success">
-                            <i class="fas fa-plus"></i> {{ recent_users|intcomma }} this week
+                            <i class="fas fa-plus"></i> {{ recent_users|intcomma }} на этой неделе
                         </small>
                     </div>
                 </div>
@@ -81,10 +81,10 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="text-muted mb-1">Total Revenue</h6>
+                        <h6 class="text-muted mb-1">Общий доход</h6>
                         <h3 class="mb-0 fw-bold">{{ total_revenue|floatformat:0|intcomma }} UZS</h3>
                         <small class="text-success">
-                            <i class="fas fa-arrow-up"></i> {{ recent_revenue|floatformat:0|intcomma }} this week
+                            <i class="fas fa-arrow-up"></i> {{ recent_revenue|floatformat:0|intcomma }} на этой неделе
                         </small>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-chart-line text-primary"></i> Monthly Revenue
+                    <i class="fas fa-chart-line text-primary"></i> Месячный доход
                 </h5>
             </div>
             <div class="card-body">
@@ -113,7 +113,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-chart-pie text-success"></i> Order Status
+                    <i class="fas fa-chart-pie text-success"></i> Статус заказов
                 </h5>
             </div>
             <div class="card-body">
@@ -129,9 +129,9 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-clock text-warning"></i> Recent Orders
+                    <i class="fas fa-clock text-warning"></i> Последние заказы
                 </h5>
-                <a href="{% url 'dashboard:orders' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                <a href="{% url 'dashboard:orders' %}" class="btn btn-sm btn-outline-primary">Посмотреть все</a>
             </div>
             <div class="card-body p-0">
                 {% if recent_orders_list %}
@@ -139,11 +139,11 @@
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Date</th>
+                                <th>ID заказа</th>
+                                <th>Клиент</th>
+                                <th>Сумма</th>
+                                <th>Статус</th>
+                                <th>Дата</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,7 +172,7 @@
                 {% else %}
                 <div class="text-center py-4">
                     <i class="fas fa-shopping-cart fa-2x text-muted mb-2"></i>
-                    <p class="text-muted mb-0">No recent orders</p>
+                    <p class="text-muted mb-0">Нет последних заказов</p>
                 </div>
                 {% endif %}
             </div>
@@ -184,9 +184,9 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-star text-warning"></i> Top Selling Products
+                    <i class="fas fa-star text-warning"></i> Лучшие продажи
                 </h5>
-                <a href="{% url 'dashboard:products' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                <a href="{% url 'dashboard:products' %}" class="btn btn-sm btn-outline-primary">Посмотреть все</a>
             </div>
             <div class="card-body p-0">
                 {% if top_products %}
@@ -210,7 +210,7 @@
                                 <small class="text-muted">{{ product.category.name }}</small>
                             </div>
                             <div class="flex-shrink-0 text-end">
-                                <span class="badge bg-primary">{{ product.order_count|intcomma }} orders</span>
+                                <span class="badge bg-primary">{{ product.order_count|intcomma }} заказов</span>
                                 <br>
                                 <small class="text-muted">{{ product.price_uzs|floatformat:0|intcomma }} UZS</small>
                             </div>
@@ -221,7 +221,7 @@
                 {% else %}
                 <div class="text-center py-4">
                     <i class="fas fa-box fa-2x text-muted mb-2"></i>
-                    <p class="text-muted mb-0">No products with orders yet</p>
+                    <p class="text-muted mb-0">Пока нет товаров с заказами</p>
                 </div>
                 {% endif %}
             </div>
@@ -235,7 +235,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-bolt text-primary"></i> Quick Actions
+                    <i class="fas fa-bolt text-primary"></i> Быстрые действия
                 </h5>
             </div>
             <div class="card-body">
@@ -243,25 +243,25 @@
                     <div class="col-md-3 col-sm-6">
                         <a href="{% url 'dashboard:product_create' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
                             <i class="fas fa-plus fa-2x mb-2"></i>
-                            <span>Add Product</span>
+                            <span>Добавить товар</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="{% url 'dashboard:category_create' %}" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
                             <i class="fas fa-tags fa-2x mb-2"></i>
-                            <span>Add Category</span>
+                            <span>Добавить категорию</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="{% url 'dashboard:banner_create' %}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
                             <i class="fas fa-images fa-2x mb-2"></i>
-                            <span>Add Banner</span>
+                            <span>Добавить баннер</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="{% url 'dashboard:analytics' %}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
                             <i class="fas fa-chart-bar fa-2x mb-2"></i>
-                            <span>View Analytics</span>
+                            <span>Просмотр аналитики</span>
                         </a>
                     </div>
                 </div>
@@ -281,7 +281,7 @@ const revenueChart = new Chart(revenueCtx, {
     data: {
         labels: {{ monthly_revenue|safe }}.map(item => item.month),
         datasets: [{
-            label: 'Revenue (UZS)',
+            label: 'Доход (UZS)',
             data: {{ monthly_revenue|safe }}.map(item => item.revenue),
             borderColor: '#2563EB',
             backgroundColor: 'rgba(37, 99, 235, 0.1)',

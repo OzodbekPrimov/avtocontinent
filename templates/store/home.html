@@ -10,7 +10,7 @@
 {% if banners %}
 <section class="banner-section mb-4">
     <div class="container-fluid px-0">  <!-- container-fluid va px-0 qo'shildi -->
-        <div id="bannersCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div id="bannersCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
             <div class="carousel-indicators">
                 {% for banner in banners %}
                 <button type="button" data-bs-target="#bannersCarousel" data-bs-slide-to="{{ forloop.counter0 }}"

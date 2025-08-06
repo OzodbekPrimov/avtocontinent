@@ -1,29 +1,25 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
-
-{% block title %}Brands Management - Dashboard{% endblock %}
-{% block page_title %}Brands Management{% endblock %}
-
+{% block title %}Управление брендами - Панель управления{% endblock %}
+{% block page_title %}Управление брендами{% endblock %}
 {% block content %}
-<!-- CSRF token for AJAX requests -->
+<!-- CSRF-токен для AJAX-запросов -->
 {% csrf_token %}
-
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">All Brands</h5>
+        <h5 class="card-title mb-0">Все бренды</h5>
         <a href="{% url 'dashboard:brand_create' %}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add New Brand
+            <i class="fas fa-plus"></i> Добавить новый бренд
         </a>
     </div>
     <div class="card-body">
-        <!-- Alert container for messages -->
+        <!-- Контейнер для уведомлений -->
         <div id="alert-container"></div>
-
-        <!-- Search and Filter -->
+        <!-- Поиск и фильтр -->
         <div class="row mb-3">
             <div class="col-md-6">
                 <form method="get" class="d-flex">
-                    <input type="text" name="search" class="form-control me-2" placeholder="Search brands..." value="{{ search_query }}">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Поиск брендов..." value="{{ search_query }}">
                     <button type="submit" class="btn btn-outline-primary">
                         <i class="fas fa-search"></i>
                     </button>
@@ -33,33 +29,32 @@
                 <form method="get" class="d-flex justify-content-end gap-2">
                     <input type="hidden" name="search" value="{{ search_query }}">
                     <select name="status" class="form-select" style="width: auto;" onchange="this.form.submit()">
-                        <option value="">All Status</option>
-                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
-                        <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
+                        <option value="">Все статусы</option>
+                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Активно</option>
+                        <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Неактивно</option>
                     </select>
                     {% if search_query or status_filter %}
                         <a href="{% url 'dashboard:brands' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-times"></i> Clear
+                            <i class="fas fa-times"></i> Очистить
                         </a>
                     {% endif %}
                 </form>
             </div>
         </div>
-
-        <!-- Brands Table -->
+        <!-- Таблица брендов -->
         {% if page_obj %}
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Logo</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Models</th>
-                        <th>Products</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Actions</th>
+                        <th>Логотип</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Модели</th>
+                        <th>Товары</th>
+                        <th>Статус</th>
+                        <th>Создано</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +62,7 @@
                     <tr id="brand-row-{{ brand.id }}">
                         <td>
                             {% if brand.logo %}
-                                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" style="width: 60px; height: 40px; object-fit: contain; border-radius: 4px;">
+                                <img src="{{ brand.logo.url }}" alt="{{ brand.name_uz }}" style="width: 60px; height: 40px; object-fit: contain; border-radius: 4px;">
                             {% else %}
                                 <div class="bg-light d-flex align-items-center justify-content-center" style="width: 60px; height: 40px; border-radius: 4px;">
                                     <i class="fas fa-copyright text-muted"></i>
@@ -94,7 +89,7 @@
                                     {{ brand.description_ru|truncatechars:50 }}
                                 {% endif %}
                             {% else %}
-                                <span class="text-muted">No description</span>
+                                <span class="text-muted">Нет описания</span>
                             {% endif %}
                         </td>
                         <td>
@@ -111,27 +106,27 @@
                                        data-brand-id="{{ brand.id }}"
                                        {% if brand.is_active %}checked{% endif %}
                                        data-bs-toggle="tooltip"
-                                       title="Toggle status">
+                                       title="Изменить статус">
                                 <label class="form-check-label" for="status-{{ brand.id }}">
                                     <span class="status-text">
                                         {% if brand.is_active %}
-                                            <small class="text-success">Active</small>
+                                            <small class="text-success">Активно</small>
                                         {% else %}
-                                            <small class="text-muted">Inactive</small>
+                                            <small class="text-muted">Неактивно</small>
                                         {% endif %}
                                     </span>
                                 </label>
                             </div>
                         </td>
                         <td>
-                            <small class="text-muted">{{ brand.created_at|date:"M d, Y" }}</small>
+                            <small class="text-muted">{{ brand.created_at|date:"d.m.Y" }}</small>
                         </td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="{% url 'dashboard:brand_edit' brand.id %}"
                                    class="btn btn-sm btn-outline-primary"
                                    data-bs-toggle="tooltip"
-                                   title="Edit">
+                                   title="Редактировать">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button"
@@ -139,7 +134,7 @@
                                         data-brand-id="{{ brand.id }}"
                                         data-brand-name="{{ brand.name_uz }}"
                                         data-bs-toggle="tooltip"
-                                        title="Delete">
+                                        title="Удалить">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -149,10 +144,9 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
+        <!-- Пагинация -->
         {% if page_obj.has_other_pages %}
-        <nav aria-label="Brands pagination">
+        <nav aria-label="Пагинация брендов">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
@@ -166,7 +160,6 @@
                         </a>
                     </li>
                 {% endif %}
-
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <li class="page-item active">
@@ -178,7 +171,6 @@
                         </li>
                     {% endif %}
                 {% endfor %}
-
                 {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
@@ -194,27 +186,25 @@
             </ul>
         </nav>
         {% endif %}
-
-        <!-- Results Summary -->
+        <!-- Итоги -->
         <div class="text-center text-muted">
-            Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} brands
+            Показано с {{ page_obj.start_index }} по {{ page_obj.end_index }} из {{ page_obj.paginator.count }} брендов
         </div>
-
         {% else %}
         <div class="text-center py-5">
             <i class="fas fa-copyright fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No brands found</h5>
+            <h5 class="text-muted">Бренды не найдены</h5>
             <p class="text-muted">
                 {% if search_query or status_filter %}
-                    Try adjusting your search criteria or
-                    <a href="{% url 'dashboard:brands' %}">clear all filters</a>
+                    Попробуйте изменить параметры поиска или
+                    <a href="{% url 'dashboard:brands' %}">очистить фильтры</a>
                 {% else %}
-                    Get started by creating your first brand.
+                    Начните с создания первого бренда.
                 {% endif %}
             </p>
             {% if not search_query and not status_filter %}
                 <a href="{% url 'dashboard:brand_create' %}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Create First Brand
+                    <i class="fas fa-plus"></i> Создать первый бренд
                 </a>
             {% endif %}
         </div>
@@ -222,21 +212,21 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Модальное окно подтверждения удаления -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="deleteModalLabel">Подтвердите удаление</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete the brand "<span id="brand-name-to-delete"></span>"?</p>
-                <p class="text-danger"><small>This action cannot be undone.</small></p>
+                <p>Вы действительно хотите удалить бренд "<span id="brand-name-to-delete"></span>"?</p>
+                <p class="text-danger"><small>Это действие нельзя отменить.</small></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">Удалить</button>
             </div>
         </div>
     </div>
@@ -246,21 +236,21 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips
+    // Инициализация всплывающих подсказок
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Get CSRF token
+    // Получение CSRF-токена
     function getCSRFToken() {
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
         return csrfToken ? csrfToken.value : '';
     }
 
-    // Show alert function
+    // Функция показа уведомления
     function showAlert(message, type) {
-        // Remove existing alerts
+        // Удаление старых уведомлений
         const existingAlerts = document.querySelectorAll('.alert');
         existingAlerts.forEach(alert => alert.remove());
 
@@ -269,14 +259,13 @@ document.addEventListener('DOMContentLoaded', function() {
         alertDiv.innerHTML = `
             <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
         `;
 
-        // Insert alert at the top of card body
         const alertContainer = document.getElementById('alert-container');
         alertContainer.appendChild(alertDiv);
 
-        // Auto-dismiss after 5 seconds
+        // Автоматическое закрытие через 5 секунд
         setTimeout(() => {
             if (alertDiv && alertDiv.parentNode) {
                 const bsAlert = new bootstrap.Alert(alertDiv);
@@ -285,18 +274,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Toggle brand status
+    // Переключение статуса бренда
     document.querySelectorAll('.toggle-status').forEach(function(toggle) {
         toggle.addEventListener('change', function() {
             const brandId = this.dataset.brandId;
             const checkbox = this;
             const statusText = checkbox.closest('td').querySelector('.status-text');
-            const originalChecked = !checkbox.checked; // Original state before change
-
-            // Show loading state
+            const originalChecked = !checkbox.checked;
             checkbox.disabled = true;
 
-            // Create form data
             const formData = new FormData();
             formData.append('brand_id', brandId);
             formData.append('csrfmiddlewaretoken', getCSRFToken());
@@ -309,35 +295,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .then(response => {
-                console.log('Response status:', response.status);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Ошибка сети: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Response data:', data);
                 if (data.success) {
-                    // Update status text
                     statusText.innerHTML = data.new_status ?
-                        '<small class="text-success">Active</small>' :
-                        '<small class="text-muted">Inactive</small>';
-
-                    // Ensure checkbox reflects the actual status
+                        '<small class="text-success">Активно</small>' :
+                        '<small class="text-muted">Неактивно</small>';
                     checkbox.checked = data.new_status;
-
-                    showAlert('Brand status updated successfully!', 'success');
+                    showAlert('Статус бренда успешно обновлён!', 'success');
                 } else {
-                    // Revert checkbox to original state
                     checkbox.checked = originalChecked;
-                    showAlert('Failed to update brand status: ' + (data.message || 'Unknown error'), 'danger');
+                    showAlert('Ошибка: ' + (data.message || 'Неизвестная ошибка'), 'danger');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                // Revert checkbox to original state
+                console.error('Ошибка:', error);
                 checkbox.checked = originalChecked;
-                showAlert('An error occurred while updating brand status. Please try again.', 'danger');
+                showAlert('Произошла ошибка при обновлении статуса.', 'danger');
             })
             .finally(() => {
                 checkbox.disabled = false;
@@ -345,28 +323,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Delete brand functionality
+    // Удаление бренда
     let brandIdToDelete = null;
-
     document.querySelectorAll('.delete-brand').forEach(function(button) {
         button.addEventListener('click', function() {
             brandIdToDelete = this.dataset.brandId;
             const brandName = this.dataset.brandName;
-
             document.getElementById('brand-name-to-delete').textContent = brandName;
-
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
             deleteModal.show();
         });
     });
 
-    // Confirm delete
+    // Подтверждение удаления
     document.getElementById('confirm-delete').addEventListener('click', function() {
         if (!brandIdToDelete) return;
-
         const button = this;
         button.disabled = true;
-        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deleting...';
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Удаление...';
 
         const formData = new FormData();
         formData.append('brand_id', brandIdToDelete);
@@ -382,41 +356,34 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Remove the brand row from table
                 const brandRow = document.getElementById(`brand-row-${brandIdToDelete}`);
                 if (brandRow) {
                     brandRow.remove();
                 }
-
-                // Close modal
                 const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
                 deleteModal.hide();
-
-                showAlert('Brand deleted successfully!', 'success');
-
-                // Refresh page if no brands left
-                const tbody = document.querySelector('tbody');
-                if (tbody && tbody.children.length === 0) {
+                showAlert('Бренд успешно удалён!', 'success');
+                if (document.querySelector('tbody').children.length === 0) {
                     location.reload();
                 }
             } else {
-                showAlert('Failed to delete brand: ' + (data.message || 'Unknown error'), 'danger');
+                showAlert('Ошибка: ' + (data.message || 'Неизвестная ошибка'), 'danger');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showAlert('An error occurred while deleting brand. Please try again.', 'danger');
+            console.error('Ошибка:', error);
+            showAlert('Произошла ошибка при удалении бренда.', 'danger');
         })
         .finally(() => {
             button.disabled = false;
-            button.innerHTML = 'Delete';
+            button.innerHTML = 'Удалить';
             brandIdToDelete = null;
         });
     });
 
-    // Debug information
-    console.log('CSRF Token:', getCSRFToken());
-    console.log('Toggle status elements found:', document.querySelectorAll('.toggle-status').length);
+    // Отладочная информация
+    console.log('CSRF-токен:', getCSRFToken());
+    console.log('Найдено переключателей статуса:', document.querySelectorAll('.toggle-status').length);
 });
 </script>
 {% endblock %}

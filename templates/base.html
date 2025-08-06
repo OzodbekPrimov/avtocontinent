@@ -13,7 +13,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
         {% load static %}
@@ -24,6 +24,8 @@
             --success-color: #10B981;
             --warning-color: #F59E0B;
             --error-color: #EF4444;
+            --red-color: #DC2626;
+            --blue-color: #2563EB;
             --neutral-100: #F3F4F6;
             --neutral-200: #E5E7EB;
             --neutral-300: #D1D5DB;
@@ -35,6 +37,7 @@
             --neutral-900: #111827;
             --white: #FFFFFF;
             --navbar-height: 70px;
+            --navbar-mobile-height: 110px;
         }
         * {
             margin: 0;
@@ -56,6 +59,14 @@
             padding-top: var(--navbar-height);
             padding-bottom: 70px; /* Pastki nav uchun joy */
         }
+
+        /* Mobile padding adjustment */
+        @media (max-width: 768px) {
+            body {
+                padding-top: var(--navbar-mobile-height);
+            }
+        }
+
         /* Fixed Top Navigation */
         .top-navbar {
             position: fixed;
@@ -69,22 +80,36 @@
             height: var(--navbar-height);
             transition: all 0.3s ease;
         }
+
+        /* Mobile navbar height adjustment */
+        @media (max-width: 768px) {
+            .top-navbar {
+                height: var(--navbar-mobile-height);
+            }
+        }
+
         .top-navbar.scrolled {
             background: rgba(255, 255, 255, 0.98);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
+
         .top-navbar .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color) !important;
+            font-size: 1.8rem;
+            font-weight: 900;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            letter-spacing: 1px;
         }
-        .top-navbar .navbar-brand i {
-            font-size: 1.8rem;
+
+        .brand-avto {
+            color: var(--red-color) !important;
         }
+
+        .brand-kontinent {
+            color: var(--blue-color) !important;
+        }
+
         .top-navbar .navbar-nav {
             align-items: center;
             gap: 1rem;
@@ -136,11 +161,74 @@
             justify-content: center;
             border: 2px solid var(--white);
         }
+
         .search-form {
             position: relative;
             max-width: 400px;
             width: 100%;
         }
+
+        /* Desktop search form */
+        @media (min-width: 769px) {
+            .search-form {
+                max-width: 400px;
+            }
+        }
+
+        /* Mobile search form - full width and below logo */
+        @media (max-width: 768px) {
+            .search-form {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .mobile-search-wrapper {
+                width: 100%;
+                padding: 0 20px;
+                margin-top: 10px;
+                margin-bottom: 15px;
+            }
+
+            .mobile-search-wrapper .search-form {
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+                border-radius: 12px;
+                overflow: hidden;
+            }
+
+            .mobile-search-wrapper .search-form input {
+                border-radius: 12px;
+                padding: 14px 50px 14px 16px;
+                font-size: 15px;
+                border: 1px solid var(--neutral-200);
+                background: var(--white);
+                transition: all 0.3s ease;
+            }
+
+            .mobile-search-wrapper .search-form input:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 4px 20px rgba(0, 0, 0, 0.12);
+            }
+
+            .mobile-search-wrapper .search-form button {
+                right: 10px;
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                background: var(--primary-color);
+                transition: all 0.3s ease;
+            }
+
+            .mobile-search-wrapper .search-form button:hover {
+                background: #1E40AF;
+                transform: translateY(-50%) scale(1.05);
+            }
+
+            .navbar-brand {
+                font-size: 1.6rem !important;
+                font-weight: 900;
+            }
+        }
+
         .search-form input {
             padding: 0.75rem 3rem 0.75rem 1rem;
             border: 1px solid var(--neutral-300);
@@ -174,6 +262,65 @@
             background: #1E40AF;
             transform: translateY(-50%) scale(1.05);
         }
+
+        /* Mobile navbar layout */
+        @media (max-width: 768px) {
+            .mobile-navbar-content {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+                text-align: center;
+            }
+
+            .mobile-top-row {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                padding: 15px 20px 0 20px;
+                height: 60px;
+            }
+
+            .mobile-nav-icons {
+                display: none; /* Mobilda barcha tugmalarni yashirish */
+            }
+
+            .desktop-search {
+                display: none;
+            }
+
+            .mobile-search {
+                display: block;
+            }
+
+            .top-navbar .navbar-nav.ms-auto {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-navbar-content {
+                display: contents;
+            }
+
+            .mobile-top-row {
+                display: contents;
+            }
+
+            .mobile-nav-icons {
+                display: none;
+            }
+
+            .desktop-search {
+                display: block;
+            }
+
+            .mobile-search {
+                display: none;
+            }
+        }
+
         /* Main Content Sections */
         .main-content {
             background: var(--white);
@@ -499,11 +646,8 @@
                 display: flex; /* Mobilda pastki navigatsiya faol */
             }
             body {
-                padding-top: var(--navbar-height); /* Tepa nav uchun joy */
+                padding-top: var(--navbar-mobile-height); /* Tepa nav uchun joy */
                 padding-bottom: 70px; /* Pastki nav uchun joy */
-            }
-            .top-navbar .navbar-nav.ms-auto {
-                display: none; /* Mobilda yuqori navdagi tugmalarni yashirish */
             }
             .product-list {
                 display: grid;
@@ -594,22 +738,41 @@
     <!-- Fixed Top Navigation -->
     <nav class="top-navbar navbar navbar-expand-lg" id="topNavbar">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-car"></i> Avtokontinent.uz
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <div class="mobile-navbar-content">
+                <div class="mobile-top-row">
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <span class="brand-avto">AVTO</span><span class="brand-kontinent">KONTINENT</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Search Form -->
+                <div class="mobile-search d-md-none">
+                    <div class="mobile-search-wrapper">
+                        <form class="search-form" method="get" action="{% url 'product_list' %}">
+                            <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
+                            <button type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Search Form -->
-                <form class="search-form mx-auto" method="get" action="{% url 'product_list' %}">
+            <div class="collapse navbar-collapse d-none" id="navbarNav">
+                <!-- Desktop Search Form -->
+                <form class="search-form mx-auto desktop-search" method="get" action="{% url 'product_list' %}">
                     <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
                     <button type="submit">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
             </div>
-            <ul class="navbar-nav ms-auto">
+
+            <!-- Desktop Navigation Icons -->
+            <ul class="navbar-nav ms-auto d-none d-md-flex">
                 <!-- Language Switcher -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -879,7 +1042,7 @@
 
         // Update cart and favorites count
         function updateCartCount(count) {
-            const cartBadge = $('#cart-badge, #cart-badge-mobile');
+            const cartBadge = $('#cart-badge, #cart-badge-mobile, #cart-badge-mobile-top');
             if (count > 0) {
                 cartBadge.text(count).show();
             } else {
@@ -888,7 +1051,7 @@
         }
 
         function updateFavoritesCount(count) {
-            const favoritesBadge = $('#favorites-badge, #favorites-badge-mobile');
+            const favoritesBadge = $('#favorites-badge, #favorites-badge-mobile, #favorites-badge-mobile-top');
             if (count > 0) {
                 favoritesBadge.text(count).show();
             } else {
@@ -934,6 +1097,22 @@
                         }
                         updateFavoritesCount(response.favorites_count);
                         showToast(response.favorited ? 'Added to favorites!' : 'Removed from favorites!', 'success');
+
+                        // Store favorites data in localStorage for guest users
+                        {% if not user.is_authenticated %}
+                        const localFavorites = JSON.parse(localStorage.getItem('local_favorites') || '[]');
+                        if (response.favorited) {
+                            if (!localFavorites.includes(productId)) {
+                                localFavorites.push(productId);
+                            }
+                        } else {
+                            const index = localFavorites.indexOf(productId);
+                            if (index > -1) {
+                                localFavorites.splice(index, 1);
+                            }
+                        }
+                        localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                        {% endif %}
                     } else {
                         showToast(response.message, 'error');
                     }
@@ -956,6 +1135,13 @@
                     if (response.success) {
                         updateCartCount(response.cart_total);
                         showToast(response.message, 'success');
+
+                        // Store cart data in localStorage for guest users
+                        {% if not user.is_authenticated %}
+                        const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+                        localCart[productId] = (localCart[productId] || 0) + quantity;
+                        localStorage.setItem('local_cart', JSON.stringify(localCart));
+                        {% endif %}
                     } else {
                         showToast(response.message, 'error');
                     }
@@ -992,9 +1178,91 @@
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
 
-        // Fade-in
+        // Sync localStorage data to server after login
+        function syncLocalStorageData() {
+            // Check if user is authenticated and we have localStorage data
+            const localCart = localStorage.getItem('local_cart');
+            const localFavorites = localStorage.getItem('local_favorites');
+
+            if (localCart && localCart !== '{}') {
+                try {
+                    const cartData = JSON.parse(localCart);
+                    $.ajax({
+                        url: '{% url "ajax_sync_cart" %}',
+                        type: 'POST',
+                        data: {
+                            'cart': JSON.stringify(cartData),
+                            'csrfmiddlewaretoken': csrftoken
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                updateCartCount(response.cart_total);
+                                localStorage.removeItem('local_cart');
+                                console.log('Local cart synced successfully');
+                            }
+                        },
+                        error: function() {
+                            console.log('Failed to sync local cart');
+                        }
+                    });
+                } catch (e) {
+                    console.log('Error parsing local cart data');
+                }
+            }
+
+            if (localFavorites && localFavorites !== '[]') {
+                try {
+                    const favoritesData = JSON.parse(localFavorites);
+                    $.ajax({
+                        url: '{% url "ajax_sync_favorites" %}',
+                        type: 'POST',
+                        data: {
+                            'favorites': JSON.stringify(favoritesData),
+                            'csrfmiddlewaretoken': csrftoken
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                updateFavoritesCount(response.favorites_count);
+                                localStorage.removeItem('local_favorites');
+                                console.log('Local favorites synced successfully');
+                            }
+                        },
+                        error: function() {
+                            console.log('Failed to sync local favorites');
+                        }
+                    });
+                } catch (e) {
+                    console.log('Error parsing local favorites data');
+                }
+            }
+        }
+
+        // Initialize localStorage data for guest users
+        function initializeLocalStorageData() {
+            {% if not user.is_authenticated %}
+            // Initialize cart count from localStorage
+            const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+            const cartCount = Object.values(localCart).reduce((sum, quantity) => sum + quantity, 0);
+            if (cartCount > 0) {
+                updateCartCount(cartCount);
+            }
+
+            // Initialize favorites count from localStorage
+            const localFavorites = JSON.parse(localStorage.getItem('local_favorites') || '[]');
+            if (localFavorites.length > 0) {
+                updateFavoritesCount(localFavorites.length);
+            }
+            {% endif %}
+        }
+
+        // Fade-in and handle post-login data
         $(document).ready(function() {
             $('.card').addClass('fade-in');
+
+            // Initialize localStorage data for guest users
+            initializeLocalStorageData();
+
+            // Handle saved cart and favorites from login response
             const savedCart = localStorage.getItem('saved_cart_total');
             const savedFavorites = localStorage.getItem('saved_favorites_count');
             if (savedCart) {
@@ -1005,6 +1273,11 @@
                 updateFavoritesCount(parseInt(savedFavorites));
                 localStorage.removeItem('saved_favorites_count');
             }
+
+            // Sync any remaining localStorage data to server
+            {% if user.is_authenticated %}
+            syncLocalStorageData();
+            {% endif %}
         });
     </script>
     {% block extra_js %}{% endblock %}

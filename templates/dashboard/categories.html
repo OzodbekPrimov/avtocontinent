@@ -1,24 +1,22 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
-
-{% block title %}Categories Management - Dashboard{% endblock %}
-{% block page_title %}Categories Management{% endblock %}
-
+{% block title %}Управление категориями - Панель управления{% endblock %}
+{% block page_title %}Управление категориями{% endblock %}
 {% block content %}
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">All Categories</h5>
+        <h5 class="card-title mb-0">Все категории</h5>
         <a href="{% url 'dashboard:category_create' %}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add New Category
+            <i class="fas fa-plus"></i> Добавить новую категорию
         </a>
     </div>
     <div class="card-body">
-        <!-- Search and Filter -->
+        <!-- Поиск и фильтр -->
         <form method="get" id="filterForm">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="d-flex">
-                        <input type="text" name="search" class="form-control me-2" placeholder="Search categories..." value="{{ search_query }}">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Поиск категорий..." value="{{ search_query }}">
                         <button type="submit" class="btn btn-outline-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -27,35 +25,34 @@
                 <div class="col-md-6">
                     <div class="d-flex justify-content-end gap-2">
                         <select name="status" class="form-select" style="width: auto;" onchange="document.getElementById('filterForm').submit()">
-                            <option value="">All Status</option>
-                            <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
-                            <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
+                            <option value="">Все статусы</option>
+                            <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Активно</option>
+                            <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Неактивно</option>
                         </select>
                         {% if search_query or status_filter %}
                             <a href="{% url 'dashboard:categories' %}" class="btn btn-outline-secondary">
-                                <i class="fas fa-times"></i> Clear
+                                <i class="fas fa-times"></i> Очистить
                             </a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </form>
-
-        <!-- Categories Table -->
+        <!-- Таблица категорий -->
         {% if page_obj %}
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Description</th>
-                        <th>Products</th>
-                        <th>Subcategories</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Actions</th>
+                        <th>Изображение</th>
+                        <th>Название</th>
+                        <th>Слаг</th>
+                        <th>Описание</th>
+                        <th>Товары</th>
+                        <th>Подкатегории</th>
+                        <th>Статус</th>
+                        <th>Создано</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,7 +84,7 @@
                             {% if category.description_uz %}
                                 {{ category.description_uz|truncatechars:50 }}
                             {% else %}
-                                <span class="text-muted">No description</span>
+                                <span class="text-muted">Нет описания</span>
                             {% endif %}
                         </td>
                         <td>
@@ -108,10 +105,10 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{% url 'dashboard:category_edit' category.id %}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit">
+                                <a href="{% url 'dashboard:category_edit' category.id %}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Редактировать">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{% url 'dashboard:category_delete' category.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete">
+                                <a href="{% url 'dashboard:category_delete' category.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Удалить">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -121,8 +118,7 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
+        <!-- Пагинация -->
         {% if page_obj.has_other_pages %}
         <nav aria-label="Categories pagination">
             <ul class="pagination justify-content-center">
@@ -138,7 +134,6 @@
                         </a>
                     </li>
                 {% endif %}
-
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <li class="page-item active">
@@ -150,7 +145,6 @@
                         </li>
                     {% endif %}
                 {% endfor %}
-
                 {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
@@ -166,47 +160,42 @@
             </ul>
         </nav>
         {% endif %}
-
-        <!-- Results Summary -->
+        <!-- Итоги -->
         <div class="text-center text-muted">
-            Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} categories
+            Показано с {{ page_obj.start_index }} по {{ page_obj.end_index }} из {{ page_obj.paginator.count }} категорий
         </div>
-
         {% else %}
         <div class="text-center py-5">
             <i class="fas fa-tags fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No categories found</h5>
+            <h5 class="text-muted">Категории не найдены</h5>
             <p class="text-muted">
                 {% if search_query or status_filter %}
-                    Try adjusting your search criteria or
-                    <a href="{% url 'dashboard:categories' %}">clear all filters</a>
+                    Попробуйте изменить параметры поиска или
+                    <a href="{% url 'dashboard:categories' %}">очистить фильтры</a>
                 {% else %}
-                    Get started by creating your first category.
+                    Начните с создания первой категории.
                 {% endif %}
             </p>
             {% if not search_query and not status_filter %}
                 <a href="{% url 'dashboard:category_create' %}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Create First Category
+                    <i class="fas fa-plus"></i> Создать первую категорию
                 </a>
             {% endif %}
         </div>
         {% endif %}
     </div>
 </div>
-
-<!-- Custom CSS -->
+<!-- Пользовательские стили -->
 <style>
 .badge {
     font-size: 0.75rem;
     padding: 0.375rem 0.75rem;
     border-radius: 0.375rem;
 }
-
 .form-switch .form-check-input {
     width: 2em;
     height: 1em;
 }
-
 code {
     background-color: #f8f9fa;
     padding: 0.125rem 0.25rem;
@@ -214,25 +203,21 @@ code {
 }
 </style>
 {% endblock %}
-
 {% block extra_js %}
 <script>
-// Initialize tooltips
+// Инициализация подсказок
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
 });
-
-// Toggle category status
+// Переключение статуса категории
 document.querySelectorAll('.toggle-status').forEach(function(toggle) {
     toggle.addEventListener('change', function() {
         const categoryId = this.dataset.categoryId;
         const isActive = this.checked;
         const toggleElement = this;
-
-        // Show loading state
+        // Показать состояние загрузки
         toggleElement.disabled = true;
-
         fetch('{% url "dashboard:ajax_toggle_category_status" %}', {
             method: 'POST',
             headers: {
@@ -243,33 +228,32 @@ document.querySelectorAll('.toggle-status').forEach(function(toggle) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Ошибка сети');
             }
             return response.json();
         })
         .then(data => {
             if (data.success) {
-                // Update toggle state
+                // Обновить состояние переключателя
                 toggleElement.checked = data.new_status;
-                showAlert('Category status updated successfully!', 'success');
+                showAlert('Статус категории успешно обновлен!', 'success');
             } else {
-                // Revert to previous state on error
+                // Вернуть предыдущее состояние при ошибке
                 toggleElement.checked = !isActive;
-                showAlert('Error updating category status: ' + (data.message || data.error), 'danger');
+                showAlert('Ошибка при обновлении статуса категории: ' + (data.message || data.error), 'danger');
             }
         })
         .catch(error => {
-            // Revert to previous state on error
+            // Вернуть предыдущее состояние при ошибке
             toggleElement.checked = !isActive;
-            showAlert('Error updating category status.', 'danger');
+            showAlert('Ошибка при обновлении статуса категории.', 'danger');
         })
         .finally(() => {
             toggleElement.disabled = false;
         });
     });
 });
-
-// Show alert function
+// Функция показа уведомления
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
@@ -278,21 +262,18 @@ function showAlert(message, type) {
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-
     const contentArea = document.querySelector('.card-body');
     contentArea.insertBefore(alertDiv, contentArea.firstChild);
-
-    // Auto dismiss after 5 seconds
+    // Автоматическое закрытие через 5 секунд
     setTimeout(() => {
         const bsAlert = new bootstrap.Alert(alertDiv);
         bsAlert.close();
     }, 5000);
 }
-
-// Confirm delete actions
+// Подтверждение удаления
 document.querySelectorAll('a[href*="/delete/"]').forEach(function(link) {
     link.addEventListener('click', function(e) {
-        if (!confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
+        if (!confirm('Вы уверены, что хотите удалить эту категорию? Это действие нельзя отменить.')) {
             e.preventDefault();
         }
     });

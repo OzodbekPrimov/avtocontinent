@@ -18,7 +18,7 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-3">
                         {% for item in cart_items %}
                         <div class="col">
-                            <div class="row align-items-center border-bottom pb-3 mb-3 cart-item" id="cart-item-{{ item.id }}">
+                            <div class="row align-items-center border-bottom pb-3 mb-3 cart-item" id="cart-item-{{ item.id }}" data-product-id="{{ item.product.id }}">
                                 <div class="col-4 col-md-2">
                                     <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
                                 </div>
@@ -104,6 +104,22 @@ function updateQuantity(itemId, quantity) {
         success: function(response) {
             if (response.success) {
                 updateCartCount(response.cart_total);
+                
+                // Update localStorage for guest users
+                {% if not user.is_authenticated %}
+                const cartItem = $(`#cart-item-${itemId}`);
+                const productId = cartItem.data('product-id');
+                if (productId) {
+                    const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+                    if (quantity > 0) {
+                        localCart[productId] = quantity;
+                    } else {
+                        delete localCart[productId];
+                    }
+                    localStorage.setItem('local_cart', JSON.stringify(localCart));
+                }
+                {% endif %}
+                
                 setTimeout(() => location.reload(), 500);
             } else {
                 showToast(response.message, 'error');
@@ -129,6 +145,18 @@ function removeFromCart(itemId) {
             success: function(response) {
                 if (response.success) {
                     updateCartCount(response.cart_total);
+                    
+                    // Remove from localStorage for guest users
+                    {% if not user.is_authenticated %}
+                    const cartItem = $(`#cart-item-${itemId}`);
+                    const productId = cartItem.data('product-id');
+                    if (productId) {
+                        const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+                        delete localCart[productId];
+                        localStorage.setItem('local_cart', JSON.stringify(localCart));
+                    }
+                    {% endif %}
+                    
                     $(`#cart-item-${itemId}`).parents('.col').fadeOut(300, function() {
                         $(this).remove();
                         if ($('.cart-item').length === 0) {

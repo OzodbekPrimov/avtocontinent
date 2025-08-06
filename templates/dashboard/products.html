@@ -2,21 +2,21 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block title %}Products Management - Dashboard{% endblock %}
-{% block page_title %}Products Management{% endblock %}
+{% block title %}Управление продуктами - Панель управления{% endblock %}
+{% block page_title %}Управление продуктами{% endblock %}
 
 {% block content %}
-<!-- Filters -->
+<!-- Фильтры -->
 <div class="card mb-4">
     <div class="card-body">
         <form method="get" class="row g-3">
             <div class="col-md-4">
                 <input type="text" class="form-control" name="search"
-                       placeholder="Search by product name or SKU..." value="{{ search_query }}">
+                       placeholder="Поиск по названию продукта или SKU..." value="{{ search_query }}">
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="category">
-                    <option value="">All Categories</option>
+                    <option value="">Все категории</option>
                     {% for category in categories %}
                     <option value="{{ category.id }}" {% if category_filter == category.id|stringformat:"s" %}selected{% endif %}>
                         {{ category.name_uz|default:category.name }}
@@ -26,28 +26,28 @@
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="status">
-                    <option value="">All Statuses</option>
-                    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
-                    <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
-                    <option value="featured" {% if status_filter == 'featured' %}selected{% endif %}>Featured</option>
-                    <option value="out_of_stock" {% if status_filter == 'out_of_stock' %}selected{% endif %}>Out of Stock</option>
+                    <option value="">Все статусы</option>
+                    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Активный</option>
+                    <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Неактивный</option>
+                    <option value="featured" {% if status_filter == 'featured' %}selected{% endif %}>Рекомендуемый</option>
+                    <option value="out_of_stock" {% if status_filter == 'out_of_stock' %}selected{% endif %}>Нет в наличии</option>
                 </select>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="fas fa-search"></i> Filter
+                    <i class="fas fa-search"></i> Фильтр
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Products Table -->
+<!-- Таблица продуктов -->
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">Products ({{ page_obj.paginator.count }})</h5>
+        <h5 class="card-title mb-0">Продукты ({{ page_obj.paginator.count }})</h5>
         <a href="{% url 'dashboard:product_create' %}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add New Product
+            <i class="fas fa-plus"></i> Добавить продукт
         </a>
     </div>
     <div class="card-body">
@@ -55,14 +55,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
+                        <th>Изображение</th>
+                        <th>Название</th>
                         <th>SKU</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>Категория</th>
+                        <th>Цена</th>
+                        <th>Запас</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,7 +81,7 @@
                         </td>
                         <td>
                             <div class="fw-semibold">
-                                {{ product.name_uz|default:product.name_en|default:product.name_ru|default:"No Name"|truncatechars:40 }}
+                                {{ product.name_uz|default:product.name_en|default:product.name_ru|default:"Без названия"|truncatechars:40 }}
                             </div>
                             {% if product.name_en or product.name_ru %}
                                 <small class="text-muted">
@@ -96,7 +96,7 @@
                             {% endif %}
                             {% if product.youtube_video_id %}
                                 <br><small class="text-info">
-                                    <i class="fab fa-youtube"></i> Video Available
+                                    <i class="fab fa-youtube"></i> Есть видео
                                 </small>
                             {% endif %}
                         </td>
@@ -114,7 +114,7 @@
                             {% if product.stock_quantity > 0 %}
                                 <span class="badge bg-success">{{ product.stock_quantity|intcomma }}</span>
                             {% else %}
-                                <span class="badge bg-danger">Out of Stock</span>
+                                <span class="badge bg-danger">Нет в наличии</span>
                             {% endif %}
                         </td>
                         <td>
@@ -127,16 +127,16 @@
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-outline-primary"
-                                   target="_blank" title="View">
+                                   target="_blank" title="Просмотр">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <a href="{% url 'dashboard:product_edit' product.id %}"
-                                   class="btn btn-sm btn-outline-secondary" title="Edit">
+                                   class="btn btn-sm btn-outline-secondary" title="Редактировать">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button class="btn btn-sm btn-outline-danger"
                                         onclick="deleteProduct({{ product.id }}, '{{ product.name_uz|default:product.name_en|default:product.name_ru }}')"
-                                        title="Delete">
+                                        title="Удалить">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -146,8 +146,8 @@
                     <tr>
                         <td colspan="8" class="text-center text-muted py-4">
                             <i class="fas fa-box fa-2x mb-2"></i>
-                            <div>No Products Found</div>
-                            <small>Add a new product using the button above</small>
+                            <div>Продукты не найдены</div>
+                            <small>Добавьте новый продукт, используя кнопку выше</small>
                         </td>
                     </tr>
                     {% endfor %}
@@ -155,9 +155,9 @@
             </table>
         </div>
 
-        <!-- Pagination -->
+        <!-- Пагинация -->
         {% if page_obj.has_other_pages %}
-        <nav aria-label="Pagination" class="mt-4">
+        <nav aria-label="Пагинация" class="mt-4">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
@@ -192,24 +192,24 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Модальное окно подтверждения удаления -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="deleteModalLabel">Удаление продукта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete the product <strong id="productName"></strong>?</p>
+                <p>Вы уверены, что хотите удалить продукт <strong id="productName"></strong>?</p>
                 <p class="text-danger small">
                     <i class="fas fa-exclamation-triangle"></i>
-                    This action cannot be undone and all related data will be deleted.
+                    Это действие нельзя отменить, и все связанные данные будут удалены.
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Удалить</button>
             </div>
         </div>
     </div>
@@ -220,14 +220,14 @@
 <script>
 let deleteProductId = null;
 
-// Toggle product status
+// Переключение статуса продукта
 document.querySelectorAll('.toggle-status').forEach(function(toggle) {
     toggle.addEventListener('change', function() {
         const productId = this.dataset.productId;
         const isActive = this.checked;
         const toggleElement = this;
 
-        // Show loading state
+        // Показать состояние загрузки
         toggleElement.disabled = true;
 
         fetch('{% url "dashboard:ajax_toggle_product_status" %}', {
@@ -240,26 +240,26 @@ document.querySelectorAll('.toggle-status').forEach(function(toggle) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                throw new Error('Ошибка сети: ' + response.statusText);
             }
             return response.json();
         })
         .then(data => {
             if (data.success) {
-                // Update toggle state based on server response
+                // Обновить состояние переключателя на основе ответа сервера
                 toggleElement.checked = data.is_active;
-                showAlert('Product status updated successfully!', 'success');
+                showAlert('Статус продукта успешно обновлен!', 'success');
             } else {
-                // Revert to previous state on error
+                // Вернуться к предыдущему состоянию при ошибке
                 toggleElement.checked = !isActive;
-                showAlert('Error updating product status: ' + (data.message || 'Unknown error'), 'danger');
+                showAlert('Ошибка обновления статуса продукта: ' + (data.message || 'Неизвестная ошибка'), 'danger');
             }
         })
         .catch(error => {
-            console.error('Error:', error); // Log error for debugging
-            // Revert to previous state on error
+            console.error('Ошибка:', error); // Записать ошибку для отладки
+            // Вернуться к предыдущему состоянию при ошибке
             toggleElement.checked = !isActive;
-            showAlert('Error updating product status: ' + error.message, 'danger');
+            showAlert('Ошибка обновления статуса продукта: ' + error.message, 'danger');
         })
         .finally(() => {
             toggleElement.disabled = false;
@@ -267,54 +267,7 @@ document.querySelectorAll('.toggle-status').forEach(function(toggle) {
     });
 });
 
-// Toggle product featured status
-document.querySelectorAll('.toggle-featured').forEach(function(toggle) {
-    toggle.addEventListener('change', function() {
-        const productId = this.dataset.productId;
-        const isFeatured = this.checked;
-        const toggleElement = this;
-
-        // Show loading state
-        toggleElement.disabled = true;
-
-        fetch('{% url "dashboard:ajax_toggle_product_featured" %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: 'product_id=' + productId + '&is_featured=' + isFeatured
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Update toggle state based on server response
-                toggleElement.checked = data.is_featured;
-                showAlert('Product featured status updated successfully!', 'success');
-            } else {
-                // Revert to previous state on error
-                toggleElement.checked = !isFeatured;
-                showAlert('Error updating product featured status: ' + (data.message || 'Unknown error'), 'danger');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error); // Log error for debugging
-            // Revert to previous state on error
-            toggleElement.checked = !isFeatured;
-            showAlert('Error updating product featured status: ' + error.message, 'danger');
-        })
-        .finally(() => {
-            toggleElement.disabled = false;
-        });
-    });
-});
-
-// Delete product function
+// Функция удаления продукта
 function deleteProduct(productId, productName) {
     deleteProductId = productId;
     document.getElementById('productName').textContent = productName;
@@ -323,7 +276,7 @@ function deleteProduct(productId, productName) {
     modal.show();
 }
 
-// Confirm delete button click
+// Нажатие кнопки подтверждения удаления
 document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
     if (deleteProductId) {
         $.ajax({
@@ -334,23 +287,23 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function()
             },
             success: function(response) {
                 if (response.success) {
-                    showAlert('Product deleted successfully!', 'success');
-                    // Reload page after short delay
+                    showAlert('Продукт успешно удален!', 'success');
+                    // Перезагрузить страницу после небольшой задержки
                     setTimeout(() => {
                         location.reload();
                     }, 1500);
                 } else {
-                    showAlert(response.message || 'Error occurred', 'danger');
+                    showAlert(response.message || 'Произошла ошибка', 'danger');
                 }
 
-                // Hide modal
+                // Скрыть модальное окно
                 const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
                 modal.hide();
             },
             error: function() {
-                showAlert('Error connecting to server', 'danger');
+                showAlert('Ошибка подключения к серверу', 'danger');
 
-                // Hide modal
+                // Скрыть модальное окно
                 const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
                 modal.hide();
             }
@@ -358,7 +311,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function()
     }
 });
 
-// Show alert function
+// Функция показа уведомления
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
@@ -371,14 +324,14 @@ function showAlert(message, type) {
     const contentArea = document.querySelector('.card-body');
     contentArea.insertBefore(alertDiv, contentArea.firstChild);
 
-    // Auto dismiss after 5 seconds
+    // Автоматическое закрытие через 5 секунд
     setTimeout(() => {
         const bsAlert = new bootstrap.Alert(alertDiv);
         bsAlert.close();
     }, 5000);
 }
 
-// Search form enhancement
+// Улучшение формы поиска
 document.querySelector('input[name="search"]').addEventListener('keyup', function(e) {
     if (e.key === 'Enter') {
         e.target.closest('form').submit();

@@ -1,9 +1,9 @@
 {% extends 'dashboard/base.html' %}
 {% load humanize %}
 
-{% block title %}Analytics - Dashboard{% endblock %}
+{% block title %}Аналитика - Панель управления{% endblock %}
 
-{% block page_title %}Analytics{% endblock %}
+{% block page_title %}Аналитика{% endblock %}
 
 {% block content %}
 <script>
@@ -20,46 +20,46 @@ console.log('User Stats:', {
 <div class="stats-grid mb-4">
     <div class="stat-card">
         <div class="stat-header">
-            <div class="stat-title">Total Users</div>
+            <div class="stat-title">Всего пользователей</div>
             <div class="stat-icon primary">
                 <i class="fas fa-users"></i>
             </div>
         </div>
         <div class="stat-value">{{ user_stats.total_users|default:"0"|intcomma }}</div>
-        <div class="stat-change">All registered users</div>
+        <div class="stat-change">Все зарегистрированные пользователи</div>
     </div>
-    
+
     <div class="stat-card">
         <div class="stat-header">
-            <div class="stat-title">Active Users</div>
+            <div class="stat-title">Активные пользователи</div>
             <div class="stat-icon success">
                 <i class="fas fa-user-check"></i>
             </div>
         </div>
         <div class="stat-value">{{ user_stats.active_users|default:"0"|intcomma }}</div>
-        <div class="stat-change">Active in last 30 days</div>
+        <div class="stat-change">Активны за последние 30 дней</div>
     </div>
-    
+
     <div class="stat-card">
         <div class="stat-header">
-            <div class="stat-title">New Users</div>
+            <div class="stat-title">Новые пользователи</div>
             <div class="stat-icon warning">
                 <i class="fas fa-user-plus"></i>
             </div>
         </div>
         <div class="stat-value">{{ user_stats.new_users_this_month|default:"0"|intcomma }}</div>
-        <div class="stat-change">This month</div>
+        <div class="stat-change">В этом месяце</div>
     </div>
-    
+
     <div class="stat-card">
         <div class="stat-header">
-            <div class="stat-title">Users with Orders</div>
+            <div class="stat-title">Пользователи с заказами</div>
             <div class="stat-icon secondary">
                 <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
         <div class="stat-value">{{ user_stats.users_with_orders|default:"0"|intcomma }}</div>
-        <div class="stat-change">Conversion rate</div>
+        <div class="stat-change">Конверсия</div>
     </div>
 </div>
 
@@ -68,7 +68,7 @@ console.log('User Stats:', {
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title">Daily Sales (Last 30 Days)</h5>
+                <h5 class="card-title">Ежедневные продажи (последние 30 дней)</h5>
             </div>
             <div class="card-body">
                 <div class="chart-container" style="min-height: 400px;">
@@ -84,7 +84,7 @@ console.log('User Stats:', {
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Top Products by Revenue</h5>
+                <h5 class="card-title">Топ продуктов по выручке</h5>
             </div>
             <div class="card-body">
                 <script>
@@ -94,10 +94,10 @@ console.log('User Stats:', {
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
                         {% if product.main_image %}
-                        <img src="{{ product.main_image.url }}" alt="{{ product.name_uz|default:product.name }}" 
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name_uz|default:product.name }}"
                              class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
                         {% else %}
-                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light" 
+                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light"
                              style="width: 40px; height: 40px;">
                             <i class="fas fa-image text-muted"></i>
                         </div>
@@ -105,8 +105,8 @@ console.log('User Stats:', {
                         <div>
                             <div class="fw-semibold">{{ product.name_uz|default:product.name|truncatechars:25 }}</div>
                             <small class="text-muted">
-                                {{ product.order_count|intcomma }} orders • 
-                                {{ product.likes_count|intcomma }} likes
+                                {{ product.order_count|intcomma }} заказов •
+                                {{ product.likes_count|intcomma }} лайков
                             </small>
                         </div>
                     </div>
@@ -117,18 +117,18 @@ console.log('User Stats:', {
                 {% empty %}
                 <div class="empty-state">
                     <i class="fas fa-box"></i>
-                    <p>No sales data available</p>
+                    <p>Данные о продажах отсутствуют</p>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-    
+
     <!-- Category Performance -->
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Category Performance</h5>
+                <h5 class="card-title">Эффективность категорий</h5>
             </div>
             <div class="card-body">
                 <script>
@@ -138,10 +138,10 @@ console.log('User Stats:', {
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
                         {% if category.image %}
-                        <img src="{{ category.image.url }}" alt="{{ category.name_uz|default:category.name }}" 
+                        <img src="{{ category.image.url }}" alt="{{ category.name_uz|default:category.name }}"
                              class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
                         {% else %}
-                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light" 
+                        <div class="rounded me-3 d-flex align-items-center justify-content-center bg-light"
                              style="width: 40px; height: 40px;">
                             <i class="fas fa-cog text-muted"></i>
                         </div>
@@ -149,8 +149,8 @@ console.log('User Stats:', {
                         <div>
                             <div class="fw-semibold">{{ category.name_uz|default:category.name }}</div>
                             <small class="text-muted">
-                                {{ category.products_count|intcomma }} products • 
-                                {{ category.order_count|intcomma }} orders
+                                {{ category.products_count|intcomma }} продуктов •
+                                {{ category.order_count|intcomma }} заказов
                             </small>
                         </div>
                     </div>
@@ -161,7 +161,7 @@ console.log('User Stats:', {
                 {% empty %}
                 <div class="empty-state">
                     <i class="fas fa-tags"></i>
-                    <p>No category data available</p>
+                    <p>Данные о категориях отсутствуют</p>
                 </div>
                 {% endfor %}
             </div>
@@ -174,10 +174,10 @@ console.log('User Stats:', {
 <script>
 // Check if Chart.js is loaded
 if (typeof Chart === 'undefined') {
-    console.error('Chart.js is not loaded!');
-    document.getElementById('dailySalesChart').parentElement.innerHTML = '<p class="text-danger text-center">Chart.js failed to load. Please refresh the page.</p>';
+    console.error('Chart.js не загружен!');
+    document.getElementById('dailySalesChart').parentElement.innerHTML = '<p class="text-danger text-center">Не удалось загрузить Chart.js. Пожалуйста, обновите страницу.</p>';
 } else {
-    console.log('Chart.js loaded successfully');
+    console.log('Chart.js успешно загружен');
 }
 
 // Daily Sales Chart
@@ -192,10 +192,10 @@ if (dailySalesData && dailySalesData.length > 0) {
     data: {
         labels: dailySalesData.map(item => {
             const date = new Date(item.date);
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            return date.toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' });
         }),
         datasets: [{
-            label: 'Sales (UZS)',
+            label: 'Продажи (UZS)',
             data: dailySalesData.map(item => item.sales),
             borderColor: '#2563EB',
             backgroundColor: 'rgba(37, 99, 235, 0.1)',
@@ -203,7 +203,7 @@ if (dailySalesData && dailySalesData.length > 0) {
             fill: true,
             tension: 0.4
         }, {
-            label: 'Orders',
+            label: 'Заказы',
             data: dailySalesData.map(item => item.orders),
             borderColor: '#EA580C',
             backgroundColor: 'rgba(234, 88, 12, 0.1)',
@@ -242,7 +242,7 @@ if (dailySalesData && dailySalesData.length > 0) {
                 },
                 ticks: {
                     callback: function(value) {
-                        return value + ' orders';
+                        return value + ' заказов';
                     }
                 }
             }
@@ -255,9 +255,9 @@ if (dailySalesData && dailySalesData.length > 0) {
                 callbacks: {
                     label: function(context) {
                         if (context.datasetIndex === 0) {
-                            return 'Sales: ' + context.parsed.y.toLocaleString() + ' UZS';
+                            return 'Продажи: ' + context.parsed.y.toLocaleString() + ' UZS';
                         } else {
-                            return 'Orders: ' + context.parsed.y;
+                            return 'Заказы: ' + context.parsed.y;
                         }
                     }
                 }
@@ -266,8 +266,8 @@ if (dailySalesData && dailySalesData.length > 0) {
     }
 });
 } else {
-    console.log('No sales data available');
-    document.getElementById('dailySalesChart').parentElement.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><p>No sales data available for the last 30 days</p></div>';
+    console.log('Данные о продажах отсутствуют');
+    document.getElementById('dailySalesChart').parentElement.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Данные о продажах за последние 30 дней отсутствуют</p></div>';
 }
 </script>
 {% endblock %}

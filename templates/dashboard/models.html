@@ -1,36 +1,29 @@
 {% extends 'dashboard/base.html' %}
-
 {% load i18n %}
-
-{% block title %}{% trans "Car Models Management" %} - Dashboard{% endblock %}
-
+{% block title %}{% trans "Управление моделями автомобилей" %} - Панель управления{% endblock %}
 {% block page_title %}
 <div class="d-flex align-items-center">
-    <i class="fas fa-car me-2"></i>{% trans "Car Models Management" %}
+    <i class="fas fa-car me-2"></i>{% trans "Управление моделями автомобилей" %}
 </div>
 {% endblock %}
-
 {% block content %}
-<!-- CSRF token for AJAX requests -->
+<!-- CSRF-токен для AJAX-запросов -->
 {% csrf_token %}
-
 <div class="container-fluid py-4">
     <div class="card shadow-sm">
         <div class="card-header bg-light text-dark d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <i class="fas fa-car me-3"></i>
-                <h5 class="card-title mb-0">{% trans "All Car Models" %}</h5>
+                <h5 class="card-title mb-0">{% trans "Все модели автомобилей" %}</h5>
             </div>
             <a href="{% url 'dashboard:model_create' %}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i> {% trans "Add New Model" %}
+                <i class="fas fa-plus me-2"></i> {% trans "Добавить новую модель" %}
             </a>
         </div>
-
         <div class="card-body">
-            <!-- Alert container for messages -->
+            <!-- Контейнер для сообщений -->
             <div id="alert-container"></div>
-
-            <!-- Search and Filter Section -->
+            <!-- Поиск и фильтры -->
             <form method="get" id="filterForm">
                 <div class="row mb-4">
                     <div class="col-md-6">
@@ -39,7 +32,7 @@
                                 <i class="fas fa-search text-muted"></i>
                             </span>
                             <input type="text" name="search" class="form-control"
-                                   placeholder="{% trans 'Search models...' %}"
+                                   placeholder="{% trans 'Поиск моделей...' %}"
                                    value="{{ request.GET.search|default:'' }}">
                             {% if request.GET.search %}
                             <a href="{% url 'dashboard:models' %}{% if request.GET.brand %}?brand={{ request.GET.brand }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}"
@@ -48,16 +41,16 @@
                             </a>
                             {% endif %}
                             <button type="submit" class="btn btn-primary">
-                                {% trans "Search" %}
+                                {% trans "Поиск" %}
                             </button>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-end gap-2">
                             <div class="filter-group">
-                                <label class="form-label me-2">{% trans "Brand" %}:</label>
+                                <label class="form-label me-2">{% trans "Бренд" %}:</label>
                                 <select name="brand" class="form-select select2">
-                                    <option value="">{% trans "All Brands" %}</option>
+                                    <option value="">{% trans "Все бренды" %}</option>
                                     {% for brand in brands %}
                                     <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>
                                         {{ brand.name_uz }}
@@ -66,46 +59,45 @@
                                 </select>
                             </div>
                             <div class="filter-group">
-                                <label class="form-label me-2">{% trans "Status" %}:</label>
+                                <label class="form-label me-2">{% trans "Статус" %}:</label>
                                 <select name="status" class="form-select">
-                                    <option value="">{% trans "All Status" %}</option>
+                                    <option value="">{% trans "Все статусы" %}</option>
                                     <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>
-                                        {% trans "Active" %}
+                                        {% trans "Активно" %}
                                     </option>
                                     <option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>
-                                        {% trans "Inactive" %}
+                                        {% trans "Неактивно" %}
                                     </option>
                                 </select>
                             </div>
                             {% if request.GET.search or request.GET.brand or request.GET.status %}
                             <a href="{% url 'dashboard:models' %}" class="btn btn-outline-secondary">
-                                <i class="fas fa-times"></i> {% trans "Clear" %}
+                                <i class="fas fa-times"></i> {% trans "Очистить" %}
                             </a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </form>
-
-            <!-- Models Table -->
+            <!-- Таблица моделей -->
             {% if page_obj %}
             <div class="table-responsive">
                 <table class="table table-hover table-striped align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 80px;">{% trans "Image" %}</th>
-                            <th>{% trans "Model Name" %}</th>
-                            <th>{% trans "Brand" %}</th>
-                            <th>{% trans "Status" %}</th>
-                            <th>{% trans "Products" %}</th>
-                            <th>{% trans "Created" %}</th>
-                            <th style="width: 120px;">{% trans "Actions" %}</th>
+                            <th style="width: 80px;">{% trans "Изображение" %}</th>
+                            <th>{% trans "Название модели" %}</th>
+                            <th>{% trans "Бренд" %}</th>
+                            <th>{% trans "Статус" %}</th>
+                            <th>{% trans "Товары" %}</th>
+                            <th>{% trans "Создано" %}</th>
+                            <th style="width: 120px;">{% trans "Действия" %}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for model in page_obj %}
                         <tr id="model-row-{{ model.id }}">
-                            <!-- Image Column -->
+                            <!-- Колонка изображения -->
                             <td>
                                 {% if model.image %}
                                 <img src="{{ model.image.url }}" alt="{{ model.name_uz }}"
@@ -117,7 +109,7 @@
                                 </div>
                                 {% endif %}
                             </td>
-                            <!-- Name Column -->
+                            <!-- Колонка названия -->
                             <td>
                                 <div class="d-flex flex-column">
                                     <strong>{{ model.name_uz }}</strong>
@@ -128,11 +120,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <!-- Brand Column -->
+                            <!-- Колонка бренда -->
                             <td>
                                 <span class="badge bg-secondary">{{ model.brand.name_uz }}</span>
                             </td>
-                            <!-- Status Column -->
+                            <!-- Колонка статуса -->
                             <td>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input toggle-status"
@@ -141,35 +133,35 @@
                                            data-model-id="{{ model.id }}"
                                            {% if model.is_active %}checked{% endif %}
                                            data-bs-toggle="tooltip"
-                                           title="{% trans 'Toggle status' %}">
+                                           title="{% trans 'Изменить статус' %}">
                                     <label class="form-check-label" for="status-{{ model.id }}">
                                         <span class="status-text">
                                             {% if model.is_active %}
-                                            <small class="text-success">{% trans "Active" %}</small>
+                                            <small class="text-success">{% trans "Активно" %}</small>
                                             {% else %}
-                                            <small class="text-danger">{% trans "Inactive" %}</small>
+                                            <small class="text-danger">{% trans "Неактивно" %}</small>
                                             {% endif %}
                                         </span>
                                     </label>
                                 </div>
                             </td>
-                            <!-- Products Count -->
+                            <!-- Количество товаров -->
                             <td>
                                 <span class="badge rounded-pill bg-info">
-                                    {{ model.product_count|default:0 }} {% trans "products" %}
+                                    {{ model.product_count|default:0 }} {% trans "товаров" %}
                                 </span>
                             </td>
-                            <!-- Created Date -->
+                            <!-- Дата создания -->
                             <td>
                                 <small class="text-muted">{{ model.created_at|date:"M d, Y" }}</small>
                             </td>
-                            <!-- Actions Column -->
+                            <!-- Колонка действий -->
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
                                     <a href="{% url 'dashboard:model_edit' model.id %}"
                                        class="btn btn-outline-primary"
                                        data-bs-toggle="tooltip"
-                                       title="{% trans 'Edit' %}">
+                                       title="{% trans 'Редактировать' %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button type="button"
@@ -177,7 +169,7 @@
                                             data-model-id="{{ model.id }}"
                                             data-model-name="{{ model.name_uz }}"
                                             data-bs-toggle="tooltip"
-                                            title="{% trans 'Delete' %}">
+                                            title="{% trans 'Удалить' %}">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -187,10 +179,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Pagination -->
+            <!-- Пагинация -->
             {% if page_obj.has_other_pages %}
-            <nav aria-label="{% trans 'Models pagination' %}">
+            <nav aria-label="{% trans 'Пагинация моделей' %}">
                 <ul class="pagination justify-content-center mt-4">
                     {% if page_obj.has_previous %}
                     <li class="page-item">
@@ -232,31 +223,30 @@
                 </ul>
             </nav>
             {% endif %}
-
-            <!-- Results Summary -->
+            <!-- Итоги -->
             <div class="text-center text-muted mt-3">
                 {% blocktrans with start=page_obj.start_index end=page_obj.end_index total=page_obj.paginator.count %}
-                Showing {{ start }} to {{ end }} of {{ total }} models
+                Показано с {{ start }} по {{ end }} из {{ total }} моделей
                 {% endblocktrans %}
             </div>
             {% else %}
-            <!-- Empty State -->
+            <!-- Пустое состояние -->
             <div class="empty-state text-center py-5">
                 <div class="empty-state-icon bg-light-primary rounded-circle p-4 mb-3">
                     <i class="fas fa-car fa-3x text-primary"></i>
                 </div>
-                <h5 class="mb-3">{% trans "No car models found" %}</h5>
+                <h5 class="mb-3">{% trans "Модели автомобилей не найдены" %}</h5>
                 <p class="text-muted mb-4">
                     {% if request.GET.search or request.GET.brand or request.GET.status %}
-                    {% trans "Try adjusting your search or filter criteria" %}
-                    <a href="{% url 'dashboard:models' %}" class="ms-2">{% trans "Clear all filters" %}</a>
+                    {% trans "Попробуйте изменить параметры поиска или фильтрации" %}
+                    <a href="{% url 'dashboard:models' %}" class="ms-2">{% trans "Очистить все фильтры" %}</a>
                     {% else %}
-                    {% trans "You haven't created any car models yet" %}
+                    {% trans "Вы еще не создали ни одной модели автомобиля" %}
                     {% endif %}
                 </p>
                 {% if not request.GET.search and not request.GET.brand and not request.GET.status %}
                 <a href="{% url 'dashboard:model_create' %}" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i> {% trans "Create First Model" %}
+                    <i class="fas fa-plus me-2"></i> {% trans "Создать первую модель" %}
                 </a>
                 {% endif %}
             </div>
@@ -264,29 +254,26 @@
         </div>
     </div>
 </div>
-
-<!-- Delete Confirmation Modal -->
+<!-- Модальное окно подтверждения удаления -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">{% trans "Confirm Delete" %}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="deleteModalLabel">{% trans "Подтвердите удаление" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <p>{% trans "Are you sure you want to delete the model" %} "<span id="model-name-to-delete"></span>"?</p>
-                <p class="text-danger"><small>{% trans "This action cannot be undone." %}</small></p>
+                <p>{% trans "Вы уверены, что хотите удалить модель" %} "<span id="model-name-to-delete"></span>"?</p>
+                <p class="text-danger"><small>{% trans "Это действие нельзя отменить." %}</small></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
-                <button type="button" class="btn btn-danger" id="confirm-delete">{% trans "Delete" %}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Отмена" %}</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">{% trans "Удалить" %}</button>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
-
 {% block extra_css %}
 <style>
 .card {
@@ -326,63 +313,55 @@
 }
 </style>
 {% endblock %}
-
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Select2 for brand filter
+    // Инициализация Select2 для фильтра бренда
     if (typeof $ !== 'undefined' && $.fn.select2) {
         $('.select2').select2({
             theme: 'bootstrap-5',
             width: '200px',
-            placeholder: "{% trans 'Filter by brand' %}"
+            placeholder: "{% trans 'Фильтр по бренду' %}"
         });
-
-        // Auto-submit filter form when select changes
+        // Автоматическая отправка формы при изменении выбора
         $('select[name="brand"], select[name="status"]').on('change', function() {
             $('#filterForm').submit();
         });
     } else {
-        // Fallback if jQuery/Select2 not available
+        // Резервный вариант, если jQuery/Select2 недоступны
         document.querySelectorAll('select[name="brand"], select[name="status"]').forEach(function(select) {
             select.addEventListener('change', function() {
                 document.getElementById('filterForm').submit();
             });
         });
     }
-
-    // Initialize tooltips
+    // Инициализация всплывающих подсказок
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-
-    // Get CSRF token
+    // Получение CSRF-токена
     function getCSRFToken() {
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
         return csrfToken ? csrfToken.value : '';
     }
-
-    // Show alert function
+    // Функция показа уведомления
     function showAlert(message, type) {
-        // Remove existing alerts
+        // Удаление старых уведомлений
         const existingAlerts = document.querySelectorAll('.alert');
         existingAlerts.forEach(alert => alert.remove());
-
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
         alertDiv.innerHTML = `
             <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'} me-2"></i>
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
         `;
-
-        // Insert alert
+        // Вставка уведомления
         const alertContainer = document.getElementById('alert-container');
         alertContainer.appendChild(alertDiv);
-
-        // Auto-dismiss after 5 seconds
+        // Автоматическое закрытие через 5 секунд
         setTimeout(() => {
             if (alertDiv && alertDiv.parentNode) {
                 const bsAlert = new bootstrap.Alert(alertDiv);
@@ -390,25 +369,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 5000);
     }
-
-    // Status toggle functionality
+    // Функционал переключения статуса
     document.querySelectorAll('.toggle-status').forEach(function(toggle) {
         toggle.addEventListener('change', function() {
             const modelId = this.dataset.modelId;
             const checkbox = this;
             const statusText = checkbox.closest('td').querySelector('.status-text');
-            const originalChecked = !checkbox.checked; // Original state before change
-
-            // Show loading state
+            const originalChecked = !checkbox.checked; // Исходное состояние до изменения
+            // Показ состояния загрузки
             checkbox.disabled = true;
-
-            // Create form data
+            // Формирование данных
             const formData = new FormData();
             formData.append('model_id', modelId);
             formData.append('csrfmiddlewaretoken', getCSRFToken());
-
-            console.log('Toggling model status:', modelId, 'New status:', checkbox.checked);
-
+            console.log('Изменение статуса модели:', modelId, 'Новый статус:', checkbox.checked);
             fetch('{% url "dashboard:ajax_toggle_model_status" %}', {
                 method: 'POST',
                 body: formData,
@@ -417,69 +391,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .then(response => {
-                console.log('Response status:', response.status);
+                console.log('Статус ответа:', response.status);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Ошибка HTTP! статус: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Response data:', data);
+                console.log('Данные ответа:', data);
                 if (data.success) {
-                    // Update status text
+                    // Обновление текста статуса
                     statusText.innerHTML = data.new_status ?
-                        '<small class="text-success">{% trans "Active" %}</small>' :
-                        '<small class="text-danger">{% trans "Inactive" %}</small>';
-
-                    // Ensure checkbox reflects the actual status
+                        '<small class="text-success">{% trans "Активно" %}</small>' :
+                        '<small class="text-danger">{% trans "Неактивно" %}</small>';
+                    // Убедимся, что чекбокс отражает актуальный статус
                     checkbox.checked = data.new_status;
-
-                    showAlert('{% trans "Model status updated successfully!" %}', 'success');
+                    showAlert('{% trans "Статус модели успешно обновлен!" %}', 'success');
                 } else {
-                    // Revert checkbox to original state
+                    // Возврат чекбокса к исходному состоянию
                     checkbox.checked = originalChecked;
-                    showAlert('{% trans "Failed to update model status: " %}' + (data.message || data.error || '{% trans "Unknown error" %}'), 'danger');
+                    showAlert('{% trans "Не удалось обновить статус модели: " %}' + (data.message || data.error || '{% trans "Неизвестная ошибка" %}'), 'danger');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                // Revert checkbox to original state
+                console.error('Ошибка:', error);
+                // Возврат чекбокса к исходному состоянию
                 checkbox.checked = originalChecked;
-                showAlert('{% trans "An error occurred while updating model status. Please try again." %}', 'danger');
+                showAlert('{% trans "Произошла ошибка при обновлении статуса модели. Пожалуйста, попробуйте снова." %}', 'danger');
             })
             .finally(() => {
                 checkbox.disabled = false;
             });
         });
     });
-
-    // Delete model functionality
+    // Функционал удаления модели
     let modelIdToDelete = null;
-
     document.querySelectorAll('.delete-model').forEach(function(button) {
         button.addEventListener('click', function() {
             modelIdToDelete = this.dataset.modelId;
             const modelName = this.dataset.modelName;
-
             document.getElementById('model-name-to-delete').textContent = modelName;
-
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
             deleteModal.show();
         });
     });
-
-    // Confirm delete
+    // Подтверждение удаления
     document.getElementById('confirm-delete').addEventListener('click', function() {
         if (!modelIdToDelete) return;
-
         const button = this;
         button.disabled = true;
-        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {% trans "Deleting..." %}';
-
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {% trans "Удаление..." %}';
         const formData = new FormData();
         formData.append('model_id', modelIdToDelete);
         formData.append('csrfmiddlewaretoken', getCSRFToken());
-
         fetch('{% url "dashboard:ajax_delete_model" %}', {
             method: 'POST',
             body: formData,
@@ -490,41 +454,37 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Remove the model row from table
+                // Удаление строки модели из таблицы
                 const modelRow = document.getElementById(`model-row-${modelIdToDelete}`);
                 if (modelRow) {
                     modelRow.remove();
                 }
-
-                // Close modal
+                // Закрытие модального окна
                 const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
                 deleteModal.hide();
-
-                showAlert('{% trans "Model deleted successfully!" %}', 'success');
-
-                // Refresh page if no models left
+                showAlert('{% trans "Модель успешно удалена!" %}', 'success');
+                // Обновление страницы, если моделей больше нет
                 const tbody = document.querySelector('tbody');
                 if (tbody && tbody.children.length === 0) {
                     location.reload();
                 }
             } else {
-                showAlert('{% trans "Failed to delete model: " %}' + (data.message || data.error || '{% trans "Unknown error" %}'), 'danger');
+                showAlert('{% trans "Не удалось удалить модель: " %}' + (data.message || data.error || '{% trans "Неизвестная ошибка" %}'), 'danger');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showAlert('{% trans "An error occurred while deleting model. Please try again." %}', 'danger');
+            console.error('Ошибка:', error);
+            showAlert('{% trans "Произошла ошибка при удалении модели. Пожалуйста, попробуйте снова." %}', 'danger');
         })
         .finally(() => {
             button.disabled = false;
-            button.innerHTML = '{% trans "Delete" %}';
+            button.innerHTML = '{% trans "Удалить" %}';
             modelIdToDelete = null;
         });
     });
-
-    // Debug information
-    console.log('CSRF Token:', getCSRFToken());
-    console.log('Toggle status elements found:', document.querySelectorAll('.toggle-status').length);
+    // Отладочная информация
+    console.log('CSRF-токен:', getCSRFToken());
+    console.log('Найдено переключателей статуса:', document.querySelectorAll('.toggle-status').length);
 });
 </script>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
-{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block title %}{{ title }} - Панель управления{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 
 {% block content %}
@@ -19,22 +19,22 @@
                     {% csrf_token %}
 
                     <div class="row">
-                        <!-- Main Content Column -->
+                        <!-- Основная колонка -->
                         <div class="col-lg-8">
-                            <!-- Basic Information -->
+                            <!-- Основная информация -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-info-circle me-2"></i>
-                                        Asosiy Ma'lumotlar
+                                        Основная информация
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Name Fields -->
+                                    <!-- Поля названий -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_uz.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Nomi (Oʻzbekcha)
+                                            Название (Узбекский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -42,7 +42,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_uz.id_for_label }}"
                                                    name="{{ form.name_uz.name }}" value="{{ form.name_uz.value|default:'' }}"
-                                                   placeholder="O'zbekcha nom kiriting" required>
+                                                   placeholder="Введите название на узбекском" required>
                                         </div>
                                         {% if form.name_uz.errors %}
                                             <div class="invalid-feedback d-block">
@@ -56,7 +56,7 @@
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_ru.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Nomi (Ruscha)
+                                            Название (Русский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -64,7 +64,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_ru.id_for_label }}"
                                                    name="{{ form.name_ru.name }}" value="{{ form.name_ru.value|default:'' }}"
-                                                   placeholder="Ruscha nom kiriting" required>
+                                                   placeholder="Введите название на русском" required>
                                         </div>
                                         {% if form.name_ru.errors %}
                                             <div class="invalid-feedback d-block">
@@ -78,7 +78,7 @@
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_en.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Nomi (Inglizcha)
+                                            Название (Английский)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -86,7 +86,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
                                                    name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
-                                                   placeholder="Inglizcha nom kiriting" required>
+                                                   placeholder="Введите название на английском" required>
                                         </div>
                                         {% if form.name_en.errors %}
                                             <div class="invalid-feedback d-block">
@@ -97,11 +97,11 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Slug Field (Auto-generated) -->
+                                    <!-- Поле Slug (автогенерируемое) -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.slug.id_for_label }}" class="form-label">
                                             <i class="fas fa-link me-2"></i>
-                                            Slug (URL uchun)
+                                            Slug (для URL)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -109,14 +109,14 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.slug.id_for_label }}"
                                                    name="{{ form.slug.name }}" value="{{ form.slug.value|default:'' }}"
-                                                   placeholder="Avtomatik yaratiladi" readonly>
+                                                   placeholder="Создается автоматически" readonly>
                                             <button type="button" class="btn btn-outline-secondary" id="edit-slug-btn">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                         </div>
                                         <small class="form-text text-muted">
                                             <i class="fas fa-info-circle me-1"></i>
-                                            Slug avtomatik yaratiladi, lekin siz uni tahrirlashingiz mumkin
+                                            Slug создается автоматически, но вы можете отредактировать его вручную
                                         </small>
                                         {% if form.slug.errors %}
                                             <div class="invalid-feedback d-block">
@@ -131,7 +131,7 @@
                                     <div class="form-group mb-3">
                                         <label for="{{ form.sku.id_for_label }}" class="form-label required-field">
                                             <i class="fas fa-barcode me-2"></i>
-                                            SKU
+                                            Артикул (SKU)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -139,7 +139,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.sku.id_for_label }}"
                                                    name="{{ form.sku.name }}" value="{{ form.sku.value|default:'' }}"
-                                                   placeholder="Mahsulot SKU kodi" required>
+                                                   placeholder="Артикул товара" required>
                                         </div>
                                         {% if form.sku.errors %}
                                             <div class="invalid-feedback d-block">
@@ -150,11 +150,11 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Category -->
+                                    <!-- Категория -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.category.id_for_label }}" class="form-label required-field">
                                             <i class="fas fa-folder me-2"></i>
-                                            Kategoriya
+                                            Категория
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -162,7 +162,7 @@
                                             </span>
                                             <select class="form-control" id="{{ form.category.id_for_label }}"
                                                     name="{{ form.category.name }}" required>
-                                                <option value="">Kategoriyani tanlang</option>
+                                                <option value="">Выберите категорию</option>
                                                 {% for category in categories %}
                                                 <option value="{{ category.id }}"
                                                         {% if form.category.value == category.id %}selected{% endif %}>
@@ -182,37 +182,37 @@
                                 </div>
                             </div>
 
-                            <!-- Compatible Models -->
+                            <!-- Совместимые модели -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="mb-0">
                                             <i class="fas fa-car me-2"></i>
-                                            Mos Avtomobil Modellari
+                                            Совместимые автомобили
                                         </h6>
                                         <div class="btn-group btn-group-sm">
                                             <button type="button" class="btn btn-outline-primary" id="select-all-cars">
-                                                <i class="fas fa-check-square me-1"></i> Barchasini tanlash
+                                                <i class="fas fa-check-square me-1"></i> Выбрать все
                                             </button>
                                             <button type="button" class="btn btn-outline-secondary" id="deselect-all-cars">
-                                                <i class="fas fa-square me-1"></i> Barchasini bekor qilish
+                                                <i class="fas fa-square me-1"></i> Снять все
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Search Filter -->
+                                    <!-- Поиск -->
                                     <div class="form-group mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text">
                                                 <i class="fas fa-search"></i>
                                             </span>
                                             <input type="text" class="form-control" id="car-search"
-                                                   placeholder="Avtomobil qidirish (marka yoki model)...">
+                                                   placeholder="Поиск автомобилей (марка или модель)...">
                                         </div>
                                     </div>
 
-                                    <!-- Cars Table -->
+                                    <!-- Таблица автомобилей -->
                                     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                                         <table class="table table-hover table-sm">
                                             <thead class="table-light sticky-top">
@@ -222,10 +222,10 @@
                                                             <input type="checkbox" class="form-check-input" id="select-all-checkbox">
                                                         </div>
                                                     </th>
-                                                    <th>Marka</th>
-                                                    <th>Model</th>
-                                                    <th>Yil</th>
-                                                    <th>Dvigatel</th>
+                                                    <th>Марка</th>
+                                                    <th>Модель</th>
+                                                    <th>Год</th>
+                                                    <th>Двигатель</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="cars-table-body">
@@ -255,7 +255,7 @@
                                                     <td>{{ model.name_uz }}</td>
                                                     <td>
                                                         <span class="badge bg-secondary">
-                                                            {{ model.year_start }}{% if model.year_end %} - {{ model.year_end }}{% else %} - hozir{% endif %}
+                                                            {{ model.year_start }}{% if model.year_end %} - {{ model.year_end }}{% else %} - сейчас{% endif %}
                                                         </span>
                                                     </td>
                                                     <td>
@@ -270,7 +270,7 @@
                                                 <tr>
                                                     <td colspan="5" class="text-center text-muted py-4">
                                                         <i class="fas fa-car me-2"></i>
-                                                        Avtomobil modellari topilmadi
+                                                        Автомобили не найдены
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -278,11 +278,11 @@
                                         </table>
                                     </div>
 
-                                    <!-- Selected Cars Summary -->
+                                    <!-- Сводка по выбранным автомобилям -->
                                     <div class="mt-3">
                                         <div class="alert alert-info" id="selected-cars-summary">
                                             <i class="fas fa-info-circle me-2"></i>
-                                            <span id="selected-count">0</span> ta avtomobil tanlandi
+                                            Выбрано <span id="selected-count">0</span> автомобилей
                                         </div>
                                     </div>
 
@@ -296,24 +296,24 @@
                                 </div>
                             </div>
 
-                            <!-- Description Fields -->
+                            <!-- Описание товара -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-align-left me-2"></i>
-                                        Mahsulot Tavsifi
+                                        Описание товара
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Short Description -->
+                                    <!-- Краткое описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.short_description.id_for_label }}" class="form-label">
                                             <i class="fas fa-align-center me-2"></i>
-                                            Qisqa Tavsif
+                                            Краткое описание
                                         </label>
                                         <textarea class="form-control" id="{{ form.short_description.id_for_label }}"
                                                   name="{{ form.short_description.name }}" rows="3"
-                                                  placeholder="Qisqa mahsulot tavsifi (maksimal 500 belgi)">{{ form.short_description.value|default:'' }}</textarea>
+                                                  placeholder="Краткое описание товара (максимум 500 символов)">{{ form.short_description.value|default:'' }}</textarea>
                                         {% if form.short_description.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.short_description.errors %}
@@ -323,15 +323,15 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Uzbek Description -->
+                                    <!-- Узбекское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_uz.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Tavsif (Oʻzbekcha)
+                                            Описание (Узбекский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_uz.id_for_label }}"
                                                   name="{{ form.description_uz.name }}" rows="4"
-                                                  placeholder="O'zbekcha tavsif kiriting">{{ form.description_uz.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на узбекском">{{ form.description_uz.value|default:'' }}</textarea>
                                         {% if form.description_uz.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_uz.errors %}
@@ -341,15 +341,15 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Russian Description -->
+                                    <!-- Русское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_ru.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Tavsif (Ruscha)
+                                            Описание (Русский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_ru.id_for_label }}"
                                                   name="{{ form.description_ru.name }}" rows="4"
-                                                  placeholder="Ruscha tavsif kiriting">{{ form.description_ru.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на русском">{{ form.description_ru.value|default:'' }}</textarea>
                                         {% if form.description_ru.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_ru.errors %}
@@ -359,15 +359,15 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- English Description -->
+                                    <!-- Английское описание -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_en.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Tavsif (Inglizcha)
+                                            Описание (Английский)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
                                                   name="{{ form.description_en.name }}" rows="4"
-                                                  placeholder="Inglizcha tavsif kiriting">{{ form.description_en.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на английском">{{ form.description_en.value|default:'' }}</textarea>
                                         {% if form.description_en.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_en.errors %}
@@ -379,20 +379,20 @@
                                 </div>
                             </div>
 
-                            <!-- Pricing & Inventory -->
+                            <!-- Цена и количество -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-dollar-sign me-2"></i>
-                                        Narx va Ombordagi Miqdori
+                                        Цена и количество на складе
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Price -->
+                                    <!-- Цена -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.price_usd.id_for_label }}" class="form-label required-field">
                                             <i class="fas fa-dollar-sign me-2"></i>
-                                            Narx (USD)
+                                            Цена (USD)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
@@ -409,11 +409,11 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Stock Quantity -->
+                                    <!-- Количество на складе -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.stock_quantity.id_for_label }}" class="form-label required-field">
                                             <i class="fas fa-boxes me-2"></i>
-                                            Ombordagi Miqdori
+                                            Количество на складе
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -432,7 +432,7 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Status Fields -->
+                                    <!-- Статусы -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -441,7 +441,7 @@
                                                            name="{{ form.is_active.name }}" {% if form.is_active.value %}checked{% endif %}>
                                                     <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
                                                         <i class="fas fa-toggle-on me-2"></i>
-                                                        Faol holati
+                                                        Активный статус
                                                     </label>
                                                 </div>
                                             </div>
@@ -453,7 +453,7 @@
                                                            name="{{ form.is_featured.name }}" {% if form.is_featured.value %}checked{% endif %}>
                                                     <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
                                                         <i class="fas fa-star me-2"></i>
-                                                        Tavsiya etiladi
+                                                        Рекомендуемый
                                                     </label>
                                                 </div>
                                             </div>
@@ -463,25 +463,25 @@
                             </div>
                         </div>
 
-                        <!-- Sidebar Column -->
+                        <!-- Боковая колонка -->
                         <div class="col-lg-4">
-                            <!-- Media Upload Card -->
+                            <!-- Загрузка изображения -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-image me-2"></i>
-                                        Mahsulot Rasmi
+                                        Изображение товара
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Current Image Preview -->
+                                    <!-- Текущее изображение -->
                                     {% if product and product.main_image %}
                                     <div class="mb-3">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Joriy rasm
+                                            <i class="fas fa-eye me-2"></i>Текущее изображение
                                         </label>
                                         <div class="image-preview">
-                                            <img src="{{ product.main_image.url }}" alt="Joriy mahsulot rasmi"
+                                            <img src="{{ product.main_image.url }}" alt="Текущее изображение товара"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted">{{ product.main_image.name }}</small>
@@ -490,16 +490,16 @@
                                     </div>
                                     {% endif %}
 
-                                    <!-- File Upload -->
+                                    <!-- Загрузка файла -->
                                     <div class="file-upload-wrapper" id="fileUploadWrapper">
                                         <div class="file-upload-icon">
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
                                         <div class="file-upload-text">
-                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                            <strong>Нажмите для загрузки</strong> или перетащите файл
                                         </div>
                                         <div class="file-upload-hint">
-                                            PNG, JPG, WebP (maksimum 5MB)
+                                            PNG, JPG, WebP (максимум 5MB)
                                         </div>
                                         <input type="file" class="d-none" id="{{ form.main_image.id_for_label }}"
                                                name="{{ form.main_image.name }}" accept="image/*" {% if not product %}required{% endif %}>
@@ -513,13 +513,13 @@
                                         </div>
                                     {% endif %}
 
-                                    <!-- Image Preview -->
+                                    <!-- Предпросмотр изображения -->
                                     <div id="imagePreview" class="mt-3" style="display: none;">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                            <i class="fas fa-eye me-2"></i>Предпросмотр
                                         </label>
                                         <div class="image-preview">
-                                            <img id="previewImg" src="" alt="Ko'rish"
+                                            <img id="previewImg" src="" alt="Предпросмотр"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted" id="fileName"></small>
@@ -527,35 +527,35 @@
                                         </div>
                                     </div>
 
-                                    <!-- Image Requirements -->
+                                    <!-- Требования к изображению -->
                                     <div class="mt-3">
                                         <div class="alert alert-info">
                                             <h6 class="alert-heading">
-                                                <i class="fas fa-info-circle me-2"></i>Rasm talablari
+                                                <i class="fas fa-info-circle me-2"></i>Требования к изображению
                                             </h6>
                                             <ul class="mb-0 small">
-                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 800x600 piksel</li>
-                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
-                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                                <li><strong>Рекомендуемый размер:</strong> 800x600 пикселей</li>
+                                                <li><strong>Максимальный размер файла:</strong> 5MB</li>
+                                                <li><strong>Поддерживаемые форматы:</strong> JPG, PNG, WebP</li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- YouTube Video -->
+                            <!-- YouTube видео -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fab fa-youtube me-2"></i>
-                                        YouTube Video
+                                        YouTube видео
                                     </h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group mb-3">
                                         <label for="{{ form.youtube_video_id.id_for_label }}" class="form-label">
                                             <i class="fas fa-video me-2"></i>
-                                            Video ID
+                                            ID видео
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -563,7 +563,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.youtube_video_id.id_for_label }}"
                                                    name="{{ form.youtube_video_id.name }}" value="{{ form.youtube_video_id.value|default:'' }}"
-                                                   placeholder="Video ID (masalan: jL14SRWKA6c)">
+                                                   placeholder="ID видео (например: jL14SRWKA6c)">
                                         </div>
                                         {% if form.youtube_video_id.errors %}
                                             <div class="invalid-feedback d-block">
@@ -574,10 +574,10 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Video Preview -->
+                                    <!-- Предпросмотр видео -->
                                     <div id="videoPreview" class="mt-3" style="display: none;">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Video ko'rish
+                                            <i class="fas fa-eye me-2"></i>Предпросмотр видео
                                         </label>
                                         <div class="ratio ratio-16x9">
                                             <iframe id="youtubeFrame" src="" allowfullscreen></iframe>
@@ -588,18 +588,18 @@
                         </div>
                     </div>
 
-                    <!-- Form Actions -->
+                    <!-- Действия формы -->
                     <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                         <a href="{% url 'dashboard:products' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Mahsulotlarga qaytish
+                            <i class="fas fa-arrow-left me-2"></i> Вернуться к товарам
                         </a>
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-save me-2"></i> {{ action }} Mahsulot
+                                <i class="fas fa-save me-2"></i> {{ action }} Товар
                             </button>
                             {% if product %}
                             <a href="{% url 'dashboard:product_delete' product.id %}" class="btn btn-outline-danger">
-                                <i class="fas fa-trash me-2"></i> O'chirish
+                                <i class="fas fa-trash me-2"></i> Удалить
                             </a>
                             {% endif %}
                         </div>
@@ -673,23 +673,23 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Global error handler to prevent white screen
+    // Глобальный обработчик ошибок для предотвращения белого экрана
     window.addEventListener('error', function(e) {
-        console.error('JavaScript error:', e.error);
-        showAlert('Xatolik yuz berdi. Iltimos, sahifani yangilang.', 'danger');
+        console.error('Ошибка JavaScript:', e.error);
+        showAlert('Произошла ошибка. Пожалуйста, обновите страницу.', 'danger');
     });
 
-    // Handle server-side validation errors on page load
+    // Обработка ошибок валидации сервера при загрузке страницы
     handleServerValidationErrors();
 
-    // Slug generation functionality
+    // Функционал генерации slug
     const nameUzInput = document.getElementById('{{ form.name_uz.id_for_label }}');
     const slugInput = document.getElementById('{{ form.slug.id_for_label }}');
     const editSlugBtn = document.getElementById('edit-slug-btn');
     let slugManuallyEdited = false;
 
     if (nameUzInput && slugInput && editSlugBtn) {
-        // Generate slug from name_uz
+        // Генерация slug из name_uz
         nameUzInput.addEventListener('input', function() {
             if (!slugManuallyEdited) {
                 const slug = generateSlug(this.value);
@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Enable slug editing
+        // Включение редактирования slug
         editSlugBtn.addEventListener('click', function() {
             if (slugInput.readOnly) {
                 slugInput.readOnly = false;
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.innerHTML = '<i class="fas fa-lock"></i>';
                 this.classList.remove('btn-outline-secondary');
                 this.classList.add('btn-outline-warning');
-                this.title = 'Slug tahrirlash rejimi yoqilgan';
+                this.title = 'Режим редактирования slug включен';
             } else {
                 slugInput.readOnly = true;
                 slugInput.classList.add('slug-readonly');
@@ -715,11 +715,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.innerHTML = '<i class="fas fa-edit"></i>';
                 this.classList.remove('btn-outline-warning');
                 this.classList.add('btn-outline-secondary');
-                this.title = 'Slug-ni tahrirlash';
+                this.title = 'Редактировать slug';
             }
         });
 
-        // Validate slug format on input
+        // Валидация формата slug при вводе
         slugInput.addEventListener('input', function() {
             const slug = this.value;
             const validSlug = generateSlug(slug);
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Initialize slug readonly state
+        // Инициализация состояния slug при загрузке
         if (slugInput.value) {
             slugManuallyEdited = true;
         }
@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateSlug(text) {
         if (!text) return '';
 
-        // Cyrillic to Latin transliteration for Uzbek
+        // Транслитерация кириллицы в латиницу для узбекского
         const transliterationMap = {
             'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
             'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
@@ -758,7 +758,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/^-+|-+$/g, '');
     }
 
-    // Car selection functionality
+    // Функционал выбора автомобилей
     const selectAllBtn = document.getElementById('select-all-cars');
     const deselectAllBtn = document.getElementById('deselect-all-cars');
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
@@ -766,10 +766,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const carSearch = document.getElementById('car-search');
     const selectedCountSpan = document.getElementById('selected-count');
 
-    // Initialize selected count
+    // Инициализация счетчика выбранных
     updateSelectedCount();
 
-    // Select all functionality
+    // Функционал "Выбрать все"
     if (selectAllBtn) {
         selectAllBtn.addEventListener('click', function() {
             const visibleCheckboxes = getVisibleCarCheckboxes();
@@ -782,7 +782,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Deselect all functionality
+    // Функционал "Снять все"
     if (deselectAllBtn) {
         deselectAllBtn.addEventListener('click', function() {
             const visibleCheckboxes = getVisibleCarCheckboxes();
@@ -795,7 +795,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Select all checkbox functionality
+    // Функционал чекбокса "Выбрать все"
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
             const visibleCheckboxes = getVisibleCarCheckboxes();
@@ -807,7 +807,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Individual checkbox functionality
+    // Функционал отдельных чекбоксов
     carCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             updateRowSelection(this);
@@ -815,11 +815,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSelectAllCheckbox();
         });
 
-        // Initialize row selection state
+        // Инициализация состояния строки
         updateRowSelection(checkbox);
     });
 
-    // Car search functionality
+    // Функционал поиска автомобилей
     if (carSearch) {
         carSearch.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
@@ -883,7 +883,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // File upload functionality
+    // Функционал загрузки файлов
     const fileUploadWrapper = document.getElementById('fileUploadWrapper');
     const fileInput = document.getElementById('{{ form.main_image.id_for_label }}');
 
@@ -925,19 +925,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const fileName = document.getElementById('fileName');
         const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
 
-        // Show preview
+        // Показать предпросмотр
         preview.style.display = 'block';
         fileName.textContent = file.name;
         uploadText.innerHTML = `<strong>${file.name}</strong>`;
 
-        // Create preview
+        // Создать предпросмотр
         const reader = new FileReader();
         reader.onload = function(e) {
             previewImg.src = e.target.result;
         };
         reader.readAsDataURL(file);
 
-        // Validate file
+        // Проверить файл
         validateFile(file);
     }
 
@@ -946,13 +946,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxSize = 5 * 1024 * 1024; // 5MB
 
         if (!allowedTypes.includes(file.type)) {
-            showAlert('Iltimos, rasm faylini tanlang (JPG, PNG yoki WebP)', 'danger');
+            showAlert('Пожалуйста, выберите файл изображения (JPG, PNG или WebP)', 'danger');
             resetFileInput();
             return false;
         }
 
         if (file.size > maxSize) {
-            showAlert('Fayl hajmi 5MB dan oshmasligi kerak', 'danger');
+            showAlert('Размер файла не должен превышать 5MB', 'danger');
             resetFileInput();
             return false;
         }
@@ -967,7 +967,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fileInput.value = '';
         preview.style.display = 'none';
-        uploadText.innerHTML = '<strong>Yuklash uchun bosing</strong> yoki sudrab tashlang';
+        uploadText.innerHTML = '<strong>Нажмите для загрузки</strong> или перетащите файл';
     }
 
     function showAlert(message, type) {
@@ -994,7 +994,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // YouTube video preview
+    // Предпросмотр YouTube видео
     const youtubeInput = document.getElementById('{{ form.youtube_video_id.id_for_label }}');
     if (youtubeInput) {
         youtubeInput.addEventListener('input', function() {
@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Initialize video preview if value exists
+        // Инициализация предпросмотра видео, если значение существует
         const existingVideoId = youtubeInput.value.trim();
         if (existingVideoId && existingVideoId.length === 11) {
             const preview = document.getElementById('videoPreview');
@@ -1021,41 +1021,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Form validation
+    // Валидация формы
     const form = document.getElementById('product-form');
     if (form) {
         form.addEventListener('submit', function(e) {
             let isValid = true;
             const submitBtn = document.getElementById('submit-btn');
 
-            // Clear previous validation states
+            // Очистка предыдущих состояний валидации
             document.querySelectorAll('.is-invalid').forEach(field => {
                 field.classList.remove('is-invalid');
             });
 
-            // Validate at least one name is provided
+            // Проверка, что указано хотя бы одно название
             const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
             const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}').value.trim();
             const nameEn = document.getElementById('{{ form.name_en.id_for_label }}').value.trim();
 
             if (!nameUz && !nameRu && !nameEn) {
-                showAlert('Iltimos, kamida bitta tilda nom kiriting', 'danger');
+                showAlert('Пожалуйста, укажите название хотя бы на одном языке', 'danger');
                 markFieldInvalid('{{ form.name_uz.id_for_label }}');
                 isValid = false;
             }
 
-            // Validate at least one description is provided
+            // Проверка, что указано хотя бы одно описание
             const descUz = document.getElementById('{{ form.description_uz.id_for_label }}').value.trim();
             const descRu = document.getElementById('{{ form.description_ru.id_for_label }}').value.trim();
             const descEn = document.getElementById('{{ form.description_en.id_for_label }}').value.trim();
 
             if (!descUz && !descRu && !descEn) {
-                showAlert('Iltimos, kamida bitta tilda tavsif kiriting', 'danger');
+                showAlert('Пожалуйста, укажите описание хотя бы на одном языке', 'danger');
                 markFieldInvalid('{{ form.description_uz.id_for_label }}');
                 isValid = false;
             }
 
-            // Validate other required fields
+            // Проверка других обязательных полей
             const sku = document.getElementById('{{ form.sku.id_for_label }}').value.trim();
             const category = document.getElementById('{{ form.category.id_for_label }}').value;
             const price = document.getElementById('{{ form.price_usd.id_for_label }}').value;
@@ -1078,28 +1078,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
 
-            // Validate slug
+            // Проверка slug
             const slug = document.getElementById('{{ form.slug.id_for_label }}').value.trim();
             if (!slug) {
                 markFieldInvalid('{{ form.slug.id_for_label }}');
-                showAlert('Slug maydoni bo\'sh bo\'lishi mumkin emas', 'danger');
+                showAlert('Поле slug не может быть пустым', 'danger');
                 isValid = false;
             }
 
-            // Validate image for new products
+            // Проверка изображения для новых товаров
             {% if not product %}
             const fileInput = document.getElementById('{{ form.main_image.id_for_label }}');
             if (!fileInput.files || fileInput.files.length === 0) {
-                showAlert('Iltimos, mahsulot rasmini yuklang', 'danger');
+                showAlert('Пожалуйста, загрузите изображение товара', 'danger');
                 isValid = false;
             }
             {% endif %}
 
             if (!isValid) {
                 e.preventDefault();
-                showAlert('Iltimos, barcha majburiy maydonlarni to\'ldiring', 'danger');
+                showAlert('Пожалуйста, заполните все обязательные поля', 'danger');
 
-                // Scroll to first error
+                // Прокрутка к первой ошибке
                 const firstError = document.querySelector('.is-invalid');
                 if (firstError) {
                     firstError.scrollIntoView({
@@ -1108,18 +1108,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             } else {
-                // Show loading state
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
+                // Показать состояние загрузки
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Сохранение...';
                 submitBtn.disabled = true;
 
-                // Add a timeout to prevent infinite loading
+                // Добавить таймаут для предотвращения бесконечной загрузки
                 setTimeout(() => {
                     if (submitBtn.disabled) {
-                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Mahsulot';
+                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Товар';
                         submitBtn.disabled = false;
-                        showAlert('Saqlash vaqti oshdi. Iltimos, qaytadan urinib ko\'ring.', 'warning');
+                        showAlert('Время сохранения истекло. Пожалуйста, попробуйте снова.', 'warning');
                     }
-                }, 30000); // 30 seconds timeout
+                }, 30000); // Таймаут 30 секунд
             }
         });
     }
@@ -1132,10 +1132,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleServerValidationErrors() {
-        // Check if there are any server-side validation errors
+        // Проверка наличия ошибок валидации сервера
         const errorFields = document.querySelectorAll('.invalid-feedback');
         if (errorFields.length > 0) {
-            // Add is-invalid class to parent input fields
+            // Добавление класса is-invalid к полям ввода
             errorFields.forEach(errorField => {
                 const inputField = errorField.previousElementSibling?.querySelector('input, textarea, select') ||
                                   errorField.parentElement?.querySelector('input, textarea, select');
@@ -1144,10 +1144,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Show a general error message
-            showAlert('Formada xatoliklar mavjud. Iltimos, qizil belgilangan maydonlarni to\'ldiring.', 'danger');
+            // Показать общее сообщение об ошибке
+            showAlert('В форме есть ошибки. Пожалуйста, заполните выделенные красным поля.', 'danger');
 
-            // Scroll to first error
+            // Прокрутка к первой ошибке
             const firstError = document.querySelector('.is-invalid');
             if (firstError) {
                 setTimeout(() => {
@@ -1159,14 +1159,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Also check for any Django form errors that might not be in invalid-feedback
+        // Проверка ошибок Django формы, которые могут быть не в invalid-feedback
         const formErrors = document.querySelectorAll('.errorlist');
         if (formErrors.length > 0) {
-            showAlert('Formada xatoliklar mavjud. Iltimos, barcha maydonlarni to\'g\'ri to\'ldiring.', 'danger');
+            showAlert('В форме есть ошибки. Пожалуйста, правильно заполните все поля.', 'danger');
         }
     }
 
-    // Initialize on page load
+    // Инициализация при загрузке страницы
     updateSelectAllCheckbox();
 });
 </script>

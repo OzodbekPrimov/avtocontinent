@@ -1,9 +1,7 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
-
-{% block title %}{{ title }} - Dashboard{% endblock %}
+{% block title %}{{ title }} - Панель управления{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-10">
@@ -17,24 +15,23 @@
             <div class="card-body p-4">
                 <form method="post" enctype="multipart/form-data" id="brand-form" novalidate>
                 {% csrf_token %}
-                
                     <div class="row">
-                        <!-- Main Content Column -->
+                        <!-- Основной контент -->
                         <div class="col-lg-8">
-                            <!-- Name Fields -->
+                            <!-- Поля названия -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-heading me-2"></i>
-                                        Brend Nomi
+                                        Название бренда
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Uzbek Name -->
+                                    <!-- Название на узбекском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_uz.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Nomi (Oʻzbekcha)
+                                            Название (на узбекском)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -42,7 +39,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_uz.id_for_label }}"
                                                    name="{{ form.name_uz.name }}" value="{{ form.name_uz.value|default:'' }}"
-                                                   placeholder="O'zbekcha nom kiriting" required>
+                                                   placeholder="Введите название на узбекском" required>
                                         </div>
                                         {% if form.name_uz.errors %}
                                             <div class="invalid-feedback d-block">
@@ -52,12 +49,11 @@
                                             </div>
                                         {% endif %}
                                     </div>
-
-                                    <!-- Russian Name -->
+                                    <!-- Название на русском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_ru.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Nomi (Ruscha)
+                                            Название (на русском)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -65,7 +61,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_ru.id_for_label }}"
                                                    name="{{ form.name_ru.name }}" value="{{ form.name_ru.value|default:'' }}"
-                                                   placeholder="Ruscha nom kiriting" required>
+                                                   placeholder="Введите название на русском" required>
                                         </div>
                                         {% if form.name_ru.errors %}
                                             <div class="invalid-feedback d-block">
@@ -75,12 +71,11 @@
                                             </div>
                                         {% endif %}
                                     </div>
-
-                                    <!-- English Name -->
+                                    <!-- Название на английском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.name_en.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Nomi (Inglizcha)
+                                            Название (на английском)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -88,7 +83,7 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
                                                    name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
-                                                   placeholder="Inglizcha nom kiriting" required>
+                                                   placeholder="Введите название на английском" required>
                                         </div>
                                         {% if form.name_en.errors %}
                                             <div class="invalid-feedback d-block">
@@ -98,27 +93,26 @@
                                             </div>
                                         {% endif %}
                                     </div>
-                        </div>
-                    </div>
-
-                            <!-- Description Fields -->
+                                </div>
+                            </div>
+                            <!-- Поля описания -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-align-left me-2"></i>
-                                        Brend Tavsifi
+                                        Описание бренда
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Uzbek Description -->
+                                    <!-- Описание на узбекском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_uz.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-uz me-2"></span>
-                                            Tavsif (Oʻzbekcha)
+                                            Описание (на узбекском)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_uz.id_for_label }}"
                                                   name="{{ form.description_uz.name }}" rows="3"
-                                                  placeholder="O'zbekcha tavsif kiriting">{{ form.description_uz.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на узбекском">{{ form.description_uz.value|default:'' }}</textarea>
                                         {% if form.description_uz.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_uz.errors %}
@@ -127,34 +121,32 @@
                                             </div>
                                         {% endif %}
                                     </div>
-
-                                    <!-- Russian Description -->
+                                    <!-- Описание на русском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_ru.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-ru me-2"></span>
-                                            Tavsif (Ruscha)
+                                            Описание (на русском)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_ru.id_for_label }}"
                                                   name="{{ form.description_ru.name }}" rows="3"
-                                                  placeholder="Ruscha tavsif kiriting">{{ form.description_ru.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на русском">{{ form.description_ru.value|default:'' }}</textarea>
                                         {% if form.description_ru.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_ru.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-                
-                                    <!-- English Description -->
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <!-- Описание на английском -->
                                     <div class="form-group mb-3">
                                         <label for="{{ form.description_en.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Tavsif (Inglizcha)
+                                            Описание (на английском)
                                         </label>
                                         <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
                                                   name="{{ form.description_en.name }}" rows="3"
-                                                  placeholder="Inglizcha tavsif kiriting">{{ form.description_en.value|default:'' }}</textarea>
+                                                  placeholder="Введите описание на английском">{{ form.description_en.value|default:'' }}</textarea>
                                         {% if form.description_en.errors %}
                                             <div class="invalid-feedback d-block">
                                                 {% for error in form.description_en.errors %}
@@ -165,13 +157,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Settings Card -->
+                            <!-- Настройки -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-cog me-2"></i>
-                                        Sozlamalar
+                                        Настройки
                                     </h6>
                                 </div>
                                 <div class="card-body">
@@ -187,9 +178,9 @@
                                             </span>
                                             <input type="text" class="form-control" id="{{ form.slug.id_for_label }}"
                                                    name="{{ form.slug.name }}" value="{{ form.slug.value|default:'' }}"
-                                                   placeholder="brend-slugi" readonly>
+                                                   placeholder="nazvanie-brenda" readonly>
                                             <button class="btn btn-outline-secondary" type="button" id="generateSlug">
-                                                <i class="fas fa-magic"></i> Avtomatik
+                                                <i class="fas fa-magic"></i> Автоматически
                                             </button>
                                         </div>
                                         {% if form.slug.errors %}
@@ -200,64 +191,60 @@
                                             </div>
                                         {% endif %}
                                     </div>
-
-                                    <!-- Status -->
+                                    <!-- Статус -->
                                     <div class="form-group">
                                         <div class="form-check form-switch">
                                             <input type="checkbox" class="form-check-input" id="{{ form.is_active.id_for_label }}"
                                                    name="{{ form.is_active.name }}" {% if form.is_active.value %}checked{% endif %}>
                                             <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
                                                 <i class="fas fa-toggle-on me-2"></i>
-                                                Faol holati
+                                                Активный статус
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Sidebar Column -->
+                        <!-- Боковая панель -->
                         <div class="col-lg-4">
-                            <!-- Logo Upload Card -->
+                            <!-- Загрузка логотипа -->
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
                                     <h6 class="mb-0">
                                         <i class="fas fa-image me-2"></i>
-                                        Brend Logosi
+                                        Логотип бренда
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Current Logo Preview -->
+                                    <!-- Текущий логотип -->
                                     {% if brand and brand.logo %}
-                        <div class="mb-3">
-                                        <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Joriy logo
-                                        </label>
-                                        <div class="image-preview">
-                                            <img src="{{ brand.logo.url }}" alt="Joriy brend logosi"
-                                                 class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
-                                            <div class="mt-2">
-                                                <small class="text-muted">{{ brand.logo.name }}</small>
+                                        <div class="mb-3">
+                                            <label class="form-label text-muted">
+                                                <i class="fas fa-eye me-2"></i>Текущий логотип
+                                            </label>
+                                            <div class="image-preview">
+                                                <img src="{{ brand.logo.url }}" alt="Текущий логотип бренда"
+                                                     class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                                <div class="mt-2">
+                                                    <small class="text-muted">{{ brand.logo.name }}</small>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     {% endif %}
-
-                                    <!-- File Upload -->
+                                    <!-- Загрузка файла -->
                                     <div class="file-upload-wrapper" id="fileUploadWrapper">
                                         <div class="file-upload-icon">
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
                                         <div class="file-upload-text">
-                                            <strong>Yuklash uchun bosing</strong> yoki sudrab tashlang
+                                            <strong>Нажмите, чтобы загрузить</strong> или перетащите сюда
                                         </div>
                                         <div class="file-upload-hint">
-                                            PNG, JPG, WebP (maksimum 5MB)
+                                            PNG, JPG, WebP (до 5 МБ)
                                         </div>
                                         <input type="file" class="d-none" id="{{ form.logo.id_for_label }}"
                                                name="{{ form.logo.name }}" accept="image/*" {% if not brand %}required{% endif %}>
                                     </div>
-
                                     {% if form.logo.errors %}
                                         <div class="invalid-feedback d-block mt-2">
                                             {% for error in form.logo.errors %}
@@ -265,62 +252,58 @@
                                             {% endfor %}
                                         </div>
                                     {% endif %}
-
-                                    <!-- Image Preview -->
+                                    <!-- Предпросмотр изображения -->
                                     <div id="imagePreview" class="mt-3" style="display: none;">
                                         <label class="form-label text-muted">
-                                            <i class="fas fa-eye me-2"></i>Ko'rish
+                                            <i class="fas fa-eye me-2"></i>Просмотр
                                         </label>
                                         <div class="image-preview">
-                                            <img id="previewImg" src="" alt="Ko'rish"
+                                            <img id="previewImg" src="" alt="Просмотр"
                                                  class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
                                             <div class="mt-2">
                                                 <small class="text-muted" id="fileName"></small>
                                             </div>
-                        </div>
-                    </div>
-                    
-                                    <!-- Image Requirements -->
+                                        </div>
+                                    </div>
+                                    <!-- Требования к изображению -->
                                     <div class="mt-3">
                                         <div class="alert alert-info">
                                             <h6 class="alert-heading">
-                                                <i class="fas fa-info-circle me-2"></i>Logo talablari
+                                                <i class="fas fa-info-circle me-2"></i>Требования к логотипу
                                             </h6>
                                             <ul class="mb-0 small">
-                                                <li><strong>Tavsiya etilgan o'lcham:</strong> 400x300 piksel</li>
-                                                <li><strong>Maksimum fayl hajmi:</strong> 5MB</li>
-                                                <li><strong>Qo'llab-quvvatlanadigan formatlar:</strong> JPG, PNG, WebP</li>
+                                                <li><strong>Рекомендуемый размер:</strong> 400x300 пикселей</li>
+                                                <li><strong>Максимальный размер файла:</strong> 5 МБ</li>
+                                                <li><strong>Поддерживаемые форматы:</strong> JPG, PNG, WebP</li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Form Actions -->
+                    <!-- Кнопки формы -->
                     <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                         <a href="{% url 'dashboard:brands' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Brendlarga qaytish
+                            <i class="fas fa-arrow-left me-2"></i> Вернуться к брендам
                         </a>
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-save me-2"></i> {{ action }} Brend
+                                <i class="fas fa-save me-2"></i> {{ action }} Бренд
                             </button>
                             {% if brand %}
-                            <a href="{% url 'dashboard:brand_delete' brand.id %}" class="btn btn-outline-danger">
-                                <i class="fas fa-trash me-2"></i> O'chirish
-                            </a>
+                                <a href="{% url 'dashboard:brand_delete' brand.id %}" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-2"></i> Удалить
+                                </a>
                             {% endif %}
                         </div>
                     </div>
                 </form>
-                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
 {% block extra_css %}
 <style>
 .required-field:after {
@@ -348,288 +331,240 @@
 }
 </style>
 {% endblock %}
-
 {% block extra_js %}
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-    // Global error handler to prevent white screen
-    window.addEventListener('error', function(e) {
-        console.error('JavaScript error:', e.error);
-        showAlert('Xatolik yuz berdi. Iltimos, sahifani yangilang.', 'danger');
-    });
-    
-    // Handle server-side validation errors on page load
-    handleServerValidationErrors();
-    
-    // File upload functionality
-    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
-    const fileInput = document.getElementById('{{ form.logo.id_for_label }}');
-
-    if (fileUploadWrapper && fileInput) {
-        fileUploadWrapper.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUploadWrapper.classList.add('dragover');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработчик глобальных ошибок
+        window.addEventListener('error', function(e) {
+            console.error('Ошибка JavaScript:', e.error);
+            showAlert('Произошла ошибка. Пожалуйста, обновите страницу.', 'danger');
         });
 
-        fileUploadWrapper.addEventListener('dragleave', () => {
-            fileUploadWrapper.classList.remove('dragover');
-        });
+        // Обработка ошибок валидации на стороне сервера
+        handleServerValidationErrors();
 
-        fileUploadWrapper.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUploadWrapper.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                handleFileSelect(files[0]);
-            }
-        });
-
-        fileUploadWrapper.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-            if (file) {
-                handleFileSelect(file);
-            }
-        });
-    }
-
-    function handleFileSelect(file) {
-        const preview = document.getElementById('imagePreview');
-        const previewImg = document.getElementById('previewImg');
-        const fileName = document.getElementById('fileName');
-        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
-
-        // Show preview
-        preview.style.display = 'block';
-        fileName.textContent = file.name;
-        uploadText.innerHTML = `<strong>${file.name}</strong>`;
-
-        // Create preview
-                    const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-
-        // Validate file
-        validateFile(file);
-    }
-
-    function validateFile(file) {
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-
-        if (!allowedTypes.includes(file.type)) {
-            showAlert('Iltimos, rasm faylini tanlang (JPG, PNG yoki WebP)', 'danger');
-            resetFileInput();
-            return false;
-        }
-
-        if (file.size > maxSize) {
-            showAlert('Fayl hajmi 5MB dan oshmasligi kerak', 'danger');
-            resetFileInput();
-            return false;
-        }
-
-        return true;
-    }
-
-    function resetFileInput() {
+        // Функционал загрузки файлов
+        const fileUploadWrapper = document.getElementById('fileUploadWrapper');
         const fileInput = document.getElementById('{{ form.logo.id_for_label }}');
-        const preview = document.getElementById('imagePreview');
-        const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
-
-        fileInput.value = '';
-        preview.style.display = 'none';
-        uploadText.innerHTML = '<strong>Yuklash uchun bosing</strong> yoki sudrab tashlang';
-    }
-
-    function showAlert(message, type) {
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
-        alertDiv.innerHTML = `
-            <i class="fas fa-exclamation-circle me-2"></i>
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-
-        const cardBody = document.querySelector('.card-body');
-        cardBody.insertBefore(alertDiv, cardBody.firstChild);
-
-        setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alertDiv);
-            bsAlert.close();
-        }, 5000);
-    }
-
-    // Slug generation
-    document.getElementById('generateSlug').addEventListener('click', function() {
-        const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
-        const slugField = document.getElementById('{{ form.slug.id_for_label }}');
-
-        if (nameUz) {
-            slugField.value = slugify(nameUz);
-            showAlert('Slug muvaffaqiyatli yaratildi!', 'success');
-        } else {
-            showAlert('Iltimos, avval brend nomini kiriting (Oʻzbekcha)', 'warning');
+        if (fileUploadWrapper && fileInput) {
+            fileUploadWrapper.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadWrapper.classList.add('dragover');
+            });
+            fileUploadWrapper.addEventListener('dragleave', () => {
+                fileUploadWrapper.classList.remove('dragover');
+            });
+            fileUploadWrapper.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadWrapper.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handleFileSelect(files[0]);
+                }
+            });
+            fileUploadWrapper.addEventListener('click', () => {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    handleFileSelect(file);
+                }
+            });
         }
-    });
 
-    // Auto-generate slug when typing in Uzbek name
-    document.getElementById('{{ form.name_uz.id_for_label }}').addEventListener('input', function() {
-        const slugField = document.getElementById('{{ form.slug.id_for_label }}');
-        if (slugField && !slugField.value) {
-            slugField.value = slugify(this.value);
+        function handleFileSelect(file) {
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            const fileName = document.getElementById('fileName');
+            const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+
+            // Показать предпросмотр
+            preview.style.display = 'block';
+            fileName.textContent = file.name;
+            uploadText.innerHTML = `<strong>${file.name}</strong>`;
+
+            // Создать предпросмотр
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Проверить файл
+            validateFile(file);
         }
-    });
 
-    // Form validation
-    const form = document.getElementById('brand-form');
-    if (form) {
-        // Clear any existing validation states on page load
-        clearValidationStates();
-        
-        form.addEventListener('submit', function(e) {
-            // Clear previous validation states
+        function validateFile(file) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            const maxSize = 5 * 1024 * 1024; // 5 МБ
+            if (!allowedTypes.includes(file.type)) {
+                showAlert('Пожалуйста, выберите изображение (JPG, PNG или WebP)', 'danger');
+                resetFileInput();
+                return false;
+            }
+            if (file.size > maxSize) {
+                showAlert('Размер файла не должен превышать 5 МБ', 'danger');
+                resetFileInput();
+                return false;
+            }
+            return true;
+        }
+
+        function resetFileInput() {
+            const fileInput = document.getElementById('{{ form.logo.id_for_label }}');
+            const preview = document.getElementById('imagePreview');
+            const uploadText = fileUploadWrapper.querySelector('.file-upload-text');
+            fileInput.value = '';
+            preview.style.display = 'none';
+            uploadText.innerHTML = '<strong>Нажмите, чтобы загрузить</strong> или перетащите сюда';
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            const cardBody = document.querySelector('.card-body');
+            cardBody.insertBefore(alertDiv, cardBody.firstChild);
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }, 5000);
+        }
+
+        // Генерация slug
+        document.getElementById('generateSlug').addEventListener('click', function() {
+            const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
+            const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+            if (nameUz) {
+                slugField.value = slugify(nameUz);
+                showAlert('Slug успешно сгенерирован!', 'success');
+            } else {
+                showAlert('Пожалуйста, сначала введите название бренда (на узбекском)', 'warning');
+            }
+        });
+
+        // Автогенерация slug при вводе названия на узбекском
+        document.getElementById('{{ form.name_uz.id_for_label }}').addEventListener('input', function() {
+            const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+            if (slugField && !slugField.value) {
+                slugField.value = slugify(this.value);
+            }
+        });
+
+        // Валидация формы
+        const form = document.getElementById('brand-form');
+        if (form) {
             clearValidationStates();
-            
-            let isValid = true;
-            const submitBtn = document.getElementById('submit-btn');
+            form.addEventListener('submit', function(e) {
+                clearValidationStates();
+                let isValid = true;
+                const submitBtn = document.getElementById('submit-btn');
 
-            // Validate all name fields
-            const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}');
-            const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}');
-            const nameEn = document.getElementById('{{ form.name_en.id_for_label }}');
-
-            if (!nameUz.value.trim()) {
-                markFieldInvalid(nameUz);
-                isValid = false;
-            }
-            if (!nameRu.value.trim()) {
-                markFieldInvalid(nameRu);
-                isValid = false;
-            }
-            if (!nameEn.value.trim()) {
-                markFieldInvalid(nameEn);
-                isValid = false;
-            }
-
-            // Validate slug (auto-generated, so just ensure it exists)
-            const slug = document.getElementById('{{ form.slug.id_for_label }}');
-            if (!slug.value.trim()) {
-                // Auto-generate slug from Uzbek name if empty
+                // Проверка полей названия
                 const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}');
-                if (nameUz.value.trim()) {
-                    slug.value = slugify(nameUz.value.trim());
-                } else {
-                    // If no Uzbek name, we can't generate slug
+                const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}');
+                const nameEn = document.getElementById('{{ form.name_en.id_for_label }}');
+                if (!nameUz.value.trim()) {
                     markFieldInvalid(nameUz);
                     isValid = false;
                 }
-            }
-
-            // Validate logo for new brand
-            {% if not brand %}
-            const fileInput = document.getElementById('{{ form.logo.id_for_label }}');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showAlert('Iltimos, brend logosini yuklang', 'danger');
-                isValid = false;
-            }
-            {% endif %}
-
-            if (!isValid) {
-                e.preventDefault();
-                showAlert('Iltimos, barcha majburiy maydonlarni to\'ldiring', 'danger');
-
-                // Scroll to first error
-                const firstError = document.querySelector('.is-invalid');
-                if (firstError) {
-                    firstError.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
+                if (!nameRu.value.trim()) {
+                    markFieldInvalid(nameRu);
+                    isValid = false;
                 }
-            } else {
-                // Show loading state
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saqlanmoqda...';
-                submitBtn.disabled = true;
-                
-                // Add a timeout to prevent infinite loading
-                setTimeout(() => {
-                    if (submitBtn.disabled) {
-                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Brend';
-                        submitBtn.disabled = false;
-                        showAlert('Saqlash vaqti oshdi. Iltimos, qaytadan urinib ko\'ring.', 'warning');
+                if (!nameEn.value.trim()) {
+                    markFieldInvalid(nameEn);
+                    isValid = false;
+                }
+
+                // Проверка slug
+                const slug = document.getElementById('{{ form.slug.id_for_label }}');
+                if (!slug.value.trim()) {
+                    const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}');
+                    if (nameUz.value.trim()) {
+                        slug.value = slugify(nameUz.value.trim());
+                    } else {
+                        markFieldInvalid(nameUz);
+                        isValid = false;
                     }
-                }, 10000); // 10 seconds timeout
-            }
-        });
-    }
+                }
 
-    function clearValidationStates() {
-        // Remove all validation classes
-        document.querySelectorAll('.is-invalid').forEach(field => {
-            field.classList.remove('is-invalid');
-        });
-        
-        // Remove any existing alerts
-        document.querySelectorAll('.alert').forEach(alert => {
-            alert.remove();
-        });
-    }
+                // Проверка логотипа (для нового бренда)
+                {% if not brand %}
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    showAlert('Пожалуйста, загрузите логотип бренда', 'danger');
+                    isValid = false;
+                }
+                {% endif %}
 
-    function markFieldInvalid(field) {
-        if (field) {
-            field.classList.add('is-invalid');
-        }
-    }
-
-    function slugify(text) {
-        return text.toString().toLowerCase()
-            .replace(/\s+/g, '-')           // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-            .replace(/^-+/, '')             // Trim - from start of text
-            .replace(/-+$/, '');            // Trim - from end of text
-    }
-
-    function handleServerValidationErrors() {
-        // Check if there are any server-side validation errors
-        const errorFields = document.querySelectorAll('.invalid-feedback');
-        if (errorFields.length > 0) {
-            // Add is-invalid class to parent input fields
-            errorFields.forEach(errorField => {
-                const inputField = errorField.previousElementSibling?.querySelector('input, textarea') || 
-                                  errorField.parentElement?.querySelector('input, textarea');
-                if (inputField) {
-                    inputField.classList.add('is-invalid');
+                if (!isValid) {
+                    e.preventDefault();
+                    showAlert('Пожалуйста, заполните все обязательные поля', 'danger');
+                    const firstError = document.querySelector('.is-invalid');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Сохранение...';
+                    submitBtn.disabled = true;
+                    setTimeout(() => {
+                        if (submitBtn.disabled) {
+                            submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Бренд';
+                            submitBtn.disabled = false;
+                            showAlert('Время ожидания истекло. Пожалуйста, попробуйте снова.', 'warning');
+                        }
+                    }, 10000);
                 }
             });
-            
-            // Show a general error message
-            showAlert('Formada xatoliklar mavjud. Iltimos, qizil belgilangan maydonlarni to\'ldiring.', 'danger');
-            
-            // Scroll to first error
-            const firstError = document.querySelector('.is-invalid');
-            if (firstError) {
-                firstError.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
+        }
+
+        function clearValidationStates() {
+            document.querySelectorAll('.is-invalid').forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.remove();
+            });
+        }
+
+        function markFieldInvalid(field) {
+            if (field) field.classList.add('is-invalid');
+        }
+
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+        }
+
+        function handleServerValidationErrors() {
+            const errorFields = document.querySelectorAll('.invalid-feedback');
+            if (errorFields.length > 0) {
+                errorFields.forEach(errorField => {
+                    const inputField = errorField.previousElementSibling?.querySelector('input, textarea') ||
+                                      errorField.parentElement?.querySelector('input, textarea');
+                    if (inputField) inputField.classList.add('is-invalid');
                 });
+                showAlert('Есть ошибки в форме. Пожалуйста, проверьте поля, отмеченные красным.', 'danger');
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+            const formErrors = document.querySelectorAll('.errorlist');
+            if (formErrors.length > 0) {
+                showAlert('Есть ошибки в форме. Пожалуйста, заполните все поля правильно.', 'danger');
             }
         }
-        
-        // Also check for any Django form errors that might not be in invalid-feedback
-        const formErrors = document.querySelectorAll('.errorlist');
-        if (formErrors.length > 0) {
-            showAlert('Formada xatoliklar mavjud. Iltimos, barcha maydonlarni to\'g\'ri to\'ldiring.', 'danger');
-        }
-    }
-        });
-    </script>
+    });
+</script>
 {% endblock %}

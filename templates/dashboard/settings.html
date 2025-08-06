@@ -1,8 +1,8 @@
 {% extends 'dashboard/base.html' %}
 
-{% block title %}Settings - Dashboard{% endblock %}
+{% block title %}Настройки - Панель управления{% endblock %}
 
-{% block page_title %}Settings{% endblock %}
+{% block page_title %}Настройки{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -10,13 +10,13 @@
     <div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title mb-0">Exchange Rate Settings</h5>
+                <h5 class="card-title mb-0">Настройки курса валют</h5>
             </div>
             <div class="card-body">
                 {% if exchange_rate %}
                 <div class="alert alert-info">
-                    <strong>Current Rate:</strong> 1 USD = {{ exchange_rate.usd_to_uzs }} UZS<br>
-                    <small class="text-muted">Updated: {{ exchange_rate.created_at|date:"M d, Y H:i" }}</small>
+                    <strong>Текущий курс:</strong> 1 USD = {{ exchange_rate.usd_to_uzs }} UZS<br>
+                    <small class="text-muted">Обновлено: {{ exchange_rate.created_at|date:"M d, Y H:i" }}</small>
                 </div>
                 {% endif %}
                 
@@ -24,15 +24,15 @@
                     {% csrf_token %}
                     <input type="hidden" name="action" value="update_exchange_rate">
                     <div class="mb-3">
-                        <label for="exchange_rate" class="form-label">USD to UZS Rate</label>
+                        <label for="exchange_rate" class="form-label">Курс USD к UZS</label>
                         <input type="number" class="form-control" id="exchange_rate" 
                                name="exchange_rate" step="0.01" 
                                value="{% if exchange_rate %}{{ exchange_rate.usd_to_uzs }}{% endif %}" 
                                required>
-                        <div class="form-text">Enter the current exchange rate from USD to UZS</div>
+                        <div class="form-text">Введите текущий курс обмена от USD к UZS</div>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Update Exchange Rate
+                        <i class="fas fa-save"></i> Обновить курс валют
                     </button>
                 </form>
             </div>
@@ -43,15 +43,15 @@
     <div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title mb-0">Payment Settings</h5>
+                <h5 class="card-title mb-0">Настройки платежей</h5>
             </div>
             <div class="card-body">
                 {% if payment_settings %}
                 <div class="alert alert-info">
-                    <strong>Current Payment Info:</strong><br>
-                    Card: {{ payment_settings.card_number }}<br>
-                    Bank: {{ payment_settings.bank_name }}<br>
-                    Holder: {{ payment_settings.card_holder_name }}
+                    <strong>Текущая платежная информация:</strong><br>
+                    Карта: {{ payment_settings.card_number }}<br>
+                    Банк: {{ payment_settings.bank_name }}<br>
+                    Владелец: {{ payment_settings.card_holder_name }}
                 </div>
                 {% endif %}
                 
@@ -59,28 +59,28 @@
                     {% csrf_token %}
                     <input type="hidden" name="action" value="update_payment_settings">
                     <div class="mb-3">
-                        <label for="card_number" class="form-label">Card Number</label>
+                        <label for="card_number" class="form-label">Номер карты</label>
                         <input type="text" class="form-control" id="card_number" 
                                name="card_number" 
                                value="{% if payment_settings %}{{ payment_settings.card_number }}{% endif %}" 
                                required>
                     </div>
                     <div class="mb-3">
-                        <label for="card_holder" class="form-label">Card Holder Name</label>
+                        <label for="card_holder" class="form-label">Имя владельца карты</label>
                         <input type="text" class="form-control" id="card_holder" 
                                name="card_holder" 
                                value="{% if payment_settings %}{{ payment_settings.card_holder_name }}{% endif %}" 
                                required>
                     </div>
                     <div class="mb-3">
-                        <label for="bank_name" class="form-label">Bank Name</label>
+                        <label for="bank_name" class="form-label">Название банка</label>
                         <input type="text" class="form-control" id="bank_name" 
                                name="bank_name" 
                                value="{% if payment_settings %}{{ payment_settings.bank_name }}{% endif %}" 
                                required>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Update Payment Settings
+                        <i class="fas fa-save"></i> Обновить настройки платежей
                     </button>
                 </form>
             </div>
@@ -91,24 +91,24 @@
 <!-- System Information -->
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">System Information</h5>
+                        <h5 class="card-title mb-0">Системная информация</h5>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <h6>Application</h6>
-                <p><strong>Name:</strong> Avtokontinent.uz</p>
-                <p><strong>Version:</strong> 1.0.0</p>
-                <p><strong>Environment:</strong> {% if settings.DEBUG %}Development{% else %}Production{% endif %}</p>
+                <h6>Приложение</h6>
+                <p><strong>Название:</strong> Avtokontinent.uz</p>
+                <p><strong>Версия:</strong> 1.0.0</p>
+                <p><strong>Окружение:</strong> {% if settings.DEBUG %}Разработка{% else %}Продакшн{% endif %}</p>
             </div>
             <div class="col-md-6">
-                <h6>Quick Links</h6>
+                <h6>Быстрые ссылки</h6>
                 <div class="d-flex gap-2 flex-wrap">
                     <a href="{% url 'admin:index' %}" class="btn btn-outline-primary" target="_blank">
-                        <i class="fas fa-tools"></i> Admin Panel
+                        <i class="fas fa-tools"></i> Админ панель
                     </a>
                     <a href="{% url 'dashboard:home' %}" class="btn btn-outline-secondary" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Site
+                        <i class="fas fa-external-link-alt"></i> Просмотр сайта
                     </a>
                 </div>
             </div>
