@@ -15,9 +15,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['188.225.38.23', 'avtokontinent.uz', 'localhost']
+# ALLOWED_HOSTS = ['*']
 
 
-# CSRF_TRUSTED_ORIGINS = ['https://nlp.iftor.uz', 'https://www.nlp.iftor.uz']
+CSRF_TRUSTED_ORIGINS = ['https://nlp.iftor.uz', 'https://www.nlp.iftor.uz']
 
 # Application definition
 INSTALLED_APPS = [
@@ -174,7 +175,7 @@ ADMIN_PHONE_NUMBER = os.environ.get('ADMIN_PHONE_NUMBER')
 SITE_NAME = 'Avtokontinent.uz'
 SITE_DESCRIPTION = 'Online Auto Spare Parts Store'
 
-SITE_URL = "http://127.0.0.1:8000"
+SITE_URL = "https//avtokontinent.uz"
 
 TELEGRAM_AUTH_EXPIRY_MINUTES = 5
 MAX_LOGIN_ATTEMPTS = 3
