@@ -183,7 +183,7 @@ async def handle_order_callback(callback: types.CallbackQuery):
     order_id = callback_data.split('_')[1]
 
     # Faqat admin callback'ni bossa ishlov berish
-    if chat_id != TELEGRAM_ADMIN_CHAT_ID:
+    if chat_id != int(TELEGRAM_ADMIN_CHAT_ID):
         await callback.answer("Sizda bu amalni bajarish uchun ruxsat yo'q.")
         return
 
