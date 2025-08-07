@@ -2,7 +2,7 @@ import secrets
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from django.conf import settings
 from store.models import TelegramAuth, UserProfile, Cart, CartItem, Product, Favorite, Category
 from django.contrib.auth.models import User
 import json
@@ -275,7 +275,7 @@ def login_request(request):
 
     request.session['login_token'] = session_token
 
-    bot_username = "avtokon_bot"
+    bot_username = settings.TELEGRAM_BOT_USERNAME
     start_link = f"https://t.me/{bot_username}?start={session_token}"
 
     return render(request, 'store/login.html', {

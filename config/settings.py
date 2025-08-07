@@ -14,8 +14,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['188.225.38.23', 'avtokontinent.uz', 'localhost']
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['188.225.38.23', 'avtokontinent.uz', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 CSRF_TRUSTED_ORIGINS = ['https://nlp.iftor.uz', 'https://www.nlp.iftor.uz']
@@ -175,12 +175,11 @@ ADMIN_PHONE_NUMBER = os.environ.get('ADMIN_PHONE_NUMBER')
 SITE_NAME = 'Avtokontinent.uz'
 SITE_DESCRIPTION = 'Online Auto Spare Parts Store'
 
-SITE_URL = "https//avtokontinent.uz"
+SITE_URL = "https://avtokontinent.uz"
 
 TELEGRAM_AUTH_EXPIRY_MINUTES = 5
 MAX_LOGIN_ATTEMPTS = 3
 AUTH_CLEANUP_INTERVAL_HOURS = 1
-
 
 
 # Celery sozlamalari
