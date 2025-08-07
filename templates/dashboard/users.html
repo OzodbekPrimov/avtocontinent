@@ -1,45 +1,45 @@
 {% extends 'dashboard/base.html' %}
 
-{% block title %}Users Management - Dashboard{% endblock %}
+{% block title %}Управление пользователями - Панель управления{% endblock %}
 
-{% block page_title %}Users Management{% endblock %}
+{% block page_title %}Управление пользователями{% endblock %}
 
 {% block content %}
-<!-- Search -->
+<!-- Поиск -->
 <div class="card mb-4">
     <div class="card-body">
         <form method="get" class="row g-3">
             <div class="col-md-10">
-                <input type="text" class="form-control" name="search" 
-                       placeholder="Search users..." value="{{ search_query }}">
+                <input type="text" class="form-control" name="search"
+                       placeholder="Поиск пользователей..." value="{{ search_query }}">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="fas fa-search"></i> Search
+                    <i class="fas fa-search"></i> Поиск
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Users Table -->
+<!-- Таблица пользователей -->
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">Users ({{ page_obj.paginator.count }})</h5>
+        <h5 class="card-title mb-0">Пользователи ({{ page_obj.paginator.count }})</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Phone</th>
+                        <th>Имя пользователя</th>
+                        <th>Телефон</th>
                         <th>Email</th>
-                        <th>Verified</th>
-                        <th>Orders</th>
-                        <th>Joined</th>
-                        <th>Last Login</th>
-                        <th>Actions</th>
+                        <th>Верифицирован</th>
+                        <th>Заказы</th>
+                        <th>Дата регистрации</th>
+                        <th>Последний вход</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,11 +68,11 @@
                         <td>
                             {% if user.userprofile and user.userprofile.is_phone_verified %}
                                 <span class="badge bg-success text-white">
-                                    <i class="fas fa-check"></i> Verified
+                                    <i class="fas fa-check"></i> Да
                                 </span>
                             {% else %}
                                 <span class="badge bg-warning text-dark">
-                                    <i class="fas fa-clock"></i> Pending
+                                    <i class="fas fa-clock"></i> Нет
                                 </span>
                             {% endif %}
                         </td>
@@ -82,15 +82,15 @@
                             </span>
                         </td>
                         <td>
-                            <div>{{ user.date_joined|date:"M d, Y" }}</div>
+                            <div>{{ user.date_joined|date:"d M, Y" }}</div>
                             <small class="text-muted">{{ user.date_joined|time:"H:i" }}</small>
                         </td>
                         <td>
                             {% if user.last_login %}
-                                <div>{{ user.last_login|date:"M d, Y" }}</div>
+                                <div>{{ user.last_login|date:"d M, Y" }}</div>
                                 <small class="text-muted">{{ user.last_login|time:"H:i" }}</small>
                             {% else %}
-                                <span class="text-muted">Never</span>
+                                <span class="text-muted">Никогда</span>
                             {% endif %}
                         </td>
                         <td>
@@ -104,7 +104,7 @@
                     <tr>
                         <td colspan="8" class="text-center text-muted py-4">
                             <i class="fas fa-users fa-2x mb-2"></i>
-                            <div>No users found</div>
+                            <div>Пользователи не найдены</div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -112,7 +112,7 @@
             </table>
         </div>
 
-        <!-- Pagination -->
+        <!-- Пагинация -->
         {% if page_obj.has_other_pages %}
         <nav aria-label="Page navigation" class="mt-4">
             <ul class="pagination justify-content-center">
@@ -149,7 +149,7 @@
     </div>
 </div>
 
-<!-- Custom CSS for additional styling -->
+<!-- Пользовательские стили -->
 <style>
 .badge {
     font-size: 0.75rem;

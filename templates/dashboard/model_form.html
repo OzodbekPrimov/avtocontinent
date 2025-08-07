@@ -38,7 +38,7 @@
                                             </span>
                                             <select class="form-control" id="{{ form.brand.id_for_label }}"
                                                     name="{{ form.brand.name }}" required>
-                                                <option value="">{% trans "Выберите бренд" %}</option>
+                                                <option value="">Выберите бренд</option>
                                                 {% for brand in brands %}
                                                 <option value="{{ brand.id }}"
                                                         {% if form.brand.value == brand.id %}selected{% endif %}>

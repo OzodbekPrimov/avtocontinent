@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
+{% load humanize %}
 
 {% block title %}{% trans "Payment - Avtokontinent.uz" %}{% endblock %}
 
@@ -18,62 +18,363 @@
 
                     {% if payment_settings %}
                     <div class="alert alert-info">
-                        <h6>{% trans "Bank Transfer Details" %}</h6>
-                        <p><strong>{% trans "Card Number:" %}</strong> {{ payment_settings.card_number }}</p>
-                        <p><strong>{% trans "Bank:" %}</strong> {{ payment_settings.bank_name }}</p>
-                        <p><strong>{% trans "Cardholder:" %}</strong> {{ payment_settings.card_holder_name }}</p>
-                        <p><strong>{% trans "Amount:" %}</strong> {{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</p>
+                        <h6><i class="fas fa-university"></i> {% trans "Bank Transfer Details" %}</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-2">
+                                    <strong>{% trans "Card Number:" %}</strong><br>
+                                    <span class="card-number fs-5 fw-bold text-primary">{{ payment_settings.card_number }}</span>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2" onclick="copyToClipboard('{{ payment_settings.card_number }}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </p>
+                                <p class="mb-2">
+                                    <strong>{% trans "Bank:" %}</strong><br>
+                                    {{ payment_settings.bank_name }}
+                                </p>
+                                <p class="mb-2">
+                                    <strong>{% trans "Cardholder:" %}</strong><br>
+                                    {{ payment_settings.card_holder_name }}
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="payment-amount-highlight">
+                                    <div class="text-center p-3 bg-primary-subtle rounded">
+                                        <div class="text-muted small">{% trans "Amount to Pay" %}</div>
+                                        <div class="amount-uzs fs-3 fw-bold text-primary">{{ order.total_amount_uzs|floatformat:0|intcomma }}</div>
+                                        <div class="text-primary fw-semibold">{% trans "UZS" %}</div>
+                                        {% if order.total_amount_usd %}
+                                        <div class="text-muted mt-1">
+                                            <small>≈ ${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>
+                                        </div>
+                                        {% endif %}
+                                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="copyToClipboard('{{ order.total_amount_uzs|floatformat:0 }}')">
+                                            <i class="fas fa-copy"></i> {% trans "Copy Amount" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {% endif %}
 
                     <div class="alert alert-warning">
-                        <h6>{% trans "Payment Steps:" %}</h6>
-                        <ol>
-                            <li>{% trans "Transfer the exact amount to the bank account above" %}</li>
-                            <li>{% trans "Take a screenshot of the payment confirmation" %}</li>
-                            <li>{% trans "Upload the screenshot below" %}</li>
-                            <li>{% trans "Wait for payment confirmation" %}</li>
+                        <h6><i class="fas fa-info-circle"></i> {% trans "Payment Steps:" %}</h6>
+                        <ol class="mb-0">
+                            <li class="mb-2">
+                                {% trans "Transfer the exact amount" %}
+                                <strong class="text-primary">{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</strong>
+                                {% trans "to the bank account above" %}
+                            </li>
+                            <li class="mb-2">{% trans "Take a screenshot of the payment confirmation" %}</li>
+                            <li class="mb-2">{% trans "Upload the screenshot below" %}</li>
+                            <li>{% trans "Wait for payment confirmation from our team" %}</li>
                         </ol>
                     </div>
 
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="payment_screenshot" class="form-label">{% trans "Payment Screenshot" %}</label>
-                            <input type="file" class="form-control" id="payment_screenshot"
-                                   name="payment_screenshot" accept="image/*" required>
-                        </div>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6><i class="fas fa-upload"></i> {% trans "Upload Payment Screenshot" %}</h6>
+                            <form method="post" enctype="multipart/form-data" id="paymentForm">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="payment_screenshot" class="form-label">
+                                        {% trans "Payment Screenshot" %}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" class="form-control" id="payment_screenshot"
+                                           name="payment_screenshot" accept="image/*" required>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle"></i>
+                                        {% trans "Please upload a clear screenshot showing the payment confirmation. Supported formats: JPG, PNG, GIF" %}
+                                    </div>
+                                </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-upload"></i> {% trans "Upload Payment Screenshot" %}
-                        </button>
-                    </form>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-upload"></i> {% trans "Upload Payment Screenshot" %}
+                                    </button>
+                                    <a href="{% url 'order_detail' order.order_id %}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-arrow-left"></i> {% trans "Back to Order" %}
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-4">
             <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-receipt"></i>
+                        {% trans "Order" %} #{{ order.order_id|truncatechars:8 }}
+                    </h5>
+                </div>
                 <div class="card-body">
-                    <h5>{% trans "Order" %} #{{ order.order_id }}</h5>
-                    <p><strong>{% trans "Status:" %}</strong>
-                        <span class="badge bg-warning">{{ order.get_status_display }}</span>
-                    </p>
-                    <p><strong>{% trans "Total:" %}</strong> {{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</p>
-                    <p><strong>{% trans "Order Date:" %}</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                    <div class="order-status mb-3">
+                        <p class="mb-1"><strong>{% trans "Status:" %}</strong></p>
+                        <span class="badge bg-warning fs-6">{{ order.get_status_display }}</span>
+                    </div>
+
+                    <div class="order-summary mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><strong>{% trans "Order Date:" %}</strong></span>
+                            <span>{{ order.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><strong>{% trans "Items:" %}</strong></span>
+                            <span>{{ order.items.count|intcomma }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span><strong>{% trans "Customer:" %}</strong></span>
+                            <span>{{ order.customer_name }}</span>
+                        </div>
+                    </div>
 
                     <hr>
 
-                    <h6>{% trans "Order Items" %}</h6>
-                    {% for item in order.items.all %}
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>{{ item.product.name }} x{{ item.quantity }}</span>
-                        <span>{{ item.total_price_uzs|floatformat:0 }} {% trans "UZS" %}</span>
+                    <div class="order-items">
+                        <h6 class="mb-3">
+                            <i class="fas fa-list"></i>
+                            {% trans "Order Items" %}
+                        </h6>
+                        {% for item in order.items.all %}
+                        <div class="item-row mb-3 p-2 bg-light rounded">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">{{ item.product.name }}</h6>
+                                    <div class="text-muted small">
+                                        {% trans "Quantity:" %} {{ item.quantity|intcomma }}
+                                    </div>
+                                    <div class="text-muted small">
+                                        {% trans "Unit Price:" %} {{ item.price_uzs|floatformat:0|intcomma }} UZS
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold text-primary">
+                                        {{ item.total_price_uzs|floatformat:0|intcomma }}
+                                    </div>
+                                    <div class="small text-muted">{% trans "UZS" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+
+                    <hr>
+
+                    <div class="order-total">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{% trans "Subtotal:" %}</span>
+                            <span>{{ order.total_amount_uzs|floatformat:0|intcomma }} UZS</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{% trans "Delivery:" %}</span>
+                            <span class="text-success">{% trans "Free" %}</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong class="fs-5">{% trans "Total:" %}</strong>
+                            <div class="text-end">
+                                <div class="fs-5 fw-bold text-primary">
+                                    {{ order.total_amount_uzs|floatformat:0|intcomma }}
+                                </div>
+                                <div class="small text-muted">{% trans "UZS" %}</div>
+                                {% if order.total_amount_usd %}
+                                <div class="small text-muted">
+                                    ≈ ${{ order.total_amount_usd|floatformat:2|intcomma }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-note mt-3 p-2 bg-warning-subtle rounded">
+                        <small class="text-warning-emphasis">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {% trans "Please transfer the exact amount shown above to avoid payment delays." %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Help Card -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h6><i class="fas fa-question-circle"></i> {% trans "Need Help?" %}</h6>
+                    <p class="small text-muted mb-2">
+                        {% trans "If you have any questions about the payment process, please contact us:" %}
+                    </p>
+                    {% if payment_settings.support_phone %}
+                    <p class="small mb-1">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:{{ payment_settings.support_phone }}">{{ payment_settings.support_phone }}</a>
+                    </p>
+                    {% endif %}
+                    {% if payment_settings.support_email %}
+                    <p class="small mb-1">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:{{ payment_settings.support_email }}">{{ payment_settings.support_email }}</a>
+                    </p>
+                    {% endif %}
+                    <p class="small text-muted mb-0">
+                        {% trans "Payment confirmation usually takes 1-2 hours during business hours." %}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.card-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+}
+
+.amount-uzs, .fs-5.fw-bold, .fw-bold.text-primary {
+    font-variant-numeric: tabular-nums;
+}
+
+.payment-amount-highlight {
+    position: sticky;
+    top: 20px;
+}
+
+.item-row {
+    transition: background-color 0.2s ease;
+}
+
+.item-row:hover {
+    background-color: var(--bs-primary-subtle) !important;
+}
+
+@media (max-width: 768px) {
+    .amount-uzs {
+        font-size: 1.5rem !important;
+    }
+
+    .payment-amount-highlight {
+        position: static;
+    }
+
+    .card-number {
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+    }
+}
+</style>
+
+<script>
+function copyToClipboard(text) {
+    // Raqamlardan vergul va bo'shliqlarni olib tashlaymiz
+    const cleanText = text.replace(/[,\s]/g, '');
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(cleanText).then(function() {
+            showToast('{% trans "Copied to clipboard!" %}', 'success');
+        }).catch(function() {
+            fallbackCopyTextToClipboard(cleanText);
+        });
+    } else {
+        fallbackCopyTextToClipboard(cleanText);
+    }
+}
+
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = "2em";
+    textArea.style.height = "2em";
+    textArea.style.padding = 0;
+    textArea.style.border = "none";
+    textArea.style.outline = "none";
+    textArea.style.boxShadow = "none";
+    textArea.style.background = "transparent";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        document.execCommand('copy');
+        showToast('{% trans "Copied to clipboard!" %}', 'success');
+    } catch (err) {
+        showToast('{% trans "Failed to copy. Please copy manually." %}', 'error');
+    }
+
+    document.body.removeChild(textArea);
+}
+
+function showToast(message, type) {
+    // Toast notification function (Bootstrap toast yoki boshqa notification system)
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+    alertDiv.style.top = '20px';
+    alertDiv.style.right = '20px';
+    alertDiv.style.zIndex = '9999';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.parentNode.removeChild(alertDiv);
+        }
+    }, 3000);
+}
+
+// Form validation
+document.getElementById('paymentForm').addEventListener('submit', function(e) {
+    const fileInput = document.getElementById('payment_screenshot');
+    if (!fileInput.files.length) {
+        e.preventDefault();
+        showToast('{% trans "Please select a payment screenshot to upload." %}', 'error');
+        return false;
+    }
+
+    const file = fileInput.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (file.size > maxSize) {
+        e.preventDefault();
+        showToast('{% trans "File size is too large. Please choose a file smaller than 10MB." %}', 'error');
+        return false;
+    }
+
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Uploading..." %}';
+    submitBtn.disabled = true;
+
+    // Reset after potential error
+    setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 10000);
+});
+
+// Preview uploaded file
+document.getElementById('payment_screenshot').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Create preview if needed
+            showToast('{% trans "Image selected successfully!" %}', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 {% endblock %}
