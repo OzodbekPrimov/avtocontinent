@@ -10,17 +10,17 @@
     </h2>
 
     {% if favorites %}
-    <div class="row g-2"> {# Reduced gutter size for tighter spacing on mobile #}
+    <div class="row g-2" id="favorites-grid"> {# Added ID for easier manipulation #}
         {% for favorite in favorites %}
-        <div class="col-6 col-md-4 col-lg-3 mb-2"> {# Two per row on mobile, 3 on tablet, 4 on desktop #}
-            <div class="card product-card h-100 border-0 shadow-sm"> {# Subtle shadow for better card visibility #}
+        <div class="col-6 col-md-4 col-lg-3 mb-2" id="favorite-item-{{ favorite.product.id }}"> {# Added unique ID for each item #}
+            <div class="card product-card h-100 border-0 shadow-sm">
                 <div class="position-relative">
-                    <img src="{{ favorite.product.main_image.url }}" class="card-img-top img-fluid" alt="{{ favorite.product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;"> {# Use object-fit: contain and max-height for desktop #}
+                    <img src="{{ favorite.product.main_image.url }}" class="card-img-top img-fluid" alt="{{ favorite.product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;">
                     <div class="product-actions">
-                        <button class="btn-action favorited" onclick="favoriteProduct({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Remove from Favorites' %}">
+                        <button class="btn-action favorited" id="favorite-btn-{{ favorite.product.id }}" onclick="favoriteProductOnFavoritesPage({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Remove from Favorites' %}">
                             <i class="fas fa-star"></i>
                         </button>
-                        <button class="btn-action" onclick="likeProduct({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Like' %}">
+                        <button class="btn-action" id="like-btn-{{ favorite.product.id }}" onclick="likeProduct({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Like' %}">
                             <i class="far fa-heart"></i>
                         </button>
                     </div>
@@ -30,7 +30,7 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="card-body d-flex flex-column p-2"> {# Reduced padding for compact mobile view #}
+                <div class="card-body d-flex flex-column p-2">
                     <h6 class="card-title mb-1" style="font-size: 0.85rem; line-height: 1.2;">{{ favorite.product.name }}</h6>
                     <p class="card-text text-muted mb-1" style="font-size: 0.65rem;">{{ favorite.product.short_description|truncatewords:5 }}</p>
                     <div class="mb-1" style="font-size: 0.6rem;">
@@ -42,13 +42,13 @@
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <div class="price" style="font-size: 0.9rem; font-weight: bold;">{{ favorite.product.price_uzs|floatformat:0 }} {% trans "UZS" %}</div>
                             <small class="text-muted" style="font-size: 0.65rem;">
-                                <i class="fas fa-heart"></i> {{ favorite.product.like_count }}
+                                <i class="fas fa-heart"></i> <span id="like-count-{{ favorite.product.id }}">{{ favorite.product.like_count }}</span>
                             </small>
                         </div>
                         <div class="d-flex gap-1">
                             <a href="{{ favorite.product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
                             {% if favorite.product.is_in_stock %}
-                            <button class="btn btn-secondary btn-sm" onclick="addToCart({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
+                            <button class="btn btn-secondary btn-sm add-to-cart-{{ favorite.product.id }}" onclick="addToCart({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Add to Cart' %}">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
                             {% else %}
@@ -64,7 +64,7 @@
         {% endfor %}
     </div>
     {% else %}
-    <div class="text-center py-4">
+    <div class="text-center py-4" id="empty-favorites">
         <i class="fas fa-star fa-2x text-muted mb-2"></i>
         <h4 class="fs-5">{% trans "No favorites yet" %}</h4>
         <p class="text-muted" style="font-size: 0.9rem;">{% trans "Start adding products to your favorites to see them here" %}</p>
@@ -76,10 +76,10 @@
 {# Custom CSS for fine-tuned mobile and desktop responsiveness #}
 <style>
 .product-card {
-    transition: transform 0.2s; /* Smooth hover effect */
+    transition: transform 0.2s;
 }
 .product-card:hover {
-    transform: translateY(-5px); /* Slight lift on hover, disabled on mobile */
+    transform: translateY(-5px);
 }
 .product-actions {
     position: absolute;
@@ -95,32 +95,145 @@
     padding: 5px;
     border-radius: 50%;
     font-size: 0.75rem;
+    transition: all 0.3s ease;
+}
+.btn-action:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+.btn-action.favorited {
+    background: rgba(255, 193, 7, 0.8);
+    color: white;
+}
+.favorite-item-removing {
+    opacity: 0.5;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
 }
 @media (max-width: 576px) {
     .product-card:hover {
-        transform: none; /* Disable hover effect on mobile */
+        transform: none;
     }
     .card-img-top {
-        max-height: 120px; /* Smaller image height on mobile */
-        object-fit: cover; /* Use cover on mobile to fill space */
+        max-height: 120px;
+        object-fit: cover;
     }
     .card-body {
-        padding: 8px; /* Tighter padding on mobile */
+        padding: 8px;
     }
     .price {
-        font-size: 0.8rem; /* Smaller price font on mobile */
+        font-size: 0.8rem;
     }
     .btn-sm {
-        font-size: 0.7rem; /* Smaller button text on mobile */
-        padding: 4px 8px; /* Smaller button padding */
+        font-size: 0.7rem;
+        padding: 4px 8px;
     }
 }
 @media (min-width: 577px) {
     .card-img-top {
-        max-height: 200px; /* Larger image height on desktop */
-        object-fit: contain; /* Ensure full image visibility on desktop */
-        width: 100%; /* Full width to avoid stretching */
+        max-height: 200px;
+        object-fit: contain;
+        width: 100%;
     }
 }
 </style>
+
+<script>
+// Favorites sahifasi uchun maxsus favorite funksiyasi
+function favoriteProductOnFavoritesPage(productId) {
+    $.ajax({
+        url: '{% url "ajax_favorite_product" %}',
+        type: 'POST',
+        data: {'product_id': productId, 'csrfmiddlewaretoken': csrftoken},
+        beforeSend: function() {
+            // Loading holatini ko'rsatish
+            $(`#favorite-item-${productId}`).addClass('favorite-item-removing');
+        },
+        success: function(response) {
+            if (response.success) {
+                if (!response.favorited) {
+                    // Agar favoritedan olib tashlangan bo'lsa, DOM dan ham olib tashla
+                    $(`#favorite-item-${productId}`).fadeOut(300, function() {
+                        $(this).remove();
+
+                        // Agar hech qanday favorite qolmagan bo'lsa, empty state ni ko'rsat
+                        if ($('#favorites-grid .col-6').length === 0) {
+                            $('#favorites-grid').hide();
+                            $('body').append(`
+                                <div class="container py-3">
+                                    <div class="text-center py-4" id="empty-favorites">
+                                        <i class="fas fa-star fa-2x text-muted mb-2"></i>
+                                        <h4 class="fs-5">{% trans "No favorites yet" %}</h4>
+                                        <p class="text-muted" style="font-size: 0.9rem;">{% trans "Start adding products to your favorites to see them here" %}</p>
+                                        <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm">{% trans "Browse Products" %}</a>
+                                    </div>
+                                </div>
+                            `);
+                        }
+                    });
+
+                    updateFavoritesCount(response.favorites_count);
+                    showToast('{% trans "Removed from favorites!" %}', 'success');
+                } else {
+                    // Agar qayta qo'shilgan bo'lsa (odatda bo'lmaydi)
+                    $(`#favorite-item-${productId}`).removeClass('favorite-item-removing');
+                    showToast('{% trans "Added to favorites!" %}', 'success');
+                }
+
+                // Guest user uchun localStorage yangilash
+                {% if not user.is_authenticated %}
+                const localFavorites = JSON.parse(localStorage.getItem('local_favorites') || '[]');
+                if (response.favorited) {
+                    if (!localFavorites.includes(productId)) {
+                        localFavorites.push(productId);
+                    }
+                } else {
+                    const index = localFavorites.indexOf(productId);
+                    if (index > -1) {
+                        localFavorites.splice(index, 1);
+                    }
+                }
+                localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                {% endif %}
+            } else {
+                // Xatolik bo'lsa, asl holatiga qaytarish
+                $(`#favorite-item-${productId}`).removeClass('favorite-item-removing');
+                showToast(response.message, 'error');
+            }
+        },
+        error: function() {
+            // Xatolik bo'lsa, asl holatiga qaytarish
+            $(`#favorite-item-${productId}`).removeClass('favorite-item-removing');
+            showToast('{% trans "Error occurred. Please try again." %}', 'error');
+        }
+    });
+}
+
+// Like funksiyasini favorites sahifasi uchun moslash
+function likeProduct(productId) {
+    $.ajax({
+        url: '{% url "ajax_like_product" %}',
+        type: 'POST',
+        data: {'product_id': productId, 'csrfmiddlewaretoken': csrftoken},
+        success: function(response) {
+            if (response.success) {
+                const likeBtn = $(`#like-btn-${productId}`);
+                const likeCount = $(`#like-count-${productId}`);
+                if (response.liked) {
+                    likeBtn.addClass('liked').html('<i class="fas fa-heart"></i>');
+                } else {
+                    likeBtn.removeClass('liked').html('<i class="far fa-heart"></i>');
+                }
+                likeCount.text(response.like_count);
+                showToast(response.liked ? '{% trans "Liked!" %}' : '{% trans "Unliked!" %}', 'success');
+            } else {
+                showToast(response.message, 'error');
+            }
+        },
+        error: function() {
+            showToast('{% trans "Error occurred. Please try again." %}', 'error');
+        }
+    });
+}
+</script>
 {% endblock %}

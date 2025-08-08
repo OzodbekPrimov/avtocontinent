@@ -37,7 +37,7 @@
             --neutral-900: #111827;
             --white: #FFFFFF;
             --navbar-height: 70px;
-            --navbar-mobile-height: 110px;
+            --navbar-mobile-height: 120px;
         }
         * {
             margin: 0;
@@ -175,78 +175,124 @@
             }
         }
 
-        /* Mobile search form - centered and full width */
+        /* Mobile layout improvements */
         @media (max-width: 768px) {
-            .search-form {
-                max-width: 100%;
+            .mobile-navbar-content {
                 width: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .mobile-top-row {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 10px 15px;
+                height: 60px;
+                width: 100%;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem !important;
+                font-weight: 900;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Mobile Search Form - hidden by default */
+            .mobile-search {
+                display: none;
+                width: 100%;
+                padding: 0 15px 10px 15px;
+                background: rgba(255, 255, 255, 0.95);
+                border-top: 1px solid var(--neutral-200);
+            }
+
+            .mobile-search.show {
+                display: block;
             }
 
             .mobile-search-wrapper {
                 width: 100%;
-                padding: 0 15px;
-                margin-top: 10px; /* Adjusted for better centering */
-                margin-bottom: 10px;
                 display: flex;
-                justify-content: center; /* Center the search bar */
+                justify-content: center;
             }
 
             .mobile-search-wrapper .search-form {
+                width: 100%;
+                max-width: none;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-                border-radius: 10px;
+                border-radius: 25px;
                 overflow: hidden;
-                width: 90%; /* Slightly less than 100% for padding effect */
             }
 
             .mobile-search-wrapper .search-form input {
-                border-radius: 10px;
-                padding: 10px 40px 10px 12px;
+                border-radius: 25px;
+                padding: 12px 45px 12px 20px;
                 font-size: 14px;
-                border: 1px solid var(--neutral-200);
+                border: 2px solid var(--neutral-200);
                 background: var(--white);
                 transition: all 0.3s ease;
-                width: 100%; /* Full width within the form */
+                width: 100%;
+                height: 45px;
             }
 
             .mobile-search-wrapper .search-form input:focus {
                 border-color: var(--primary-color);
-                box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1), 0 2px 15px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+                outline: none;
             }
 
             .mobile-search-wrapper .search-form button {
-                right: 8px;
-                width: 32px;
-                height: 32px;
-                border-radius: 6px;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
                 background: var(--primary-color);
+                border: none;
+                color: white;
                 transition: all 0.3s ease;
             }
 
             .mobile-search-wrapper .search-form button:hover {
                 background: #1E40AF;
-                transform: translateY(-50%) scale(1.03);
+                transform: translateY(-50%) scale(1.05);
             }
 
-            .navbar-brand {
-                font-size: 1.4rem !important;
-                font-weight: 900;
+            /* Search toggle button */
+            .search-toggle {
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 1051;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+                transition: all 0.3s ease;
             }
 
-            .mobile-top-row {
-                padding: 10px 15px 0 15px;
-                height: 50px;
+            .search-toggle:hover {
+                background: #1E40AF;
+                transform: scale(1.1);
             }
 
-            .mobile-nav-icons {
-                display: none;
+            .search-toggle.active {
+                background: var(--error-color);
             }
 
             .desktop-search {
                 display: none;
-            }
-
-            .mobile-search {
-                display: block;
             }
 
             .top-navbar .navbar-nav.ms-auto {
@@ -263,15 +309,15 @@
                 display: contents;
             }
 
-            .mobile-nav-icons {
-                display: none;
-            }
-
             .desktop-search {
                 display: block;
             }
 
             .mobile-search {
+                display: none !important;
+            }
+
+            .search-toggle {
                 display: none;
             }
         }
@@ -595,7 +641,7 @@
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             height: 60px;
             z-index: 1050;
-            display: none; /* Defoult holatda yashirin */
+            display: none;
         }
         .bottom-nav .nav-item {
             display: flex;
@@ -629,14 +675,14 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .top-navbar {
-                display: flex; /* Mobilda tepa navigatsiya faol */
+                display: flex;
             }
             .bottom-nav {
-                display: flex; /* Mobilda pastki navigatsiya faol */
+                display: flex;
             }
             body {
-                padding-top: var(--navbar-mobile-height); /* Tepa nav uchun joy */
-                padding-bottom: 70px; /* Pastki nav uchun joy */
+                padding-top: var(--navbar-mobile-height);
+                padding-bottom: 70px;
             }
             .product-list {
                 display: grid;
@@ -650,7 +696,7 @@
         }
         @media (min-width: 769px) {
             .bottom-nav {
-                display: none; /* Kompyuterda pastki navni yashirish */
+                display: none;
             }
         }
         @media (max-width: 576px) {
@@ -729,16 +775,17 @@
         <div class="container">
             <div class="mobile-navbar-content">
                 <div class="mobile-top-row">
+                    <!-- Brand name - left aligned on mobile -->
                     <a class="navbar-brand" href="{% url 'home' %}">
                         <span class="brand-avto">AVTO</span><span class="brand-kontinent">KONTINENT</span>
                     </a>
                 </div>
 
-                <!-- Mobile Search Form -->
+                <!-- Mobile Search Form - hidden by default -->
                 <div class="mobile-search d-md-none">
                     <div class="mobile-search-wrapper">
                         <form class="search-form" method="get" action="{% url 'product_list' %}">
-                            <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
+                            <input type="text" name="search" class="form-control" placeholder="{% trans 'Search products...' %}" value="{{ request.GET.search }}">
                             <button type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -753,7 +800,7 @@
             <div class="collapse navbar-collapse d-none" id="navbarNav">
                 <!-- Desktop Search Form -->
                 <form class="search-form mx-auto desktop-search" method="get" action="{% url 'product_list' %}">
-                    <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
+                    <input type="text" name="search" class="form-control" placeholder="{% trans 'Search products...' %}" value="{{ request.GET.search }}">
                     <button type="submit">
                         <i class="fas fa-search"></i>
                     </button>
@@ -840,6 +887,11 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Mobile Search Toggle Button -->
+    <button class="search-toggle d-md-none" id="searchToggle">
+        <i class="fas fa-search" id="searchIcon"></i>
+    </button>
 
     <!-- Messages -->
     {% if messages %}
@@ -1002,6 +1054,47 @@
 
     <!-- Custom JS -->
     <script>
+        // Mobile search toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchToggle = document.getElementById('searchToggle');
+            const mobileSearch = document.querySelector('.mobile-search');
+            const searchIcon = document.getElementById('searchIcon');
+            let isSearchVisible = false;
+
+            if (searchToggle && mobileSearch) {
+                searchToggle.addEventListener('click', function() {
+                    isSearchVisible = !isSearchVisible;
+
+                    if (isSearchVisible) {
+                        mobileSearch.classList.add('show');
+                        searchIcon.className = 'fas fa-times';
+                        searchToggle.classList.add('active');
+                        // Focus on search input
+                        setTimeout(() => {
+                            const searchInput = mobileSearch.querySelector('input');
+                            if (searchInput) searchInput.focus();
+                        }, 100);
+                    } else {
+                        mobileSearch.classList.remove('show');
+                        searchIcon.className = 'fas fa-search';
+                        searchToggle.classList.remove('active');
+                    }
+                });
+
+                // Close search when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!searchToggle.contains(event.target) && !mobileSearch.contains(event.target)) {
+                        if (isSearchVisible) {
+                            mobileSearch.classList.remove('show');
+                            searchIcon.className = 'fas fa-search';
+                            searchToggle.classList.remove('active');
+                            isSearchVisible = false;
+                        }
+                    }
+                });
+            }
+        });
+
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('topNavbar');

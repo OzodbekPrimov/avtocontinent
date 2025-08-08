@@ -122,9 +122,8 @@ async def handle_contact(message: types.Message):
         phone = message.contact.phone_number
         chat_id = message.chat.id
 
-        logger.info(f"Contact received from chat_id: {chat_id}, phone: {phone}")
+        logger.info(f"[DEBUG] Contact received from chat_id: {chat_id}, phone: {phone}")
 
-        # Aktiv sessiyani topish
         try:
             pending = await sync_to_async(
                 lambda: TelegramAuth.objects.filter(
@@ -139,27 +138,44 @@ async def handle_contact(message: types.Message):
                 await message.answer("Faol sessiya topilmadi. Iltimos, saytdan qayta boshlang.")
                 return
 
+            # DEBUG: Boshlang'ich holat
+            logger.info(f"[DEBUG-1] BEFORE any changes: is_used={pending.is_used}")
+
         except Exception as e:
             logger.error(f"Database error in handle_contact: {e}")
-            await message.answer("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
             return
 
-        # Tasdiqlash kodi yaratish
         import random
         code = str(random.randint(1000, 9999))
-
-        # Login URL yaratish
         login_url = f"{settings.SITE_URL}/auth/telegram/callback/?token={pending.session_token}&code={code}"
 
-        # TelegramAuth modelini yangilash
+        # DEBUG: Field o'zgartirishdan oldin
+        logger.info(f"[DEBUG-2] BEFORE field updates: is_used={pending.is_used}")
+
+        # Field larni o'zgartirish
         pending.phone_number = phone
         pending.code = code
-        pending.expires_at = timezone.now() + timezone.timedelta(minutes=2)  # 2 daqiqa
+        pending.expires_at = timezone.now() + timezone.timedelta(minutes=2)
+
+        # DEBUG: Field o'zgartirishdan keyin, save qilishdan oldin
+        logger.info(f"[DEBUG-3] AFTER field updates, BEFORE save: is_used={pending.is_used}")
+
+        # Aniq False qilib qo'yish
+        pending.is_used = False
+        logger.info(f"[DEBUG-4] EXPLICITLY set False, BEFORE save: is_used={pending.is_used}")
+
+        # SAVE
         await sync_to_async(pending.save)()
+
+        # DEBUG: Save qilishdan keyin
+        logger.info(f"[DEBUG-5] IMMEDIATELY after save: is_used={pending.is_used}")
+
+        # Fresh object yuklash
+        fresh_pending = await sync_to_async(TelegramAuth.objects.get)(id=pending.id)
+        logger.info(f"[DEBUG-6] FRESH from database: is_used={fresh_pending.is_used}")
 
         logger.info(f"Code generated for session: {pending.session_token}")
 
-        # Xabar va URL yuborish
         await message.answer(
             f"🔐 Tasdiqlash kodingiz: `{code}`\n\n"
             f"⏳ Kod 2 daqiqa amal qiladi.\n\n"
@@ -168,7 +184,6 @@ async def handle_contact(message: types.Message):
             reply_markup=get_retry_kb()
         )
 
-        # Keyboard olib tashlash
         await message.answer("✅ Kod yuborildi!", reply_markup=ReplyKeyboardRemove())
 
     except Exception as e:

@@ -123,12 +123,6 @@ def merge_session_data_to_user(request, user):
         print(f"❌ Umumiy xatolik merge_session_data_to_user da: {e}")
 
 
-from django.db import transaction
-import time
-import logging
-logger = logging.getLogger(__name__)
-
-
 @csrf_exempt
 def telegram_callback(request):
     if request.method == "GET":
@@ -138,109 +132,57 @@ def telegram_callback(request):
         if not session_token or not code:
             return JsonResponse({"success": False, "message": "Token yoki kod topilmadi."}, status=400)
 
-        # RETRY MEXANIZMI - ba'zan ma'lumot hali yetib kelmagan bo'lishi mumkin
-        max_retries = 3
-        retry_count = 0
+        try:
+            auth = TelegramAuth.objects.get(
+                session_token=session_token,
+                code=code,
+                is_used=False
+            )
 
-        while retry_count < max_retries:
-            try:
-                with transaction.atomic():
-                    # SELECT FOR UPDATE - boshqa jarayonlar tomonidan o'zgartirilmasligi uchun
-                    auth = TelegramAuth.objects.select_for_update().get(
-                        session_token=session_token,
-                        is_used=False
-                    )
+            if auth.is_expired:
+                return JsonResponse({"success": False, "message": "Kod muddati o'tgan."}, status=400)
 
-                    logger.info(
-                        f"Found auth record: token={auth.session_token}, code_in_db={auth.code}, code_from_request={code}, is_used={auth.is_used}")
+            phone_number = auth.phone_number
+            username = re.sub(r'\D', '', phone_number)
+            if len(username) > 30:
+                username = username[-30:]
 
-                    # Kodni tekshirish
-                    if auth.code != code:
-                        logger.warning(f"Code mismatch: expected {auth.code}, got {code}")
-                        return JsonResponse({"success": False, "message": "Noto'g'ri kod."}, status=400)
+            user, created = User.objects.get_or_create(
+                username=username,
+                defaults={
+                    'email': f'{username}@example.com',
+                    'first_name': 'Foydalanuvchi'
+                }
+            )
 
-                    if auth.is_expired:
-                        logger.warning(f"Code expired for token: {session_token}")
-                        return JsonResponse({"success": False, "message": "Kod muddati o'tgan."}, status=400)
+            profile, profile_created = UserProfile.objects.get_or_create(
+                user=user,
+                defaults={
+                    'phone_number': phone_number,
+                    'is_phone_verified': True,
+                    'telegram_chat_id': auth.chat_id
+                }
+            )
 
-                    phone_number = auth.phone_number
-                    if not phone_number:
-                        logger.error(f"Phone number not found for token: {session_token}")
-                        return JsonResponse({"success": False, "message": "Telefon raqam topilmadi."}, status=400)
+            # Muvaffaqiyatli autentifikatsiya
+            auth.is_used = True
+            auth.save()
 
-                    username = re.sub(r'\D', '', phone_number)
-                    if len(username) > 30:
-                        username = username[-30:]
+            # Django sessionga login qilish
+            if not request.session.session_key:
+                request.session.create()
+            request.session.save()
+            auth_login(request, user)
 
-                    user, created = User.objects.get_or_create(
-                        username=username,
-                        defaults={
-                            'email': f'{username}@example.com',
-                            'first_name': 'Foydalanuvchi'
-                        }
-                    )
+            # Session ma'lumotlarini foydalanuvchiga ko'chirish
+            merge_session_data_to_user(request, user)
 
-                    profile, profile_created = UserProfile.objects.get_or_create(
-                        user=user,
-                        defaults={
-                            'phone_number': phone_number,
-                            'is_phone_verified': True,
-                            'telegram_chat_id': auth.chat_id
-                        }
-                    )
+            return redirect('home')
 
-                    # Muvaffaqiyatli autentifikatsiya
-                    auth.is_used = True
-                    auth.save()
+        except TelegramAuth.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Noto'g'ri kod yoki sessiya."}, status=400)
 
-                    logger.info(f"Auth marked as used: token={auth.session_token}")
-
-                    # Django sessionga login qilish
-                    if not request.session.session_key:
-                        request.session.create()
-                    request.session.save()
-                    auth_login(request, user)
-
-                    # Session ma'lumotlarini foydalanuvchiga ko'chirish
-                    merge_session_data_to_user(request, user)
-
-                    return redirect('home')
-
-            except TelegramAuth.DoesNotExist:
-                retry_count += 1
-                if retry_count < max_retries:
-                    logger.warning(f"Auth not found, retrying... ({retry_count}/{max_retries})")
-                    time.sleep(0.5)  # 500ms kutish
-                    continue
-                else:
-                    logger.error(f"Auth not found after {max_retries} retries: token={session_token}, code={code}")
-
-                    # DEBUG: Mavjud yozuvlarni ko'rish
-                    existing_auths = TelegramAuth.objects.filter(session_token=session_token)
-                    for auth in existing_auths:
-                        logger.error(
-                            f"Existing auth: token={auth.session_token}, code={auth.code}, is_used={auth.is_used}, phone={auth.phone_number}")
-
-                    return JsonResponse({"success": False, "message": "Noto'g'ri kod yoki sessiya."}, status=400)
-
-            except Exception as e:
-                logger.error(f"Unexpected error in telegram_callback: {e}")
-                return JsonResponse({"success": False, "message": "Server xatosi."}, status=500)
-
-        return JsonResponse({"success": False, "message": "Noto'g'ri so'rov turi."}, status=400)
-
-
-# TUZATILGAN verify_code FUNKSIYASI
-
-import json
-import time
-import logging
-from django.db import connection, transaction
-from django.core.cache import cache
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-
-logger = logging.getLogger('telegram_auth')
+    return JsonResponse({"success": False, "message": "Noto'g'ri so'rov turi."}, status=400)
 
 
 @csrf_exempt
@@ -248,219 +190,74 @@ def verify_code(request):
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "Noto'g'ri so'rov"})
 
+    data = json.loads(request.body)
+    code = data.get("code")
+    session_token = request.session.get('login_token')
+
+    if not session_token:
+        return JsonResponse({"success": False, "message": "Sessiya yo'q. Qaytadan boshlang."})
+
     try:
-        data = json.loads(request.body)
-        code = data.get("code")
-        session_token = request.session.get('login_token')
-
-        logger.info(f"[VERIFY] Code verification request: token={session_token}, code={code}")
-
-        if not session_token:
-            return JsonResponse({"success": False, "message": "Sessiya yo'q. Qaytadan boshlang."})
-
-        if not code:
-            return JsonResponse({"success": False, "message": "Kod kiritilmagan."})
-
-        # MUHIM: Database connection ni yopish
-        connection.close()
-
-        # Cache dan tekshirish
-        cache_key = f"backup_auth_{session_token}"
-        cached_data = cache.get(cache_key)
-
-        if cached_data:
-            logger.info(f"[VERIFY] Found cached data for token: {session_token}")
-
-        auth = None
-        found_via = None
-
-        # RETRY LOGIC - Server muhiti uchun
-        max_retries = 8
-        base_delay = 0.05  # 50ms
-
-        for attempt in range(max_retries):
-            try:
-                with transaction.atomic():
-                    # Database dan tekshirish
-                    auth_qs = TelegramAuth.objects.select_for_update(
-                        skip_locked=True  # Lock qilingan recordlarni o'tkazib yuborish
-                    ).filter(
-                        session_token=session_token,
-                        is_used=False
-                    )
-
-                    auth = auth_qs.first()
-
-                    if auth:
-                        logger.info(f"[VERIFY] Found auth in DB on attempt {attempt + 1}")
-                        found_via = "database"
-                        break
-
-                    # Agar DB da yo'q bo'lsa, cache dan tekshirish
-                    elif cached_data and cached_data.get('code') == code:
-                        logger.info(f"[VERIFY] Using cached data on attempt {attempt + 1}")
-
-                        # Cache dan fake auth object yaratish
-                        class CachedAuth:
-                            def __init__(self, data):
-                                self.session_token = session_token
-                                self.code = data.get('code')
-                                self.phone_number = data.get('phone')
-                                self.chat_id = data.get('chat_id')
-                                self.is_used = False
-                                self._cached = True
-
-                            @property
-                            def is_expired(self):
-                                # Cache da saqlangan ma'lumot uchun muddatni tekshirish
-                                expires_at = cached_data.get('expires_at', 0)
-                                if expires_at:
-                                    return time.time() > expires_at
-                                return False  # Agar expires_at yo'q bo'lsa, expired deb hisoblamaymiz
-
-                            def save(self):
-                                # Cache dan o'chirish
-                                cache.delete(cache_key)
-                                logger.info(f"[VERIFY] Cached auth marked as used")
-
-                        auth = CachedAuth(cached_data)
-                        found_via = "cache"
-                        break
-
-                    else:
-                        logger.warning(f"[VERIFY] Auth not found, attempt {attempt + 1}/{max_retries}")
-
-                        if attempt < max_retries - 1:
-                            delay = base_delay * (2 ** attempt)  # Exponential backoff
-                            time.sleep(min(delay, 2.0))  # Maximum 2 sekund kutish
-
-                            # Har 3-chi urinishda connection ni yangilash
-                            if attempt % 3 == 2:
-                                connection.close()
-
-            except Exception as db_error:
-                logger.error(f"[VERIFY] Database error on attempt {attempt + 1}: {db_error}")
-                if attempt < max_retries - 1:
-                    delay = base_delay * (2 ** attempt)
-                    time.sleep(min(delay, 2.0))
-                    connection.close()  # Connection ni qayta ochish
-                else:
-                    return JsonResponse({
-                        "success": False,
-                        "message": "Server bilan bog'lanishda xatolik."
-                    }, status=500)
-
-        # Auth topilmadi
-        if not auth:
-            logger.error(f"[VERIFY] Auth not found after {max_retries} attempts: token={session_token}")
-
-            # Debug: Mavjud auth recordlarni ko'rish
-            try:
-                existing_auths = TelegramAuth.objects.filter(session_token=session_token)
-                for existing_auth in existing_auths:
-                    logger.error(f"[VERIFY-DEBUG] Existing auth: token={existing_auth.session_token}, "
-                                 f"code={existing_auth.code}, is_used={existing_auth.is_used}, "
-                                 f"phone={existing_auth.phone_number}")
-            except Exception as debug_error:
-                logger.error(f"[VERIFY-DEBUG] Error checking existing auths: {debug_error}")
-
-            return JsonResponse({"success": False, "message": "Sessiya topilmadi yoki kod noto'g'ri."})
-
-        # Validatsiya
-        logger.info(f"[VERIFY] Auth found via {found_via}: code_db={auth.code}, code_input={code}")
-
-        if auth.code != code:
-            logger.warning(f"[VERIFY] Code mismatch: expected {auth.code}, got {code}")
-            return JsonResponse({"success": False, "message": "Noto'g'ri kod."})
+        auth = TelegramAuth.objects.get(
+            session_token=session_token,
+            code=code,
+            is_used=False
+        )
 
         if auth.is_expired:
-            logger.warning(f"[VERIFY] Code expired for token: {session_token}")
             return JsonResponse({"success": False, "message": "Kod muddati o'tgan."})
 
-        if not auth.phone_number:
-            logger.error(f"[VERIFY] Phone number not found for token: {session_token}")
-            return JsonResponse({"success": False, "message": "Telefon raqam topilmadi."})
+        phone_number = auth.phone_number
+        username = re.sub(r'\D', '', phone_number)
+        if len(username) > 30:
+            username = username[-30:]
 
-        # User yaratish va login qilish
+        user, created = User.objects.get_or_create(
+            username=username,
+            defaults={
+                'email': f'{username}@example.com',
+                'first_name': 'Foydalanuvchi'
+            }
+        )
+
+        profile, profile_created = UserProfile.objects.get_or_create(
+            user=user,
+            defaults={
+                'phone_number': phone_number,
+                'is_phone_verified': True,
+                'telegram_chat_id': auth.chat_id
+            }
+        )
+
+        # Muvaffaqiyatli autentifikatsiya
+        auth.is_used = True
+        auth.save()
+
+        if not request.session.session_key:
+            request.session.create()
+        request.session.save()
+        auth_login(request, user)
+
+        merge_session_data_to_user(request, user)
+
+        # Get updated cart and favorites count after merging
         try:
-            with transaction.atomic():
-                phone_number = auth.phone_number
-                username = re.sub(r'\D', '', phone_number)
-                if len(username) > 30:
-                    username = username[-30:]
+            user_cart = Cart.objects.get(user=user)
+            cart_total = user_cart.total_items
+        except Cart.DoesNotExist:
+            cart_total = 0
 
-                user, created = User.objects.get_or_create(
-                    username=username,
-                    defaults={
-                        'email': f'{username}@example.com',
-                        'first_name': 'Foydalanuvchi'
-                    }
-                )
+        favorites_count = Favorite.objects.filter(user=user).count()
 
-                profile, profile_created = UserProfile.objects.get_or_create(
-                    user=user,
-                    defaults={
-                        'phone_number': phone_number,
-                        'is_phone_verified': True,
-                        'telegram_chat_id': auth.chat_id
-                    }
-                )
-
-                # Profile ni yangilash (agar kerak bo'lsa)
-                if not profile_created and profile.telegram_chat_id != auth.chat_id:
-                    profile.telegram_chat_id = auth.chat_id
-                    profile.save()
-
-                # Auth ni used qilish
-                auth.is_used = True
-                auth.save()
-
-                logger.info(f"[VERIFY] User authenticated successfully: {username}")
-
-                # Django session
-                if not request.session.session_key:
-                    request.session.create()
-                request.session.save()
-                auth_login(request, user)
-
-                # Session ma'lumotlarini ko'chirish
-                merge_session_data_to_user(request, user)
-
-                # Cart va favorites count
-                try:
-                    user_cart = Cart.objects.get(user=user)
-                    cart_total = user_cart.total_items
-                except Cart.DoesNotExist:
-                    cart_total = 0
-
-                favorites_count = Favorite.objects.filter(user=user).count()
-
-                # Cache tozalash
-                if cache_key:
-                    cache.delete(cache_key)
-
-                return JsonResponse({
-                    "success": True,
-                    "message": "Kirish amalga oshirildi!",
-                    "cart_total": cart_total,
-                    "favorites_count": favorites_count
-                })
-
-        except Exception as user_error:
-            logger.error(f"[VERIFY] User creation/login error: {user_error}")
-            return JsonResponse({
-                "success": False,
-                "message": "Foydalanuvchi yaratishda xatolik."
-            }, status=500)
-
-    except json.JSONDecodeError:
-        return JsonResponse({"success": False, "message": "Noto'g'ri ma'lumot formati."})
-    except Exception as general_error:
-        logger.error(f"[VERIFY] General error: {general_error}")
         return JsonResponse({
-            "success": False,
-            "message": "Server xatosi yuz berdi."
-        }, status=500)
+            "success": True,
+            "message": "Kirish amalga oshirildi!",
+            "cart_total": cart_total,
+            "favorites_count": favorites_count
+        })
+
+    except TelegramAuth.DoesNotExist:
+        return JsonResponse({"success": False, "message": "Noto'g'ri kod."})
 
 
 def login_request(request):
@@ -473,7 +270,8 @@ def login_request(request):
 
     TelegramAuth.objects.create(
         session_token=session_token,
-        expires_at=timezone.now() + timezone.timedelta(minutes=5)
+        expires_at=timezone.now() + timezone.timedelta(minutes=5),
+        is_used=False,
     )
 
     request.session['login_token'] = session_token

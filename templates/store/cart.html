@@ -104,7 +104,7 @@ function updateQuantity(itemId, quantity) {
         success: function(response) {
             if (response.success) {
                 updateCartCount(response.cart_total);
-                
+
                 // Update localStorage for guest users
                 {% if not user.is_authenticated %}
                 const cartItem = $(`#cart-item-${itemId}`);
@@ -119,7 +119,7 @@ function updateQuantity(itemId, quantity) {
                     localStorage.setItem('local_cart', JSON.stringify(localCart));
                 }
                 {% endif %}
-                
+
                 setTimeout(() => location.reload(), 500);
             } else {
                 showToast(response.message, 'error');
