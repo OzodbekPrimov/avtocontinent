@@ -18,7 +18,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = ['*']
 
 
-CSRF_TRUSTED_ORIGINS = ['https://nlp.iftor.uz', 'https://www.nlp.iftor.uz']
+CSRF_TRUSTED_ORIGINS = ['https://avtokontinent.uz', 'https://www.avtokontinent.uz']
 
 # Application definition
 INSTALLED_APPS = [
@@ -176,6 +176,7 @@ SITE_NAME = 'Avtokontinent.uz'
 SITE_DESCRIPTION = 'Online Auto Spare Parts Store'
 
 SITE_URL = "https://avtokontinent.uz"
+# SITE_URL = "http://127.0.0.1:8000"
 
 TELEGRAM_AUTH_EXPIRY_MINUTES = 5
 MAX_LOGIN_ATTEMPTS = 3
