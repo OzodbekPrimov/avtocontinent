@@ -84,7 +84,7 @@ async def start(message: types.Message):
         try:
             auth = await sync_to_async(TelegramAuth.objects.get)(
                 session_token=session_token,
-                is_used=False
+                # is_used=False
             )
 
             auth.chat_id = chat_id
@@ -131,7 +131,7 @@ async def handle_contact(message: types.Message):
                 lambda: TelegramAuth.objects.filter(
                     chat_id=chat_id,
                     phone_number__isnull=True,
-                    is_used=False,
+                    # is_used=False,
                     created_at__gte=timezone.now() - timezone.timedelta(minutes=10)
                 ).order_by('-created_at').first()
             )()
@@ -206,7 +206,7 @@ async def retry_code(callback: types.CallbackQuery):
                 lambda: TelegramAuth.objects.filter(
                     chat_id=chat_id,
                     phone_number__isnull=False,
-                    is_used=False,
+                    # is_used=False,
                     created_at__gte=timezone.now() - timezone.timedelta(minutes=10)
                 ).order_by('-created_at').first()
             )()
