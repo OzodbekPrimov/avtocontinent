@@ -21,16 +21,18 @@ from store.models import TelegramAuth, Order
 from django.core.cache import cache
 from django.conf import settings
 
-# Logging konfiguratsiyasi
+# Logger sozlash
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='%(asctime)s %(levelname)s %(module)s %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('/var/log/bot.log') if os.path.exists('/var/log/') else logging.StreamHandler(sys.stdout)
+        logging.StreamHandler(sys.stdout)
     ]
 )
+
+# Bot kodi davom etadi
 logger = logging.getLogger(__name__)
+logger.info("Bot started")
 
 # Konfiguratsiya
 API_TOKEN = settings.TELEGRAM_BOT_TOKEN

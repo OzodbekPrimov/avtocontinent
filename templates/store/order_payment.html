@@ -91,7 +91,7 @@
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary btn-lg">
+                                    <button type="submit" class="btn btn-primary mobile-upload-btn">
                                         <i class="fas fa-upload"></i> {% trans "Upload Payment Screenshot" %}
                                     </button>
                                     <a href="{% url 'order_detail' order.order_id %}" class="btn btn-outline-secondary">
@@ -253,6 +253,13 @@
     background-color: var(--bs-primary-subtle) !important;
 }
 
+/* Mobile upload button styles */
+.mobile-upload-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .amount-uzs {
         font-size: 1.5rem !important;
@@ -265,6 +272,62 @@
     .card-number {
         font-size: 0.9rem;
         letter-spacing: 0.05em;
+    }
+
+    /* Mobile specific upload button */
+    .mobile-upload-btn {
+        padding: 10px 16px !important;
+        font-size: 0.9rem !important;
+        font-weight: 500;
+    }
+
+    .mobile-upload-btn i {
+        font-size: 0.85rem;
+        margin-right: 6px;
+    }
+
+    /* Reduce form text size on mobile */
+    .form-text {
+        font-size: 0.8rem !important;
+    }
+
+    /* Compact card body on mobile */
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Smaller labels on mobile */
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Extra small screens */
+    .mobile-upload-btn {
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .mobile-upload-btn i {
+        font-size: 0.8rem;
+        margin-right: 4px;
+    }
+
+    /* Compact heading */
+    h6 {
+        font-size: 0.95rem;
+    }
+
+    /* Smaller alert padding */
+    .alert {
+        padding: 0.75rem;
+    }
+
+    .alert h6 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
     }
 }
 </style>
@@ -319,7 +382,10 @@ function showToast(message, type) {
     alertDiv.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
     alertDiv.style.top = '20px';
     alertDiv.style.right = '20px';
+    alertDiv.style.left = '20px';
     alertDiv.style.zIndex = '9999';
+    alertDiv.style.maxWidth = '400px';
+    alertDiv.style.margin = '0 auto';
     alertDiv.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

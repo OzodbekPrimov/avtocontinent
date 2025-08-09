@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 12:04+0500\n"
+"POT-Creation-Date: 2025-08-09 16:07+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,7 +134,7 @@ msgstr "Название модели"
 msgid "Ruscha nom"
 msgstr "Русский название"
 
-#: .\dashboard\forms.py:648 .\templates\dashboard\models.html:89
+#: .\dashboard\forms.py:648
 msgid "Название модели"
 msgstr "Название модели"
 
@@ -182,282 +182,124 @@ msgstr "Модель с таким слагом уже существует дл
 msgid "Avtokontinent.uz - Auto Spare Parts"
 msgstr "Avtokontinent.uz - Автозапчасти"
 
-#: .\templates\base.html:804 .\templates\base.html:894
-#: .\templates\base.html:901
+#: .\templates\base.html:788 .\templates\base.html:803
+#: .\templates\store\brand_models.html:57
+msgid "Search products..."
+msgstr "Поиск товаров..."
+
+#: .\templates\base.html:840 .\templates\base.html:935
+#: .\templates\base.html:942
 msgid "Favorites"
 msgstr "Избранное"
 
-#: .\templates\base.html:815 .\templates\store\cart.html:10
+#: .\templates\base.html:851 .\templates\store\cart.html:10
 msgid "Shopping Cart"
 msgstr "Корзина"
 
-#: .\templates\base.html:827
+#: .\templates\base.html:863
 msgid "My Account"
 msgstr "Мой аккаунт"
 
-#: .\templates\base.html:833 .\templates\base.html:936
+#: .\templates\base.html:869 .\templates\base.html:977
 #: .\templates\store\order_detail.html:13
 #: .\templates\store\order_history.html:9
 msgid "Order History"
 msgstr "История заказов"
 
-#: .\templates\base.html:837 .\templates\base.html:940
+#: .\templates\base.html:873 .\templates\base.html:981
 msgid "Logout"
 msgstr "Выйти"
 
-#: .\templates\base.html:844 .\templates\base.html:945
-#: .\templates\base.html:947 .\templates\store\login.html:13
+#: .\templates\base.html:880 .\templates\base.html:986
+#: .\templates\base.html:988 .\templates\store\login.html:16
 #: .\templates\store\product_detail.html:165
 msgid "Login"
 msgstr "Вход"
 
-#: .\templates\base.html:877 .\templates\base.html:879
-#: .\templates\base.html:971 .\templates\store\brand_models.html:11
+#: .\templates\base.html:918 .\templates\base.html:920
+#: .\templates\base.html:1012 .\templates\store\brand_models.html:11
 #: .\templates\store\order_detail.html:12
 #: .\templates\store\product_detail.html:12
 #: .\templates\store\product_list.html:11
 msgid "Home"
 msgstr "Главная"
 
-#: .\templates\base.html:883 .\templates\base.html:890
+#: .\templates\base.html:924 .\templates\base.html:931
 msgid "Cart"
 msgstr "Корзина"
 
-#: .\templates\base.html:905
+#: .\templates\base.html:946
 msgid "Language"
 msgstr "Язык"
 
-#: .\templates\base.html:931 .\templates\base.html:933
+#: .\templates\base.html:972 .\templates\base.html:974
 msgid "Account"
 msgstr "Аккаунт"
 
-#: .\templates\base.html:959
+#: .\templates\base.html:1000
 msgid "Avtokontinent.uz"
 msgstr "Avtokontinent.uz"
 
-#: .\templates\base.html:960
-msgid "Your trusted partner for quality auto spare parts. We provide genuine parts for all car brands with fast delivery across Uzbekistan."
-msgstr "Ваш надежный партнер в поставке качественных автозапчастей. Мы предоставляем оригинальные запчасти для всех марок автомобилей с быстрой доставкой по Узбекистану."
+#: .\templates\base.html:1001
+msgid ""
+"Your trusted partner for quality auto spare parts. We provide genuine parts "
+"for all car brands with fast delivery across Uzbekistan."
+msgstr ""
+"Ваш надежный партнер в поставке качественных автозапчастей. Мы предоставляем "
+"оригинальные запчасти для всех марок автомобилей с быстрой доставкой по "
+"Узбекистану."
 
-#: .\templates\base.html:969
+#: .\templates\base.html:1010
 msgid "Quick Links"
 msgstr "Быстрые ссылки"
 
-#: .\templates\base.html:972 .\templates\store\product_detail.html:13
+#: .\templates\base.html:1013 .\templates\store\product_detail.html:13
 #: .\templates\store\product_list.html:12
 #: .\templates\store\product_list.html:79
 msgid "Products"
 msgstr "Продукты"
 
-#: .\templates\base.html:973 .\templates\store\brand_models.html:12
+#: .\templates\base.html:1014 .\templates\store\brand_models.html:12
 #: .\templates\store\product_list.html:39
 msgid "Brands"
 msgstr "Бренды"
 
-#: .\templates\base.html:974
+#: .\templates\base.html:1015
 msgid "About Us"
 msgstr "О нас"
 
-#: .\templates\base.html:978 .\templates\store\brand_models.html:105
+#: .\templates\base.html:1019 .\templates\store\brand_models.html:105
 #: .\templates\store\product_list.html:24
 msgid "Categories"
 msgstr "Категории"
 
-#: .\templates\base.html:986
+#: .\templates\base.html:1027
 msgid "Contact Info"
 msgstr "Контактная информация"
 
-#: .\templates\base.html:988
+#: .\templates\base.html:1029
 msgid "Tashkent, Uzbekistan"
 msgstr "Ташкент, Узбекистан"
 
-#: .\templates\base.html:991
+#: .\templates\base.html:1032
 msgid "Mon-Sat: 9:00 AM - 6:00 PM"
 msgstr "Пн-Сб: 9:00 - 18:00"
 
-#: .\templates\base.html:998
+#: .\templates\base.html:1039
 msgid "Avtokontinent.uz. All rights reserved."
 msgstr "Avtokontinent.uz. Все права защищены."
 
-#: .\templates\base.html:1001
+#: .\templates\base.html:1042
 msgid "Privacy Policy"
 msgstr "Политика конфиденциальности"
 
-#: .\templates\base.html:1002
+#: .\templates\base.html:1043
 msgid "Terms of Service"
 msgstr "Условия обслуживания"
 
-#: .\templates\base.html:1003
+#: .\templates\base.html:1044
 msgid "Support"
 msgstr "Поддержка"
-
-#: .\templates\dashboard\model_form.html:41
-msgid "Выберите бренд"
-msgstr "Выберите бренд"
-
-#: .\templates\dashboard\models.html:3 .\templates\dashboard\models.html:6
-msgid "Управление моделями автомобилей"
-msgstr "Управление моделями автомобилей"
-
-#: .\templates\dashboard\models.html:17
-msgid "Все модели автомобилей"
-msgstr "Все модели автомобилей"
-
-#: .\templates\dashboard\models.html:20
-msgid "Добавить новую модель"
-msgstr "Добавить новую модель"
-
-#: .\templates\dashboard\models.html:35
-msgid "Поиск моделей..."
-msgstr "Поиск моделей..."
-
-#: .\templates\dashboard\models.html:44
-msgid "Поиск"
-msgstr "Поиск"
-
-#: .\templates\dashboard\models.html:51 .\templates\dashboard\models.html:90
-msgid "Бренд"
-msgstr "Бренд"
-
-#: .\templates\dashboard\models.html:53
-msgid "Все бренды"
-msgstr "Все бренды"
-
-#: .\templates\dashboard\models.html:62 .\templates\dashboard\models.html:91
-msgid "Статус"
-msgstr "Статус"
-
-#: .\templates\dashboard\models.html:64
-msgid "Все статусы"
-msgstr "Все статусы"
-
-#: .\templates\dashboard\models.html:66 .\templates\dashboard\models.html:140
-#: .\templates\dashboard\models.html:405
-msgid "Активно"
-msgstr "Активно"
-
-#: .\templates\dashboard\models.html:69 .\templates\dashboard\models.html:142
-#: .\templates\dashboard\models.html:406
-msgid "Неактивно"
-msgstr "Неактивно"
-
-#: .\templates\dashboard\models.html:75
-msgid "Очистить"
-msgstr "Очистить"
-
-#: .\templates\dashboard\models.html:88
-msgid "Изображение"
-msgstr "Изображение"
-
-#: .\templates\dashboard\models.html:92
-msgid "Товары"
-msgstr "Товары"
-
-#: .\templates\dashboard\models.html:93
-msgid "Создано"
-msgstr "Создано"
-
-#: .\templates\dashboard\models.html:94
-msgid "Действия"
-msgstr "Действия"
-
-#: .\templates\dashboard\models.html:136
-msgid "Изменить статус"
-msgstr "Изменить статус"
-
-#: .\templates\dashboard\models.html:151
-msgid "товаров"
-msgstr "товаров"
-
-#: .\templates\dashboard\models.html:164
-msgid "Редактировать"
-msgstr "Редактировать"
-
-#: .\templates\dashboard\models.html:172 .\templates\dashboard\models.html:271
-#: .\templates\dashboard\models.html:481
-msgid "Удалить"
-msgstr "Удалить"
-
-#: .\templates\dashboard\models.html:184
-msgid "Пагинация моделей"
-msgstr "Пагинация моделей"
-
-#: .\templates\dashboard\models.html:228
-#, python-format
-msgid "Показано с %(start)s по %(end)s из %(total)s моделей"
-msgstr "Показано с %(start)s по %(end)s из %(total)s моделей"
-
-#: .\templates\dashboard\models.html:238
-msgid "Модели автомобилей не найдены"
-msgstr "Модели автомобилей не найдены"
-
-#: .\templates\dashboard\models.html:241
-msgid "Попробуйте изменить параметры поиска или фильтрации"
-msgstr "Попробуйте изменить параметры поиска или фильтрации"
-
-#: .\templates\dashboard\models.html:242
-msgid "Очистить все фильтры"
-msgstr "Очистить все фильтры"
-
-#: .\templates\dashboard\models.html:244
-msgid "Вы еще не создали ни одной модели автомобиля"
-msgstr "Вы еще не создали ни одной модели автомобиля"
-
-#: .\templates\dashboard\models.html:249
-msgid "Создать первую модель"
-msgstr "Создать первую модель"
-
-#: .\templates\dashboard\models.html:262
-msgid "Подтвердите удаление"
-msgstr "Подтвердите удаление"
-
-#: .\templates\dashboard\models.html:266
-msgid "Вы уверены, что хотите удалить модель"
-msgstr "Вы уверены, что хотите удалить модель"
-
-#: .\templates\dashboard\models.html:267
-msgid "Это действие нельзя отменить."
-msgstr "Это действие нельзя отменить."
-
-#: .\templates\dashboard\models.html:270
-msgid "Отмена"
-msgstr "Отмена"
-
-#: .\templates\dashboard\models.html:325
-msgid "Фильтр по бренду"
-msgstr "Фильтр по бренду"
-
-#: .\templates\dashboard\models.html:409
-msgid "Статус модели успешно обновлен!"
-msgstr "Статус модели успешно обновлен!"
-
-#: .\templates\dashboard\models.html:413
-msgid "Не удалось обновить статус модели: "
-msgstr "Не удалось обновить статус модели: "
-
-#: .\templates\dashboard\models.html:413 .\templates\dashboard\models.html:472
-msgid "Неизвестная ошибка"
-msgstr "Неизвестная ошибка"
-
-#: .\templates\dashboard\models.html:420
-msgid "Произошла ошибка при обновлении статуса модели. Пожалуйста, попробуйте снова."
-msgstr "Произошла ошибка при обновлении статуса модели. Пожалуйста, попробуйте снова."
-
-#: .\templates\dashboard\models.html:443
-msgid "Удаление..."
-msgstr "Удаление..."
-
-#: .\templates\dashboard\models.html:465
-msgid "Модель успешно удалена!"
-msgstr "Модель успешно удалена!"
-
-#: .\templates\dashboard\models.html:472
-msgid "Не удалось удалить модель: "
-msgstr "Не удалось удалить модель: "
-
-#: .\templates\dashboard\models.html:477
-msgid "Произошла ошибка при удалении модели. Пожалуйста, попробуйте снова."
-msgstr "Произошла ошибка при удалении модели. Пожалуйста, попробуйте снова."
 
 #: .\templates\store\brand_models.html:4
 msgid "Models and Parts"
@@ -474,10 +316,6 @@ msgstr "продукты"
 #: .\templates\store\brand_models.html:49
 msgid "Filter by Model"
 msgstr "Фильтр по модели"
-
-#: .\templates\store\brand_models.html:57
-msgid "Search products..."
-msgstr "Поиск товаров..."
 
 #: .\templates\store\brand_models.html:71
 msgid "All Models"
@@ -715,17 +553,47 @@ msgstr "Мои избранные"
 msgid "Remove from Favorites"
 msgstr "Удалить из избранного"
 
-#: .\templates\store\favorites.html:69
+#: .\templates\store\favorites.html:69 .\templates\store\favorites.html:166
 msgid "No favorites yet"
 msgstr "Избранное пока пусто"
 
-#: .\templates\store\favorites.html:70
+#: .\templates\store\favorites.html:70 .\templates\store\favorites.html:167
 msgid "Start adding products to your favorites to see them here"
 msgstr "Начните добавлять товары в избранное, чтобы увидеть их здесь"
 
-#: .\templates\store\favorites.html:71
+#: .\templates\store\favorites.html:71 .\templates\store\favorites.html:168
 msgid "Browse Products"
 msgstr "Посмотреть товары"
+
+#: .\templates\store\favorites.html:176
+#, fuzzy
+#| msgid "Remove from Favorites"
+msgid "Removed from favorites!"
+msgstr "Удалить из избранного"
+
+#: .\templates\store\favorites.html:180
+#, fuzzy
+#| msgid "Add to Favorites"
+msgid "Added to favorites!"
+msgstr "Добавить в избранное"
+
+#: .\templates\store\favorites.html:207 .\templates\store\favorites.html:234
+#, fuzzy
+#| msgid "Network error. Please try again."
+msgid "Error occurred. Please try again."
+msgstr "Ошибка сети. Пожалуйста, попробуйте снова."
+
+#: .\templates\store\favorites.html:228
+#, fuzzy
+#| msgid "Like"
+msgid "Liked!"
+msgstr "Нравится"
+
+#: .\templates\store\favorites.html:228
+#, fuzzy
+#| msgid "likes"
+msgid "Unliked!"
+msgstr "нравится"
 
 #: .\templates\store\home.html:5
 msgid "Home - Avtokontinent.uz"
@@ -803,60 +671,78 @@ msgstr "отзывы"
 msgid "Login - Avtokontinent.uz"
 msgstr "Вход - Avtokontinent.uz"
 
-#: .\templates\store\login.html:20
+#: .\templates\store\login.html:18
+#, fuzzy
+#| msgid "4-Digit Verification Code"
+msgid "Enter your verification code"
+msgstr "4-значный код подтверждения"
+
+#: .\templates\store\login.html:29
 msgid "Get the code from the bot"
 msgstr "Получите код от бота"
 
-#: .\templates\store\login.html:23 .\templates\store\verify_code.html:21
+#: .\templates\store\login.html:34 .\templates\store\verify_code.html:21
 msgid "Open Telegram Bot"
 msgstr "Открыть Telegram бота"
 
-#: .\templates\store\login.html:42 .\templates\store\verify_code.html:29
+#: .\templates\store\login.html:58 .\templates\store\verify_code.html:29
 msgid "4-Digit Verification Code"
 msgstr "4-значный код подтверждения"
 
-#: .\templates\store\login.html:47 .\templates\store\verify_code.html:34
+#: .\templates\store\login.html:78 .\templates\store\verify_code.html:34
 msgid "Enter the 4-digit code you received from the Telegram bot"
 msgstr "Введите 4-значный код, полученный от Telegram бота"
 
-#: .\templates\store\login.html:53 .\templates\store\login.html:162
+#: .\templates\store\login.html:89 .\templates\store\login.html:280
 #: .\templates\store\verify_code.html:39
 msgid "Verify & Login"
 msgstr "Подтвердить и войти"
 
-#: .\templates\store\login.html:68
+#: .\templates\store\login.html:107
+#, fuzzy
+#| msgid "Steps to get your code:"
+msgid "How to get your code"
+msgstr "Как получить код:"
+
+#: .\templates\store\login.html:117
 msgid "Steps to get your code:"
 msgstr "Как получить код:"
 
-#: .\templates\store\login.html:71
+#: .\templates\store\login.html:121
 msgid "Click the Telegram bot link above"
 msgstr "Нажмите на ссылку Telegram бота выше"
 
-#: .\templates\store\login.html:72
+#: .\templates\store\login.html:122
 msgid "Start the bot and share your contact"
 msgstr "Запустите бота и отправьте контакт"
 
-#: .\templates\store\login.html:73
+#: .\templates\store\login.html:123
 msgid "Receive your 4-digit code"
 msgstr "Получите 4-значный код"
 
-#: .\templates\store\login.html:74
+#: .\templates\store\login.html:124
 msgid "Enter the code here to login"
 msgstr "Введите код здесь для входа"
 
-#: .\templates\store\login.html:82
-msgid "Note: Your code is valid for 1 minute only"
-msgstr "Важно: код действителен только 1 минуту"
+#: .\templates\store\login.html:134
+#, fuzzy
+#| msgid "Code expires in 1 minute"
+msgid "Code expires in 2 minute"
+msgstr "Код истекает через 1 минуту"
 
-#: .\templates\store\login.html:120
+#: .\templates\store\login.html:200
 msgid "Please enter a valid 4-digit code."
 msgstr "Пожалуйста, введите действительный 4-значный код."
 
-#: .\templates\store\login.html:126
+#: .\templates\store\login.html:216
 msgid "Checking..."
 msgstr "Проверка..."
 
-#: .\templates\store\login.html:159
+#: .\templates\store\login.html:250
+msgid "Success!"
+msgstr ""
+
+#: .\templates\store\login.html:269
 msgid "Network error. Please try again."
 msgstr "Ошибка сети. Пожалуйста, попробуйте снова."
 
@@ -1041,7 +927,8 @@ msgstr "Ваш заказ ожидает подтверждения оплаты
 
 #: .\templates\store\order_detail.html:260
 msgid "Please contact our support team to complete your payment."
-msgstr "Пожалуйста, свяжитесь с нашей службой поддержки, чтобы завершить оплату."
+msgstr ""
+"Пожалуйста, свяжитесь с нашей службой поддержки, чтобы завершить оплату."
 
 #: .\templates\store\order_detail.html:269
 msgid "Actions"
@@ -1081,7 +968,8 @@ msgstr "Вы уверены, что хотите отменить этот за�
 
 #: .\templates\store\order_detail.html:431
 msgid "Order cancellation requested. We will contact you shortly."
-msgstr "Запрос на отмену заказа отправлен. Мы свяжемся с вами в ближайшее время."
+msgstr ""
+"Запрос на отмену заказа отправлен. Мы свяжемся с вами в ближайшее время."
 
 #: .\templates\store\order_history.html:4
 msgid "Order History - Avtokontinent.uz"
@@ -1162,8 +1050,12 @@ msgid "Upload Payment Screenshot"
 msgstr "Загрузить скриншот оплаты"
 
 #: .\templates\store\order_payment.html:89
-msgid "Please upload a clear screenshot showing the payment confirmation. Supported formats: JPG, PNG, GIF"
-msgstr "Пожалуйста, загрузите четкий скриншот подтверждения оплаты. Поддерживаемые форматы: JPG, PNG, GIF"
+msgid ""
+"Please upload a clear screenshot showing the payment confirmation. Supported "
+"formats: JPG, PNG, GIF"
+msgstr ""
+"Пожалуйста, загрузите четкий скриншот подтверждения оплаты. Поддерживаемые "
+"форматы: JPG, PNG, GIF"
 
 #: .\templates\store\order_payment.html:98
 msgid "Back to Order"
@@ -1191,7 +1083,9 @@ msgstr "Цена за единицу:"
 
 #: .\templates\store\order_payment.html:198
 msgid "Please transfer the exact amount shown above to avoid payment delays."
-msgstr "Пожалуйста, переведите точную сумму, указанную выше, чтобы избежать задержек в оплате."
+msgstr ""
+"Пожалуйста, переведите точную сумму, указанную выше, чтобы избежать задержек "
+"в оплате."
 
 #: .\templates\store\order_payment.html:207
 msgid "Need Help?"
@@ -1199,34 +1093,35 @@ msgstr "Нужна помощь?"
 
 #: .\templates\store\order_payment.html:209
 msgid "If you have any questions about the payment process, please contact us:"
-msgstr "Если у вас есть вопросы по процессу оплаты, пожалуйста, свяжитесь с нами:"
+msgstr ""
+"Если у вас есть вопросы по процессу оплаты, пожалуйста, свяжитесь с нами:"
 
 #: .\templates\store\order_payment.html:224
 msgid "Payment confirmation usually takes 1-2 hours during business hours."
 msgstr "Подтверждение оплаты обычно занимает 1-2 часа в рабочее время."
 
-#: .\templates\store\order_payment.html:279
-#: .\templates\store\order_payment.html:307
+#: .\templates\store\order_payment.html:342
+#: .\templates\store\order_payment.html:370
 msgid "Copied to clipboard!"
 msgstr "Скопировано в буфер обмена!"
 
-#: .\templates\store\order_payment.html:309
+#: .\templates\store\order_payment.html:372
 msgid "Failed to copy. Please copy manually."
 msgstr "Не удалось скопировать. Пожалуйста, скопируйте вручную."
 
-#: .\templates\store\order_payment.html:341
+#: .\templates\store\order_payment.html:407
 msgid "Please select a payment screenshot to upload."
 msgstr "Пожалуйста, выберите скриншот оплаты для загрузки."
 
-#: .\templates\store\order_payment.html:350
+#: .\templates\store\order_payment.html:416
 msgid "File size is too large. Please choose a file smaller than 10MB."
 msgstr "Файл слишком большой. Пожалуйста, выберите файл размером менее 10 МБ."
 
-#: .\templates\store\order_payment.html:357
+#: .\templates\store\order_payment.html:423
 msgid "Uploading..."
 msgstr "Загрузка..."
 
-#: .\templates\store\order_payment.html:374
+#: .\templates\store\order_payment.html:440
 msgid "Image selected successfully!"
 msgstr "Изображение успешно выбрано!"
 
@@ -1370,3 +1265,134 @@ msgstr "Код истекает через 1 минуту"
 #: .\templates\store\verify_code.html:53
 msgid "Back to Login"
 msgstr "Назад к входу"
+
+#~ msgid "Выберите бренд"
+#~ msgstr "Выберите бренд"
+
+#~ msgid "Управление моделями автомобилей"
+#~ msgstr "Управление моделями автомобилей"
+
+#~ msgid "Все модели автомобилей"
+#~ msgstr "Все модели автомобилей"
+
+#~ msgid "Добавить новую модель"
+#~ msgstr "Добавить новую модель"
+
+#~ msgid "Поиск моделей..."
+#~ msgstr "Поиск моделей..."
+
+#~ msgid "Поиск"
+#~ msgstr "Поиск"
+
+#~ msgid "Бренд"
+#~ msgstr "Бренд"
+
+#~ msgid "Все бренды"
+#~ msgstr "Все бренды"
+
+#~ msgid "Статус"
+#~ msgstr "Статус"
+
+#~ msgid "Все статусы"
+#~ msgstr "Все статусы"
+
+#~ msgid "Активно"
+#~ msgstr "Активно"
+
+#~ msgid "Неактивно"
+#~ msgstr "Неактивно"
+
+#~ msgid "Очистить"
+#~ msgstr "Очистить"
+
+#~ msgid "Изображение"
+#~ msgstr "Изображение"
+
+#~ msgid "Товары"
+#~ msgstr "Товары"
+
+#~ msgid "Создано"
+#~ msgstr "Создано"
+
+#~ msgid "Действия"
+#~ msgstr "Действия"
+
+#~ msgid "Изменить статус"
+#~ msgstr "Изменить статус"
+
+#~ msgid "товаров"
+#~ msgstr "товаров"
+
+#~ msgid "Редактировать"
+#~ msgstr "Редактировать"
+
+#~ msgid "Удалить"
+#~ msgstr "Удалить"
+
+#~ msgid "Пагинация моделей"
+#~ msgstr "Пагинация моделей"
+
+#, python-format
+#~ msgid "Показано с %(start)s по %(end)s из %(total)s моделей"
+#~ msgstr "Показано с %(start)s по %(end)s из %(total)s моделей"
+
+#~ msgid "Модели автомобилей не найдены"
+#~ msgstr "Модели автомобилей не найдены"
+
+#~ msgid "Попробуйте изменить параметры поиска или фильтрации"
+#~ msgstr "Попробуйте изменить параметры поиска или фильтрации"
+
+#~ msgid "Очистить все фильтры"
+#~ msgstr "Очистить все фильтры"
+
+#~ msgid "Вы еще не создали ни одной модели автомобиля"
+#~ msgstr "Вы еще не создали ни одной модели автомобиля"
+
+#~ msgid "Создать первую модель"
+#~ msgstr "Создать первую модель"
+
+#~ msgid "Подтвердите удаление"
+#~ msgstr "Подтвердите удаление"
+
+#~ msgid "Вы уверены, что хотите удалить модель"
+#~ msgstr "Вы уверены, что хотите удалить модель"
+
+#~ msgid "Это действие нельзя отменить."
+#~ msgstr "Это действие нельзя отменить."
+
+#~ msgid "Отмена"
+#~ msgstr "Отмена"
+
+#~ msgid "Фильтр по бренду"
+#~ msgstr "Фильтр по бренду"
+
+#~ msgid "Статус модели успешно обновлен!"
+#~ msgstr "Статус модели успешно обновлен!"
+
+#~ msgid "Не удалось обновить статус модели: "
+#~ msgstr "Не удалось обновить статус модели: "
+
+#~ msgid "Неизвестная ошибка"
+#~ msgstr "Неизвестная ошибка"
+
+#~ msgid ""
+#~ "Произошла ошибка при обновлении статуса модели. Пожалуйста, попробуйте "
+#~ "снова."
+#~ msgstr ""
+#~ "Произошла ошибка при обновлении статуса модели. Пожалуйста, попробуйте "
+#~ "снова."
+
+#~ msgid "Удаление..."
+#~ msgstr "Удаление..."
+
+#~ msgid "Модель успешно удалена!"
+#~ msgstr "Модель успешно удалена!"
+
+#~ msgid "Не удалось удалить модель: "
+#~ msgstr "Не удалось удалить модель: "
+
+#~ msgid "Произошла ошибка при удалении модели. Пожалуйста, попробуйте снова."
+#~ msgstr "Произошла ошибка при удалении модели. Пожалуйста, попробуйте снова."
+
+#~ msgid "Note: Your code is valid for 1 minute only"
+#~ msgstr "Важно: код действителен только 1 минуту"

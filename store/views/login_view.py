@@ -16,35 +16,18 @@ from django.contrib import messages
 
 def cleanup_expired_telegram_auth():
     """
-    Muddati tugagan va ishlatilgan TelegramAuth yozuvlarini o'chirish
+    Faqat muddati tugagan TelegramAuth yozuvlarini o'chirish
     """
     now = timezone.now()
 
-    # Muddati tugagan yozuvlarni o'chirish
+    # Faqat muddati tugagan yozuvlarni o'chirish
     expired_count = TelegramAuth.objects.filter(expires_at__lt=now).count()
     TelegramAuth.objects.filter(expires_at__lt=now).delete()
 
-    # Ishlatilgan va 1 soatdan eski yozuvlarni o'chirish
-    # Agar created_at fieldi mavjud bo'lsa
-    try:
-        used_count = TelegramAuth.objects.filter(
-            is_used=True,
-            created_at__lt=now - timezone.timedelta(hours=1)
-        ).count()
-        TelegramAuth.objects.filter(
-            is_used=True,
-            created_at__lt=now - timezone.timedelta(hours=1)
-        ).delete()
-    except:
-        # Agar created_at fieldi mavjud bo'lmasa, faqat is_used=True bo'lganlarni o'chirish
-        used_count = TelegramAuth.objects.filter(is_used=True).count()
-        TelegramAuth.objects.filter(is_used=True).delete()
+    if expired_count > 0:
+        print(f"🧹 Tozalash: {expired_count} muddati tugagan yozuv o'chirildi")
 
-    total_deleted = expired_count + used_count
-    if total_deleted > 0:
-        print(f"🧹 Tozalash: {expired_count} muddati tugagan, {used_count} ishlatilgan yozuv o'chirildi")
-
-    return total_deleted
+    return expired_count
 
 
 def merge_session_data_to_user(request, user):
@@ -133,14 +116,19 @@ def telegram_callback(request):
             return JsonResponse({"success": False, "message": "Token yoki kod topilmadi."}, status=400)
 
         try:
+            # is_used holatini e'tiborsiz qoldiramiz, faqat token va kodni tekshiramiz
             auth = TelegramAuth.objects.get(
                 session_token=session_token,
                 code=code,
-                is_used=False
+                # is_used=False  # Bu qatorni olib tashlaymiz
             )
 
             if auth.is_expired:
                 return JsonResponse({"success": False, "message": "Kod muddati o'tgan."}, status=400)
+
+            # Agar allaqachon ishlatilgan bo'lsa ham, muddati tugamagan bo'lsa ruxsat beramiz
+            if auth.is_used:
+                print(f"[WARNING] Auth {session_token} allaqachon ishlatilgan, lekin muddati hali tugamagan")
 
             phone_number = auth.phone_number
             username = re.sub(r'\D', '', phone_number)
@@ -201,12 +189,17 @@ def verify_code(request):
         auth = TelegramAuth.objects.get(
             session_token=session_token,
             code=code,
-            is_used=False
+            # is_used=False  # Bu qatorni olib tashlaymiz
         )
 
         if auth.is_expired:
             return JsonResponse({"success": False, "message": "Kod muddati o'tgan."})
 
+        # Agar allaqachon ishlatilgan bo'lsa ham, muddati tugamagan bo'lsa ruxsat beramiz
+        if auth.is_used:
+            print(f"[WARNING] Auth {session_token} allaqachon ishlatilgan, lekin muddati hali tugamagan")
+
+        # ... qolgan kod bir xil
         phone_number = auth.phone_number
         username = re.sub(r'\D', '', phone_number)
         if len(username) > 30:

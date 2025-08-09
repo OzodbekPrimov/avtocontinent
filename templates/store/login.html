@@ -4,24 +4,36 @@
 {% block title %}{% trans "Login - Avtokontinent.uz" %}{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container-fluid py-3 py-md-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body">
-                    <h2 class="text-center mb-4">
-                        <i class="fas fa-sign-in-alt"></i> {% trans "Login" %}
-                    </h2>
-
-                    <!-- Telegram bot link -->
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg border-0 rounded-4 mx-2 mx-sm-0">
+                <div class="card-body p-3 p-md-4">
+                    <!-- Header with responsive font size -->
                     <div class="text-center mb-4">
-                        <div class="alert alert-info">
-                            <i class="fab fa-telegram"></i>
-                            <strong>{% trans "Get the code from the bot" %}:</strong>
-                            <br>
-                            <a href="{{ telegram_link }}" target="_blank" class="btn btn-primary mt-2">
-                                <i class="fab fa-telegram"></i> {% trans "Open Telegram Bot" %}
-                            </a>
+                        <h2 class="h3 h2-md fw-bold text-primary mb-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            {% trans "Login" %}
+                        </h2>
+                        <p class="text-muted small mb-0">{% trans "Enter your verification code" %}</p>
+                    </div>
+
+                    <!-- Telegram bot link - Mobile optimized -->
+                    <div class="mb-4">
+                        <div class="alert alert-info border-0 rounded-3 py-3">
+                            <div class="text-center">
+                                <div class="mb-2">
+                                    <i class="fab fa-telegram fs-4 text-primary"></i>
+                                </div>
+                                <p class="mb-2 fw-semibold small">
+                                    {% trans "Get the code from the bot" %}
+                                </p>
+                                <a href="{{ telegram_link }}" target="_blank"
+                                   class="btn btn-primary btn-sm rounded-pill px-4">
+                                    <i class="fab fa-telegram me-1"></i>
+                                    {% trans "Open Telegram Bot" %}
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -33,54 +45,94 @@
                         {% if messages %}
                         <div class="mb-3">
                             {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                <div class="alert alert-{{ message.tags }} border-0 rounded-3">
+                                    {{ message }}
+                                </div>
                             {% endfor %}
                         </div>
                         {% endif %}
 
+                        <!-- Code input with better mobile design -->
                         <div class="mb-4">
-                            <label for="code" class="form-label fw-bold">{% trans "4-Digit Verification Code" %}</label>
-                            <input type="text" class="form-control text-center" id="code" name="code"
-                                   placeholder="0000" maxlength="4" required pattern="[0-9]{4}"
-                                   inputmode="numeric" style="font-size: 2rem; letter-spacing: 1rem; font-weight: bold;">
-                            <div class="form-text text-center small text-muted">
-                                {% trans "Enter the 4-digit code you received from the Telegram bot" %}
+                            <label for="code" class="form-label fw-bold text-center d-block mb-3">
+                                {% trans "4-Digit Verification Code" %}
+                            </label>
+
+                            <!-- Mobile-optimized code input -->
+                            <div class="d-flex justify-content-center mb-3">
+                                <input type="text"
+                                       class="form-control text-center border-2 rounded-3"
+                                       id="code"
+                                       name="code"
+                                       placeholder="••••"
+                                       maxlength="4"
+                                       required
+                                       pattern="[0-9]{4}"
+                                       inputmode="numeric"
+                                       autocomplete="one-time-code"
+                                       style="max-width: 200px; font-size: 1.75rem; letter-spacing: 0.75rem; font-weight: bold; height: 60px;">
+                            </div>
+
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    {% trans "Enter the 4-digit code you received from the Telegram bot" %}
+                                </small>
                             </div>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
-                                <i class="fas fa-check-circle"></i> {% trans "Verify & Login" %}
+                        <!-- Submit button - Mobile optimized -->
+                        <div class="d-grid mb-4">
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg rounded-pill py-3"
+                                    id="submit-btn">
+                                <i class="fas fa-check-circle me-2"></i>
+                                {% trans "Verify & Login" %}
                             </button>
                         </div>
                     </form>
 
                     <!-- Error/Success Message -->
-                    <div id="message-box" class="mt-3" style="display: none;">
-                        <div class="alert" id="message-content"></div>
+                    <div id="message-box" class="mb-3" style="display: none;">
+                        <div class="alert border-0 rounded-3" id="message-content"></div>
                     </div>
 
-                    <!-- Steps to guide the user -->
-                    <div class="mt-4 text-center">
-                        <div class="alert alert-warning">
-                            <small>
-                                <i class="fas fa-info-circle"></i>
-                                {% trans "Steps to get your code:" %}
-                            </small>
-                            <ol class="text-start mt-2 mb-0">
-                                <li>{% trans "Click the Telegram bot link above" %}</li>
-                                <li>{% trans "Start the bot and share your contact" %}</li>
-                                <li>{% trans "Receive your 4-digit code" %}</li>
-                                <li>{% trans "Enter the code here to login" %}</li>
-                            </ol>
+                    <!-- Steps guide - Collapsible on mobile -->
+                    <div class="mb-3">
+                        <div class="d-md-none">
+                            <button class="btn btn-outline-secondary btn-sm w-100 rounded-pill"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#steps-guide">
+                                <i class="fas fa-info-circle me-1"></i>
+                                {% trans "How to get your code" %}
+                                <i class="fas fa-chevron-down ms-1"></i>
+                            </button>
+                        </div>
+
+                        <div class="collapse d-md-block" id="steps-guide">
+                            <div class="alert alert-warning border-0 rounded-3 mt-2 mt-md-0">
+                                <div class="d-none d-md-block text-center mb-2">
+                                    <small class="fw-semibold">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {% trans "Steps to get your code:" %}
+                                    </small>
+                                </div>
+                                <ol class="mb-0 small">
+                                    <li class="mb-1">{% trans "Click the Telegram bot link above" %}</li>
+                                    <li class="mb-1">{% trans "Start the bot and share your contact" %}</li>
+                                    <li class="mb-1">{% trans "Receive your 4-digit code" %}</li>
+                                    <li>{% trans "Enter the code here to login" %}</li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mt-3 text-center text-muted">
-                        <small>
-                            <i class="fas fa-clock"></i>
-                            {% trans "Note: Your code is valid for 1 minute only" %}
-                        </small>
+                    <!-- Timer notice -->
+                    <div class="text-center">
+                        <div class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                            <i class="fas fa-clock me-1"></i>
+                            <small>{% trans "Code expires in 2 minute" %}</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,7 +140,7 @@
     </div>
 </div>
 
-<!-- JavaScript: Yangilangan AJAX va merge uchun -->
+<!-- Enhanced JavaScript with better mobile experience -->
 <script>
 // CSRF token olish
 function getCookie(name) {
@@ -106,7 +158,35 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// Formni tekshirish va kodni yuborish
+// Mobile-friendly input animations
+function addInputAnimations() {
+    const codeInput = document.getElementById('code');
+
+    codeInput.addEventListener('input', function(e) {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        // Add visual feedback
+        if (this.value.length === 4) {
+            this.classList.add('border-success');
+            this.classList.remove('border-danger');
+        } else {
+            this.classList.remove('border-success', 'border-danger');
+        }
+    });
+
+    codeInput.addEventListener('focus', function() {
+        this.classList.add('shadow-lg');
+        this.parentElement.classList.add('scale-105');
+    });
+
+    codeInput.addEventListener('blur', function() {
+        this.classList.remove('shadow-lg');
+        this.parentElement.classList.remove('scale-105');
+    });
+}
+
+// Enhanced form submission with better mobile feedback
 document.getElementById('code-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -115,15 +195,26 @@ document.getElementById('code-form').addEventListener('submit', async function(e
     const csrfToken = getCookie('csrftoken');
     const submitBtn = document.getElementById('submit-btn');
 
-    // Kodni tekshirish (4 xonali raqam)
+    // Validate code
     if (!code || code.length !== 4 || !/^[0-9]{4}$/.test(code)) {
         showMessage('danger', '{% trans "Please enter a valid 4-digit code." %}');
+        codeInput.classList.add('border-danger');
+
+        // Mobile haptic feedback simulation
+        if ('vibrate' in navigator) {
+            navigator.vibrate(200);
+        }
         return;
     }
 
-    // Tugmani faollashtirmaslik
+    // Button loading state
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Checking..." %}';
+    submitBtn.innerHTML = `
+        <div class="spinner-border spinner-border-sm me-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        {% trans "Checking..." %}
+    `;
 
     try {
         const response = await fetch('{% url "verify_code" %}', {
@@ -140,7 +231,12 @@ document.getElementById('code-form').addEventListener('submit', async function(e
         if (data.success) {
             showMessage('success', data.message);
 
-            // ✅ LOGIN MUVAFFAQIYATLI: Savat va saqlanganlar sonini saqlash
+            // Success haptic feedback
+            if ('vibrate' in navigator) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
+            // Save cart and favorites data
             if (data.cart_total !== undefined) {
                 localStorage.setItem('saved_cart_total', data.cart_total);
             }
@@ -148,39 +244,154 @@ document.getElementById('code-form').addEventListener('submit', async function(e
                 localStorage.setItem('saved_favorites_count', data.favorites_count);
             }
 
-            // 1.5 soniyadan keyin bosh sahifaga o'tish
+            // Success animation
+            submitBtn.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                {% trans "Success!" %}
+            `;
+            submitBtn.classList.remove('btn-primary');
+            submitBtn.classList.add('btn-success');
+
+            // Redirect after success
             setTimeout(() => {
                 window.location.href = '/';
             }, 1500);
         } else {
             showMessage('danger', data.message);
+            codeInput.classList.add('border-danger');
+
+            // Error haptic feedback
+            if ('vibrate' in navigator) {
+                navigator.vibrate(200);
+            }
         }
     } catch (error) {
         showMessage('danger', '{% trans "Network error. Please try again." %}');
+
+        // Error haptic feedback
+        if ('vibrate' in navigator) {
+            navigator.vibrate(200);
+        }
     } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> {% trans "Verify & Login" %}';
+        if (!document.querySelector('#message-content').classList.contains('alert-success')) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                {% trans "Verify & Login" %}
+            `;
+        }
     }
 });
 
-// Sahifa yuklanganda fokus
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('code').focus();
-});
-
-// Faqat raqamlarni qabul qilish
-document.getElementById('code').addEventListener('input', function(e) {
-    this.value = this.value.replace(/[^0-9]/g, '');
-});
-
-// Xabar ko'rsatish
+// Enhanced message display with animations
 function showMessage(type, message) {
     const box = document.getElementById('message-box');
     const content = document.getElementById('message-content');
-    content.className = `alert alert-${type}`;
+
+    // Set message content
+    content.className = `alert alert-${type} border-0 rounded-3`;
     content.textContent = message;
+
+    // Show with animation
     box.style.display = 'block';
+    box.classList.add('animate__animated', 'animate__fadeInDown');
+
+    // Auto-hide error messages after 5 seconds
+    if (type === 'danger') {
+        setTimeout(() => {
+            box.classList.remove('animate__fadeInDown');
+            box.classList.add('animate__fadeOutUp');
+            setTimeout(() => {
+                box.style.display = 'none';
+                box.classList.remove('animate__animated', 'animate__fadeOutUp');
+            }, 500);
+        }, 5000);
+    }
 }
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Focus on code input
+    const codeInput = document.getElementById('code');
+    codeInput.focus();
+
+    // Add input animations
+    addInputAnimations();
+
+    // Handle virtual keyboard on mobile
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        codeInput.addEventListener('focus', function() {
+            // Scroll to input on mobile when keyboard opens
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    }
+});
 </script>
+
+<!-- Additional CSS for mobile enhancements -->
+<style>
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .card-body {
+        padding: 1.5rem 1rem;
+    }
+
+    .h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .h2-md {
+        font-size: 2rem;
+    }
+}
+
+/* Custom animations */
+.scale-105 {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* Input focus improvements */
+#code:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    transform: scale(1.02);
+}
+
+/* Button improvements */
+.btn-lg {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Alert improvements */
+.alert {
+    border: none !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Badge improvements */
+.badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Collapse button improvements */
+[data-bs-toggle="collapse"] .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+</style>
 
 {% endblock %}
