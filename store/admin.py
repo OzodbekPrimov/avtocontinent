@@ -167,6 +167,7 @@ class PaymentSettingsAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'created_at']
     list_editable = ['is_active']
 
+
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
