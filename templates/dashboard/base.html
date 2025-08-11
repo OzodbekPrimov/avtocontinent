@@ -720,24 +720,36 @@
                         <span>Заказы</span>
                     </a>
                 </li>
+                {% if user.is_superuser or user.admin_profile.can_access_users %}
                 <li class="nav-item">
                     <a href="{% url 'dashboard:users' %}" class="nav-link {% if request.resolver_match.url_name == 'users' %}active{% endif %}">
                         <i class="fas fa-users"></i>
                         <span>Пользователи</span>
                     </a>
                 </li>
+                {% endif %}
+                {% if user.is_superuser or user.admin_profile.can_access_admins %}
+                <li class="nav-item">
+                    <a href="{% url 'dashboard:admins' %}" class="nav-link {% if 'admin' in request.resolver_match.url_name and request.resolver_match.url_name != 'admin' %}active{% endif %}">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Администраторы</span>
+                    </a>
+                </li>
+                {% endif %}
             </div>
             
             <div class="nav-section">
                 <div class="nav-section-title">Настройки</div>
+                {% if user.is_superuser or user.admin_profile.can_access_settings %}
                 <li class="nav-item">
                     <a href="{% url 'dashboard:settings' %}" class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
                         <i class="fas fa-cog"></i>
                         <span>Настройки</span>
                     </a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a href="{% url 'dashboard:home' %}" class="nav-link">
+                    <a href="{% url 'home' %}" class="nav-link">
                         <i class="fas fa-external-link-alt"></i>
                         <span>Просмотр сайта</span>
                     </a>

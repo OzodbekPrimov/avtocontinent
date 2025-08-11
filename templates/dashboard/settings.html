@@ -10,77 +10,159 @@
     <div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title mb-0">Настройки курса валют</h5>
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-dollar-sign text-success me-2"></i>
+                    Настройки курса валют
+                </h5>
             </div>
             <div class="card-body">
-                {% if exchange_rate %}
-                <div class="alert alert-info">
-                    <strong>Текущий курс:</strong> 1 USD = {{ exchange_rate.usd_to_uzs }} UZS<br>
-                    <small class="text-muted">Обновлено: {{ exchange_rate.created_at|date:"M d, Y H:i" }}</small>
+                <!-- Current Rate Display -->
+                <div class="bg-primary bg-opacity-10 rounded p-3 mb-4">
+                    {% if exchange_rate %}
+                        <div class="text-primary fw-bold mb-2">
+                            Текущий курс: 1 USD = {{ exchange_rate.usd_to_uzs }} UZS
+                        </div>
+                        <div class="text-muted small">
+                            Обновлено: {{ exchange_rate.updated_at|date:"M d, Y H:i" }}
+                        </div>
+                    {% else %}
+                        <div class="text-warning fw-bold">
+                            Курс валют не установлен
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-                
+
+                <!-- Update Form -->
                 <form method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="update_exchange_rate">
+                    <input type="hidden" name="exchange_rate" value="1">
                     <div class="mb-3">
-                        <label for="exchange_rate" class="form-label">Курс USD к UZS</label>
-                        <input type="number" class="form-control" id="exchange_rate" 
-                               name="exchange_rate" step="0.01" 
-                               value="{% if exchange_rate %}{{ exchange_rate.usd_to_uzs }}{% endif %}" 
-                               required>
-                        <div class="form-text">Введите текущий курс обмена от USD к UZS</div>
+                        <label for="rate" class="form-label text-uppercase small fw-bold text-muted">
+                            КУРС USD К UZS
+                        </label>
+                        <input type="number" class="form-control form-control-lg" id="rate"
+                               name="rate" step="0.01"
+                               value="{% if exchange_rate %}{{ exchange_rate.usd_to_uzs }}{% endif %}"
+                               placeholder="Введите текущий курс обмена от USD к UZS" required>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Обновить курс валют
+                        <i class="fas fa-save me-1"></i> Обновить курс валют
                     </button>
                 </form>
             </div>
         </div>
     </div>
-    
+
     <!-- Payment Settings -->
     <div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title mb-0">Настройки платежей</h5>
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-credit-card text-primary me-2"></i>
+                    Настройки платежей
+                </h5>
             </div>
             <div class="card-body">
-                {% if payment_settings %}
-                <div class="alert alert-info">
-                    <strong>Текущая платежная информация:</strong><br>
-                    Карта: {{ payment_settings.card_number }}<br>
-                    Банк: {{ payment_settings.bank_name }}<br>
-                    Владелец: {{ payment_settings.card_holder_name }}
+                <!-- Current Payment Info Display -->
+                <div class="bg-primary bg-opacity-10 rounded p-3 mb-4">
+                    {% if payment_settings %}
+                        <div class="text-primary fw-bold mb-2">
+                            Текущая платежная информация:
+                        </div>
+                        <div class="text-muted small mb-1">Карта: {{ payment_settings.card_number }}</div>
+                        <div class="text-muted small mb-1">Банк: {{ payment_settings.bank_name }}</div>
+                        <div class="text-muted small">Владелец: {{ payment_settings.card_holder_name }}</div>
+                        {% if payment_settings.admin_chat_id %}
+                            <div class="text-muted small">Admin Chat ID: {{ payment_settings.admin_chat_id }}</div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-warning fw-bold">
+                            Платежные настройки не установлены
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-                
+
+                <!-- Update Form -->
                 <form method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="update_payment_settings">
+                    <input type="hidden" name="payment_settings" value="1">
+
                     <div class="mb-3">
-                        <label for="card_number" class="form-label">Номер карты</label>
-                        <input type="text" class="form-control" id="card_number" 
-                               name="card_number" 
-                               value="{% if payment_settings %}{{ payment_settings.card_number }}{% endif %}" 
-                               required>
+                        <label for="{{ payment_form.card_number.id_for_label }}" class="form-label text-uppercase small fw-bold text-muted">
+                            НОМЕР КАРТЫ
+                        </label>
+                        <input type="text" class="form-control form-control-lg"
+                               id="{{ payment_form.card_number.id_for_label }}"
+                               name="{{ payment_form.card_number.name }}"
+                               value="{% if payment_settings %}{{ payment_settings.card_number }}{% endif %}"
+                               placeholder="Введите номер карты" required>
+                        {% if payment_form.card_number.errors %}
+                            <div class="text-danger mt-1">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                {{ payment_form.card_number.errors }}
+                            </div>
+                        {% endif %}
                     </div>
+
                     <div class="mb-3">
-                        <label for="card_holder" class="form-label">Имя владельца карты</label>
-                        <input type="text" class="form-control" id="card_holder" 
-                               name="card_holder" 
-                               value="{% if payment_settings %}{{ payment_settings.card_holder_name }}{% endif %}" 
-                               required>
+                        <label for="{{ payment_form.card_holder_name.id_for_label }}" class="form-label text-uppercase small fw-bold text-muted">
+                            ИМЯ ВЛАДЕЛЬЦА КАРТЫ
+                        </label>
+                        <input type="text" class="form-control form-control-lg"
+                               id="{{ payment_form.card_holder_name.id_for_label }}"
+                               name="{{ payment_form.card_holder_name.name }}"
+                               value="{% if payment_settings %}{{ payment_settings.card_holder_name }}{% endif %}"
+                               placeholder="Введите имя владельца карты" required>
+                        {% if payment_form.card_holder_name.errors %}
+                            <div class="text-danger mt-1">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                {{ payment_form.card_holder_name.errors }}
+                            </div>
+                        {% endif %}
                     </div>
+
                     <div class="mb-3">
-                        <label for="bank_name" class="form-label">Название банка</label>
-                        <input type="text" class="form-control" id="bank_name" 
-                               name="bank_name" 
-                               value="{% if payment_settings %}{{ payment_settings.bank_name }}{% endif %}" 
-                               required>
+                        <label for="{{ payment_form.bank_name.id_for_label }}" class="form-label text-uppercase small fw-bold text-muted">
+                            НАЗВАНИЕ БАНКА
+                        </label>
+                        <input type="text" class="form-control form-control-lg"
+                               id="{{ payment_form.bank_name.id_for_label }}"
+                               name="{{ payment_form.bank_name.name }}"
+                               value="{% if payment_settings %}{{ payment_settings.bank_name }}{% endif %}"
+                               placeholder="Введите название банка" required>
+                        {% if payment_form.bank_name.errors %}
+                            <div class="text-danger mt-1">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                {{ payment_form.bank_name.errors }}
+                            </div>
+                        {% endif %}
                     </div>
+
+                    <div class="mb-4">
+                        <label for="{{ payment_form.admin_chat_id.id_for_label }}" class="form-label text-uppercase small fw-bold text-muted">
+                            ADMIN CHAT ID
+                        </label>
+                        <input type="text" class="form-control form-control-lg"
+                               id="{{ payment_form.admin_chat_id.id_for_label }}"
+                               name="{{ payment_form.admin_chat_id.name }}"
+                               value="{% if payment_settings %}{{ payment_settings.admin_chat_id }}{% endif %}"
+                               placeholder="Введите Telegram chat ID">
+                        {% if payment_form.admin_chat_id.help_text %}
+                            <div class="form-text small text-muted">
+                                {{ payment_form.admin_chat_id.help_text }}
+                            </div>
+                        {% endif %}
+                        {% if payment_form.admin_chat_id.errors %}
+                            <div class="text-danger mt-1">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                {{ payment_form.admin_chat_id.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Обновить настройки платежей
+                        <i class="fas fa-save me-1"></i>
+                        Обновить настройки платежей
                     </button>
                 </form>
             </div>
@@ -90,29 +172,85 @@
 
 <!-- System Information -->
 <div class="card">
-    <div class="card-header">
-                        <h5 class="card-title mb-0">Системная информация</h5>
+    <div class="card-header bg-light">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-info-circle text-info me-2"></i>
+            Системная информация
+        </h5>
     </div>
     <div class="card-body">
-        <div class="row">
+        <div class="row g-4">
             <div class="col-md-6">
-                <h6>Приложение</h6>
-                <p><strong>Название:</strong> Avtokontinent.uz</p>
-                <p><strong>Версия:</strong> 1.0.0</p>
-                <p><strong>Окружение:</strong> {% if settings.DEBUG %}Разработка{% else %}Продакшн{% endif %}</p>
+                <div class="border rounded p-3 h-100">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-desktop text-primary me-2"></i>
+                        Приложение
+                    </h6>
+                    <div class="mb-2">
+                        <strong>Название:</strong>
+                        <span class="badge bg-primary">Avtokontinent.uz</span>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Версия:</strong>
+                        <span class="badge bg-success">1.0.0</span>
+                    </div>
+                    <div class="mb-0">
+                        <strong>Окружение:</strong>
+                        {% if settings.DEBUG %}
+                            <span class="badge bg-warning">Разработка</span>
+                        {% else %}
+                            <span class="badge bg-danger">Продакшн</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
-                <h6>Быстрые ссылки</h6>
-                <div class="d-flex gap-2 flex-wrap">
-                    <a href="{% url 'admin:index' %}" class="btn btn-outline-primary" target="_blank">
-                        <i class="fas fa-tools"></i> Админ панель
-                    </a>
-                    <a href="{% url 'dashboard:home' %}" class="btn btn-outline-secondary" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> Просмотр сайта
-                    </a>
+                <div class="border rounded p-3 h-100">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-external-link-alt text-success me-2"></i>
+                        Быстрые ссылки
+                    </h6>
+                    <div class="d-grid gap-2">
+
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary" target="_blank">
+                            <i class="fas fa-globe me-2"></i>
+                            Просмотр сайта
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.bg-primary.bg-opacity-10 {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+.border {
+    border: 1px solid #dee2e6 !important;
+}
+</style>
 {% endblock %}

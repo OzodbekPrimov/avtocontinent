@@ -6,9 +6,14 @@ import os
 import logging
 import json
 from django.conf import settings
-from .models import Order
+from .models import Order, PaymentSettings
 
 logger = logging.getLogger(__name__)
+
+
+def get_admin_chat_id():
+    settings_obj = PaymentSettings.objects.first()
+    return settings_obj.admin_chat_id if settings_obj else None
 
 
 @shared_task(bind=True, autoretry_for=(Exception,), retry_kwargs={'max_retries': 3, 'countdown': 60})
@@ -185,10 +190,10 @@ def send_admin_payment_notification_task(self, order_id):
                 ]
             ]
         }
-
+        admin_id = get_admin_chat_id()
         # Telegram rasm yuborish vazifasini chaqirish
         return send_telegram_photo_task.delay(
-            settings.TELEGRAM_ADMIN_CHAT_ID,
+            admin_id,
             order_instance.payment_screenshot.path,
             message,
             keyboard

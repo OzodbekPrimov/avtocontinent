@@ -1,0 +1,463 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+.required::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+}
+
+.form-section h5 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #007bff;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.custom-control {
+    padding-left: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.permission-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.permission-item:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+.permission-icon {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+.icon-settings { color: #17a2b8; }
+.icon-users { color: #6610f2; }
+.icon-admins { color: #fd7e14; }
+
+.alert-permissions {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border: 1px solid #b3e5fc;
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.card-tools .btn {
+    border-radius: 20px;
+    padding: 0.375rem 1rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-secondary {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+.card-footer {
+    background: #f8f9fa;
+    border-radius: 0 0 15px 15px;
+    border: none;
+    padding: 1.5rem;
+}
+
+.admin-info {
+    background: #e8f5e8;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+}
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-user-cog me-2"></i>
+                        {{ title }}
+                    </h3>
+                    <div class="card-tools">
+                        <a href="{% url 'dashboard:admins' %}" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i> Назад к администраторам
+                        </a>
+                    </div>
+                </div>
+
+                <form method="post" class="card-body">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-md-6">
+                            <div class="form-section">
+                                <h5>
+                                    <i class="fas fa-user me-2"></i>
+                                    Основная информация
+                                </h5>
+
+                                {% if form.username %}
+                                <div class="form-group">
+                                    <label for="{{ form.username.id_for_label }}" class="form-label required">
+                                        <i class="fas fa-at me-1"></i>
+                                        Имя пользователя
+                                    </label>
+                                    {{ form.username }}
+                                    {% if form.username.help_text %}
+                                        <div class="form-text text-muted">{{ form.username.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.username.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.username.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                {% if form.password %}
+                                <div class="form-group">
+                                    <label for="{{ form.password.id_for_label }}" class="form-label required">
+                                        <i class="fas fa-lock me-1"></i>
+                                        Пароль
+                                    </label>
+                                    {{ form.password }}
+                                    {% if form.password.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.password.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                {% if form.password_confirm %}
+                                <div class="form-group">
+                                    <label for="{{ form.password_confirm.id_for_label }}" class="form-label required">
+                                        <i class="fas fa-lock me-1"></i>
+                                        Подтвердите пароль
+                                    </label>
+                                    {{ form.password_confirm }}
+                                    {% if form.password_confirm.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.password_confirm.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label for="{{ form.full_name.id_for_label }}" class="form-label">
+                                        <i class="fas fa-id-card me-1"></i>
+                                        Полное имя
+                                    </label>
+                                    {{ form.full_name }}
+                                    {% if form.full_name.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.full_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i>
+                                        Email адрес
+                                    </label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.email.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                                        <i class="fas fa-phone me-1"></i>
+                                        Номер телефона
+                                    </label>
+                                    {{ form.phone_number }}
+                                    {% if form.phone_number.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.phone_number.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                {% if form.is_active %}
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        {{ form.is_active }}
+                                        <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                            <i class="fas fa-toggle-on me-1"></i>
+                                            Активный аккаунт
+                                        </label>
+                                    </div>
+                                    {% if form.is_active.help_text %}
+                                        <div class="form-text text-muted">{{ form.is_active.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.is_active.errors %}
+                                        <div class="text-danger mt-1">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.is_active.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Permissions -->
+                        <div class="col-md-6">
+                            <div class="form-section">
+                                <h5>
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Права доступа
+                                </h5>
+                                <p class="text-muted mb-4">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Выберите разделы, к которым администратор может получить доступ:
+                                </p>
+
+                                <div class="permission-item">
+                                    <div class="form-check">
+                                        {{ form.can_access_settings }}
+                                        <label class="form-check-label" for="{{ form.can_access_settings.id_for_label }}">
+                                            <i class="fas fa-cog permission-icon icon-settings"></i>
+                                            <strong>Доступ к настройкам</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted d-block mt-1 ms-4">
+                                        Настройки платежей, курсы валют, ID чата администратора
+                                    </small>
+                                    {% if form.can_access_settings.errors %}
+                                        <div class="text-danger mt-1 ms-4">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.can_access_settings.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="permission-item">
+                                    <div class="form-check">
+                                        {{ form.can_access_users }}
+                                        <label class="form-check-label" for="{{ form.can_access_users.id_for_label }}">
+                                            <i class="fas fa-users permission-icon icon-users"></i>
+                                            <strong>Доступ к пользователям</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted d-block mt-1 ms-4">
+                                        Управление клиентами и пользователями системы
+                                    </small>
+                                    {% if form.can_access_users.errors %}
+                                        <div class="text-danger mt-1 ms-4">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.can_access_users.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="permission-item">
+                                    <div class="form-check">
+                                        {{ form.can_access_admins }}
+                                        <label class="form-check-label" for="{{ form.can_access_admins.id_for_label }}">
+                                            <i class="fas fa-user-shield permission-icon icon-admins"></i>
+                                            <strong>Доступ к администраторам</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted d-block mt-1 ms-4">
+                                        Управление администраторами (создание, редактирование, удаление)
+                                    </small>
+                                    {% if form.can_access_admins.errors %}
+                                        <div class="text-danger mt-1 ms-4">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            {{ form.can_access_admins.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="alert alert-permissions">
+                                    <h6>
+                                        <i class="fas fa-lightbulb text-info me-2"></i>
+                                        Информация о правах доступа:
+                                    </h6>
+                                    <ul class="mb-0 small">
+                                        <li class="mb-1">
+                                            <strong>Настройки:</strong> Доступ к настройкам платежей, курсам валют и ID чата администратора
+                                        </li>
+                                        <li class="mb-1">
+                                            <strong>Пользователи:</strong> Доступ к управлению клиентами
+                                        </li>
+                                        <li class="mb-1">
+                                            <strong>Администраторы:</strong> Доступ к управлению администраторами (создание, изменение, удаление)
+                                        </li>
+                                        <li>
+                                            <strong>Общий доступ:</strong> Все администраторы могут получить доступ к: Товарам, Категориям, Брендам, Моделям, Заказам, Аналитике
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-save me-1"></i>
+                                    {% if admin_user %}Обновить администратора{% else %}Создать администратора{% endif %}
+                                </button>
+                                <a href="{% url 'dashboard:admins' %}" class="btn btn-secondary">
+                                    <i class="fas fa-times me-1"></i> Отмена
+                                </a>
+                            </div>
+                            {% if admin_user %}
+                            <div class="col-md-6 text-end">
+                                <div class="admin-info">
+                                    <div class="small">
+                                        <i class="fas fa-calendar-plus me-1"></i>
+                                        <strong>Создан:</strong> {{ admin_user.date_joined|date:"d M Y H:i" }}
+                                    </div>
+                                    <div class="small mt-1">
+                                        <i class="fas fa-calendar-edit me-1"></i>
+                                        <strong>Обновлен:</strong> {{ admin_profile.updated_at|date:"d M Y H:i" }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Form validation enhancement
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Bootstrap form validation classes
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, select, textarea');
+
+    inputs.forEach(function(input) {
+        if (input.classList.contains('form-control')) {
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+        }
+    });
+
+    // Permission checkboxes enhancement
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const parent = this.closest('.permission-item');
+            if (parent) {
+                if (this.checked) {
+                    parent.style.borderColor = '#007bff';
+                    parent.style.backgroundColor = '#f8f9ff';
+                } else {
+                    parent.style.borderColor = '#e9ecef';
+                    parent.style.backgroundColor = 'white';
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

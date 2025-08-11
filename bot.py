@@ -4,12 +4,14 @@ import os
 import sys
 import signal
 import asyncio
-from contextlib import asynccontextmanager
 import django
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton, \
-    ReplyKeyboardRemove
+from aiogram.types import (
+    ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup,
+    InlineKeyboardButton, ReplyKeyboardRemove
+)
 from aiogram import F
 from asgiref.sync import sync_to_async
 
@@ -17,7 +19,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from django.utils import timezone
-from store.models import TelegramAuth, Order
+from store.models import TelegramAuth, Order, PaymentSettings
 from django.core.cache import cache
 from django.conf import settings
 
@@ -30,13 +32,26 @@ logging.basicConfig(
     ]
 )
 
-# Bot kodi davom etadi
 logger = logging.getLogger(__name__)
 logger.info("Bot started")
 
+
+# --- Admin ID olish (sinxron yordamchi va async o'ram) ---
+def _get_admin_chat_id_sync():
+    """Sinxron funk: PaymentSettings dan admin_chat_id ni qaytaradi yoki None."""
+    settings_obj = PaymentSettings.objects.first()
+    return settings_obj.admin_chat_id if settings_obj else None
+
+async def get_admin_chat_id():
+    """
+    Async wrapper: bazadan admin_id ni har safar olish uchun ishlatiladi.
+    sync_to_async orqali chaqiriladi, shuning uchun event-loop bloklanmaydi.
+    """
+    return await sync_to_async(_get_admin_chat_id_sync)()
+
+
 # Konfiguratsiya
 API_TOKEN = settings.TELEGRAM_BOT_TOKEN
-TELEGRAM_ADMIN_CHAT_ID = settings.TELEGRAM_ADMIN_CHAT_ID
 ADMIN_PHONE_NUMBER = settings.ADMIN_PHONE_NUMBER
 
 if not API_TOKEN:
@@ -264,17 +279,18 @@ async def handle_order_callback(callback: types.CallbackQuery):
 
         logger.info(f"Order callback received: {callback_data} from user_id: {user_id}, chat_id: {chat_id}")
 
+        # Har safar bazadan olib kelinadi (async)
+        current_admin_id = await get_admin_chat_id()
 
         is_admin = False
-
-        if str(chat_id) == str(TELEGRAM_ADMIN_CHAT_ID):
-            is_admin = True
-        elif str(user_id) == str(TELEGRAM_ADMIN_CHAT_ID):
-            is_admin = True
+        if current_admin_id is not None:
+            # Taqqoslashni string sifatida amalga oshiramiz (bazadagi qiymat string bo'lishi mumkin)
+            if str(chat_id) == str(current_admin_id) or str(user_id) == str(current_admin_id):
+                is_admin = True
 
         if not is_admin:
             logger.warning(
-                f"Unauthorized callback attempt: user_id={user_id}, chat_id={chat_id}, admin_id={TELEGRAM_ADMIN_CHAT_ID}")
+                f"Unauthorized callback attempt: user_id={user_id}, chat_id={chat_id}, admin_id={current_admin_id}")
             await callback.answer("❌ Sizda bu amalni bajarish uchun ruxsat yo'q.")
             return
 
@@ -293,10 +309,15 @@ async def handle_order_callback(callback: types.CallbackQuery):
             user_chat_id = user_profile.telegram_chat_id
         except Exception:
             user_chat_id = None
-            await bot.send_message(
-                TELEGRAM_ADMIN_CHAT_ID,
-                f"⚠️ Buyurtma {order_id} uchun foydalanuvchi profili topilmadi."
-            )
+            # Agar admin_id bo'lsa, xabar yuboramiz
+            if current_admin_id:
+                try:
+                    await bot.send_message(
+                        int(current_admin_id),
+                        f"⚠️ Buyurtma {order_id} uchun foydalanuvchi profili topilmadi."
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to notify admin about missing profile: {e}")
 
         if callback_data.startswith('confirm_'):
             try:
@@ -314,7 +335,7 @@ async def handle_order_callback(callback: types.CallbackQuery):
                 if user_chat_id:
                     try:
                         await bot.send_message(
-                            user_chat_id,
+                            int(user_chat_id),
                             f"✅ buyurtma #{order_id} To'lovi tasdiqlandi! Buyurtmangiz qayta ishlana boshlandi."
                         )
                     except Exception as e:
@@ -355,8 +376,8 @@ async def handle_order_callback(callback: types.CallbackQuery):
                 if user_chat_id:
                     try:
                         await bot.send_message(
-                            user_chat_id,
-                            f"❌ To'lov tasdiqlanmadi. Iltimos, admin bilan bog'laning.\nTelefon: {ADMIN_PHONE_NUMBER}"
+                            int(user_chat_id),
+                            f"❌ To'lov tasdiqlanmadi. Iltimos, admin bilan bog'laning."
                         )
                     except Exception as e:
                         logger.error(f"Failed to notify user {user_chat_id}: {e}")
@@ -387,26 +408,25 @@ async def handle_order_callback(callback: types.CallbackQuery):
 
     except Exception as e:
         logger.error(f"Unexpected error in handle_order_callback: {e}")
-        await callback.answer("❌ Kutilmagan xatolik yuz berdi.")
-
-        # Admin uchun batafsil xabar
+        # Callback answer berishga harakat qilamiz, agar mumkin bo'lsa
         try:
-            await bot.send_message(
-                TELEGRAM_ADMIN_CHAT_ID,
-                f"🚨 Callback xatoligi:\n"
-                f"User: {callback.from_user.id}\n"
-                f"Data: {callback.data}\n"
-                f"Error: {str(e)}"
-            )
+            await callback.answer("❌ Kutilmagan xatolik yuz berdi.")
         except:
             pass
 
-
-# Health check endpoint uchun
-@dp.message(Command("health"))
-async def health_check(message: types.Message):
-    if message.from_user.id == int(TELEGRAM_ADMIN_CHAT_ID):
-        await message.answer("🟢 Bot ishlayapti!")
+        # Admin uchun batafsil xabar — faqat agar admin_id mavjud bo'lsa
+        try:
+            current_admin_id = await get_admin_chat_id()
+            if current_admin_id:
+                await bot.send_message(
+                    int(current_admin_id),
+                    f"🚨 Callback xatoligi:\n"
+                    f"User: {callback.from_user.id}\n"
+                    f"Data: {callback.data}\n"
+                    f"Error: {str(e)}"
+                )
+        except Exception as ex:
+            logger.error(f"Failed to send admin error report: {ex}")
 
 
 async def main():

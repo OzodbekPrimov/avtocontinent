@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   postgres:
     image: postgres:15-alpine
@@ -36,9 +35,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: gunicorn --workers=3 --bind 0.0.0.0:8000 config.wsgi:application
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --workers=1 --timeout=120 --bind 0.0.0.0:8000 config.wsgi:application"
     ports:
       - "8000:8000"
+    mem_limit: 512m
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -49,11 +52,13 @@ services:
       CELERY_BROKER_URL: ${CELERY_BROKER_URL}
       CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
-      - .:/app
-      - media_data:/app/media
+      - /var/www/avtokon/staticfiles:/app/staticfiles
+      - /var/www/avtokon/media:/app/media
     networks:
       - app_network
     restart: unless-stopped
@@ -63,6 +68,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: python bot.py
+    mem_limit: 256m
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -73,12 +79,11 @@ services:
       CELERY_BROKER_URL: ${CELERY_BROKER_URL}
       CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
     depends_on:
-      - postgres
-      - redis
-      - django
+      django:
+        condition: service_started
     volumes:
       - .:/app
-      - media_data:/app/media
+      - /var/www/avtokon/media:/app/media
     networks:
       - app_network
     restart: unless-stopped
@@ -87,7 +92,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: celery -A config worker --loglevel=info --concurrency=2
+    command: celery -A config worker --loglevel=info --concurrency=1
+    mem_limit: 256m
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -98,12 +104,11 @@ services:
       CELERY_BROKER_URL: ${CELERY_BROKER_URL}
       CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
     depends_on:
-      - postgres
-      - redis
-      - django
+      django:
+        condition: service_started
     volumes:
       - .:/app
-      - media_data:/app/media
+      - /var/www/avtokon/media:/app/media
     networks:
       - app_network
     restart: unless-stopped
@@ -111,7 +116,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  media_data:
 
 networks:
   app_network:

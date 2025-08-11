@@ -228,6 +228,7 @@ class ExchangeRate(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -332,6 +333,7 @@ class PaymentSettings(models.Model):
     card_number = models.CharField(max_length=20)
     card_holder_name = models.CharField(max_length=100)
     bank_name = models.CharField(max_length=100)
+    admin_chat_id = models.CharField(max_length=50, blank=True, null=True, help_text="Telegram admin chat ID for notifications")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -340,6 +342,32 @@ class PaymentSettings(models.Model):
 
     def __str__(self):
         return f"{self.card_number} - {self.bank_name}"
+
+
+class AdminProfile(models.Model):
+    """Extended profile for admin users with specific permissions"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='admin_profile')
+    full_name = models.CharField(max_length=200, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    
+    # Permission flags for restricted admins
+    can_access_settings = models.BooleanField(default=False, help_text="Can access settings section")
+    can_access_users = models.BooleanField(default=False, help_text="Can access users management")
+    can_access_admins = models.BooleanField(default=False, help_text="Can access admin management")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Admin: {self.user.username} ({self.full_name or 'No full name'})"
+
+    @property
+    def is_super_admin(self):
+        """Check if this admin has full access (can access settings, users, and admins)"""
+        return self.can_access_settings and self.can_access_users and self.can_access_admins
 
 
 class Order(models.Model):

@@ -3,9 +3,10 @@ from modeltranslation.forms import TranslationModelForm
 from django import forms
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 from store.models import CarModel, Category, Product, Order, PaymentSettings, ExchangeRate, Brand, \
     Banner
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 class ProductForm(forms.ModelForm):
@@ -742,7 +743,6 @@ class OrderForm(forms.ModelForm):
         fields = ['status', 'payment_confirmed', 'estimated_delivery_date']
 
 
-
 class ExchangeRateForm(forms.Form):
     usd_to_uzs = forms.DecimalField(
         max_digits=10,
@@ -751,15 +751,216 @@ class ExchangeRateForm(forms.Form):
         label="1 USD = UZS"
     )
     class Meta:
-        model =ExchangeRate
+        model = ExchangeRate
         fields = ['usd_to_uzs',]
+
 
 class PaymentSettingsForm(forms.Form):
     card_number = forms.CharField(max_length=20, label="Karta raqami")
     card_holder_name = forms.CharField(max_length=100, label="Karta egasi")
     bank_name = forms.CharField(max_length=100, label="Bank nomi")
+    admin_chat_id = forms.CharField(
+        max_length=50,
+        required=False,
+        label="Admin Chat ID",
+        help_text="Telegram admin chat ID for notifications",
+        widget=forms.TextInput(attrs={'placeholder': 'Enter Telegram chat ID'})
+    )
 
     class Meta:
         model = PaymentSettings
-        fields = ['card_number', 'card_holder_name', 'bank_name']
+        fields = ['card_number', 'card_holder_name', 'bank_name', 'admin_chat_id']
 
+
+class AdminCreateForm(forms.Form):
+    """Form for creating new admin users"""
+    username = forms.CharField(
+        max_length=150,
+        label="Username",
+        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    password = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    password_confirm = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    full_name = forms.CharField(
+        max_length=200,
+        required=False,
+        label="Full Name",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.EmailField(
+        required=False,
+        label="Email",
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    phone_number = forms.CharField(
+        max_length=20,
+        required=False,
+        label="Phone Number",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    # Permission fields
+    can_access_settings = forms.BooleanField(
+        required=False,
+        label="Can Access Settings",
+        help_text="Allow access to settings section"
+    )
+    can_access_users = forms.BooleanField(
+        required=False,
+        label="Can Access Users",
+        help_text="Allow access to users management"
+    )
+    can_access_admins = forms.BooleanField(
+        required=False,
+        label="Can Access Admins",
+        help_text="Allow access to admin management"
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        username = cleaned_data.get('username')
+
+        if password and password_confirm:
+            if password != password_confirm:
+                raise forms.ValidationError("Passwords don't match")
+
+        if username:
+            from django.contrib.auth.models import User
+            if User.objects.filter(username=username).exists():
+                raise forms.ValidationError("Username already exists")
+
+        return cleaned_data
+
+
+class AdminEditForm(forms.Form):
+    """Form for editing existing admin users"""
+    full_name = forms.CharField(
+        max_length=200,
+        required=False,
+        label="Full Name",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.EmailField(
+        required=False,
+        label="Email",
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    phone_number = forms.CharField(
+        max_length=20,
+        required=False,
+        label="Phone Number",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    # Permission fields
+    can_access_settings = forms.BooleanField(
+        required=False,
+        label="Can Access Settings",
+        help_text="Allow access to settings section"
+    )
+    can_access_users = forms.BooleanField(
+        required=False,
+        label="Can Access Users",
+        help_text="Allow access to users management"
+    )
+    can_access_admins = forms.BooleanField(
+        required=False,
+        label="Can Access Admins",
+        help_text="Allow access to admin management"
+    )
+
+    is_active = forms.BooleanField(
+        required=False,
+        label="Is Active",
+        help_text="Designates whether this user should be treated as active"
+    )
+
+
+class UserEditForm(forms.Form):
+    """Form for editing existing users"""
+    username = forms.CharField(
+        max_length=150,
+        label="Имя пользователя",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите имя пользователя'
+        })
+    )
+    email = forms.EmailField(
+        required=False,
+        label="Email",
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'user@example.com'
+        })
+    )
+    first_name = forms.CharField(
+        max_length=30,
+        required=False,
+        label="Имя",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите имя'
+        })
+    )
+    last_name = forms.CharField(
+        max_length=30,
+        required=False,
+        label="Фамилия",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите фамилию'
+        })
+    )
+    phone_number = forms.CharField(
+        max_length=15,
+        required=False,
+        label="Номер телефона",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '+998901234567'
+        })
+    )
+    is_active = forms.BooleanField(
+        required=False,
+        label="Активен",
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input'
+        })
+    )
+    is_phone_verified = forms.BooleanField(
+        required=False,
+        label="Телефон подтвержден",
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input'
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if self.instance:
+            # Check if username already exists for other users
+            if User.objects.filter(username=username).exclude(id=self.instance.id).exists():
+                raise forms.ValidationError("Пользователь с таким именем уже существует.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and self.instance:
+            # Check if email already exists for other users
+            if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
+                raise forms.ValidationError("Пользователь с таким email уже существует.")
+        return email

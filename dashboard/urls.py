@@ -5,7 +5,7 @@ app_name = 'dashboard'
 
 urlpatterns = [
     # Authentication
-    path('login/', views.dashboard_login, name='login'),
+    path('login_dashboard/', views.dashboard_login, name='login'),
     path('logout/', views.dashboard_logout, name='logout'),
 
     # Main dashboard
@@ -47,6 +47,13 @@ urlpatterns = [
 
     # Users Management
     path('users/', views.users_management, name='users'),
+    # path('users/<int:user_id>/edit/', views.user_edit, name='user_edit'),
+
+    # Admins Management
+    path('admins/', views.admins_management, name='admins'),
+    path('admins/create/', views.admin_create, name='admin_create'),
+    path('admins/<int:admin_id>/edit/', views.admin_edit, name='admin_edit'),
+    path('admins/<int:admin_id>/delete/', views.admin_delete, name='admin_delete'),
 
     # Analytics
     path('analytics/', views.analytics, name='analytics'),
