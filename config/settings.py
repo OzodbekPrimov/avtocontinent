@@ -169,8 +169,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Telegram Bot Configuration
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 TELEGRAM_BOT_USERNAME = os.environ.get('TELEGRAM_BOT_USERNAME')
-TELEGRAM_ADMIN_CHAT_ID = os.environ.get('TELEGRAM_ADMIN_CHAT_ID')
-ADMIN_PHONE_NUMBER = os.environ.get('ADMIN_PHONE_NUMBER')
 # Site settings
 SITE_NAME = 'Avtokontinent.uz'
 SITE_DESCRIPTION = 'Online Auto Spare Parts Store'
