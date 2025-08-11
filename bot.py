@@ -52,7 +52,6 @@ async def get_admin_chat_id():
 
 # Konfiguratsiya
 API_TOKEN = settings.TELEGRAM_BOT_TOKEN
-ADMIN_PHONE_NUMBER = settings.ADMIN_PHONE_NUMBER
 
 if not API_TOKEN:
     logger.error("TELEGRAM_BOT_TOKEN not found in settings")
