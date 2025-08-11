@@ -34,7 +34,7 @@ urlpatterns = [
     path('ajax/update-cart-quantity/', views.ajax_update_cart_quantity, name='ajax_update_cart_quantity'),
     path('ajax/remove-from-cart/', views.ajax_remove_from_cart, name='ajax_remove_from_cart'),
 
-# urls.py
+
     path('ajax/sync-cart/', views.ajax_sync_cart, name='ajax_sync_cart'),
     path('ajax/sync-favorites/', views.ajax_sync_favorites, name='ajax_sync_favorites'),
 
