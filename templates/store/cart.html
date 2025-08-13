@@ -25,13 +25,14 @@
                                 <div class="col-8 col-md-4">
                                     <h6>{{ item.product.name }}</h6>
                                     <p class="text-muted">{{ item.product.sku }}</p>
+                                    <small class="text-muted d-block">🛒 {{ item.product.in_carts_count }} {% trans "people have this in cart" %}</small>
                                 </div>
                                 <div class="col-6 col-md-2 mt-3 mt-md-0">
                                     <div class="input-group input-group-sm">
-                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'-1' }})">-</button>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, parseInt(document.getElementById('quantity-{{ item.id }}').value) - 1)">-</button>
                                         <input type="number" class="form-control text-center" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}"
                                                onchange="updateQuantity({{ item.id }}, this.value)" id="quantity-{{ item.id }}">
-                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'1' }})">+</button>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, parseInt(document.getElementById('quantity-{{ item.id }}').value) + 1)">+</button>
                                     </div>
                                     <small class="text-muted">Stock: {{ item.product.stock_quantity|intcomma }}</small>
                                 </div>
@@ -88,11 +89,23 @@
 <script>
 function updateQuantity(itemId, quantity) {
     quantity = parseInt(quantity);
+
+    // Clamp to [1, maxStock]
+    const $input = $(`#quantity-${itemId}`);
+    const maxAttr = parseInt($input.attr('max'));
+    const maxStock = isNaN(maxAttr) ? Infinity : maxAttr;
+
+    if (isNaN(quantity)) quantity = 1;
     if (quantity < 1) {
+        quantity = 1;
         showToast('Quantity must be at least 1', 'error');
-        return;
     }
-    $(`#quantity-${itemId}`).val(quantity);
+    if (quantity > maxStock) {
+        quantity = maxStock;
+        showToast(`Maximum available stock is ${maxStock}`, 'warning');
+    }
+
+    $input.val(quantity);
     $.ajax({
         url: '{% url "ajax_update_cart_quantity" %}',
         type: 'POST',

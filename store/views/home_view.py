@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count, Avg, F, Func
 from django.core.paginator import Paginator
 from functools import wraps
+from django.contrib import messages
 
 
 from store.models import (
@@ -55,6 +56,8 @@ def home(request):
         'categories': categories,
     }
     return render(request, 'store/home.html', context)
+
+
 @store_login_required
 def profile_view(request):
     """Foydalanuvchi profilinga ko'rish"""
@@ -191,107 +194,8 @@ def advanced_search(products, query, current_lang='uz'):
     results = results.filter(is_active=True, stock_quantity__gt=0)
     return results
 
-# def advanced_search(products, query):
-#     """Advanced search with spelling mistake handling"""
-#     # Split query into words
-#     words = query.lower().split()
-#
-#     # Create Q objects for exact matches
-#     q_objects = Q()
-#     for word in words:
-#         q_objects |= (
-#                 Q(name__icontains=word) |
-#                 Q(description__icontains=word) |
-#                 Q(sku__icontains=word) |
-#                 Q(category__name__icontains=word) |
-#                 Q(compatible_models__name__icontains=word) |
-#                 Q(compatible_models__brand__name__icontains=word)
-#         )
-#
-#     results = products.filter(q_objects).distinct()
-#
-#     # If no results, try fuzzy matching
-#     if not results.exists():
-#         all_products = products.all()
-#         fuzzy_results = []
-#
-#         for product in all_products:
-#             # Check similarity with product name
-#             similarity = SequenceMatcher(None, query.lower(), product.name.lower()).ratio()
-#             if similarity > 0.6:  # 60% similarity threshold
-#                 fuzzy_results.append(product.pk)
-#                 continue
-#
-#             # Check similarity with brand and model names
-#             for model in product.compatible_models.all():
-#                 brand_similarity = SequenceMatcher(None, query.lower(), model.brand.name.lower()).ratio()
-#                 model_similarity = SequenceMatcher(None, query.lower(), model.name.lower()).ratio()
-#                 if brand_similarity > 0.6 or model_similarity > 0.6:
-#                     fuzzy_results.append(product.pk)
-#                     break
-#
-#         if fuzzy_results:
-#             results = products.filter(pk__in=fuzzy_results)
-#
-#     return results
 
 
-
-
-# from django.utils import translation
-#
-# def advanced_search(products, query):
-#     # Joriy tilni olish
-#     current_lang = translation.get_language()[:2]  # 'uz', 'ru', 'en'
-#
-#     # Barcha til variantlari
-#     languages = ['uz', 'ru', 'en']
-#
-#     # Python darajasida normalizatsiya
-#     query_str = query.lower().replace(' ', '').strip()
-#
-#     # Q objects uchun dinamik maydonlar
-#     q_objects = Q()
-#     words = query.lower().split()
-#     for word in words:
-#         word_str = word.lower().replace(' ', '').strip()
-#         # Joriy til uchun maxsus qidiruv
-#         q_objects &= Q(**{f'name_{current_lang}__unaccent__lower__icontains': word_str}) | \
-#                      Q(**{f'description_{current_lang}__unaccent__lower__icontains': word_str})
-#         # Boshqa tillarda ham qidiruv (agar kerak bo'lsa)
-#         for lang in languages:
-#             if lang != current_lang:
-#                 q_objects |= Q(**{f'name_{lang}__unaccent__lower__icontains': word_str}) | \
-#                              Q(**{f'description_{lang}__unaccent__lower__icontains': word_str})
-#
-#     results = products.filter(q_objects).distinct()
-#
-#     # Fuzzy matching (agar natija bo'lmasa)
-#     if not results.exists():
-#         all_products = products.all()
-#         fuzzy_results = set()
-#         for product in all_products:
-#             # Joriy tilga mos qiymatni tekshirish
-#             name_str = getattr(product, f'name_{current_lang}', '').lower().replace(' ', '').strip()
-#             similarity = SequenceMatcher(None, query_str, name_str).ratio()
-#             if similarity > 0.6:
-#                 fuzzy_results.add(product.pk)
-#                 continue
-#             # Boshqa tillarni tekshirish
-#             for lang in languages:
-#                 if lang != current_lang:
-#                     name_str_other = getattr(product, f'name_{lang}', '').lower().replace(' ', '').strip()
-#                     if SequenceMatcher(None, query_str, name_str_other).ratio() > 0.6:
-#                         fuzzy_results.add(product.pk)
-#                         break
-#         if fuzzy_results:
-#             results = products.filter(pk__in=fuzzy_results)
-#
-#     results = results.filter(is_active=True, stock_quantity__gt=0)
-#     return results
-
-
-from django.contrib import messages
 
 def product_detail(request, slug):
     """Product detail view"""

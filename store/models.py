@@ -208,6 +208,15 @@ class Product(models.Model):
     def comment_count(self):
         return self.comments.filter(is_approved=True).count()
 
+    @property
+    def in_carts_count(self):
+        """Number of distinct authenticated users who have this product in their cart"""
+        return (CartItem.objects
+                .filter(product=self, cart__user__isnull=False)
+                .values('cart__user')
+                .distinct()
+                .count())
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

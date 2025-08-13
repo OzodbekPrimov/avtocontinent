@@ -45,6 +45,7 @@
                                 <i class="fas fa-heart"></i> <span id="like-count-{{ favorite.product.id }}">{{ favorite.product.like_count }}</span>
                             </small>
                         </div>
+                        <small class="text-muted d-block mb-2" style="font-size: 0.65rem;">🛒 {{ favorite.product.in_carts_count }} {% trans "people have this in cart" %}</small>
                         <div class="d-flex gap-1">
                             <a href="{{ favorite.product.get_absolute_url }}" class="btn btn-primary btn-sm flex-fill">{% trans "View Details" %}</a>
                             {% if favorite.product.is_in_stock %}

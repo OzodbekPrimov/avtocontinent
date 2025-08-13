@@ -74,6 +74,7 @@ def checkout(request):
 
     return render(request, 'store/checkout.html', context)
 
+
 @store_login_required
 def order_payment(request, order_id):
     """Order payment view"""
@@ -84,14 +85,26 @@ def order_payment(request, order_id):
     if request.method == 'POST':
         if request.FILES.get('payment_screenshot'):
             order.payment_screenshot = request.FILES['payment_screenshot']
-            order.save(update_fields=['payment_screenshot'])  # update_fields qo'shildi
+
+            # Mahsulot sonini kamaytirish
+            for order_item in order.items.all():
+                product = order_item.product
+                if product.stock_quantity >= order_item.quantity:
+                    product.stock_quantity -= order_item.quantity
+                    product.save(update_fields=['stock_quantity'])
+                else:
+                    messages.error(request,
+                                   f'{product.name} mahsulotidan yetarli miqdor yo\'q. Mavjud: {product.stock_quantity}')
+                    return redirect('order_payment', order_id=order.order_id)
+
+            order.save(update_fields=['payment_screenshot'])
             messages.success(request, 'Payment screenshot uploaded successfully!')
             return redirect('order_detail', order_id=order.order_id)
 
     context = {
         'order': order,
         'payment_settings': payment_settings,
-        'categories':categories
+        'categories': categories
     }
 
     return render(request, 'store/order_payment.html', context)

@@ -39,6 +39,25 @@
                 </button>
             </div>
         </form>
+
+        <!-- Быстрые фильтры по корзинам -->
+        <div class="mt-3 d-flex gap-2 flex-wrap">
+            <a href="?search={{ search_query }}&category={{ category_filter }}&status={{ status_filter }}&cart_filter=critical"
+               class="btn btn-sm {% if cart_filter == 'critical' %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                ⚠️ Критично
+            </a>
+            <a href="?search={{ search_query }}&category={{ category_filter }}&status={{ status_filter }}&cart_filter=popular"
+               class="btn btn-sm {% if cart_filter == 'popular' %}btn-warning{% else %}btn-outline-warning{% endif %}">
+                🔥 Популярные
+            </a>
+            <a href="?search={{ search_query }}&category={{ category_filter }}&status={{ status_filter }}&cart_filter=zero"
+               class="btn btn-sm {% if cart_filter == 'zero' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">
+                😴 Ноль
+            </a>
+            <a href="{% url 'dashboard:products' %}" class="btn btn-sm btn-outline-dark">
+                Сбросить фильтры
+            </a>
+        </div>
     </div>
 </div>
 
@@ -61,6 +80,7 @@
                         <th>Категория</th>
                         <th>Цена</th>
                         <th>Запас</th>
+                        <th>🛒 В корзинах</th>
                         <th>Статус</th>
                         <th>Действия</th>
                     </tr>
@@ -118,6 +138,18 @@
                             {% endif %}
                         </td>
                         <td>
+                            {% with count=product.cart_count|default:0 %}
+                                {% if count > 0 %}
+                                    <span class="me-1">{{ count }} человек</span>
+                                {% else %}
+                                    <span class="me-1">0</span>
+                                {% endif %}
+                                {% if count > 0 and product.stock_quantity < count %}
+                                    <span class="text-danger" title="Запас меньше, чем людей с товаром в корзине">⚠️</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input toggle-status" type="checkbox"
                                        data-product-id="{{ product.id }}"
@@ -144,9 +176,9 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
+                        <td colspan="9" class="text-center text-muted py-4">
                             <i class="fas fa-box fa-2x mb-2"></i>
-                            <div>Продукты не найдены</div>
+                            <div>Нет продуктов</div>
                             <small>Добавьте новый продукт, используя кнопку выше</small>
                         </td>
                     </tr>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import  user_passes_test
 from django.contrib import messages
-from django.db.models import  Q
+from django.db.models import  Q, Count, F
 from django.core.paginator import Paginator
 from .home_views import dashboard_login_required, is_staff_user
 from store.models import Product, Category, CarModel
@@ -13,12 +13,18 @@ from dashboard.forms import ProductForm
 @user_passes_test(is_staff_user)
 def products_management(request):
     """Products management page"""
-    products = Product.objects.select_related('category').order_by('-created_at')
+    products = (Product.objects
+                .select_related('category')
+                .annotate(
+                    cart_count=Count('cartitem__cart__user', filter=Q(cartitem__cart__user__isnull=False), distinct=True)
+                )
+                .order_by('-created_at'))
 
     # Search and filter
     search_query = request.GET.get('search', '')
     category_filter = request.GET.get('category', '')
     status_filter = request.GET.get('status', '')
+    cart_filter = request.GET.get('cart_filter', '')
 
     if search_query:
         products = products.filter(
@@ -43,6 +49,17 @@ def products_management(request):
     elif status_filter == 'out_of_stock':
         products = products.filter(stock_quantity=0)
 
+    # Cart analytics filters
+    if cart_filter == 'critical':
+        # stock < people in carts and carts > 0
+        products = products.filter(
+            Q(cart_count__gt=F('stock_quantity')) & Q(cart_count__gt=0)
+        )
+    elif cart_filter == 'popular':
+        products = products.filter(cart_count__gte=5)
+    elif cart_filter == 'zero':
+        products = products.filter(cart_count=0)
+
     # Pagination
     paginator = Paginator(products, 20)
     page_number = request.GET.get('page')
@@ -56,6 +73,7 @@ def products_management(request):
         'search_query': search_query,
         'category_filter': category_filter,
         'status_filter': status_filter,
+        'cart_filter': cart_filter,
     }
 
     return render(request, 'dashboard/products.html', context)
