@@ -77,21 +77,21 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label for="{{ form.name_en.id_for_label }}" class="form-label required-field">
+                                        <label for="{{ form.name_uz_Cyrl.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Название (Английский)
+                                            Название (на кириллице)
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
                                                 <i class="fas fa-font"></i>
                                             </span>
-                                            <input type="text" class="form-control" id="{{ form.name_en.id_for_label }}"
-                                                   name="{{ form.name_en.name }}" value="{{ form.name_en.value|default:'' }}"
-                                                   placeholder="Введите название на английском" required>
+                                            <input type="text" class="form-control" id="{{ form.name_uz_Cyrl.id_for_label }}"
+                                                   name="{{ form.name_uz_Cyrl.name }}" value="{{ form.name_uz_Cyrl.value|default:'' }}"
+                                                   placeholder="Введите Название на кириллице" required>
                                         </div>
-                                        {% if form.name_en.errors %}
+                                        {% if form.name_uz_Cyrl.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {% for error in form.name_en.errors %}
+                                                {% for error in form.name_uz_Cyrl.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
                                             </div>
@@ -343,18 +343,18 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Английское описание -->
+                                    <!-- кириллице описание -->
                                     <div class="form-group mb-3">
-                                        <label for="{{ form.description_en.id_for_label }}" class="form-label required-field">
+                                        <label for="{{ form.description_uz_Cyrl.id_for_label }}" class="form-label required-field">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
-                                            Описание (Английский)
+                                            Описание (кириллице)
                                         </label>
-                                        <textarea class="form-control" id="{{ form.description_en.id_for_label }}"
-                                                  name="{{ form.description_en.name }}" rows="4"
-                                                  placeholder="Введите описание на английском">{{ form.description_en.value|default:'' }}</textarea>
-                                        {% if form.description_en.errors %}
+                                        <textarea class="form-control" id="{{ form.description_uz_Cyrl.id_for_label }}"
+                                                  name="{{ form.description_uz_Cyrl.name }}" rows="4"
+                                                  placeholder="Введите описание на кириллице">{{ form.description_uz_Cyrl.value|default:'' }}</textarea>
+                                        {% if form.description_uz_Cyrl.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {% for error in form.description_en.errors %}
+                                                {% for error in form.description_uz_Cyrl.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
                                             </div>
@@ -1289,7 +1289,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Проверка, что указано хотя бы одно название
             const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
             const nameRu = document.getElementById('{{ form.name_ru.id_for_label }}').value.trim();
-            const nameEn = document.getElementById('{{ form.name_en.id_for_label }}').value.trim();
+            const nameEn = document.getElementById('{{ form.name_uz_Cyrl.id_for_label }}').value.trim();
 
             if (!nameUz && !nameRu && !nameEn) {
                 showAlert('Пожалуйста, укажите название хотя бы на одном языке', 'danger');
@@ -1300,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Проверка, что указано хотя бы одно описание
             const descUz = document.getElementById('{{ form.description_uz.id_for_label }}').value.trim();
             const descRu = document.getElementById('{{ form.description_ru.id_for_label }}').value.trim();
-            const descEn = document.getElementById('{{ form.description_en.id_for_label }}').value.trim();
+            const descEn = document.getElementById('{{ form.description_uz_Cyrl.id_for_label }}').value.trim();
 
             if (!descUz && !descRu && !descEn) {
                 showAlert('Пожалуйста, укажите описание хотя бы на одном языке', 'danger');

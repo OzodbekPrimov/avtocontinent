@@ -59,6 +59,7 @@ def dashboard_logout(request):
 
 
 @dashboard_login_required
+@user_passes_test(is_staff_user)
 def dashboard_home(request):
     """Dashboard home with analytics"""
     # Date range for analytics

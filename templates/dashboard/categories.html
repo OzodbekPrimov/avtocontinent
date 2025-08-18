@@ -69,10 +69,10 @@
                         </td>
                         <td>
                             <strong>{{ category.name_uz }}</strong>
-                            {% if category.name_en or category.name_ru %}
+                            {% if category.name_uz_Cyrl or category.name_ru %}
                                 <br><small class="text-muted">
-                                    {% if category.name_en %}{{ category.name_en }}{% endif %}
-                                    {% if category.name_en and category.name_ru %} | {% endif %}
+                                    {% if category.name_uz_Cyrl %}{{ category.name_uz_Cyrl }}{% endif %}
+                                    {% if category.name_uz_Cyrl and category.name_ru %} | {% endif %}
                                     {% if category.name_ru %}{{ category.name_ru }}{% endif %}
                                 </small>
                             {% endif %}

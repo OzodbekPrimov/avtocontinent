@@ -121,7 +121,6 @@ class CarModel(models.Model):
 
 
 from django.db import models
-from modeltranslation.translator import translator, TranslationOptions
 from django.core.validators import MinValueValidator
 from ckeditor.fields import RichTextField
 from django.urls import reverse

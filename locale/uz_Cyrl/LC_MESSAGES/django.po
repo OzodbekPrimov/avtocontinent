@@ -1,0 +1,1243 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-18 18:44+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uz-Cyrl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\config\urls.py:9 .\config\urls.py:10
+msgid "Avtokontinent.uz Admin"
+msgstr "Avtokontinent.uz Админ"
+
+#: .\config\urls.py:11
+msgid "Welcome to Avtokontinent.uz Administration"
+msgstr "Avtokontinent.uz Админ панелга хуш келибсиз"
+
+#: .\dashboard\forms.py:465 .\dashboard\forms.py:548
+msgid "Nomi (Oʻzbekcha)"
+msgstr "Номи (Ўзбекча)"
+
+#: .\dashboard\forms.py:465
+msgid "Kategoriya nomi"
+msgstr "Категория номи"
+
+#: .\dashboard\forms.py:466 .\dashboard\forms.py:549
+msgid "Название (Русский)"
+msgstr "Номи (Русча)"
+
+#: .\dashboard\forms.py:466
+msgid "Название категории"
+msgstr "Категория номи"
+
+#: .\dashboard\forms.py:467 .\dashboard\forms.py:550
+msgid "Name (English)"
+msgstr "Номи (Инглизча)"
+
+#: .\dashboard\forms.py:467
+msgid "Category name"
+msgstr "Категория номи"
+
+#: .\dashboard\forms.py:468 .\dashboard\forms.py:551
+msgid "Tavsif (Oʻzbekcha)"
+msgstr "Тавсифи (Ўзбекча)"
+
+#: .\dashboard\forms.py:468
+msgid "Kategoriya tavsifi"
+msgstr "Категория тавсифи"
+
+#: .\dashboard\forms.py:469 .\dashboard\forms.py:552
+msgid "Описание (Русский)"
+msgstr "Тавсифи (Русча)"
+
+#: .\dashboard\forms.py:469
+msgid "Описание категории"
+msgstr "Категория тавсифи"
+
+#: .\dashboard\forms.py:470 .\dashboard\forms.py:553
+msgid "Description (English)"
+msgstr "Тавсифи (Инглизча)"
+
+#: .\dashboard\forms.py:470
+msgid "Category description"
+msgstr "Категория тавсифи"
+
+#: .\dashboard\forms.py:494 .\dashboard\forms.py:578
+msgid "Ushbu maydon majburiy"
+msgstr "Ушбу майдон мажбурий"
+
+#: .\dashboard\forms.py:548
+msgid "Brend nomi"
+msgstr "Бренд номи"
+
+#: .\dashboard\forms.py:549
+msgid "Название бренда"
+msgstr "Бренд номи"
+
+#: .\dashboard\forms.py:550
+msgid "Brand name"
+msgstr "Бренд номи"
+
+#: .\dashboard\forms.py:551
+msgid "Brend tavsifi"
+msgstr "Бренд тавсифи"
+
+#: .\dashboard\forms.py:552
+msgid "Описание бренда"
+msgstr "Бренд тавсифи"
+
+#: .\dashboard\forms.py:553
+msgid "Brand description"
+msgstr "Бренд тавсифи"
+
+#: .\dashboard\forms.py:645
+msgid "Avtomatik yaratiladi"
+msgstr "Автоматик яратилади"
+
+#: .\dashboard\forms.py:646
+msgid "URL uchun ishlatiladigan qisqa nom"
+msgstr "URL учун ишлатиладиган қисқа ном"
+
+#: .\dashboard\forms.py:651
+msgid "Brend"
+msgstr "Бренд"
+
+#: .\dashboard\forms.py:652
+msgid "Model rasmi"
+msgstr "Модел расми"
+
+#: .\dashboard\forms.py:653
+msgid "Faol"
+msgstr "Фаол"
+
+#: .\dashboard\forms.py:658
+msgid "Oʻzbekcha nom"
+msgstr "Ўзбекча ном"
+
+#: .\dashboard\forms.py:658
+msgid "Model nomi"
+msgstr "Модел номи"
+
+#: .\dashboard\forms.py:659
+msgid "Ruscha nom"
+msgstr "Русча ном"
+
+#: .\dashboard\forms.py:659
+msgid "Название модели"
+msgstr "Модел номи"
+
+#: .\dashboard\forms.py:660
+msgid "Inglizcha nom"
+msgstr "Инглизча ном"
+
+#: .\dashboard\forms.py:660
+msgid "Model name"
+msgstr "Модел номи"
+
+#: .\dashboard\forms.py:664
+msgid "Oʻzbekcha tavsif"
+msgstr "Ўзбекча тавсиф"
+
+#: .\dashboard\forms.py:664
+msgid "Model haqida ma'lumot"
+msgstr "Модел ҳақида маълумот"
+
+#: .\dashboard\forms.py:665
+msgid "Ruscha tavsif"
+msgstr "Русча тавсиф"
+
+#: .\dashboard\forms.py:665
+msgid "Описание модели"
+msgstr "Модел тавсифи"
+
+#: .\dashboard\forms.py:666
+msgid "Inglizcha tavsif"
+msgstr "Инглизча тавсиф"
+
+#: .\dashboard\forms.py:666
+msgid "Model description"
+msgstr "Модел тавсифи"
+
+#: .\dashboard\forms.py:685
+msgid "Kamida bitta til uchun nom kiritishingiz kerak"
+msgstr "Камиди битта тил учун ном киритишингиз керак"
+
+#: .\dashboard\forms.py:719
+msgid "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
+msgstr "Ушбу бренд учун бундай слаг билан модел аллақачон мавжуд"
+
+#: .\templates\base.html:8
+msgid "Avtokontinent.uz - Auto Spare Parts"
+msgstr "Avtokontinent.uz - Авто қисмлар"
+
+#: .\templates\base.html:788 .\templates\base.html:803
+#: .\templates\store\brand_models.html:57
+msgid "Search products..."
+msgstr "Махсулотларни қидириш..."
+
+#: .\templates\base.html:840 .\templates\base.html:942
+#: .\templates\base.html:949
+msgid "Favorites"
+msgstr "Севимлилар"
+
+#: .\templates\base.html:851 .\templates\store\cart.html:10
+msgid "Shopping Cart"
+msgstr "Харидлар савати"
+
+#: .\templates\base.html:863
+msgid "My Account"
+msgstr "Менинг профилим"
+
+#: .\templates\base.html:869 .\templates\base.html:984
+#: .\templates\store\order_detail.html:13
+#: .\templates\store\order_history.html:9
+msgid "Order History"
+msgstr "Буюртма тарихи"
+
+#: .\templates\base.html:873 .\templates\base.html:988
+msgid "Logout"
+msgstr "Чиқиш"
+
+#: .\templates\base.html:880 .\templates\base.html:993
+#: .\templates\base.html:995 .\templates\store\login.html:16
+#: .\templates\store\product_detail.html:172
+msgid "Login"
+msgstr "Кириш"
+
+#: .\templates\base.html:925 .\templates\base.html:927
+#: .\templates\base.html:1019 .\templates\store\brand_models.html:11
+#: .\templates\store\order_detail.html:12
+#: .\templates\store\product_detail.html:12
+#: .\templates\store\product_list.html:11
+msgid "Home"
+msgstr "Бош саҳифа"
+
+#: .\templates\base.html:931 .\templates\base.html:938
+msgid "Cart"
+msgstr "Сават"
+
+#: .\templates\base.html:953
+msgid "Language"
+msgstr "Тил"
+
+#: .\templates\base.html:979 .\templates\base.html:981
+msgid "Account"
+msgstr "Профиль"
+
+#: .\templates\base.html:1007
+msgid "Avtokontinent.uz"
+msgstr "Avtokontinent.uz"
+
+#: .\templates\base.html:1008
+msgid ""
+"Your trusted partner for quality auto spare parts. We provide genuine parts "
+"for all car brands with fast delivery across Uzbekistan."
+msgstr ""
+"Сифатли авто еҳтиёт қисмлари учун ишончли ҳамкорингиз. Биз барча автомобил брендлари учун оригинал қисмларни Ўзбекистон бўйлаб тез етказиб берамиз."
+
+#: .\templates\base.html:1017
+msgid "Quick Links"
+msgstr "Тез ҳаволалар"
+
+#: .\templates\base.html:1020 .\templates\store\product_detail.html:13
+#: .\templates\store\product_list.html:12
+#: .\templates\store\product_list.html:79
+msgid "Products"
+msgstr "Махсулотлар"
+
+#: .\templates\base.html:1021 .\templates\store\brand_models.html:12
+#: .\templates\store\product_list.html:39
+msgid "Brands"
+msgstr "Брендлар"
+
+#: .\templates\base.html:1022
+msgid "About Us"
+msgstr "Биз ҳақимизда"
+
+#: .\templates\base.html:1026 .\templates\store\brand_models.html:105
+#: .\templates\store\product_list.html:24
+msgid "Categories"
+msgstr "Категориялар"
+
+#: .\templates\base.html:1034
+msgid "Contact Info"
+msgstr "Алоқа маълумоти"
+
+#: .\templates\base.html:1036
+msgid "Tashkent, Uzbekistan"
+msgstr "Тошкент, Ўзбекистон"
+
+#: .\templates\base.html:1039
+msgid "Mon-Sat: 9:00 AM - 6:00 PM"
+msgstr "Душ-Шан: 9:00 - 18:00"
+
+#: .\templates\base.html:1046
+msgid "Avtokontinent.uz. All rights reserved."
+msgstr "Avtokontinent.uz. Барча ҳуқуқлар ҳимояланган."
+
+#: .\templates\base.html:1049
+msgid "Privacy Policy"
+msgstr "Махфийлик сиёсати"
+
+#: .\templates\base.html:1050
+msgid "Terms of Service"
+msgstr "Фойдаланиш шартлари"
+
+#: .\templates\base.html:1051
+msgid "Support"
+msgstr "Ёрдам"
+
+#: .\templates\store\brand_models.html:4
+msgid "Models and Parts"
+msgstr "Моделлар ва Қисмлар"
+
+#: .\templates\store\brand_models.html:35
+msgid "models available"
+msgstr "моделлар мавжуд"
+
+#: .\templates\store\brand_models.html:35
+msgid "products"
+msgstr "махсулотлар"
+
+#: .\templates\store\brand_models.html:49
+msgid "Filter by Model"
+msgstr "Модел бўйича филтрлаш"
+
+#: .\templates\store\brand_models.html:71
+msgid "All Models"
+msgstr "Барча моделлар"
+
+#: .\templates\store\brand_models.html:123
+#: .\templates\store\product_list.html:71
+msgid "Clear Filters"
+msgstr "Филтрларни бекор қилиш"
+
+#: .\templates\store\brand_models.html:136
+msgid "Parts"
+msgstr "Қисмлар"
+
+#: .\templates\store\brand_models.html:138
+msgid "Spare Parts"
+msgstr "Запчасти"
+
+#: .\templates\store\brand_models.html:141
+msgid "products found"
+msgstr "топилган махсулотлар"
+
+#: .\templates\store\brand_models.html:145
+#: .\templates\store\product_list.html:84
+msgid "Name A-Z"
+msgstr "Номи A-Z"
+
+#: .\templates\store\brand_models.html:146
+#: .\templates\store\product_list.html:85
+msgid "Price: Low to High"
+msgstr "Нарх: Арзондан қимматгача"
+
+#: .\templates\store\brand_models.html:147
+#: .\templates\store\product_list.html:86
+msgid "Price: High to Low"
+msgstr "Нарх: Қимматдан арзонгача"
+
+#: .\templates\store\brand_models.html:148
+#: .\templates\store\product_list.html:87
+msgid "Newest First"
+msgstr "Аввал янги"
+
+#: .\templates\store\brand_models.html:149
+#: .\templates\store\product_list.html:88
+msgid "Most Popular"
+msgstr "Энг машҳур"
+
+#: .\templates\store\brand_models.html:162 .\templates\store\favorites.html:23
+#: .\templates\store\product_detail.html:100
+#: .\templates\store\product_detail.html:224
+#: .\templates\store\product_list.html:100
+msgid "Like"
+msgstr "Лайк"
+
+#: .\templates\store\brand_models.html:165
+#: .\templates\store\product_detail.html:103
+#: .\templates\store\product_detail.html:227
+#: .\templates\store\product_list.html:103
+msgid "Add to Favorites"
+msgstr "Севимлиларга қўшиш"
+
+#: .\templates\store\brand_models.html:171
+#: .\templates\store\brand_models.html:201 .\templates\store\favorites.html:29
+#: .\templates\store\favorites.html:56 .\templates\store\product_detail.html:66
+#: .\templates\store\product_detail.html:97
+#: .\templates\store\product_list.html:109
+#: .\templates\store\product_list.html:147
+msgid "Out of Stock"
+msgstr "омборда йўқ"
+
+#: .\templates\store\brand_models.html:189 .\templates\store\cart.html:40
+#: .\templates\store\cart.html:61 .\templates\store\cart.html:70
+#: .\templates\store\checkout.html:74 .\templates\store\checkout.html:80
+#: .\templates\store\favorites.html:43 .\templates\store\order_detail.html:66
+#: .\templates\store\order_detail.html:93
+#: .\templates\store\order_detail.html:98
+#: .\templates\store\order_detail.html:111
+#: .\templates\store\order_detail.html:120
+#: .\templates\store\order_detail.html:213
+#: .\templates\store\order_detail.html:252
+#: .\templates\store\order_history.html:44
+#: .\templates\store\order_payment.html:45
+#: .\templates\store\order_payment.html:160
+#: .\templates\store\order_payment.html:185
+#: .\templates\store\product_detail.html:58
+#: .\templates\store\product_detail.html:236
+#: .\templates\store\product_list.html:135
+msgid "UZS"
+msgstr "Сўм"
+
+#: .\templates\store\brand_models.html:195 .\templates\store\favorites.html:50
+#: .\templates\store\home.html:171 .\templates\store\home.html:234
+#: .\templates\store\order_history.html:47
+#: .\templates\store\product_list.html:141
+msgid "View Details"
+msgstr "Батафсил қўриш"
+
+#: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
+#: .\templates\store\product_detail.html:93
+#: .\templates\store\product_list.html:143
+msgid "Add to Cart"
+msgstr "Саватга қўшиш"
+
+#: .\templates\store\brand_models.html:214
+#: .\templates\store\product_list.html:160
+msgid "No products found"
+msgstr "Махсулот топилмади"
+
+#: .\templates\store\brand_models.html:215
+#: .\templates\store\product_list.html:161
+msgid "Try adjusting your search or filter criteria"
+msgstr "Қидирув ёки филтрларни ўзгартиринг"
+
+#: .\templates\store\brand_models.html:216
+#: .\templates\store\product_list.html:162
+msgid "View All Products"
+msgstr "Барча махсулотларни кўриш"
+
+#: .\templates\store\cart.html:5
+msgid "Shopping Cart - Avtokontinent.uz"
+msgstr "Харидлар савати - Avtokontinent.uz"
+
+#: .\templates\store\cart.html:28 .\templates\store\favorites.html:48
+#: .\templates\store\product_detail.html:107
+msgid "people have this in cart"
+msgstr "нафар одам бу махсулотни саватига қўшган"
+
+#: .\templates\store\cart.html:58 .\templates\store\checkout.html:70
+#: .\templates\store\order_detail.html:279
+msgid "Order Summary"
+msgstr "Буюртма хулосаси"
+
+#: .\templates\store\cart.html:60 .\templates\store\order_payment.html:171
+msgid "Subtotal:"
+msgstr "Жами:"
+
+#: .\templates\store\cart.html:64 .\templates\store\order_payment.html:175
+msgid "Delivery:"
+msgstr "Yetkazib berish:"
+
+#: .\templates\store\cart.html:65 .\templates\store\order_detail.html:115
+#: .\templates\store\order_payment.html:176
+msgid "Free"
+msgstr "Бепул"
+
+#: .\templates\store\cart.html:69 .\templates\store\checkout.html:79
+#: .\templates\store\order_payment.html:180
+msgid "Total:"
+msgstr "Жами:"
+
+#: .\templates\store\cart.html:73 .\templates\store\checkout.html:60
+msgid "Place Order"
+msgstr "Буюртма бериш"
+
+#: .\templates\store\cart.html:82
+msgid "Your cart is empty"
+msgstr "Саватингиз бўш"
+
+#: .\templates\store\cart.html:83
+msgid "Add some products to your cart to continue shopping"
+msgstr "Сотиб олишни давом эттириш учун саватингизга махсулот қўшинг"
+
+#: .\templates\store\cart.html:84 .\templates\store\order_detail.html:274
+msgid "Continue Shopping"
+msgstr "Сотиб олишни давом этиш"
+
+#: .\templates\store\cart.html:150
+msgid "Are you sure you want to remove this item?"
+msgstr "Ушбу махсулотни саватдан олиб ташлашни истайсизми?"
+
+#: .\templates\store\cart.html:179
+msgid "Item removed from cart"
+msgstr "Махсулот саватдан олиб ташланди"
+
+#: .\templates\store\cart.html:185
+msgid "Error removing item"
+msgstr "Махсулотни олиб ташлашда хато"
+
+#: .\templates\store\checkout.html:5
+msgid "Checkout - Avtokontinent.uz"
+msgstr "Буюртма бериш - Avtokontinent.uz"
+
+#: .\templates\store\checkout.html:10
+msgid "Checkout"
+msgstr "Буюртма бериш"
+
+#: .\templates\store\checkout.html:17
+msgid "Order Details"
+msgstr "Буюртма тафсилотлари"
+
+#: .\templates\store\checkout.html:24
+msgid "Full Name"
+msgstr "Тўлиқ исм"
+
+#: .\templates\store\checkout.html:31
+msgid "Phone Number"
+msgstr "Телефон рақам"
+
+#: .\templates\store\checkout.html:39 .\templates\store\order_detail.html:49
+msgid "Address"
+msgstr "Манзил"
+
+#: .\templates\store\checkout.html:45
+msgid "Delivery Address (if different)"
+msgstr "Yetkazib berish manzili (агар фарқ қилса)"
+
+#: .\templates\store\checkout.html:54
+msgid "I agree to the"
+msgstr "Мен қабул қилдим"
+
+#: .\templates\store\checkout.html:54
+msgid "Terms and Conditions"
+msgstr "Фойдаланиш шартлари"
+
+#: .\templates\store\checkout.html:85 .\templates\store\order_detail.html:55
+msgid "Payment Information"
+msgstr "Тўлов маълумоти"
+
+#: .\templates\store\checkout.html:86 .\templates\store\order_payment.html:25
+msgid "Card Number:"
+msgstr "Карта рақами:"
+
+#: .\templates\store\checkout.html:87 .\templates\store\order_payment.html:32
+msgid "Bank:"
+msgstr "Банк:"
+
+#: .\templates\store\checkout.html:88 .\templates\store\order_payment.html:36
+msgid "Cardholder:"
+msgstr "Карта эгаси:"
+
+#: .\templates\store\favorites.html:4
+msgid "Favorites - Avtokontinent.uz"
+msgstr "Севимлилар - Avtokontinent.uz"
+
+#: .\templates\store\favorites.html:9
+msgid "My Favorites"
+msgstr "Севимлиларим"
+
+#: .\templates\store\favorites.html:20
+msgid "Remove from Favorites"
+msgstr "Севимлилардан олиб ташлаш"
+
+#: .\templates\store\favorites.html:70 .\templates\store\favorites.html:167
+msgid "No favorites yet"
+msgstr "Севимлилар ҳали йўқ"
+
+#: .\templates\store\favorites.html:71 .\templates\store\favorites.html:168
+msgid "Start adding products to your favorites to see them here"
+msgstr "Уларни кўриш учун севимлиларингизга махсулотлар қўшишни бошланг"
+
+#: .\templates\store\favorites.html:72 .\templates\store\favorites.html:169
+msgid "Browse Products"
+msgstr "Махсулотларни кўриш"
+
+#: .\templates\store\favorites.html:177
+msgid "Removed from favorites!"
+msgstr "Севимлилардан олиб ташланди!"
+
+#: .\templates\store\favorites.html:181
+msgid "Added to favorites!"
+msgstr "Севимлиларга қўшилди!"
+
+#: .\templates\store\favorites.html:208 .\templates\store\favorites.html:235
+msgid "Error occurred. Please try again."
+msgstr "Хатолик юз берди. Илтимос, қайтадан уриниб кўринг."
+
+#: .\templates\store\favorites.html:229
+msgid "Liked!"
+msgstr "Лайк қилинди!"
+
+#: .\templates\store\favorites.html:229
+msgid "Unliked!"
+msgstr "Лайк бекор қилинди!"
+
+#: .\templates\store\home.html:5
+msgid "Home - Avtokontinent.uz"
+msgstr "Бош саҳифа - Avtokontinent.uz"
+
+#: .\templates\store\home.html:51
+msgid "Previous"
+msgstr "Олдинги"
+
+#: .\templates\store\home.html:55
+msgid "Next"
+msgstr "Кейинги"
+
+#: .\templates\store\home.html:66
+msgid "Popular Brands"
+msgstr "Машҳур брендлар"
+
+#: .\templates\store\home.html:82
+msgid "models"
+msgstr "моделлар"
+
+#: .\templates\store\home.html:88
+msgid "No brands available"
+msgstr "Брендлар мавжуд эмас"
+
+#: .\templates\store\home.html:98
+msgid "Product Categories"
+msgstr "Махсулот категориялари"
+
+#: .\templates\store\home.html:117
+msgid "items"
+msgstr "элементлар"
+
+#: .\templates\store\home.html:124
+msgid "No categories available"
+msgstr "Категориялар мавжуд эмас"
+
+#: .\templates\store\home.html:136
+msgid "Best Selling Products"
+msgstr "Энг кўп сотилган"
+
+#: .\templates\store\home.html:137
+msgid "Top 5 products that our customers love the most"
+msgstr "Мижозларимизга энг ёқадиган топ-5 махсулот"
+
+#: .\templates\store\home.html:146
+msgid "Best Seller"
+msgstr "Энг кўп сотилган"
+
+#: .\templates\store\home.html:161
+msgid "sold"
+msgstr "сотилди"
+
+#: .\templates\store\home.html:185 .\templates\store\home.html:248
+msgid "View More"
+msgstr "Кўпроқ кўриш"
+
+#: .\templates\store\home.html:197
+msgid "Most Liked Products"
+msgstr "Энг кўп лайк босилган махсулотлар"
+
+#: .\templates\store\home.html:198
+msgid "Products that have won the hearts of our customers"
+msgstr "Мижозларимизнинг калбини забт етган махсулотлар"
+
+#: .\templates\store\home.html:224 .\templates\store\product_detail.html:72
+msgid "likes"
+msgstr "лайклар"
+
+#: .\templates\store\home.html:228
+msgid "reviews"
+msgstr "шархлар"
+
+#: .\templates\store\login.html:4
+msgid "Login - Avtokontinent.uz"
+msgstr "Кириш - Avtokontinent.uz"
+
+#: .\templates\store\login.html:18
+msgid "Enter your verification code"
+msgstr "Тасдиқлаш кодингизни киритинг"
+
+#: .\templates\store\login.html:29
+msgid "Get the code from the bot"
+msgstr "Кодни ботдан олинг"
+
+#: .\templates\store\login.html:34 .\templates\store\verify_code.html:21
+msgid "Open Telegram Bot"
+msgstr "Телеграм ботни очинг"
+
+#: .\templates\store\login.html:64 .\templates\store\verify_code.html:29
+msgid "4-Digit Verification Code"
+msgstr "4 хонали тасдиқлаш коди"
+
+#: .\templates\store\login.html:84 .\templates\store\verify_code.html:34
+msgid "Enter the 4-digit code you received from the Telegram bot"
+msgstr "Телеграм ботдан олинган 4 хонали кодни киритинг"
+
+#: .\templates\store\login.html:95 .\templates\store\login.html:286
+#: .\templates\store\verify_code.html:39
+msgid "Verify & Login"
+msgstr "Тасдиқлаш ва кириш"
+
+#: .\templates\store\login.html:113
+msgid "How to get your code"
+msgstr "Кодни қандай олиш"
+
+#: .\templates\store\login.html:123
+msgid "Steps to get your code:"
+msgstr "Кодни олиш босқичлари:"
+
+#: .\templates\store\login.html:127
+msgid "Click the Telegram bot link above"
+msgstr "Юқоридаги Телеграм бот ҳаволасини босинг"
+
+#: .\templates\store\login.html:128
+msgid "Start the bot and share your contact"
+msgstr "Ботни бошланг ва алоқа маълумотингизни улашинг"
+
+#: .\templates\store\login.html:129
+msgid "Receive your 4-digit code"
+msgstr "4 хонали кодингизни қабул қилинг"
+
+#: .\templates\store\login.html:130
+msgid "Enter the code here to login"
+msgstr "Кириш учун кодни киритинг"
+
+#: .\templates\store\login.html:140
+msgid "Code expires in 2 minute"
+msgstr "Код 2 дақиқада амал килади"
+
+#: .\templates\store\login.html:206
+msgid "Please enter a valid 4-digit code."
+msgstr "Илтимос, тўғри 4 хонали код киритинг."
+
+#: .\templates\store\login.html:222
+msgid "Checking..."
+msgstr "Текширилмоқда..."
+
+#: .\templates\store\login.html:256
+msgid "Success!"
+msgstr "Муваффақиятли!"
+
+#: .\templates\store\login.html:275
+msgid "Network error. Please try again."
+msgstr "Тармоқ хатолиги. Илтимос, қайтадан уриниб кўринг."
+
+#: .\templates\store\order_detail.html:5 .\templates\store\order_detail.html:24
+#: .\templates\store\order_history.html:20
+#: .\templates\store\order_payment.html:113
+msgid "Order"
+msgstr "Буюртма"
+
+#: .\templates\store\order_detail.html:45
+msgid "Order Information"
+msgstr "Буюртма маълумоти"
+
+#: .\templates\store\order_detail.html:46
+msgid "Order Date"
+msgstr "Буюртма санаси"
+
+#: .\templates\store\order_detail.html:47
+msgid "Customer Name"
+msgstr "Мижоз исми"
+
+#: .\templates\store\order_detail.html:48
+msgid "Phone"
+msgstr "Телефон"
+
+#: .\templates\store\order_detail.html:51
+msgid "Delivery Address"
+msgstr "Yetkazib berish manzili"
+
+#: .\templates\store\order_detail.html:56
+msgid "Payment Status"
+msgstr "Тўлов ҳолати"
+
+#: .\templates\store\order_detail.html:58
+#: .\templates\store\order_detail.html:155
+#: .\templates\store\order_history.html:37
+msgid "Confirmed"
+msgstr "Тасдиқланди"
+
+#: .\templates\store\order_detail.html:63
+#: .\templates\store\order_detail.html:157
+#: .\templates\store\order_history.html:39
+msgid "Pending"
+msgstr "Кутилмоқда"
+
+#: .\templates\store\order_detail.html:66
+msgid "Total Amount"
+msgstr "Жами сумма"
+
+#: .\templates\store\order_detail.html:67
+msgid "USD Amount"
+msgstr "USD суммаси"
+
+#: .\templates\store\order_detail.html:68
+msgid "Exchange Rate"
+msgstr "Айирбўш суммаси"
+
+#: .\templates\store\order_detail.html:77
+#: .\templates\store\order_payment.html:142
+msgid "Order Items"
+msgstr "Буюртма элементлари"
+
+#: .\templates\store\order_detail.html:88
+msgid "SKU"
+msgstr "SKU"
+
+#: .\templates\store\order_detail.html:89
+msgid "Quantity"
+msgstr "Сони"
+
+#: .\templates\store\order_detail.html:92
+msgid "Unit Price"
+msgstr "Бир дона нархи"
+
+#: .\templates\store\order_detail.html:97
+#: .\templates\store\order_detail.html:119
+msgid "Total"
+msgstr "Жами"
+
+#: .\templates\store\order_detail.html:110
+msgid "Subtotal"
+msgstr "Жами"
+
+#: .\templates\store\order_detail.html:114
+msgid "Delivery"
+msgstr "Yetkazib berish"
+
+#: .\templates\store\order_detail.html:123
+msgid "USD equivalent"
+msgstr "USD эквиваленти"
+
+#: .\templates\store\order_detail.html:138
+msgid "Order Status"
+msgstr "Буюртма ҳолати"
+
+#: .\templates\store\order_detail.html:145
+msgid "Order Placed"
+msgstr "Буюртма қабул қилинди"
+
+#: .\templates\store\order_detail.html:153
+msgid "Order Confirmed"
+msgstr "Буюртма тасдиқланди"
+
+#: .\templates\store\order_detail.html:165
+msgid "Preparing Order"
+msgstr "Буюртма тайёрланимоқда"
+
+#: .\templates\store\order_detail.html:167
+msgid "In Progress"
+msgstr "Ишловда"
+
+#: .\templates\store\order_detail.html:169
+msgid "Waiting"
+msgstr "Кутилмоқда"
+
+#: .\templates\store\order_detail.html:177
+msgid "Order Shipped"
+msgstr "Буюртма жўнатилди"
+
+#: .\templates\store\order_detail.html:179
+msgid "On the way"
+msgstr "Йўлда"
+
+#: .\templates\store\order_detail.html:181
+msgid "Not shipped yet"
+msgstr "Ҳали жўнатилмаган"
+
+#: .\templates\store\order_detail.html:189
+msgid "Delivered"
+msgstr "Yetkazib berildi"
+
+#: .\templates\store\order_detail.html:191
+msgid "Completed"
+msgstr "Тугатилди"
+
+#: .\templates\store\order_detail.html:193
+msgid "Pending delivery"
+msgstr "Yetkazib berish кутилмоқда"
+
+#: .\templates\store\order_detail.html:206
+msgid "Payment Proof"
+msgstr "Тўлов гувоҳномаси"
+
+#: .\templates\store\order_detail.html:210
+msgid "Payment Confirmed"
+msgstr "Тўлов тасдиқланди"
+
+#: .\templates\store\order_detail.html:212
+msgid "Amount Paid"
+msgstr "Тўланган сумма"
+
+#: .\templates\store\order_detail.html:219
+#: .\templates\store\order_detail.html:312
+#: .\templates\store\order_detail.html:316
+#: .\templates\store\order_payment.html:82
+msgid "Payment Screenshot"
+msgstr "Тўлов скриншоти"
+
+#: .\templates\store\order_detail.html:226
+msgid "View Full Image"
+msgstr "Тўлиқ расмни кўриш"
+
+#: .\templates\store\order_detail.html:230
+msgid "No payment screenshot available"
+msgstr "Тўлов скриншоти йўқ"
+
+#: .\templates\store\order_detail.html:235
+msgid "Payment confirmed on"
+msgstr "Тўлов тасдиқланган сана"
+
+#: .\templates\store\order_detail.html:246
+msgid "Payment Pending"
+msgstr "Тўлов кутилмоқда"
+
+#: .\templates\store\order_detail.html:251
+msgid "Amount Due"
+msgstr "Тўланадиган сумма"
+
+#: .\templates\store\order_detail.html:256
+msgid "Your order is waiting for payment confirmation."
+msgstr "Сизнинг буюртмангиз тўлов тасдиқланшини кутмоқда."
+
+#: .\templates\store\order_detail.html:266
+msgid "Actions"
+msgstr "Ҳаракатлар"
+
+#: .\templates\store\order_detail.html:271
+msgid "Back to Orders"
+msgstr "Буюртмаларга қайтиш"
+
+#: .\templates\store\order_detail.html:281
+msgid "Items"
+msgstr "Элементлар"
+
+#: .\templates\store\order_detail.html:285
+msgid "Total Quantity"
+msgstr "Жами сони"
+
+#: .\templates\store\order_detail.html:296
+msgid "Order Value"
+msgstr "Буюртма қиймати"
+
+#: .\templates\store\order_detail.html:319
+msgid "Payment Amount"
+msgstr "Тўлов суммаси"
+
+#: .\templates\store\order_detail.html:321
+msgid "USD Equivalent"
+msgstr "USD эквиваленти"
+
+#: .\templates\store\order_detail.html:323
+msgid "Exchange Rate Used"
+msgstr "Фойдаланилган айирбўш суммаси"
+
+#: .\templates\store\order_detail.html:426
+msgid "Are you sure you want to cancel this order?"
+msgstr "Ушбу буюртмани бекор қилишга ишончингиз комилми?"
+
+#: .\templates\store\order_detail.html:428
+msgid "Order cancellation requested. We will contact you shortly."
+msgstr "Буюртма бекор қилиш сўрови юборилди. Тешикда сиз билан боғланишамиз."
+
+#: .\templates\store\order_history.html:4
+msgid "Order History - Avtokontinent.uz"
+msgstr "Буюртма тарихи - Avtokontinent.uz"
+
+#: .\templates\store\order_history.html:22
+#: .\templates\store\order_payment.html:118
+msgid "Status:"
+msgstr "Ҳолати:"
+
+#: .\templates\store\order_history.html:35
+msgid "Payment:"
+msgstr "Тўлов:"
+
+#: .\templates\store\order_history.html:59
+msgid "No orders yet"
+msgstr "Ҳали буюртма йўқ"
+
+#: .\templates\store\order_history.html:60
+msgid "Your order history will appear here once you make your first purchase"
+msgstr "Сизнинг буюртма тарихингиз биринчи сотиб олишингиздан кейин шу ерда пайдо бўлади"
+
+#: .\templates\store\order_history.html:61
+msgid "Start Shopping"
+msgstr "Сотиб олишни бошланг"
+
+#: .\templates\store\order_payment.html:5
+msgid "Payment - Avtokontinent.uz"
+msgstr "Тўлов - Avtokontinent.uz"
+
+#: .\templates\store\order_payment.html:10
+msgid "Payment"
+msgstr "Тўлов"
+
+#: .\templates\store\order_payment.html:17
+msgid "Payment Instructions"
+msgstr "Тўлов бўйича кўрсатма"
+
+#: .\templates\store\order_payment.html:21
+msgid "Bank Transfer Details"
+msgstr "Банк утказмаси маълумотлари"
+
+#: .\templates\store\order_payment.html:43
+msgid "Amount to Pay"
+msgstr "Тўланадиган сумма"
+
+#: .\templates\store\order_payment.html:52
+msgid "Copy Amount"
+msgstr "Суммани нусхалаш"
+
+#: .\templates\store\order_payment.html:62
+msgid "Payment Steps:"
+msgstr "Тўлов қадамлари:"
+
+#: .\templates\store\order_payment.html:65
+msgid "Transfer the exact amount"
+msgstr "Аниқ суммани юборинг"
+
+#: .\templates\store\order_payment.html:67
+msgid "to the bank account above"
+msgstr "юқоридаги банк хисобига"
+
+#: .\templates\store\order_payment.html:69
+msgid "Take a screenshot of the payment confirmation"
+msgstr "Тўлов тасдиқини скриншот қилинг"
+
+#: .\templates\store\order_payment.html:70
+msgid "Upload the screenshot below"
+msgstr "Скриншотни пастга юкланг"
+
+#: .\templates\store\order_payment.html:71
+msgid "Wait for payment confirmation from our team"
+msgstr "Жамоамизнинг тўлов тасдиқини кутинг"
+
+#: .\templates\store\order_payment.html:77
+#: .\templates\store\order_payment.html:95
+msgid "Upload Payment Screenshot"
+msgstr "Тўлов скриншотини юкланг"
+
+#: .\templates\store\order_payment.html:89
+msgid ""
+"Please upload a clear screenshot showing the payment confirmation. Supported "
+"formats: JPG, PNG, GIF"
+msgstr ""
+"Илтимос, тўлов тасдиқини кўрсатадиган анча тоза скриншот юкланг. Қўллаб-қувватланувчи форматлар: JPG, PNG, GIF"
+
+#: .\templates\store\order_payment.html:98
+msgid "Back to Order"
+msgstr "Буюртмага қайтиш"
+
+#: .\templates\store\order_payment.html:124
+msgid "Order Date:"
+msgstr "Буюртма санаси:"
+
+#: .\templates\store\order_payment.html:128
+msgid "Items:"
+msgstr "Элементлар:"
+
+#: .\templates\store\order_payment.html:132
+msgid "Customer:"
+msgstr "Мижоз:"
+
+#: .\templates\store\order_payment.html:150
+msgid "Quantity:"
+msgstr "Сони:"
+
+#: .\templates\store\order_payment.html:153
+msgid "Unit Price:"
+msgstr "Бир дона нархи:"
+
+#: .\templates\store\order_payment.html:198
+msgid "Please transfer the exact amount shown above to avoid payment delays."
+msgstr "Тўловни кечиктиришни олдини олиш учун юқорида кўрсатилган аниқ суммани юборинг."
+
+#: .\templates\store\order_payment.html:207
+msgid "Need Help?"
+msgstr "Ёрдам керакми?"
+
+#: .\templates\store\order_payment.html:209
+msgid "If you have any questions about the payment process, please contact us:"
+msgstr "Тўлов жараёни бўйича саволларингиз бўлса, биз билан боғланинг:"
+
+#: .\templates\store\order_payment.html:224
+msgid "Payment confirmation usually takes 1-2 hours during business hours."
+msgstr "Тўлов тасдиқи оддий холатда иш кунлари давомида 1-2 соат олароқ давом этади."
+
+#: .\templates\store\order_payment.html:342
+#: .\templates\store\order_payment.html:370
+msgid "Copied to clipboard!"
+msgstr "Буферга нусхаланди!"
+
+#: .\templates\store\order_payment.html:372
+msgid "Failed to copy. Please copy manually."
+msgstr "Нусхалаш муваффақиятсиз тугади. Илтимос, қўлда нусхаланг."
+
+#: .\templates\store\order_payment.html:407
+msgid "Please select a payment screenshot to upload."
+msgstr "Юкланадиган тўлов скриншотини танланг."
+
+#: .\templates\store\order_payment.html:416
+msgid "File size is too large. Please choose a file smaller than 10MB."
+msgstr "Файл ҳажми жуда катта. Илтимос, 10MB дан кичик файл танланг."
+
+#: .\templates\store\order_payment.html:423
+msgid "Uploading..."
+msgstr "Юкланмоқда..."
+
+#: .\templates\store\order_payment.html:440
+msgid "Image selected successfully!"
+msgstr "Расм муваффақиятли танланди!"
+
+#: .\templates\store\product_detail.html:42
+#: .\templates\store\product_detail.html:44
+msgid "Product Video"
+msgstr "Махсулот видео"
+
+#: .\templates\store\product_detail.html:56
+msgid "SKU:"
+msgstr "SKU:"
+
+#: .\templates\store\product_detail.html:64
+msgid "In Stock"
+msgstr "мавжуд"
+
+#: .\templates\store\product_detail.html:74
+msgid "comments"
+msgstr "шархлар"
+
+#: .\templates\store\product_detail.html:81
+msgid "Compatible With:"
+msgstr "Мос келади:"
+
+#: .\templates\store\product_detail.html:112
+msgid "Category:"
+msgstr "Категория:"
+
+#: .\templates\store\product_detail.html:119
+msgid "Subcategory:"
+msgstr "Ички категория:"
+
+#: .\templates\store\product_detail.html:134
+msgid "Product Description"
+msgstr "Махсулот тавсифи"
+
+#: .\templates\store\product_detail.html:147
+msgid "Customer Reviews"
+msgstr "Мижозлар шархи"
+
+#: .\templates\store\product_detail.html:152
+msgid "Rating"
+msgstr "Бахолаш"
+
+#: .\templates\store\product_detail.html:154
+msgid "Select Rating"
+msgstr "Бахолашни танланг"
+
+#: .\templates\store\product_detail.html:155
+msgid "5 Stars - Excellent"
+msgstr "5 юлдуз - Ало"
+
+#: .\templates\store\product_detail.html:156
+msgid "4 Stars - Good"
+msgstr "4 юлдуз - Яхши"
+
+#: .\templates\store\product_detail.html:157
+msgid "3 Stars - Average"
+msgstr "3 юлдуз - Ўртача"
+
+#: .\templates\store\product_detail.html:158
+msgid "2 Stars - Poor"
+msgstr "2 юлдуз - Ўрта"
+
+#: .\templates\store\product_detail.html:159
+msgid "1 Star - Terrible"
+msgstr "1 юлдуз - Йўмон"
+
+#: .\templates\store\product_detail.html:163
+msgid "Your Review"
+msgstr "Сизнинг шархингиз"
+
+#: .\templates\store\product_detail.html:164
+msgid "Share your experience with this product..."
+msgstr "Ушбу махсулот бўйича тажрибангизни улашинг..."
+
+#: .\templates\store\product_detail.html:167
+msgid "Submit Review"
+msgstr "шархни жўнатиш"
+
+#: .\templates\store\product_detail.html:172
+msgid "to write a review."
+msgstr "шарх йозиш учун."
+
+#: .\templates\store\product_detail.html:206
+msgid "No reviews yet. Be the first to review this product!"
+msgstr "Ҳали шарх йўқ. Бу махсулотга биринчи бўлиб шарх йозинг!"
+
+#: .\templates\store\product_detail.html:216
+msgid "Related Products"
+msgstr "Охшаш махсулотлар"
+
+#: .\templates\store\product_detail.html:239
+msgid "View"
+msgstr "Кўриш"
+
+#: .\templates\store\product_list.html:5
+msgid "Products - Avtokontinent.uz"
+msgstr "Махсулотлар - Avtokontinent.uz"
+
+#: .\templates\store\product_list.html:20
+msgid "Filters"
+msgstr "Филтрлар"
+
+#: .\templates\store\product_list.html:55
+msgid "Models"
+msgstr "Моделлар"
+
+#: .\templates\store\product_list.html:80
+msgid "results found"
+msgstr "топилган натижалар"
+
+#: .\templates\store\product_list.html:128
+msgid "and"
+msgstr "ва"
+
+#: .\templates\store\product_list.html:128
+msgid "more"
+msgstr "кўпроқ"
+
+#: .\templates\store\product_list.html:169
+msgid "Page navigation"
+msgstr "Саҳифа навигацияси"
+
+#: .\templates\store\verify_code.html:4
+msgid "Verify Code - Avtokontinent.uz"
+msgstr "Кодни тасдиқлаш - Avtokontinent.uz"
+
+#: .\templates\store\verify_code.html:13
+msgid "Verify Code"
+msgstr "Кодни тасдиқлаш"
+
+#: .\templates\store\verify_code.html:18
+msgid "Get the code from this bot"
+msgstr "Кодни ушбу ботдан олинг"
+
+#: .\templates\store\verify_code.html:47
+msgid "Code expires in 1 minute"
+msgstr "Код 1 дақиқадан сўнг амалдан чиқади"
+
+#: .\templates\store\verify_code.html:53
+msgid "Back to Login"
+msgstr "Киришга қайтиш"

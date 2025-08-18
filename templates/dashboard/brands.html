@@ -71,20 +71,20 @@
                         </td>
                         <td>
                             <strong>{{ brand.name_uz }}</strong>
-                            {% if brand.name_en or brand.name_ru %}
+                            {% if brand.name_uz_Cyrl or brand.name_ru %}
                                 <br><small class="text-muted">
-                                    {% if brand.name_en %}{{ brand.name_en }}{% endif %}
-                                    {% if brand.name_en and brand.name_ru %} | {% endif %}
+                                    {% if brand.name_uz_Cyrl %}{{ brand.name_uz_Cyrl }}{% endif %}
+                                    {% if brand.name_uz_Cyrl and brand.name_ru %} | {% endif %}
                                     {% if brand.name_ru %}{{ brand.name_ru }}{% endif %}
                                 </small>
                             {% endif %}
                         </td>
                         <td>
-                            {% if brand.description_uz or brand.description_en or brand.description_ru %}
+                            {% if brand.description_uz or brand.description_uz_Cyrl or brand.description_ru %}
                                 {% if brand.description_uz %}
                                     {{ brand.description_uz|truncatechars:50 }}
-                                {% elif brand.description_en %}
-                                    {{ brand.description_en|truncatechars:50 }}
+                                {% elif brand.description_uz_Cyrl %}
+                                    {{ brand.description_uz_Cyrl|truncatechars:50 }}
                                 {% elif brand.description_ru %}
                                     {{ brand.description_ru|truncatechars:50 }}
                                 {% endif %}

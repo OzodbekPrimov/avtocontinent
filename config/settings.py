@@ -119,10 +119,12 @@ USE_TZ = True
 
 # Languages
 LANGUAGES = [
-    ('uz', 'O\'zbekcha'),
-    ('ru', 'Русский'),
-    ('en', 'English'),
+    ('uz', "O'zbekcha"),
+    ('ru', "Русский"),
+    ('uz-cyrl', "Ўзбек (Кирилл)"),
 ]
+
+
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
@@ -131,7 +133,7 @@ LOCALE_PATHS = [
 
 # Modeltranslation sozlamalari
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'  # Asosiy til
-MODELTRANSLATION_LANGUAGES = ('uz', 'en', 'ru')
+MODELTRANSLATION_LANGUAGES = ('uz', 'uz_Cyrl', 'ru')
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
@@ -156,6 +158,9 @@ CKEDITOR_CONFIGS = {
         'width': 'auto',
     },
 }
+
+LOGIN_URL = 'dashboard:login'
+
 
 # Session configuration
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
