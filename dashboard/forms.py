@@ -5,8 +5,13 @@ from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from store.models import CarModel, Category, Product, Order, PaymentSettings, ExchangeRate, Brand, \
-    Banner
+    Banner, ProductImage
 from django.contrib.auth.models import User
+
+
+class MultiFileInput(forms.ClearableFileInput):
+    """Clearable file input that supports selecting multiple files."""
+    allow_multiple_selected = True
 
 
 class ProductForm(forms.ModelForm):
@@ -77,22 +82,22 @@ class ProductForm(forms.ModelForm):
         })
     )
 
-    # Short description (ixtiyoriy)
-    short_description = forms.CharField(
-        max_length=500,
-        required=False,
-        label="Qisqa tavsif",
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'rows': 3,
-            'placeholder': "Qisqa tavsif (ixtiyoriy)"
-        })
-    )
+    # # Short description (ixtiyoriy)
+    # short_description = forms.CharField(
+    #     max_length=500,
+    #     required=False,
+    #     label="Qisqa tavsif",
+    #     widget=forms.Textarea(attrs={
+    #         'class': 'form-control',
+    #         'rows': 3,
+    #         'placeholder': "Qisqa tavsif (ixtiyoriy)"
+    #     })
+    # )
 
     # SKU maydoni
     sku = forms.CharField(
         max_length=100,
-        required=True,
+        required=False,
         label="SKU",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -103,7 +108,7 @@ class ProductForm(forms.ModelForm):
     # Slug maydoni
     slug = forms.CharField(
         max_length=200,
-        required=False,
+        required=True,
         label="Slug",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -169,6 +174,7 @@ class ProductForm(forms.ModelForm):
         })
     )
 
+
     # YouTube video (ixtiyoriy)
     youtube_video_id = forms.CharField(
         max_length=50,
@@ -205,27 +211,31 @@ class ProductForm(forms.ModelForm):
         fields = [
             'name_uz', 'name_en', 'name_ru',
             'description_uz', 'description_en', 'description_ru',
-            'short_description', 'sku', 'slug', 'category',
+            'sku', 'slug', 'category',
             'compatible_models', 'price_usd', 'stock_quantity',
             'main_image', 'youtube_video_id', 'is_active', 'is_featured'
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # On edit, do not require main_image if it already exists
+        if self.instance and getattr(self.instance, 'pk', None) and getattr(self.instance, 'main_image', None):
+            self.fields['main_image'].required = False
 
-    def clean_sku(self):
-        """SKU ni tekshirish"""
-        sku = self.cleaned_data.get('sku')
-        if sku:
-            # Mavjud mahsulotlardan tashqari, boshqa mahsulotlarda bu SKU bor yoki yo'qligini tekshirish
-            existing = Product.objects.filter(sku=sku)
-            if self.instance.pk:
-                existing = existing.exclude(pk=self.instance.pk)
 
-            if existing.exists():
-                raise ValidationError("Bu SKU kodi allaqachon mavjud.")
-
-        return sku
+    # def clean_sku(self):
+    #     """SKU ni tekshirish"""
+    #     sku = self.cleaned_data.get('sku')
+    #     if sku:
+    #         # Mavjud mahsulotlardan tashqari, boshqa mahsulotlarda bu SKU bor yoki yo'qligini tekshirish
+    #         existing = Product.objects.filter(sku=sku)
+    #         if self.instance.pk:
+    #             existing = existing.exclude(pk=self.instance.pk)
+    #
+    #         if existing.exists():
+    #             raise ValidationError("Bu SKU kodi allaqachon mavjud.")
+    #
+    #     return sku
 
     def clean_name_uz(self):
         """O'zbek tilida nom tekshirish"""
@@ -253,7 +263,7 @@ class ProductForm(forms.ModelForm):
     def clean(self):
         """Forma ma'lumotlarini tozalash va tekshirish"""
         cleaned_data = super().clean()
-        
+
         # Slug ni avtomatik yaratish agar bo'sh bo'lsa
         if not cleaned_data.get('slug') and cleaned_data.get('name_uz'):
             base_slug = slugify(cleaned_data['name_uz'])
@@ -263,7 +273,7 @@ class ProductForm(forms.ModelForm):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             cleaned_data['slug'] = slug
-        
+
         return cleaned_data
 
     def save(self, commit=True):

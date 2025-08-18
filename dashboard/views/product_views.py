@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import  Q, Count, F
 from django.core.paginator import Paginator
 from .home_views import dashboard_login_required, is_staff_user
-from store.models import Product, Category, CarModel
+from store.models import Product, Category, CarModel, ProductImage
 from dashboard.forms import ProductForm
 
 
@@ -89,7 +89,33 @@ def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save()
+
+            # Validate and save all additional images (no limit)
+            extra_files = request.FILES.getlist('extra_images')
+            if extra_files:
+                errors = []
+                saved = 0
+                valid_ext = {"jpg", "jpeg", "png", "gif", "webp"}
+                max_size = 5 * 1024 * 1024
+
+                for f in extra_files:
+                    if getattr(f, 'size', 0) > max_size:
+                        errors.append("Каждое изображение должно быть не более 5MB.")
+                        continue
+                    ext = f.name.rsplit('.', 1)[-1].lower() if hasattr(f, 'name') and '.' in f.name else ''
+                    if ext not in valid_ext:
+                        errors.append("Допустимые форматы: jpg, jpeg, png, gif, webp.")
+                        continue
+                    ProductImage.objects.create(product=product, image=f)
+                    saved += 1
+
+                if saved:
+                    messages.success(request, f"Добавлено дополнительных изображений: {saved}.")
+                if errors:
+                    for e in set(errors):
+                        messages.warning(request, e)
+
             messages.success(request, 'Product created successfully!')
             return redirect('dashboard:products')
         else:
@@ -126,7 +152,33 @@ def product_edit(request, product_id):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
+            product = form.save()
+
+            # Validate and save all additional images (no limit)
+            extra_files = request.FILES.getlist('extra_images')
+            if extra_files:
+                errors = []
+                saved = 0
+                valid_ext = {"jpg", "jpeg", "png", "gif", "webp"}
+                max_size = 5 * 1024 * 1024
+
+                for f in extra_files:
+                    if getattr(f, 'size', 0) > max_size:
+                        errors.append("Каждое изображение должно быть не более 5MB.")
+                        continue
+                    ext = f.name.rsplit('.', 1)[-1].lower() if hasattr(f, 'name') and '.' in f.name else ''
+                    if ext not in valid_ext:
+                        errors.append("Допустимые форматы: jpg, jpeg, png, gif, webp.")
+                        continue
+                    ProductImage.objects.create(product=product, image=f, is_primary=False)
+                    saved += 1
+
+                if saved:
+                    messages.success(request, f"Добавлено дополнительных изображений: {saved}.")
+                if errors:
+                    for e in set(errors):
+                        messages.warning(request, e)
+
             messages.success(request, 'Product updated successfully!')
             return redirect('dashboard:products')
         else:

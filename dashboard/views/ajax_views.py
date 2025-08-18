@@ -1,15 +1,13 @@
 from django.shortcuts import  get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .home_views import dashboard_login_required, is_staff_user
-from store.models import Product, Brand, Banner, CarModel, Category, Order
+from store.models import Product, Brand, Banner, CarModel, Category, Order, ProductImage
+
 from django.http import JsonResponse
 
 from django.utils import timezone
 
 from django.views.decorators.http import require_POST
-
-
-
 
 
 # AJAX Endpoints
@@ -210,6 +208,24 @@ def ajax_confirm_payment(request):
         })
     except Order.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Order not found'})
+
+
+# Product images AJAX
+@dashboard_login_required
+@user_passes_test(is_staff_user)
+@require_POST
+def ajax_delete_product_image(request):
+    image_id = request.POST.get('image_id')
+    if not image_id:
+        return JsonResponse({'success': False, 'message': 'image_id required'})
+    try:
+        img = ProductImage.objects.get(id=image_id)
+        product_id = img.product_id
+        img.delete()
+        new_count = ProductImage.objects.filter(product_id=product_id).count()
+        return JsonResponse({'success': True, 'new_count': new_count})
+    except ProductImage.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Image not found'})
 
 
 @dashboard_login_required

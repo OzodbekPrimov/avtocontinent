@@ -119,7 +119,7 @@ def notify_customer_status_change_task(self, order_id, old_status, new_status):
             f"🆔 Buyurtma raqami: <b>#{order_instance.order_id}</b>\n"
             f"📊 Eski holat: <b>{old_status_name}</b>\n"
             f"📊 Yangi holat: <b>{new_status_name}</b>\n"
-            f"💰 Umumiy summa: <b>${order_instance.total_amount_usd}</b>\n"
+            f"💰 Umumiy summa: <b>{order_instance.total_amount_uzs}uzs</b>\n"
             f"📅 Sana: <b>{order_instance.created_at.strftime('%d.%m.%Y %H:%M')}</b>"
         )
 

@@ -77,6 +77,7 @@ urlpatterns = [
     path('ajax/confirm-payment/', views.ajax_confirm_payment, name='ajax_confirm_payment'),
     path('ajax/reject-payment/', views.ajax_reject_payment, name='ajax_reject_payment'),
 
-
+    # Product images
+    path('ajax/delete-product-image/', views.ajax_delete_product_image, name='ajax_delete_product_image'),
 
 ]

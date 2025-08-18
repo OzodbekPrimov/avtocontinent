@@ -64,8 +64,8 @@
                                 {% endif %}
                             </p>
                             <p><strong>{% trans "Total Amount" %}:</strong> {{ order.total_amount_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</p>
-                            <p><strong>{% trans "USD Amount" %}:</strong> ${{ order.total_amount_usd|floatformat:2|intcomma }}</p>
-                            <p><strong>{% trans "Exchange Rate" %}:</strong> 1 USD = {{ order.exchange_rate_used|floatformat:0|intcomma }} UZS</p>
+<!--                            <p><strong>{% trans "USD Amount" %}:</strong> ${{ order.total_amount_usd|floatformat:2|intcomma }}</p>-->
+<!--                            <p><strong>{% trans "Exchange Rate" %}:</strong> 1 USD = {{ order.exchange_rate_used|floatformat:0|intcomma }} UZS</p>-->
                         </div>
                     </div>
                 </div>
@@ -91,12 +91,12 @@
                         <div class="col-md-2 col-6">
                             <div class="text-muted">{% trans "Unit Price" %}</div>
                             <div class="fw-bold">{{ item.price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</div>
-                            <small class="text-muted">${{ item.price_usd|floatformat:2|intcomma }}</small>
+<!--                            <small class="text-muted">${{ item.price_usd|floatformat:2|intcomma }}</small>-->
                         </div>
                         <div class="col-md-2 col-6">
                             <div class="text-muted">{% trans "Total" %}</div>
                             <div class="fw-bold text-primary">{{ item.total_price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</div>
-                            <small class="text-muted">${{ item.total_price_usd|floatformat:2|intcomma }}</small>
+<!--                            <small class="text-muted">${{ item.total_price_usd|floatformat:2|intcomma }}</small>-->
                         </div>
                     </div>
                     {% endfor %}
@@ -119,10 +119,10 @@
                                     <strong>{% trans "Total" %}:</strong>
                                     <strong class="text-primary">{{ order.total_amount_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</strong>
                                 </div>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <small class="text-muted">{% trans "USD equivalent" %}:</small>
-                                    <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }}</small>
-                                </div>
+<!--                                <div class="d-flex justify-content-between mt-1">-->
+<!--                                    <small class="text-muted">{% trans "USD equivalent" %}:</small>-->
+<!--                                    <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }}</small>-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -211,7 +211,7 @@
                         <div class="alert alert-success mb-3">
                             <div class="fw-bold">{% trans "Amount Paid" %}</div>
                             <div class="fs-5">{{ order.total_amount_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</div>
-                            <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>
+<!--                            <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>-->
                         </div>
                         {% if order.payment_screenshot %}
                             <div class="payment-screenshot mb-3">
@@ -250,7 +250,7 @@
                         <div class="alert alert-warning">
                             <div class="fw-bold">{% trans "Amount Due" %}</div>
                             <div class="fs-4">{{ order.total_amount_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</div>
-                            <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>
+<!--                            <small class="text-muted">${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>-->
                         </div>
                         <p class="text-muted mb-3">
                             {% trans "Your order is waiting for payment confirmation." %}
@@ -318,9 +318,9 @@
                     <div class="alert alert-info">
                         <strong>{% trans "Payment Amount" %}:</strong> {{ order.total_amount_uzs|floatformat:0|intcomma }} UZS
                         <br>
-                        <strong>{% trans "USD Equivalent" %}:</strong> ${{ order.total_amount_usd|floatformat:2|intcomma }}
+<!--                        <strong>{% trans "USD Equivalent" %}:</strong> ${{ order.total_amount_usd|floatformat:2|intcomma }}-->
                         <br>
-                        <strong>{% trans "Exchange Rate Used" %}:</strong> {{ order.exchange_rate_used|floatformat:0|intcomma }} UZS/USD
+<!--                        <strong>{% trans "Exchange Rate Used" %}:</strong> {{ order.exchange_rate_used|floatformat:0|intcomma }} UZS/USD-->
                     </div>
                 </div>
             </div>

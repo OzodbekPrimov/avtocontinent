@@ -21,16 +21,22 @@
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm mb-3">
                 <div class="card-body">
-                    <div class="main-image mb-3 text-center">
+                    <div class="main-image mb-3 text-center position-relative">
+                        <button type="button" class="btn btn-light btn-sm position-absolute top-50 start-0 translate-middle-y gallery-prev" aria-label="Previous" style="z-index:2; opacity:.85;">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
                         <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid rounded main-product-image" id="mainImage" loading="lazy" style="max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                        <button type="button" class="btn btn-light btn-sm position-absolute top-50 end-0 translate-middle-y gallery-next" aria-label="Next" style="z-index:2; opacity:.85;">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    {% if product.images.exists %}
                     <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <!-- Main image as first thumbnail -->
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-thumbnail thumbnail-image selected" data-index="0" style="width: 70px; height: 70px; object-fit: cover; cursor: pointer; border: 2px solid var(--primary-color);" loading="lazy">
                         {% for image in product.images.all %}
-                        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-thumbnail thumbnail-image" onclick="changeMainImage('{{ image.image.url }}', event)" style="width: 70px; height: 70px; object-fit: cover; cursor: pointer; border: 2px solid transparent;" loading="lazy">
+                        <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:product.name }}" class="img-thumbnail thumbnail-image" data-index="{{ forloop.counter }}" style="width: 70px; height: 70px; object-fit: cover; cursor: pointer; border: 2px solid transparent;" loading="lazy">
                         {% endfor %}
                     </div>
-                    {% endif %}
                     {% if product.youtube_video_id %}
                     <div class="mt-4">
                         <h6 class="fw-semibold mb-2">{% trans "Product Video" %}</h6>
@@ -50,7 +56,7 @@
                     <p class="text-muted mb-2 small">{% trans "SKU:" %} {{ product.sku }}</p>
                     <div class="d-flex align-items-center mb-3 gap-3">
                         <span class="fs-4 fw-semibold text-primary">{{ product.price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</span>
-                        <span class="text-muted small">${{ product.price_usd|floatformat:0|intcomma }}</span>
+<!--                        <span class="text-muted small">${{ product.price_usd|floatformat:0|intcomma }}</span>-->
                     </div>
                     <div class="mb-3">
                         <span class="badge bg-{% if product.is_in_stock %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
@@ -249,27 +255,55 @@
 
 {% block extra_js %}
 <script>
-function changeMainImage(imageUrl, event) {
-    document.getElementById('mainImage').src = imageUrl;
-    // Update thumbnail borders
-    document.querySelectorAll('.thumbnail-image').forEach(img => {
-        img.style.border = '2px solid transparent';
-    });
-    // Highlight selected thumbnail
-    if(event && event.target) {
-        event.target.style.border = '2px solid var(--primary-color)';
-    }
-}
-// Set initial user like/favorite states
-
 document.addEventListener('DOMContentLoaded', function() {
+    const mainImgEl = document.getElementById('mainImage');
+    const thumbs = Array.from(document.querySelectorAll('.thumbnail-image'));
+    // Build gallery from DOM
+    const gallery = thumbs.map(t => ({ url: t.getAttribute('src'), alt: t.getAttribute('alt') || '' }));
+    let currentIndex = 0;
+
+    function renderActive(index) {
+        if (!gallery.length) return;
+        currentIndex = (index + gallery.length) % gallery.length;
+        const item = gallery[currentIndex];
+        if (item) {
+            mainImgEl.src = item.url;
+            mainImgEl.alt = item.alt;
+        }
+        thumbs.forEach((t, i) => {
+            t.style.border = i === currentIndex ? '2px solid var(--primary-color)' : '2px solid transparent';
+            t.classList.toggle('selected', i === currentIndex);
+        });
+    }
+
+    // Thumbnail click handling
+    thumbs.forEach((t, i) => {
+        t.addEventListener('click', () => renderActive(i));
+    });
+
+    // Prev/Next buttons
+    const prevBtn = document.querySelector('.gallery-prev');
+    const nextBtn = document.querySelector('.gallery-next');
+    if (prevBtn) prevBtn.addEventListener('click', () => renderActive(currentIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => renderActive(currentIndex + 1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') renderActive(currentIndex - 1);
+        if (e.key === 'ArrowRight') renderActive(currentIndex + 1);
+    });
+
+    // Initial state
+    renderActive(0);
+
+    // Set initial user like/favorite states
     {% if user_liked %}
-    document.getElementById('like-btn-{{ product.id }}').classList.add('liked');
-    document.getElementById('like-btn-{{ product.id }}').innerHTML = '<i class="fas fa-heart"></i>';
+    const likeBtn = document.getElementById('like-btn-{{ product.id }}');
+    if (likeBtn) { likeBtn.classList.add('liked'); likeBtn.innerHTML = '<i class="fas fa-heart"></i>'; }
     {% endif %}
     {% if user_favorited %}
-    document.getElementById('favorite-btn-{{ product.id }}').classList.add('favorited');
-    document.getElementById('favorite-btn-{{ product.id }}').innerHTML = '<i class="fas fa-star"></i>';
+    const favBtn = document.getElementById('favorite-btn-{{ product.id }}');
+    if (favBtn) { favBtn.classList.add('favorited'); favBtn.innerHTML = '<i class="fas fa-star"></i>'; }
     {% endif %}
 });
 </script>
@@ -277,6 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Modern product detail custom styles */
 .main-product-image { box-shadow: 0 2px 16px rgba(0,0,0,0.07); background: #f8f9fa; }
 .thumbnail-image.selected, .thumbnail-image:focus { border: 2px solid var(--primary-color) !important; }
+.gallery-prev, .gallery-next { box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 .product-card { transition: box-shadow 0.2s; }
 .product-card:hover { box-shadow: 0 4px 24px rgba(37,99,235,0.10); }
 .btn-action { border: none; background: transparent; color: var(--primary-color); }

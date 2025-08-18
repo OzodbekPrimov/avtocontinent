@@ -130,9 +130,8 @@ from django.urls import reverse
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    sku = models.CharField(max_length=100, unique=True)
+    sku = models.CharField(max_length=100, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='product')
-    # subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, blank=True, null=True)
     compatible_models = models.ManyToManyField('CarModel', related_name='products')
     description = RichTextField()
     short_description = models.TextField(max_length=500, blank=True)

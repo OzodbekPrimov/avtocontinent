@@ -45,7 +45,7 @@
                                         <div class="text-primary fw-semibold">{% trans "UZS" %}</div>
                                         {% if order.total_amount_usd %}
                                         <div class="text-muted mt-1">
-                                            <small>≈ ${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>
+<!--                                            <small>≈ ${{ order.total_amount_usd|floatformat:2|intcomma }} USD</small>-->
                                         </div>
                                         {% endif %}
                                         <button class="btn btn-sm btn-outline-primary mt-2" onclick="copyToClipboard('{{ order.total_amount_uzs|floatformat:0 }}')">
@@ -185,7 +185,7 @@
                                 <div class="small text-muted">{% trans "UZS" %}</div>
                                 {% if order.total_amount_usd %}
                                 <div class="small text-muted">
-                                    ≈ ${{ order.total_amount_usd|floatformat:2|intcomma }}
+<!--                                    ≈ ${{ order.total_amount_usd|floatformat:2|intcomma }}-->
                                 </div>
                                 {% endif %}
                             </div>
