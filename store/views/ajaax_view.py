@@ -10,6 +10,18 @@ from functools import wraps
 from store.models import Product, ProductLike, Cart, CartItem, Favorite
 
 
+def cleanup_session_cart(request):
+    """Clean up stale session cart data to prevent caching issues"""
+    if not request.session.session_key:
+        return
+    
+    # If cart is not initialized for this session, clean up any existing data
+    if not request.session.get('cart_initialized', False):
+        Cart.objects.filter(session_key=request.session.session_key, user=None).delete()
+        request.session['cart_initialized'] = True
+        request.session.modified = True
+
+
 def store_login_required(view_func):
     """Custom login_required decorator for store that redirects to store login"""
     @wraps(view_func)
@@ -134,13 +146,17 @@ def ajax_add_to_cart(request):
         if request.user.is_authenticated:
             cart, created = Cart.objects.get_or_create(user=request.user)
         else:
-            # MUHIM: session_key mavjudligini tekshirish va saqlash
+            # Create session if needed and clean up stale data
             if not request.session.session_key:
-                request.session.create()  # Yangi session yaratish
-            session_key = request.session.session_key
+                request.session.create()
+            
+            # Clean up any stale cart data for this session
+            cleanup_session_cart(request)
+            
             cart, created = Cart.objects.get_or_create(
-                session_key=session_key,
-                defaults={'session_key': session_key}
+                session_key=request.session.session_key,
+                user=None,
+                defaults={'session_key': request.session.session_key}
             )
 
         cart_item, item_created = CartItem.objects.get_or_create(
@@ -234,7 +250,11 @@ def ajax_update_cart_quantity(request):
             if request.user.is_authenticated:
                 cart_item = CartItem.objects.get(id=item_id, cart__user=request.user)
             else:
-                cart_item = CartItem.objects.get(id=item_id, cart__session_key=request.session.session_key)
+                cart_item = CartItem.objects.get(
+                    id=item_id, 
+                    cart__session_key=request.session.session_key,
+                    cart__user=None
+                )
 
             cart_item.quantity = quantity
             cart_item.save()
@@ -259,7 +279,11 @@ def ajax_remove_from_cart(request):
             if request.user.is_authenticated:
                 cart_item = CartItem.objects.get(id=item_id, cart__user=request.user)
             else:
-                cart_item = CartItem.objects.get(id=item_id, cart__session_key=request.session.session_key)
+                cart_item = CartItem.objects.get(
+                    id=item_id, 
+                    cart__session_key=request.session.session_key,
+                    cart__user=None
+                )
 
             cart = cart_item.cart
             cart_item.delete()

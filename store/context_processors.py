@@ -22,8 +22,15 @@ def cart(request):
         except Cart.DoesNotExist:
             pass
     elif request.session.session_key:
+        # Initialize cart session flag if not set
+        if not request.session.get('cart_initialized', False):
+            # Clean up any stale carts for this session
+            Cart.objects.filter(session_key=request.session.session_key, user=None).delete()
+            request.session['cart_initialized'] = True
+            request.session.modified = True
+        
         try:
-            cart = Cart.objects.get(session_key=request.session.session_key)
+            cart = Cart.objects.get(session_key=request.session.session_key, user=None)
             cart_items_count = cart.total_items
             cart_total = cart.total_price_uzs
         except Cart.DoesNotExist:

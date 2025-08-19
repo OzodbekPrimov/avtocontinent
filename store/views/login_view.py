@@ -40,7 +40,8 @@ def merge_session_data_to_user(request, user):
         return
 
     try:
-        session_cart = Cart.objects.get(session_key=session_key)
+        # Only get session cart that belongs to guest users (user=None)
+        session_cart = Cart.objects.get(session_key=session_key, user=None)
         print("✅ Session savati topildi:", session_cart.id)
 
         user_cart, created = Cart.objects.get_or_create(user=user)
@@ -91,19 +92,23 @@ def merge_session_data_to_user(request, user):
                 print(f"❌ Xatolik: sevimlilarga qo'shishda xatolik: {e}")
                 continue
 
-        # Clear session favorites
+        # Clear session data completely after successful merge
         request.session['favorites'] = []
+        request.session['cart_initialized'] = False  # Reset cart initialization flag
         request.session.modified = True
         print(f"✅ Sessiya tozalandi. {favorites_merged} ta sevimli ko'chirildi")
 
     except Cart.DoesNotExist:
         print("❌ Session savati topilmadi")
-        # Debug: show all session carts
-        print("Barcha session_keylar:")
-        for c in Cart.objects.filter(user=None):
-            print(f"ID: {c.id}, session_key: {c.session_key}")
+        # Clean up session flags anyway
+        request.session['cart_initialized'] = False
+        request.session['favorites'] = []
+        request.session.modified = True
     except Exception as e:
         print(f"❌ Umumiy xatolik merge_session_data_to_user da: {e}")
+        # Clean up session flags on error
+        request.session['cart_initialized'] = False
+        request.session.modified = True
 
 
 @csrf_exempt
@@ -279,7 +284,13 @@ def login_request(request):
 
 
 def store_logout(request):
-    """Store logout view"""
+    """Store logout view with session cleanup"""
+    # Clear session cart data before logout
+    if request.session.session_key:
+        request.session['cart_initialized'] = False
+        request.session['favorites'] = []
+        request.session.modified = True
+    
     logout(request)
     messages.success(request, 'You have been successfully logged out.')
     return redirect('home')
