@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import  user_passes_test
 from django.contrib import messages
 from django.db.models import  Q, Count, F
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from .home_views import dashboard_login_required, is_staff_user
 from store.models import Product, Category, CarModel, ProductImage
 from dashboard.forms import ProductForm
@@ -213,6 +214,21 @@ def product_delete(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     if request.method == 'POST':
+        # If AJAX, return JSON for frontend to handle without full redirect
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                product_name = (
+                    getattr(product, 'name_uz', None)
+                    or getattr(product, 'name_cyrl', None)
+                    or getattr(product, 'name_ru', None)
+                    or product.name
+                    if hasattr(product, 'name') else 'Product'
+                )
+                product.delete()
+                return JsonResponse({'success': True, 'message': f'Product "{product_name}" deleted successfully'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)})
+        # Fallback for normal form submission
         product.delete()
         messages.success(request, 'Product deleted successfully!')
         return redirect('dashboard:products')

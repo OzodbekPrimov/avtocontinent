@@ -252,6 +252,22 @@
 <script>
 let deleteProductId = null;
 
+// CSRF helper (reads csrftoken from cookies)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 // Переключение статуса продукта
 document.querySelectorAll('.toggle-status').forEach(function(toggle) {
     toggle.addEventListener('change', function() {
@@ -313,10 +329,13 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function()
     if (deleteProductId) {
         $.ajax({
             url: '{% url "dashboard:product_delete" 0 %}'.replace('0', deleteProductId),
+            dataType: 'json',
             type: 'POST',
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
             },
+            data: {},
             success: function(response) {
                 if (response.success) {
                     showAlert('Продукт успешно удален!', 'success');

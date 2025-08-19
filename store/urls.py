@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 from . import signals
 
@@ -7,7 +7,7 @@ from . import signals
 urlpatterns = [
     path('', views.home, name='home'),
     path('products/', views.product_list, name='product_list'),
-    path('product/<slug:slug>/', views.product_detail, name='product_detail'),
+    re_path(r'^product/(?P<slug>[-\w]+)/$', views.product_detail, name='product_detail'),
     path('brands/', views.brands, name='brands'),
     path('brand/<slug:brand_slug>/', views.brand_models, name='brand_models'),
 
