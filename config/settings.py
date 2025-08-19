@@ -121,7 +121,7 @@ USE_TZ = True
 LANGUAGES = [
     ('uz', "O'zbekcha"),
     ('ru', "Русский"),
-    ('uz-cyrl', "Ўзбек (Кирилл)"),
+    ('cyrl', "Ўзбек (Кирилл)"),
 ]
 
 
@@ -133,7 +133,7 @@ LOCALE_PATHS = [
 
 # Modeltranslation sozlamalari
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'  # Asosiy til
-MODELTRANSLATION_LANGUAGES = ('uz', 'uz_Cyrl', 'ru')
+MODELTRANSLATION_LANGUAGES = ('uz', 'cyrl', 'ru')
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

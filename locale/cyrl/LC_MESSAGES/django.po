@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-19 01:39+0500\n"
+"POT-Creation-Date: 2025-08-19 11:47+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,7 +227,7 @@ msgstr "Чиқиш"
 
 #: .\templates\base.html:880 .\templates\base.html:993
 #: .\templates\base.html:995 .\templates\store\login.html:16
-#: .\templates\store\product_detail.html:172
+#: .\templates\store\product_detail.html:173
 msgid "Login"
 msgstr "Кириш"
 
@@ -378,15 +378,15 @@ msgid "Most Popular"
 msgstr "Энг машҳур"
 
 #: .\templates\store\brand_models.html:162 .\templates\store\favorites.html:23
-#: .\templates\store\product_detail.html:100
-#: .\templates\store\product_detail.html:224
+#: .\templates\store\product_detail.html:102
+#: .\templates\store\product_detail.html:225
 #: .\templates\store\product_list.html:100
 msgid "Like"
 msgstr "Лайк"
 
 #: .\templates\store\brand_models.html:165
-#: .\templates\store\product_detail.html:103
-#: .\templates\store\product_detail.html:227
+#: .\templates\store\product_detail.html:105
+#: .\templates\store\product_detail.html:228
 #: .\templates\store\product_list.html:103
 msgid "Add to Favorites"
 msgstr "Севимлиларга қўшиш"
@@ -394,7 +394,7 @@ msgstr "Севимлиларга қўшиш"
 #: .\templates\store\brand_models.html:171
 #: .\templates\store\brand_models.html:201 .\templates\store\favorites.html:29
 #: .\templates\store\favorites.html:56 .\templates\store\product_detail.html:66
-#: .\templates\store\product_detail.html:97
+#: .\templates\store\product_detail.html:99
 #: .\templates\store\product_list.html:109
 #: .\templates\store\product_list.html:147
 msgid "Out of Stock"
@@ -415,7 +415,7 @@ msgstr "омборда йўқ"
 #: .\templates\store\order_payment.html:160
 #: .\templates\store\order_payment.html:185
 #: .\templates\store\product_detail.html:58
-#: .\templates\store\product_detail.html:236
+#: .\templates\store\product_detail.html:237
 #: .\templates\store\product_list.html:135
 msgid "UZS"
 msgstr "Сўм"
@@ -428,7 +428,7 @@ msgid "View Details"
 msgstr "Батафсил"
 
 #: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
-#: .\templates\store\product_detail.html:93
+#: .\templates\store\product_detail.html:95
 #: .\templates\store\product_list.html:143
 msgid "Add to Cart"
 msgstr "Саватга қўшиш"
@@ -453,7 +453,7 @@ msgid "Shopping Cart - Avtokontinent.uz"
 msgstr "Харидлар савати - Avtokontinent.uz"
 
 #: .\templates\store\cart.html:28 .\templates\store\favorites.html:48
-#: .\templates\store\product_detail.html:107
+#: .\templates\store\product_detail.html:72
 msgid "people have this in cart"
 msgstr "та саватчада"
 
@@ -668,7 +668,7 @@ msgstr "Энг кўп лайк босилган махсулотлар"
 msgid "Products that have won the hearts of our customers"
 msgstr "Мижозларимизнинг калбини забт етган махсулотлар"
 
-#: .\templates\store\home.html:224 .\templates\store\product_detail.html:72
+#: .\templates\store\home.html:224 .\templates\store\product_detail.html:74
 msgid "likes"
 msgstr "лайклар"
 
@@ -1137,83 +1137,83 @@ msgstr "SKU:"
 msgid "In Stock"
 msgstr "мавжуд"
 
-#: .\templates\store\product_detail.html:74
+#: .\templates\store\product_detail.html:76
 msgid "comments"
 msgstr "шархлар"
 
-#: .\templates\store\product_detail.html:81
+#: .\templates\store\product_detail.html:83
 msgid "Compatible With:"
 msgstr "Мос келади:"
 
-#: .\templates\store\product_detail.html:112
+#: .\templates\store\product_detail.html:113
 msgid "Category:"
 msgstr "Категория:"
 
-#: .\templates\store\product_detail.html:119
+#: .\templates\store\product_detail.html:120
 msgid "Subcategory:"
 msgstr "Ички категория:"
 
-#: .\templates\store\product_detail.html:134
+#: .\templates\store\product_detail.html:135
 msgid "Product Description"
 msgstr "Махсулот тавсифи"
 
-#: .\templates\store\product_detail.html:147
+#: .\templates\store\product_detail.html:148
 msgid "Customer Reviews"
 msgstr "Мижозлар шархи"
 
-#: .\templates\store\product_detail.html:152
+#: .\templates\store\product_detail.html:153
 msgid "Rating"
 msgstr "Бахолаш"
 
-#: .\templates\store\product_detail.html:154
+#: .\templates\store\product_detail.html:155
 msgid "Select Rating"
 msgstr "Бахолашни танланг"
 
-#: .\templates\store\product_detail.html:155
+#: .\templates\store\product_detail.html:156
 msgid "5 Stars - Excellent"
 msgstr "5 юлдуз - Ало"
 
-#: .\templates\store\product_detail.html:156
+#: .\templates\store\product_detail.html:157
 msgid "4 Stars - Good"
 msgstr "4 юлдуз - Яхши"
 
-#: .\templates\store\product_detail.html:157
+#: .\templates\store\product_detail.html:158
 msgid "3 Stars - Average"
 msgstr "3 юлдуз - Ўртача"
 
-#: .\templates\store\product_detail.html:158
+#: .\templates\store\product_detail.html:159
 msgid "2 Stars - Poor"
 msgstr "2 юлдуз - Ўрта"
 
-#: .\templates\store\product_detail.html:159
+#: .\templates\store\product_detail.html:160
 msgid "1 Star - Terrible"
 msgstr "1 юлдуз - Йўмон"
 
-#: .\templates\store\product_detail.html:163
+#: .\templates\store\product_detail.html:164
 msgid "Your Review"
 msgstr "Сизнинг шархингиз"
 
-#: .\templates\store\product_detail.html:164
+#: .\templates\store\product_detail.html:165
 msgid "Share your experience with this product..."
 msgstr "Ушбу махсулот бўйича тажрибангизни улашинг..."
 
-#: .\templates\store\product_detail.html:167
+#: .\templates\store\product_detail.html:168
 msgid "Submit Review"
 msgstr "шархни жўнатиш"
 
-#: .\templates\store\product_detail.html:172
+#: .\templates\store\product_detail.html:173
 msgid "to write a review."
 msgstr "шарх йозиш учун."
 
-#: .\templates\store\product_detail.html:206
+#: .\templates\store\product_detail.html:207
 msgid "No reviews yet. Be the first to review this product!"
 msgstr "Ҳали шарх йўқ. Бу махсулотга биринчи бўлиб шарх йозинг!"
 
-#: .\templates\store\product_detail.html:216
+#: .\templates\store\product_detail.html:217
 msgid "Related Products"
 msgstr "Охшаш махсулотлар"
 
-#: .\templates\store\product_detail.html:239
+#: .\templates\store\product_detail.html:240
 msgid "View"
 msgstr "Кўриш"
 

@@ -84,19 +84,19 @@
 
                                     <!-- Английский заголовок -->
                                     <div class="form-group mb-3">
-                                        <label for="{{ form.title_uz_Cyrl.id_for_label }}" class="form-label">
-                                            {{ form.title_uz_Cyrl.label }}
+                                        <label for="{{ form.title_cyrl.id_for_label }}" class="form-label">
+                                            {{ form.title_cyrl.label }}
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">
                                                 <i class="fas fa-font"></i>
                                             </span>
-                                            {{ form.title_uz_Cyrl }}
+                                            {{ form.title_cyrl }}
                                         </div>
-                                        <div class="error-message text-danger" id="title_uz_Cyrl_error"></div>
-                                        {% if form.title_uz_Cyrl.errors %}
+                                        <div class="error-message text-danger" id="title_cyrl_error"></div>
+                                        {% if form.title_cyrl.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {% for error in form.title_uz_Cyrl.errors %}
+                                                {% for error in form.title_cyrl.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
                                             </div>

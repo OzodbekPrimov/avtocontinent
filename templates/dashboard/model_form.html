@@ -112,7 +112,7 @@
                                     </div>
                                     <!-- Название на английском -->
                                     <div class="form-group mb-3">
-                                        <label for="{{ form.name_uz_Cyrl.id_for_label }}" class="form-label">
+                                        <label for="{{ form.name_cyrl.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
                                             Название (на кириллице)
                                         </label>
@@ -120,13 +120,13 @@
                                             <span class="input-group-text">
                                                 <i class="fas fa-font"></i>
                                             </span>
-                                            <input type="text" class="form-control" id="{{ form.name_uz_Cyrl.id_for_label }}"
-                                                   name="{{ form.name_uz_Cyrl.name }}" value="{{ form.name_uz_Cyrl.value|default:'' }}"
+                                            <input type="text" class="form-control" id="{{ form.name_cyrl.id_for_label }}"
+                                                   name="{{ form.name_cyrl.name }}" value="{{ form.name_cyrl.value|default:'' }}"
                                                    placeholder="Введите Название на кириллице">
                                         </div>
-                                        {% if form.name_uz_Cyrl.errors %}
+                                        {% if form.name_cyrl.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {% for error in form.name_uz_Cyrl.errors %}
+                                                {% for error in form.name_cyrl.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
                                             </div>
@@ -179,16 +179,16 @@
                                     </div>
                                     <!-- Описание на кириллице -->
                                     <div class="form-group mb-3">
-                                        <label for="{{ form.description_uz_Cyrl.id_for_label }}" class="form-label">
+                                        <label for="{{ form.description_cyrl.id_for_label }}" class="form-label">
                                             <span class="flag-icon flag-icon-gb me-2"></span>
                                             Описание (на кириллице)
                                         </label>
-                                        <textarea class="form-control" id="{{ form.description_uz_Cyrl.id_for_label }}"
-                                                  name="{{ form.description_uz_Cyrl.name }}" rows="3"
-                                                  placeholder="Введите описание на кириллице">{{ form.description_uz_Cyrl.value|default:'' }}</textarea>
-                                        {% if form.description_uz_Cyrl.errors %}
+                                        <textarea class="form-control" id="{{ form.description_cyrl.id_for_label }}"
+                                                  name="{{ form.description_cyrl.name }}" rows="3"
+                                                  placeholder="Введите описание на кириллице">{{ form.description_cyrl.value|default:'' }}</textarea>
+                                        {% if form.description_cyrl.errors %}
                                             <div class="invalid-feedback d-block">
-                                                {% for error in form.description_uz_Cyrl.errors %}
+                                                {% for error in form.description_cyrl.errors %}
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
                                                 {% endfor %}
                                             </div>

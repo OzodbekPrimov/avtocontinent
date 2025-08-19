@@ -150,17 +150,17 @@ from difflib import SequenceMatcher
 from store.models import Product
 
 def advanced_search(products, query, current_lang='uz'):
-    languages = ['uz', 'ru', 'en']
+    languages = ['uz', 'ru', 'cyrl']
     query_str = query.strip()
 
     # Full-text search vector for all language fields
     search_vector = (
         SearchVector('name_uz', weight='A') +
         SearchVector('name_ru', weight='A') +
-        SearchVector('name_en', weight='A') +
+        SearchVector('name_cyrl', weight='A') +
         SearchVector('description_uz', weight='B') +
         SearchVector('description_ru', weight='B') +
-        SearchVector('description_en', weight='B')
+        SearchVector('description_cyrl', weight='B')
     )
 
     # Create search query with proper syntax

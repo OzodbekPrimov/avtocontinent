@@ -113,8 +113,8 @@
                                 <div class="d-flex flex-column">
                                     <strong>{{ model.name_uz }}</strong>
                                     <div class="text-muted small">
-                                        {% if model.name_uz_Cyrl %}{{ model.name_uz_Cyrl }}{% endif %}
-                                        {% if model.name_uz_Cyrl and model.name_ru %} | {% endif %}
+                                        {% if model.name_cyrl %}{{ model.name_cyrl }}{% endif %}
+                                        {% if model.name_cyrl and model.name_ru %} | {% endif %}
                                         {% if model.name_ru %}{{ model.name_ru }}{% endif %}
                                     </div>
                                 </div>

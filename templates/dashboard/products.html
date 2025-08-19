@@ -101,14 +101,14 @@
                         </td>
                         <td>
                             <div class="fw-semibold">
-                                {{ product.name_uz|default:product.name_uz_Cyrl|default:product.name_ru|default:"Без названия"|truncatechars:40 }}
+                                {{ product.name_uz|default:product.name_cyrl|default:product.name_ru|default:"Без названия"|truncatechars:40 }}
                             </div>
-                            {% if product.name_uz_Cyrl or product.name_ru %}
+                            {% if product.name_cyrl or product.name_ru %}
                                 <small class="text-muted">
-                                    {% if product.name_uz_Cyrl and product.name_uz_Cyrl != product.name_uz %}
-                                        {{ product.name_uz_Cyrl|truncatechars:30 }}
+                                    {% if product.name_cyrl and product.name_cyrl != product.name_uz %}
+                                        {{ product.name_cyrl|truncatechars:30 }}
                                     {% endif %}
-                                    {% if product.name_uz_Cyrl and product.name_ru and product.name_uz_Cyrl != product.name_uz and product.name_ru != product.name_uz %} | {% endif %}
+                                    {% if product.name_cyrl and product.name_ru and product.name_cyrl != product.name_uz and product.name_ru != product.name_uz %} | {% endif %}
                                     {% if product.name_ru and product.name_ru != product.name_uz %}
                                         {{ product.name_ru|truncatechars:30 }}
                                     {% endif %}
@@ -167,7 +167,7 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button class="btn btn-sm btn-outline-danger"
-                                        onclick="deleteProduct({{ product.id }}, '{{ product.name_uz|default:product.name_uz_Cyrl|default:product.name_ru }}')"
+                                        onclick="deleteProduct({{ product.id }}, '{{ product.name_uz|default:product.name_cyrl|default:product.name_ru }}')"
                                         title="Удалить">
                                     <i class="fas fa-trash"></i>
                                 </button>

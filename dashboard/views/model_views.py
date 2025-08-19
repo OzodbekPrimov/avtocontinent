@@ -25,13 +25,13 @@ def models_management(request):
     if search_query:
         models = models.filter(
             Q(name_uz__icontains=search_query) |
-            Q(name_en__icontains=search_query) |
+            Q(name_cyrl__icontains=search_query) |
             Q(name_ru__icontains=search_query) |
             Q(brand__name_uz__icontains=search_query) |
-            Q(brand__name_en__icontains=search_query) |
+            Q(brand__name_cyrl__icontains=search_query) |
             Q(brand__name_ru__icontains=search_query) |
             Q(description_uz__icontains=search_query) |
-            Q(description_en__icontains=search_query) |
+            Q(description_cyrl__icontains=search_query) |
             Q(description_ru__icontains=search_query)
         )
 

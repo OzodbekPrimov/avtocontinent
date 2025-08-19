@@ -67,10 +67,10 @@
                         </td>
                         <td>
                             <strong>{{ banner.title_uz }}</strong>
-                            {% if banner.title_uz_Cyrl or banner.title_ru %}
+                            {% if banner.title_cyrl or banner.title_ru %}
                                 <br><small class="text-muted">
-                                    {% if banner.title_uz_Cyrl %}{{ banner.title_uz_Cyrl }}{% endif %}
-                                    {% if banner.title_uz_Cyrl and banner.title_ru %} | {% endif %}
+                                    {% if banner.title_cyrl %}{{ banner.title_cyrl }}{% endif %}
+                                    {% if banner.title_cyrl and banner.title_ru %} | {% endif %}
                                     {% if banner.title_ru %}{{ banner.title_ru }}{% endif %}
                                 </small>
                             {% endif %}

@@ -31,7 +31,7 @@ class ProductForm(forms.ModelForm):
         })
     )
 
-    name_uz_Cyrl = forms.CharField(
+    name_cyrl = forms.CharField(
         max_length=200,
         required=True,
         label="Name (Krill)",
@@ -62,7 +62,7 @@ class ProductForm(forms.ModelForm):
         })
     )
 
-    description_uz_Cyrl = forms.CharField(
+    description_cyrl = forms.CharField(
         required=True,
         label="Description (Krilcha)",
         widget=forms.Textarea(attrs={
@@ -209,8 +209,8 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name_uz', 'name_uz_Cyrl', 'name_ru',
-            'description_uz', 'description_uz_Cyrl', 'description_ru',
+            'name_uz', 'name_cyrl', 'name_ru',
+            'description_uz', 'description_cyrl', 'description_cyrl',
             'sku', 'slug', 'category',
             'compatible_models', 'price_usd', 'stock_quantity',
             'main_image', 'youtube_video_id', 'is_active', 'is_featured'
@@ -327,7 +327,7 @@ class BannerForm(forms.ModelForm):
             'placeholder': "Ruscha sarlavha kiriting (ixtiyoriy)"
         })
     )
-    title_uz_Cyrl = forms.CharField(
+    title_cyrl = forms.CharField(
         max_length=200,
         required=False,
         widget=forms.TextInput(attrs={
@@ -373,7 +373,7 @@ class BannerForm(forms.ModelForm):
         # Label va placeholderlarni tilga moslashtirish
         self.fields['title_uz'].label = "Sarlavha (Oʻzbekcha)"
         self.fields['title_ru'].label = "Заголовок (Русский)"
-        self.fields['title_uz_Cyrl'].label = "Sarlavha (Krilcha)"
+        self.fields['title_cyrl'].label = "Sarlavha (Krilcha)"
         self.fields['link'].label = "Havola URL"
         self.fields['order'].label = "Tartib"
         self.fields['is_active'].label = "Faol holati"
@@ -384,7 +384,7 @@ class BannerForm(forms.ModelForm):
             # Bitta title maydonidan barcha til maydonlarini to'ldirish
             self.fields['title_uz'].initial = self.instance.title
             self.fields['title_ru'].initial = self.instance.title
-            self.fields['title_uz_Cyrl'].initial = self.instance.title
+            self.fields['title_cyrl'].initial = self.instance.title
 
     def clean_image(self):
         image = self.cleaned_data.get('image')
@@ -426,10 +426,10 @@ class BannerForm(forms.ModelForm):
         # Title maydonlaridan birontasini tanlash yoki birlashtirib saqlash
         title_uz = self.cleaned_data.get('title_uz', '').strip()
         title_ru = self.cleaned_data.get('title_ru', '').strip()
-        title_uz_Cyrl = self.cleaned_data.get('title_uz_Cyrl', '').strip()
+        title_cyrl = self.cleaned_data.get('title_cyrl', '').strip()
 
         # Birinchi to'ldirilgan titleni olish
-        instance.title = title_uz or title_ru or title_uz_Cyrl or ''
+        instance.title = title_uz or title_ru or title_cyrl or ''
 
         if commit:
             instance.save()
@@ -441,7 +441,7 @@ from django.utils.translation import gettext_lazy as _
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name_uz', 'name_ru', 'name_uz_Cyrl', 'description_uz', 'description_ru', 'description_uz_Cyrl', 'slug',
+        fields = ['name_uz', 'name_ru', 'name_cyrl', 'description_uz', 'description_ru', 'description_cyrl', 'slug',
                   'image', 'is_active']
 
     def __init__(self, *args, **kwargs):
@@ -450,7 +450,7 @@ class CategoryForm(forms.ModelForm):
         # Barcha name maydonlarini majburiy qilish
         self.fields['name_uz'].required = True
         self.fields['name_ru'].required = True
-        self.fields['name_uz_Cyrl'].required = True
+        self.fields['name_cyrl'].required = True
 
         # Slug maydonini sozlash
         self.fields['slug'].required = False
@@ -464,10 +464,10 @@ class CategoryForm(forms.ModelForm):
         field_config = {
             'name_uz': {'label': _("Nomi (Oʻzbekcha)"), 'placeholder': _("Kategoriya nomi")},
             'name_ru': {'label': _("Название (Русский)"), 'placeholder': _("Название категории")},
-            'name_uz_Cyrl': {'label': _("Но (Krill)"), 'placeholder': _("Category name")},
+            'name_cyrl': {'label': _("Но (Krill)"), 'placeholder': _("Category name")},
             'description_uz': {'label': _("Tavsif (Oʻzbekcha)"), 'placeholder': _("Kategoriya tavsifi")},
             'description_ru': {'label': _("Описание (Русский)"), 'placeholder': _("Описание категории")},
-            'description_uz_Cyrl': {'label': _("Tavsif (Krilcha)"), 'placeholder': _("Category tavsif")},
+            'description_cyrl': {'label': _("Tavsif (Krilcha)"), 'placeholder': _("Category tavsif")},
         }
 
         for field_name, config in field_config.items():
@@ -489,7 +489,7 @@ class CategoryForm(forms.ModelForm):
         cleaned_data = super().clean()
 
         # Barcha name maydonlari to'ldirilganligini tekshirish
-        for lang in ['uz', 'ru', 'uz_Cyrl']:
+        for lang in ['uz', 'ru', 'cyrl']:
             if not cleaned_data.get(f'name_{lang}'):
                 self.add_error(f'name_{lang}', _("Ushbu maydon majburiy"))
 
@@ -527,7 +527,7 @@ class CategoryForm(forms.ModelForm):
 class BrandForm(forms.ModelForm):
     class Meta:
         model = Brand
-        fields = ['name_uz', 'name_ru', 'name_uz_Cyrl', 'description_uz', 'description_ru', 'description_uz_Cyrl',
+        fields = ['name_uz', 'name_ru', 'name_cyrl', 'description_uz', 'description_ru', 'description_cyrl',
                   'logo', 'slug', 'is_active']
 
     def __init__(self, *args, **kwargs):
@@ -547,10 +547,10 @@ class BrandForm(forms.ModelForm):
         fields_config = {
             'name_uz': {'label': _("Nomi (Oʻzbekcha)"), 'placeholder': _("Brend nomi")},
             'name_ru': {'label': _("Название (Русский)"), 'placeholder': _("Название бренда")},
-            'name_uz_Cyrl': {'label': _("Nomi (Krilcha)"), 'placeholder': _("Brand nomi")},
+            'name_cyrl': {'label': _("Nomi (Krilcha)"), 'placeholder': _("Brand nomi")},
             'description_uz': {'label': _("Tavsif (Oʻzbekcha)"), 'placeholder': _("Brend tavsifi")},
             'description_ru': {'label': _("Описание (Русский)"), 'placeholder': _("Описание бренда")},
-            'description_uz_Cyrl': {'label': _("Tavsif (Krilcha)"), 'placeholder': _("Brand tavsifi")},
+            'description_cyrl': {'label': _("Tavsif (Krilcha)"), 'placeholder': _("Brand tavsifi")},
         }
 
         for field_name, config in fields_config.items():
@@ -563,7 +563,7 @@ class BrandForm(forms.ModelForm):
                 })
 
         # Textarea uchun qo'shimcha sozlashlar
-        for field in ['description_uz', 'description_ru', 'description_uz_Cyrl']:
+        for field in ['description_uz', 'description_ru', 'description_cyrl']:
             if field in self.fields:
                 self.fields[field].widget.attrs.update({
                     'rows': 3
@@ -573,7 +573,7 @@ class BrandForm(forms.ModelForm):
         cleaned_data = super().clean()
 
         # Barcha name maydonlari to'ldirilganligini tekshirish
-        for lang in ['uz', 'ru', 'uz_Cyrl']:
+        for lang in ['uz', 'ru', 'cyrl']:
             if not cleaned_data.get(f'name_{lang}'):
                 self.add_error(f'name_{lang}', _("Ushbu maydon majburiy"))
 
@@ -613,15 +613,15 @@ class CarModelForm(forms.ModelForm):
         model = CarModel
         fields = [
             'brand', 'image',
-            'name_uz', 'name_ru', 'name_uz_Cyrl',
+            'name_uz', 'name_ru', 'name_cyrl',
             'slug',
-            'description_uz', 'description_ru', 'description_uz_Cyrl',
+            'description_uz', 'description_ru', 'description_cyrl',
             'is_active'
         ]
         widgets = {
             'description_uz': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'description_ru': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-            'description_uz_Cyrl': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'description_cyrl': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'brand': forms.Select(attrs={'class': 'form-control select2'}),
             'slug': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -637,7 +637,7 @@ class CarModelForm(forms.ModelForm):
         self.fields['image'].required = not bool(self.instance.pk)  # Faqat yangi yaratishda majburiy
         self.fields['name_uz'].required = True
         self.fields['name_ru'].required = False  # Ruscha nom majburiy emas
-        self.fields['name_uz_Cyrl'].required = False  # Inglizcha nom majburiy emas
+        self.fields['name_cyrl'].required = False  # Inglizcha nom majburiy emas
 
         # Slug maydoni sozlamalari
         self.fields['slug'].required = False
@@ -657,13 +657,13 @@ class CarModelForm(forms.ModelForm):
         name_config = {
             'name_uz': {'label': _("Oʻzbekcha nom"), 'placeholder': _("Model nomi")},
             'name_ru': {'label': _("Ruscha nom"), 'placeholder': _("Название модели")},
-            'name_uz_Cyrl': {'label': _("Krilcha nom"), 'placeholder': _("Model nomi")},
+            'name_cyrl': {'label': _("Krilcha nom"), 'placeholder': _("Model nomi")},
         }
 
         description_config = {
             'description_uz': {'label': _("Oʻzbekcha tavsif"), 'placeholder': _("Model haqida ma'lumot")},
             'description_ru': {'label': _("Ruscha tavsif"), 'placeholder': _("Описание модели")},
-            'description_uz_Cyrl': {'label': _("Krilcha tavsif"), 'placeholder': _("Model tavsifi")},
+            'description_cyrl': {'label': _("Krilcha tavsif"), 'placeholder': _("Model tavsifi")},
         }
 
         for field_name, config in name_config.items():
@@ -681,7 +681,7 @@ class CarModelForm(forms.ModelForm):
         name_uz = cleaned_data.get('name_uz')
 
         # Kamida bitta nom kiritilganligini tekshirish
-        if not any(cleaned_data.get(f'name_{lang}') for lang in ['uz', 'ru', 'uz_Cyrl']):
+        if not any(cleaned_data.get(f'name_{lang}') for lang in ['uz', 'ru', 'cyrl']):
             raise forms.ValidationError(_("Kamida bitta til uchun nom kiritishingiz kerak"))
 
         # Agar slug kiritilmagan bo'lsa, o'zbekcha nomdan avtomatik yaratish

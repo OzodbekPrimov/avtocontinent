@@ -21,7 +21,7 @@ def banners_management(request):
     if search_query:
         banners = banners.filter(
             Q(title_uz__icontains=search_query) |
-            Q(title_en__icontains=search_query) |
+            Q(title_cyrl__icontains=search_query) |
             Q(title_ru__icontains=search_query)
 
         )
