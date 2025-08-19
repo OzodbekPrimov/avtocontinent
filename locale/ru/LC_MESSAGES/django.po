@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-09 16:07+0500\n"
+"POT-Creation-Date: 2025-08-19 01:39+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,155 +26,171 @@ msgstr "Админ Avtokontinent.uz"
 msgid "Welcome to Avtokontinent.uz Administration"
 msgstr "Добро пожаловать в администрацию Avtokontinent.uz"
 
-#: .\dashboard\forms.py:454 .\dashboard\forms.py:537
+#: .\dashboard\forms.py:465 .\dashboard\forms.py:548
 msgid "Nomi (Oʻzbekcha)"
 msgstr "Название (Узбекский)"
 
-#: .\dashboard\forms.py:454
+#: .\dashboard\forms.py:465
 msgid "Kategoriya nomi"
 msgstr "Название категории"
 
-#: .\dashboard\forms.py:455 .\dashboard\forms.py:538
+#: .\dashboard\forms.py:466 .\dashboard\forms.py:549
 msgid "Название (Русский)"
 msgstr "Название (Русский)"
 
-#: .\dashboard\forms.py:455
+#: .\dashboard\forms.py:466
 msgid "Название категории"
 msgstr "Название категории"
 
-#: .\dashboard\forms.py:456 .\dashboard\forms.py:539
-msgid "Name (English)"
-msgstr "Название (Английский)"
+#: .\dashboard\forms.py:467
+msgid "Но (Krill)"
+msgstr ""
 
-#: .\dashboard\forms.py:456
+#: .\dashboard\forms.py:467
 msgid "Category name"
 msgstr "Название категории"
 
-#: .\dashboard\forms.py:457 .\dashboard\forms.py:540
+#: .\dashboard\forms.py:468 .\dashboard\forms.py:551
 msgid "Tavsif (Oʻzbekcha)"
 msgstr "Описание (Узбекский)"
 
-#: .\dashboard\forms.py:457
+#: .\dashboard\forms.py:468
 msgid "Kategoriya tavsifi"
 msgstr "Описание категории"
 
-#: .\dashboard\forms.py:458 .\dashboard\forms.py:541
+#: .\dashboard\forms.py:469 .\dashboard\forms.py:552
 msgid "Описание (Русский)"
 msgstr "Описание (Русский)"
 
-#: .\dashboard\forms.py:458
+#: .\dashboard\forms.py:469
 msgid "Описание категории"
 msgstr "Описание категории"
 
-#: .\dashboard\forms.py:459 .\dashboard\forms.py:542
-msgid "Description (English)"
-msgstr "Описание (Английский)"
+#: .\dashboard\forms.py:470 .\dashboard\forms.py:553
+#, fuzzy
+#| msgid "Tavsif (Oʻzbekcha)"
+msgid "Tavsif (Krilcha)"
+msgstr "Описание (Узбекский)"
 
-#: .\dashboard\forms.py:459
-msgid "Category description"
+#: .\dashboard\forms.py:470
+#, fuzzy
+#| msgid "Kategoriya tavsifi"
+msgid "Category tavsif"
 msgstr "Описание категории"
 
-#: .\dashboard\forms.py:483 .\dashboard\forms.py:567
+#: .\dashboard\forms.py:494 .\dashboard\forms.py:578
 msgid "Ushbu maydon majburiy"
 msgstr "Это поле обязательно"
 
-#: .\dashboard\forms.py:537
+#: .\dashboard\forms.py:548
 msgid "Brend nomi"
 msgstr "Название бренда"
 
-#: .\dashboard\forms.py:538
+#: .\dashboard\forms.py:549
 msgid "Название бренда"
 msgstr "Название бренда"
 
-#: .\dashboard\forms.py:539
-msgid "Brand name"
+#: .\dashboard\forms.py:550
+#, fuzzy
+#| msgid "Nomi (Oʻzbekcha)"
+msgid "Nomi (Krilcha)"
+msgstr "Название (Узбекский)"
+
+#: .\dashboard\forms.py:550
+#, fuzzy
+#| msgid "Brend nomi"
+msgid "Brand nomi"
 msgstr "Название бренда"
 
-#: .\dashboard\forms.py:540
+#: .\dashboard\forms.py:551
 msgid "Brend tavsifi"
 msgstr "Описание бренда"
 
-#: .\dashboard\forms.py:541
+#: .\dashboard\forms.py:552
 msgid "Описание бренда"
 msgstr "Описание бренда"
 
-#: .\dashboard\forms.py:542
-msgid "Brand description"
+#: .\dashboard\forms.py:553
+#, fuzzy
+#| msgid "Brend tavsifi"
+msgid "Brand tavsifi"
 msgstr "Описание бренда"
 
-#: .\dashboard\forms.py:634
+#: .\dashboard\forms.py:645
 msgid "Avtomatik yaratiladi"
 msgstr "Автоматически создается"
 
-#: .\dashboard\forms.py:635
+#: .\dashboard\forms.py:646
 msgid "URL uchun ishlatiladigan qisqa nom"
 msgstr "Краткое имя, используемое для URL"
 
-#: .\dashboard\forms.py:640
+#: .\dashboard\forms.py:651
 msgid "Brend"
 msgstr "Бренд"
 
-#: .\dashboard\forms.py:641
+#: .\dashboard\forms.py:652
 msgid "Model rasmi"
 msgstr "Изображение модели"
 
-#: .\dashboard\forms.py:642
+#: .\dashboard\forms.py:653
 msgid "Faol"
 msgstr "Активно"
 
-#: .\dashboard\forms.py:647
+#: .\dashboard\forms.py:658
 msgid "Oʻzbekcha nom"
 msgstr "Узбекский название"
 
-#: .\dashboard\forms.py:647
+#: .\dashboard\forms.py:658 .\dashboard\forms.py:660
 msgid "Model nomi"
 msgstr "Название модели"
 
-#: .\dashboard\forms.py:648
+#: .\dashboard\forms.py:659
 msgid "Ruscha nom"
 msgstr "Русский название"
 
-#: .\dashboard\forms.py:648
+#: .\dashboard\forms.py:659
 msgid "Название модели"
 msgstr "Название модели"
 
-#: .\dashboard\forms.py:649
-msgid "Inglizcha nom"
-msgstr "Английский название"
+#: .\dashboard\forms.py:660
+#, fuzzy
+#| msgid "Ruscha nom"
+msgid "Krilcha nom"
+msgstr "Русский название"
 
-#: .\dashboard\forms.py:649
-msgid "Model name"
-msgstr "Название модели"
-
-#: .\dashboard\forms.py:653
+#: .\dashboard\forms.py:664
 msgid "Oʻzbekcha tavsif"
 msgstr "Узбекский описание"
 
-#: .\dashboard\forms.py:653
+#: .\dashboard\forms.py:664
 msgid "Model haqida ma'lumot"
 msgstr "Информация о модели"
 
-#: .\dashboard\forms.py:654
+#: .\dashboard\forms.py:665
 msgid "Ruscha tavsif"
 msgstr "Русский описание"
 
-#: .\dashboard\forms.py:654
+#: .\dashboard\forms.py:665
 msgid "Описание модели"
 msgstr "Описание модели"
 
-#: .\dashboard\forms.py:655
-msgid "Inglizcha tavsif"
-msgstr "Английский описание"
+#: .\dashboard\forms.py:666
+#, fuzzy
+#| msgid "Ruscha tavsif"
+msgid "Krilcha tavsif"
+msgstr "Русский описание"
 
-#: .\dashboard\forms.py:655
-msgid "Model description"
-msgstr "Описание модели"
+#: .\dashboard\forms.py:666
+#, fuzzy
+#| msgid "Model rasmi"
+msgid "Model tavsifi"
+msgstr "Изображение модели"
 
-#: .\dashboard\forms.py:674
+#: .\dashboard\forms.py:685
 msgid "Kamida bitta til uchun nom kiritishingiz kerak"
 msgstr "Вы должны ввести название хотя бы на одном языке"
 
-#: .\dashboard\forms.py:708
+#: .\dashboard\forms.py:719
 msgid "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
 msgstr "Модель с таким слагом уже существует для этого бренда"
 
@@ -187,8 +203,8 @@ msgstr "Avtokontinent.uz - Автозапчасти"
 msgid "Search products..."
 msgstr "Поиск товаров..."
 
-#: .\templates\base.html:840 .\templates\base.html:935
-#: .\templates\base.html:942
+#: .\templates\base.html:840 .\templates\base.html:942
+#: .\templates\base.html:949
 msgid "Favorites"
 msgstr "Избранное"
 
@@ -200,47 +216,47 @@ msgstr "Корзина"
 msgid "My Account"
 msgstr "Мой аккаунт"
 
-#: .\templates\base.html:869 .\templates\base.html:977
+#: .\templates\base.html:869 .\templates\base.html:984
 #: .\templates\store\order_detail.html:13
 #: .\templates\store\order_history.html:9
 msgid "Order History"
 msgstr "История заказов"
 
-#: .\templates\base.html:873 .\templates\base.html:981
+#: .\templates\base.html:873 .\templates\base.html:988
 msgid "Logout"
 msgstr "Выйти"
 
-#: .\templates\base.html:880 .\templates\base.html:986
-#: .\templates\base.html:988 .\templates\store\login.html:16
-#: .\templates\store\product_detail.html:165
+#: .\templates\base.html:880 .\templates\base.html:993
+#: .\templates\base.html:995 .\templates\store\login.html:16
+#: .\templates\store\product_detail.html:172
 msgid "Login"
 msgstr "Вход"
 
-#: .\templates\base.html:918 .\templates\base.html:920
-#: .\templates\base.html:1012 .\templates\store\brand_models.html:11
+#: .\templates\base.html:925 .\templates\base.html:927
+#: .\templates\base.html:1019 .\templates\store\brand_models.html:11
 #: .\templates\store\order_detail.html:12
 #: .\templates\store\product_detail.html:12
 #: .\templates\store\product_list.html:11
 msgid "Home"
 msgstr "Главная"
 
-#: .\templates\base.html:924 .\templates\base.html:931
+#: .\templates\base.html:931 .\templates\base.html:938
 msgid "Cart"
 msgstr "Корзина"
 
-#: .\templates\base.html:946
+#: .\templates\base.html:953
 msgid "Language"
 msgstr "Язык"
 
-#: .\templates\base.html:972 .\templates\base.html:974
+#: .\templates\base.html:979 .\templates\base.html:981
 msgid "Account"
 msgstr "Аккаунт"
 
-#: .\templates\base.html:1000
+#: .\templates\base.html:1007
 msgid "Avtokontinent.uz"
 msgstr "Avtokontinent.uz"
 
-#: .\templates\base.html:1001
+#: .\templates\base.html:1008
 msgid ""
 "Your trusted partner for quality auto spare parts. We provide genuine parts "
 "for all car brands with fast delivery across Uzbekistan."
@@ -249,55 +265,55 @@ msgstr ""
 "оригинальные запчасти для всех марок автомобилей с быстрой доставкой по "
 "Узбекистану."
 
-#: .\templates\base.html:1010
+#: .\templates\base.html:1017
 msgid "Quick Links"
 msgstr "Быстрые ссылки"
 
-#: .\templates\base.html:1013 .\templates\store\product_detail.html:13
+#: .\templates\base.html:1020 .\templates\store\product_detail.html:13
 #: .\templates\store\product_list.html:12
 #: .\templates\store\product_list.html:79
 msgid "Products"
 msgstr "Продукты"
 
-#: .\templates\base.html:1014 .\templates\store\brand_models.html:12
+#: .\templates\base.html:1021 .\templates\store\brand_models.html:12
 #: .\templates\store\product_list.html:39
 msgid "Brands"
 msgstr "Бренды"
 
-#: .\templates\base.html:1015
+#: .\templates\base.html:1022
 msgid "About Us"
 msgstr "О нас"
 
-#: .\templates\base.html:1019 .\templates\store\brand_models.html:105
+#: .\templates\base.html:1026 .\templates\store\brand_models.html:105
 #: .\templates\store\product_list.html:24
 msgid "Categories"
 msgstr "Категории"
 
-#: .\templates\base.html:1027
+#: .\templates\base.html:1034
 msgid "Contact Info"
 msgstr "Контактная информация"
 
-#: .\templates\base.html:1029
+#: .\templates\base.html:1036
 msgid "Tashkent, Uzbekistan"
 msgstr "Ташкент, Узбекистан"
 
-#: .\templates\base.html:1032
+#: .\templates\base.html:1039
 msgid "Mon-Sat: 9:00 AM - 6:00 PM"
 msgstr "Пн-Сб: 9:00 - 18:00"
 
-#: .\templates\base.html:1039
+#: .\templates\base.html:1046
 msgid "Avtokontinent.uz. All rights reserved."
 msgstr "Avtokontinent.uz. Все права защищены."
 
-#: .\templates\base.html:1042
+#: .\templates\base.html:1049
 msgid "Privacy Policy"
 msgstr "Политика конфиденциальности"
 
-#: .\templates\base.html:1043
+#: .\templates\base.html:1050
 msgid "Terms of Service"
 msgstr "Условия обслуживания"
 
-#: .\templates\base.html:1044
+#: .\templates\base.html:1051
 msgid "Support"
 msgstr "Поддержка"
 
@@ -364,30 +380,30 @@ msgid "Most Popular"
 msgstr "Самые популярные"
 
 #: .\templates\store\brand_models.html:162 .\templates\store\favorites.html:23
-#: .\templates\store\product_detail.html:94
-#: .\templates\store\product_detail.html:217
+#: .\templates\store\product_detail.html:100
+#: .\templates\store\product_detail.html:224
 #: .\templates\store\product_list.html:100
 msgid "Like"
 msgstr "Нравится"
 
 #: .\templates\store\brand_models.html:165
-#: .\templates\store\product_detail.html:97
-#: .\templates\store\product_detail.html:220
+#: .\templates\store\product_detail.html:103
+#: .\templates\store\product_detail.html:227
 #: .\templates\store\product_list.html:103
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
 #: .\templates\store\brand_models.html:171
 #: .\templates\store\brand_models.html:201 .\templates\store\favorites.html:29
-#: .\templates\store\favorites.html:55 .\templates\store\product_detail.html:60
-#: .\templates\store\product_detail.html:91
+#: .\templates\store\favorites.html:56 .\templates\store\product_detail.html:66
+#: .\templates\store\product_detail.html:97
 #: .\templates\store\product_list.html:109
 #: .\templates\store\product_list.html:147
 msgid "Out of Stock"
 msgstr "Нет в наличии"
 
-#: .\templates\store\brand_models.html:189 .\templates\store\cart.html:39
-#: .\templates\store\cart.html:60 .\templates\store\cart.html:69
+#: .\templates\store\brand_models.html:189 .\templates\store\cart.html:40
+#: .\templates\store\cart.html:61 .\templates\store\cart.html:70
 #: .\templates\store\checkout.html:74 .\templates\store\checkout.html:80
 #: .\templates\store\favorites.html:43 .\templates\store\order_detail.html:66
 #: .\templates\store\order_detail.html:93
@@ -400,21 +416,21 @@ msgstr "Нет в наличии"
 #: .\templates\store\order_payment.html:45
 #: .\templates\store\order_payment.html:160
 #: .\templates\store\order_payment.html:185
-#: .\templates\store\product_detail.html:52
-#: .\templates\store\product_detail.html:229
+#: .\templates\store\product_detail.html:58
+#: .\templates\store\product_detail.html:236
 #: .\templates\store\product_list.html:135
 msgid "UZS"
 msgstr "UZS"
 
-#: .\templates\store\brand_models.html:195 .\templates\store\favorites.html:49
+#: .\templates\store\brand_models.html:195 .\templates\store\favorites.html:50
 #: .\templates\store\home.html:171 .\templates\store\home.html:234
 #: .\templates\store\order_history.html:47
 #: .\templates\store\product_list.html:141
 msgid "View Details"
 msgstr "Подробнее"
 
-#: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:51
-#: .\templates\store\product_detail.html:87
+#: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
+#: .\templates\store\product_detail.html:93
 #: .\templates\store\product_list.html:143
 msgid "Add to Cart"
 msgstr "В корзину"
@@ -438,54 +454,59 @@ msgstr "Посмотреть все товары"
 msgid "Shopping Cart - Avtokontinent.uz"
 msgstr "Корзина - Avtokontinent.uz"
 
-#: .\templates\store\cart.html:57 .\templates\store\checkout.html:70
-#: .\templates\store\order_detail.html:282
+#: .\templates\store\cart.html:28 .\templates\store\favorites.html:48
+#: .\templates\store\product_detail.html:107
+msgid "people have this in cart"
+msgstr "в корзине"
+
+#: .\templates\store\cart.html:58 .\templates\store\checkout.html:70
+#: .\templates\store\order_detail.html:279
 msgid "Order Summary"
 msgstr "Итого по заказу"
 
-#: .\templates\store\cart.html:59 .\templates\store\order_payment.html:171
+#: .\templates\store\cart.html:60 .\templates\store\order_payment.html:171
 msgid "Subtotal:"
 msgstr "Промежуточный итог:"
 
-#: .\templates\store\cart.html:63 .\templates\store\order_payment.html:175
+#: .\templates\store\cart.html:64 .\templates\store\order_payment.html:175
 msgid "Delivery:"
 msgstr "Доставка:"
 
-#: .\templates\store\cart.html:64 .\templates\store\order_detail.html:115
+#: .\templates\store\cart.html:65 .\templates\store\order_detail.html:115
 #: .\templates\store\order_payment.html:176
 msgid "Free"
 msgstr "Бесплатно"
 
-#: .\templates\store\cart.html:68 .\templates\store\checkout.html:79
+#: .\templates\store\cart.html:69 .\templates\store\checkout.html:79
 #: .\templates\store\order_payment.html:180
 msgid "Total:"
 msgstr "Итого:"
 
-#: .\templates\store\cart.html:72 .\templates\store\checkout.html:60
+#: .\templates\store\cart.html:73 .\templates\store\checkout.html:60
 msgid "Place Order"
 msgstr "Оформить заказ"
 
-#: .\templates\store\cart.html:81
+#: .\templates\store\cart.html:82
 msgid "Your cart is empty"
 msgstr "Ваша корзина пуста"
 
-#: .\templates\store\cart.html:82
+#: .\templates\store\cart.html:83
 msgid "Add some products to your cart to continue shopping"
 msgstr "Добавьте товары в корзину, чтобы продолжить покупки"
 
-#: .\templates\store\cart.html:83 .\templates\store\order_detail.html:277
+#: .\templates\store\cart.html:84 .\templates\store\order_detail.html:274
 msgid "Continue Shopping"
 msgstr "Продолжить покупки"
 
-#: .\templates\store\cart.html:137
+#: .\templates\store\cart.html:150
 msgid "Are you sure you want to remove this item?"
 msgstr "Вы уверены, что хотите удалить этот товар?"
 
-#: .\templates\store\cart.html:166
+#: .\templates\store\cart.html:179
 msgid "Item removed from cart"
 msgstr "Товар удален из корзины"
 
-#: .\templates\store\cart.html:172
+#: .\templates\store\cart.html:185
 msgid "Error removing item"
 msgstr "Ошибка при удалении товара"
 
@@ -553,43 +574,43 @@ msgstr "Мои избранные"
 msgid "Remove from Favorites"
 msgstr "Удалить из избранного"
 
-#: .\templates\store\favorites.html:69 .\templates\store\favorites.html:166
+#: .\templates\store\favorites.html:70 .\templates\store\favorites.html:167
 msgid "No favorites yet"
 msgstr "Избранное пока пусто"
 
-#: .\templates\store\favorites.html:70 .\templates\store\favorites.html:167
+#: .\templates\store\favorites.html:71 .\templates\store\favorites.html:168
 msgid "Start adding products to your favorites to see them here"
 msgstr "Начните добавлять товары в избранное, чтобы увидеть их здесь"
 
-#: .\templates\store\favorites.html:71 .\templates\store\favorites.html:168
+#: .\templates\store\favorites.html:72 .\templates\store\favorites.html:169
 msgid "Browse Products"
 msgstr "Посмотреть товары"
 
-#: .\templates\store\favorites.html:176
+#: .\templates\store\favorites.html:177
 #, fuzzy
 #| msgid "Remove from Favorites"
 msgid "Removed from favorites!"
 msgstr "Удалить из избранного"
 
-#: .\templates\store\favorites.html:180
+#: .\templates\store\favorites.html:181
 #, fuzzy
 #| msgid "Add to Favorites"
 msgid "Added to favorites!"
 msgstr "Добавить в избранное"
 
-#: .\templates\store\favorites.html:207 .\templates\store\favorites.html:234
+#: .\templates\store\favorites.html:208 .\templates\store\favorites.html:235
 #, fuzzy
 #| msgid "Network error. Please try again."
 msgid "Error occurred. Please try again."
 msgstr "Ошибка сети. Пожалуйста, попробуйте снова."
 
-#: .\templates\store\favorites.html:228
+#: .\templates\store\favorites.html:229
 #, fuzzy
 #| msgid "Like"
 msgid "Liked!"
 msgstr "Нравится"
 
-#: .\templates\store\favorites.html:228
+#: .\templates\store\favorites.html:229
 #, fuzzy
 #| msgid "likes"
 msgid "Unliked!"
@@ -659,7 +680,7 @@ msgstr "Самые популярные товары"
 msgid "Products that have won the hearts of our customers"
 msgstr "Товары, покорившие сердца наших клиентов"
 
-#: .\templates\store\home.html:224 .\templates\store\product_detail.html:66
+#: .\templates\store\home.html:224 .\templates\store\product_detail.html:72
 msgid "likes"
 msgstr "нравится"
 
@@ -685,64 +706,64 @@ msgstr "Получите код от бота"
 msgid "Open Telegram Bot"
 msgstr "Открыть Telegram бота"
 
-#: .\templates\store\login.html:58 .\templates\store\verify_code.html:29
+#: .\templates\store\login.html:64 .\templates\store\verify_code.html:29
 msgid "4-Digit Verification Code"
 msgstr "4-значный код подтверждения"
 
-#: .\templates\store\login.html:78 .\templates\store\verify_code.html:34
+#: .\templates\store\login.html:84 .\templates\store\verify_code.html:34
 msgid "Enter the 4-digit code you received from the Telegram bot"
 msgstr "Введите 4-значный код, полученный от Telegram бота"
 
-#: .\templates\store\login.html:89 .\templates\store\login.html:280
+#: .\templates\store\login.html:95 .\templates\store\login.html:286
 #: .\templates\store\verify_code.html:39
 msgid "Verify & Login"
 msgstr "Подтвердить и войти"
 
-#: .\templates\store\login.html:107
+#: .\templates\store\login.html:113
 #, fuzzy
 #| msgid "Steps to get your code:"
 msgid "How to get your code"
 msgstr "Как получить код:"
 
-#: .\templates\store\login.html:117
+#: .\templates\store\login.html:123
 msgid "Steps to get your code:"
 msgstr "Как получить код:"
 
-#: .\templates\store\login.html:121
+#: .\templates\store\login.html:127
 msgid "Click the Telegram bot link above"
 msgstr "Нажмите на ссылку Telegram бота выше"
 
-#: .\templates\store\login.html:122
+#: .\templates\store\login.html:128
 msgid "Start the bot and share your contact"
 msgstr "Запустите бота и отправьте контакт"
 
-#: .\templates\store\login.html:123
+#: .\templates\store\login.html:129
 msgid "Receive your 4-digit code"
 msgstr "Получите 4-значный код"
 
-#: .\templates\store\login.html:124
+#: .\templates\store\login.html:130
 msgid "Enter the code here to login"
 msgstr "Введите код здесь для входа"
 
-#: .\templates\store\login.html:134
+#: .\templates\store\login.html:140
 #, fuzzy
 #| msgid "Code expires in 1 minute"
 msgid "Code expires in 2 minute"
 msgstr "Код истекает через 1 минуту"
 
-#: .\templates\store\login.html:200
+#: .\templates\store\login.html:206
 msgid "Please enter a valid 4-digit code."
 msgstr "Пожалуйста, введите действительный 4-значный код."
 
-#: .\templates\store\login.html:216
+#: .\templates\store\login.html:222
 msgid "Checking..."
 msgstr "Проверка..."
 
-#: .\templates\store\login.html:250
+#: .\templates\store\login.html:256
 msgid "Success!"
 msgstr ""
 
-#: .\templates\store\login.html:269
+#: .\templates\store\login.html:275
 msgid "Network error. Please try again."
 msgstr "Ошибка сети. Пожалуйста, попробуйте снова."
 
@@ -895,8 +916,8 @@ msgid "Amount Paid"
 msgstr "Сумма оплачена"
 
 #: .\templates\store\order_detail.html:219
-#: .\templates\store\order_detail.html:315
-#: .\templates\store\order_detail.html:319
+#: .\templates\store\order_detail.html:312
+#: .\templates\store\order_detail.html:316
 #: .\templates\store\order_payment.html:82
 msgid "Payment Screenshot"
 msgstr "Скриншот оплаты"
@@ -925,48 +946,43 @@ msgstr "Сумма к оплате"
 msgid "Your order is waiting for payment confirmation."
 msgstr "Ваш заказ ожидает подтверждения оплаты."
 
-#: .\templates\store\order_detail.html:260
-msgid "Please contact our support team to complete your payment."
-msgstr ""
-"Пожалуйста, свяжитесь с нашей службой поддержки, чтобы завершить оплату."
-
-#: .\templates\store\order_detail.html:269
+#: .\templates\store\order_detail.html:266
 msgid "Actions"
 msgstr "Действия"
 
-#: .\templates\store\order_detail.html:274
+#: .\templates\store\order_detail.html:271
 msgid "Back to Orders"
 msgstr "Назад к заказам"
 
-#: .\templates\store\order_detail.html:284
+#: .\templates\store\order_detail.html:281
 msgid "Items"
 msgstr "Товары"
 
-#: .\templates\store\order_detail.html:288
+#: .\templates\store\order_detail.html:285
 msgid "Total Quantity"
 msgstr "Общее количество"
 
-#: .\templates\store\order_detail.html:299
+#: .\templates\store\order_detail.html:296
 msgid "Order Value"
 msgstr "Стоимость заказа"
 
-#: .\templates\store\order_detail.html:322
+#: .\templates\store\order_detail.html:319
 msgid "Payment Amount"
 msgstr "Сумма оплаты"
 
-#: .\templates\store\order_detail.html:324
+#: .\templates\store\order_detail.html:321
 msgid "USD Equivalent"
 msgstr "Эквивалент в USD"
 
-#: .\templates\store\order_detail.html:326
+#: .\templates\store\order_detail.html:323
 msgid "Exchange Rate Used"
 msgstr "Использованный курс обмена"
 
-#: .\templates\store\order_detail.html:429
+#: .\templates\store\order_detail.html:426
 msgid "Are you sure you want to cancel this order?"
 msgstr "Вы уверены, что хотите отменить этот заказ?"
 
-#: .\templates\store\order_detail.html:431
+#: .\templates\store\order_detail.html:428
 msgid "Order cancellation requested. We will contact you shortly."
 msgstr ""
 "Запрос на отмену заказа отправлен. Мы свяжемся с вами в ближайшее время."
@@ -1125,96 +1141,96 @@ msgstr "Загрузка..."
 msgid "Image selected successfully!"
 msgstr "Изображение успешно выбрано!"
 
-#: .\templates\store\product_detail.html:36
-#: .\templates\store\product_detail.html:38
+#: .\templates\store\product_detail.html:42
+#: .\templates\store\product_detail.html:44
 msgid "Product Video"
 msgstr "Видео товара"
 
-#: .\templates\store\product_detail.html:50
+#: .\templates\store\product_detail.html:56
 msgid "SKU:"
 msgstr "Артикул:"
 
-#: .\templates\store\product_detail.html:58
+#: .\templates\store\product_detail.html:64
 msgid "In Stock"
 msgstr "В наличии"
 
-#: .\templates\store\product_detail.html:68
+#: .\templates\store\product_detail.html:74
 msgid "comments"
 msgstr "комментарии"
 
-#: .\templates\store\product_detail.html:75
+#: .\templates\store\product_detail.html:81
 msgid "Compatible With:"
 msgstr "Совместимо с:"
 
-#: .\templates\store\product_detail.html:105
+#: .\templates\store\product_detail.html:112
 msgid "Category:"
 msgstr "Категория:"
 
-#: .\templates\store\product_detail.html:112
+#: .\templates\store\product_detail.html:119
 msgid "Subcategory:"
 msgstr "Подкатегория:"
 
-#: .\templates\store\product_detail.html:127
+#: .\templates\store\product_detail.html:134
 msgid "Product Description"
 msgstr "Описание товара"
 
-#: .\templates\store\product_detail.html:140
+#: .\templates\store\product_detail.html:147
 msgid "Customer Reviews"
 msgstr "Отзывы клиентов"
 
-#: .\templates\store\product_detail.html:145
+#: .\templates\store\product_detail.html:152
 msgid "Rating"
 msgstr "Оценка"
 
-#: .\templates\store\product_detail.html:147
+#: .\templates\store\product_detail.html:154
 msgid "Select Rating"
 msgstr "Выберите оценку"
 
-#: .\templates\store\product_detail.html:148
+#: .\templates\store\product_detail.html:155
 msgid "5 Stars - Excellent"
 msgstr "5 звёзд — Отлично"
 
-#: .\templates\store\product_detail.html:149
+#: .\templates\store\product_detail.html:156
 msgid "4 Stars - Good"
 msgstr "4 звезды — Хорошо"
 
-#: .\templates\store\product_detail.html:150
+#: .\templates\store\product_detail.html:157
 msgid "3 Stars - Average"
 msgstr "3 звезды — Средне"
 
-#: .\templates\store\product_detail.html:151
+#: .\templates\store\product_detail.html:158
 msgid "2 Stars - Poor"
 msgstr "2 звезды — Плохо"
 
-#: .\templates\store\product_detail.html:152
+#: .\templates\store\product_detail.html:159
 msgid "1 Star - Terrible"
 msgstr "1 звезда — Ужасно"
 
-#: .\templates\store\product_detail.html:156
+#: .\templates\store\product_detail.html:163
 msgid "Your Review"
 msgstr "Ваш отзыв"
 
-#: .\templates\store\product_detail.html:157
+#: .\templates\store\product_detail.html:164
 msgid "Share your experience with this product..."
 msgstr "Поделитесь своим опытом использования этого товара..."
 
-#: .\templates\store\product_detail.html:160
+#: .\templates\store\product_detail.html:167
 msgid "Submit Review"
 msgstr "Оставить отзыв"
 
-#: .\templates\store\product_detail.html:165
+#: .\templates\store\product_detail.html:172
 msgid "to write a review."
 msgstr "чтобы написать отзыв."
 
-#: .\templates\store\product_detail.html:199
+#: .\templates\store\product_detail.html:206
 msgid "No reviews yet. Be the first to review this product!"
 msgstr "Отзывов пока нет. Будьте первым, кто оставит отзыв!"
 
-#: .\templates\store\product_detail.html:209
+#: .\templates\store\product_detail.html:216
 msgid "Related Products"
 msgstr "Похожие товары"
 
-#: .\templates\store\product_detail.html:232
+#: .\templates\store\product_detail.html:239
 msgid "View"
 msgstr "Просмотр"
 
@@ -1265,6 +1281,37 @@ msgstr "Код истекает через 1 минуту"
 #: .\templates\store\verify_code.html:53
 msgid "Back to Login"
 msgstr "Назад к входу"
+
+#~ msgid "Name (English)"
+#~ msgstr "Название (Английский)"
+
+#~ msgid "Description (English)"
+#~ msgstr "Описание (Английский)"
+
+#~ msgid "Category description"
+#~ msgstr "Описание категории"
+
+#~ msgid "Brand name"
+#~ msgstr "Название бренда"
+
+#~ msgid "Brand description"
+#~ msgstr "Описание бренда"
+
+#~ msgid "Inglizcha nom"
+#~ msgstr "Английский название"
+
+#~ msgid "Model name"
+#~ msgstr "Название модели"
+
+#~ msgid "Inglizcha tavsif"
+#~ msgstr "Английский описание"
+
+#~ msgid "Model description"
+#~ msgstr "Описание модели"
+
+#~ msgid "Please contact our support team to complete your payment."
+#~ msgstr ""
+#~ "Пожалуйста, свяжитесь с нашей службой поддержки, чтобы завершить оплату."
 
 #~ msgid "Выберите бренд"
 #~ msgstr "Выберите бренд"

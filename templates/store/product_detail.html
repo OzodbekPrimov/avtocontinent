@@ -69,6 +69,8 @@
                     </div>
                     <div class="mb-3">
                         <small class="text-muted">
+                            🛒 {{ product.in_carts_count }} {% trans "people have this in cart" %}
+                            &nbsp;&nbsp;
                             <i class="fas fa-heart"></i> <span id="like-count-{{ product.id }}">{{ product.like_count|intcomma }}</span> {% trans "likes" %}
                             &nbsp;&nbsp;
                             <i class="fas fa-comment"></i> {{ product.comment_count|intcomma }} {% trans "comments" %}
@@ -104,7 +106,6 @@
                             <i class="far fa-star"></i>
                         </button>
                     </div>
-                    <div class="text-muted small mb-3">🛒 {{ product.in_carts_count }} {% trans "people have this in cart" %}</div>
                     <!-- Category and Brand -->
                     <div class="row g-2">
                         <div class="col-6">

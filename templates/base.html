@@ -815,7 +815,7 @@
                         <i class="fas fa-globe"></i>
                         <span class="d-none d-md-inline ms-1">
                             {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == 'uz' %}Oʻzbekcha{% elif LANGUAGE_CODE == 'uz_Cyrl' %}O'zbek(Krill){% else %}Русский{% endif %}
+                            {% if LANGUAGE_CODE == 'uz' %}Oʻzbekcha{% elif LANGUAGE_CODE == 'uz-cyrl' %}O'zbek(Krill){% else %}Русский{% endif %}
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="languageDropdown">
@@ -954,7 +954,7 @@
                     <i class="fas fa-globe"></i>
                     <span>
                         {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == 'uz' %}Oʻz{% elif LANGUAGE_CODE == 'en' %}En{% else %}Ru{% endif %}
+                        {% if LANGUAGE_CODE == 'uz' %}Oʻz{% elif LANGUAGE_CODE == 'uz-cyrl' %}Kr{% else %}Ru{% endif %}
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="languageDropdownMobile">

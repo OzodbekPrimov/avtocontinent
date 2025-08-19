@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 18:44+0500\n"
+"POT-Creation-Date: 2025-08-19 01:39+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,9 +41,9 @@ msgstr "Номи (Русча)"
 msgid "Название категории"
 msgstr "Категория номи"
 
-#: .\dashboard\forms.py:467 .\dashboard\forms.py:550
-msgid "Name (English)"
-msgstr "Номи (Инглизча)"
+#: .\dashboard\forms.py:467
+msgid "Но (Krill)"
+msgstr ""
 
 #: .\dashboard\forms.py:467
 msgid "Category name"
@@ -66,11 +66,15 @@ msgid "Описание категории"
 msgstr "Категория тавсифи"
 
 #: .\dashboard\forms.py:470 .\dashboard\forms.py:553
-msgid "Description (English)"
-msgstr "Тавсифи (Инглизча)"
+#, fuzzy
+#| msgid "Tavsif (Oʻzbekcha)"
+msgid "Tavsif (Krilcha)"
+msgstr "Тавсифи (Ўзбекча)"
 
 #: .\dashboard\forms.py:470
-msgid "Category description"
+#, fuzzy
+#| msgid "Kategoriya tavsifi"
+msgid "Category tavsif"
 msgstr "Категория тавсифи"
 
 #: .\dashboard\forms.py:494 .\dashboard\forms.py:578
@@ -86,7 +90,15 @@ msgid "Название бренда"
 msgstr "Бренд номи"
 
 #: .\dashboard\forms.py:550
-msgid "Brand name"
+#, fuzzy
+#| msgid "Nomi (Oʻzbekcha)"
+msgid "Nomi (Krilcha)"
+msgstr "Номи (Ўзбекча)"
+
+#: .\dashboard\forms.py:550
+#, fuzzy
+#| msgid "Brend nomi"
+msgid "Brand nomi"
 msgstr "Бренд номи"
 
 #: .\dashboard\forms.py:551
@@ -98,7 +110,9 @@ msgid "Описание бренда"
 msgstr "Бренд тавсифи"
 
 #: .\dashboard\forms.py:553
-msgid "Brand description"
+#, fuzzy
+#| msgid "Brend tavsifi"
+msgid "Brand tavsifi"
 msgstr "Бренд тавсифи"
 
 #: .\dashboard\forms.py:645
@@ -125,7 +139,7 @@ msgstr "Фаол"
 msgid "Oʻzbekcha nom"
 msgstr "Ўзбекча ном"
 
-#: .\dashboard\forms.py:658
+#: .\dashboard\forms.py:658 .\dashboard\forms.py:660
 msgid "Model nomi"
 msgstr "Модел номи"
 
@@ -138,12 +152,10 @@ msgid "Название модели"
 msgstr "Модел номи"
 
 #: .\dashboard\forms.py:660
-msgid "Inglizcha nom"
-msgstr "Инглизча ном"
-
-#: .\dashboard\forms.py:660
-msgid "Model name"
-msgstr "Модел номи"
+#, fuzzy
+#| msgid "Ruscha nom"
+msgid "Krilcha nom"
+msgstr "Русча ном"
 
 #: .\dashboard\forms.py:664
 msgid "Oʻzbekcha tavsif"
@@ -162,12 +174,16 @@ msgid "Описание модели"
 msgstr "Модел тавсифи"
 
 #: .\dashboard\forms.py:666
-msgid "Inglizcha tavsif"
-msgstr "Инглизча тавсиф"
+#, fuzzy
+#| msgid "Ruscha tavsif"
+msgid "Krilcha tavsif"
+msgstr "Русча тавсиф"
 
 #: .\dashboard\forms.py:666
-msgid "Model description"
-msgstr "Модел тавсифи"
+#, fuzzy
+#| msgid "Model rasmi"
+msgid "Model tavsifi"
+msgstr "Модел расми"
 
 #: .\dashboard\forms.py:685
 msgid "Kamida bitta til uchun nom kiritishingiz kerak"
@@ -244,7 +260,8 @@ msgid ""
 "Your trusted partner for quality auto spare parts. We provide genuine parts "
 "for all car brands with fast delivery across Uzbekistan."
 msgstr ""
-"Сифатли авто еҳтиёт қисмлари учун ишончли ҳамкорингиз. Биз барча автомобил брендлари учун оригинал қисмларни Ўзбекистон бўйлаб тез етказиб берамиз."
+"Сифатли авто еҳтиёт қисмлари учун ишончли ҳамкорингиз. Биз барча автомобил "
+"брендлари учун оригинал қисмларни Ўзбекистон бўйлаб тез етказиб берамиз."
 
 #: .\templates\base.html:1017
 msgid "Quick Links"
@@ -408,7 +425,7 @@ msgstr "Сўм"
 #: .\templates\store\order_history.html:47
 #: .\templates\store\product_list.html:141
 msgid "View Details"
-msgstr "Батафсил қўриш"
+msgstr "Батафсил"
 
 #: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
 #: .\templates\store\product_detail.html:93
@@ -438,7 +455,7 @@ msgstr "Харидлар савати - Avtokontinent.uz"
 #: .\templates\store\cart.html:28 .\templates\store\favorites.html:48
 #: .\templates\store\product_detail.html:107
 msgid "people have this in cart"
-msgstr "нафар одам бу махсулотни саватига қўшган"
+msgstr "та саватчада"
 
 #: .\templates\store\cart.html:58 .\templates\store\checkout.html:70
 #: .\templates\store\order_detail.html:279
@@ -970,7 +987,9 @@ msgstr "Ҳали буюртма йўқ"
 
 #: .\templates\store\order_history.html:60
 msgid "Your order history will appear here once you make your first purchase"
-msgstr "Сизнинг буюртма тарихингиз биринчи сотиб олишингиздан кейин шу ерда пайдо бўлади"
+msgstr ""
+"Сизнинг буюртма тарихингиз биринчи сотиб олишингиздан кейин шу ерда пайдо "
+"бўлади"
 
 #: .\templates\store\order_history.html:61
 msgid "Start Shopping"
@@ -1034,7 +1053,8 @@ msgid ""
 "Please upload a clear screenshot showing the payment confirmation. Supported "
 "formats: JPG, PNG, GIF"
 msgstr ""
-"Илтимос, тўлов тасдиқини кўрсатадиган анча тоза скриншот юкланг. Қўллаб-қувватланувчи форматлар: JPG, PNG, GIF"
+"Илтимос, тўлов тасдиқини кўрсатадиган анча тоза скриншот юкланг. Қўллаб-"
+"қувватланувчи форматлар: JPG, PNG, GIF"
 
 #: .\templates\store\order_payment.html:98
 msgid "Back to Order"
@@ -1062,7 +1082,9 @@ msgstr "Бир дона нархи:"
 
 #: .\templates\store\order_payment.html:198
 msgid "Please transfer the exact amount shown above to avoid payment delays."
-msgstr "Тўловни кечиктиришни олдини олиш учун юқорида кўрсатилган аниқ суммани юборинг."
+msgstr ""
+"Тўловни кечиктиришни олдини олиш учун юқорида кўрсатилган аниқ суммани "
+"юборинг."
 
 #: .\templates\store\order_payment.html:207
 msgid "Need Help?"
@@ -1074,7 +1096,8 @@ msgstr "Тўлов жараёни бўйича саволларингиз бўл
 
 #: .\templates\store\order_payment.html:224
 msgid "Payment confirmation usually takes 1-2 hours during business hours."
-msgstr "Тўлов тасдиқи оддий холатда иш кунлари давомида 1-2 соат олароқ давом этади."
+msgstr ""
+"Тўлов тасдиқи оддий холатда иш кунлари давомида 1-2 соат олароқ давом этади."
 
 #: .\templates\store\order_payment.html:342
 #: .\templates\store\order_payment.html:370
@@ -1241,3 +1264,30 @@ msgstr "Код 1 дақиқадан сўнг амалдан чиқади"
 #: .\templates\store\verify_code.html:53
 msgid "Back to Login"
 msgstr "Киришга қайтиш"
+
+#~ msgid "Name (English)"
+#~ msgstr "Номи (Инглизча)"
+
+#~ msgid "Description (English)"
+#~ msgstr "Тавсифи (Инглизча)"
+
+#~ msgid "Category description"
+#~ msgstr "Категория тавсифи"
+
+#~ msgid "Brand name"
+#~ msgstr "Бренд номи"
+
+#~ msgid "Brand description"
+#~ msgstr "Бренд тавсифи"
+
+#~ msgid "Inglizcha nom"
+#~ msgstr "Инглизча ном"
+
+#~ msgid "Model name"
+#~ msgstr "Модел номи"
+
+#~ msgid "Inglizcha tavsif"
+#~ msgstr "Инглизча тавсиф"
+
+#~ msgid "Model description"
+#~ msgstr "Модел тавсифи"
