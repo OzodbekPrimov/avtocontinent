@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 23:02+0500\n"
+"POT-Creation-Date: 2025-08-29 01:10+0500\n"
 "PO-Revision-Date: 2025-08-07 12:05+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: O‘zbek <uz@li.org>\n"
@@ -21,171 +21,171 @@ msgstr "Avtokontinent.uz Admin"
 msgid "Welcome to Avtokontinent.uz Administration"
 msgstr "Avtokontinent.uz ma’muriyatiga xush kelibsiz"
 
-#: .\dashboard\forms.py:465 .\dashboard\forms.py:548
+#: .\dashboard\forms.py:479 .\dashboard\forms.py:562
 msgid "Nomi (Oʻzbekcha)"
 msgstr "Nomi (O‘zbekcha)"
 
-#: .\dashboard\forms.py:465
+#: .\dashboard\forms.py:479
 msgid "Kategoriya nomi"
 msgstr "Kategoriya nomi"
 
-#: .\dashboard\forms.py:466 .\dashboard\forms.py:549
+#: .\dashboard\forms.py:480 .\dashboard\forms.py:563
 msgid "Название (Русский)"
 msgstr "Nomi (Ruscha)"
 
-#: .\dashboard\forms.py:466
+#: .\dashboard\forms.py:480
 msgid "Название категории"
 msgstr "Kategoriya nomi (Ruscha)"
 
-#: .\dashboard\forms.py:467
+#: .\dashboard\forms.py:481
 msgid "Но (Krill)"
 msgstr ""
 
-#: .\dashboard\forms.py:467
+#: .\dashboard\forms.py:481
 msgid "Category name"
 msgstr "Kategoriya nomi (Inglizcha)"
 
-#: .\dashboard\forms.py:468 .\dashboard\forms.py:551
+#: .\dashboard\forms.py:482 .\dashboard\forms.py:565
 msgid "Tavsif (Oʻzbekcha)"
 msgstr "Tavsif (O‘zbekcha)"
 
-#: .\dashboard\forms.py:468
+#: .\dashboard\forms.py:482
 msgid "Kategoriya tavsifi"
 msgstr "Kategoriya tavsifi"
 
-#: .\dashboard\forms.py:469 .\dashboard\forms.py:552
+#: .\dashboard\forms.py:483 .\dashboard\forms.py:566
 msgid "Описание (Русский)"
 msgstr "Tavsif (Ruscha)"
 
-#: .\dashboard\forms.py:469
+#: .\dashboard\forms.py:483
 msgid "Описание категории"
 msgstr "Kategoriya tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:470 .\dashboard\forms.py:553
+#: .\dashboard\forms.py:484 .\dashboard\forms.py:567
 #, fuzzy
 #| msgid "Tavsif (Oʻzbekcha)"
 msgid "Tavsif (Krilcha)"
 msgstr "Tavsif (O‘zbekcha)"
 
-#: .\dashboard\forms.py:470
+#: .\dashboard\forms.py:484
 #, fuzzy
 #| msgid "Kategoriya tavsifi"
 msgid "Category tavsif"
 msgstr "Kategoriya tavsifi"
 
-#: .\dashboard\forms.py:494 .\dashboard\forms.py:578
+#: .\dashboard\forms.py:508 .\dashboard\forms.py:592
 msgid "Ushbu maydon majburiy"
 msgstr "Ushbu maydon majburiy"
 
-#: .\dashboard\forms.py:548
+#: .\dashboard\forms.py:562
 msgid "Brend nomi"
 msgstr "Brend nomi"
 
-#: .\dashboard\forms.py:549
+#: .\dashboard\forms.py:563
 msgid "Название бренда"
 msgstr "Brend nomi (Ruscha)"
 
-#: .\dashboard\forms.py:550
+#: .\dashboard\forms.py:564
 #, fuzzy
 #| msgid "Nomi (Oʻzbekcha)"
 msgid "Nomi (Krilcha)"
 msgstr "Nomi (O‘zbekcha)"
 
-#: .\dashboard\forms.py:550
+#: .\dashboard\forms.py:564
 #, fuzzy
 #| msgid "Brend nomi"
 msgid "Brand nomi"
 msgstr "Brend nomi"
 
-#: .\dashboard\forms.py:551
+#: .\dashboard\forms.py:565
 msgid "Brend tavsifi"
 msgstr "Brend tavsifi"
 
-#: .\dashboard\forms.py:552
+#: .\dashboard\forms.py:566
 msgid "Описание бренда"
 msgstr "Brend tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:553
+#: .\dashboard\forms.py:567
 #, fuzzy
 #| msgid "Brend tavsifi"
 msgid "Brand tavsifi"
 msgstr "Brend tavsifi"
 
-#: .\dashboard\forms.py:645
+#: .\dashboard\forms.py:659
 msgid "Avtomatik yaratiladi"
 msgstr "Avtomatik yaratiladi"
 
-#: .\dashboard\forms.py:646
+#: .\dashboard\forms.py:660
 msgid "URL uchun ishlatiladigan qisqa nom"
 msgstr "URL uchun ishlatiladigan qisqa nom"
 
-#: .\dashboard\forms.py:651
+#: .\dashboard\forms.py:665
 msgid "Brend"
 msgstr "Brend"
 
-#: .\dashboard\forms.py:652
+#: .\dashboard\forms.py:666
 msgid "Model rasmi"
 msgstr "Model rasmi"
 
-#: .\dashboard\forms.py:653
+#: .\dashboard\forms.py:667
 msgid "Faol"
 msgstr "Faol"
 
-#: .\dashboard\forms.py:658
+#: .\dashboard\forms.py:672
 msgid "Oʻzbekcha nom"
 msgstr "O‘zbekcha nom"
 
-#: .\dashboard\forms.py:658 .\dashboard\forms.py:660
+#: .\dashboard\forms.py:672 .\dashboard\forms.py:674
 msgid "Model nomi"
 msgstr "Model nomi"
 
-#: .\dashboard\forms.py:659
+#: .\dashboard\forms.py:673
 msgid "Ruscha nom"
 msgstr "Ruscha nom"
 
-#: .\dashboard\forms.py:659
+#: .\dashboard\forms.py:673
 msgid "Название модели"
 msgstr "Model nomi (Ruscha)"
 
-#: .\dashboard\forms.py:660
+#: .\dashboard\forms.py:674
 #, fuzzy
 #| msgid "Ruscha nom"
 msgid "Krilcha nom"
 msgstr "Ruscha nom"
 
-#: .\dashboard\forms.py:664
+#: .\dashboard\forms.py:678
 msgid "Oʻzbekcha tavsif"
 msgstr "O‘zbekcha tavsif"
 
-#: .\dashboard\forms.py:664
+#: .\dashboard\forms.py:678
 msgid "Model haqida ma'lumot"
 msgstr "Model haqida ma’lumot"
 
-#: .\dashboard\forms.py:665
+#: .\dashboard\forms.py:679
 msgid "Ruscha tavsif"
 msgstr "Ruscha tavsif"
 
-#: .\dashboard\forms.py:665
+#: .\dashboard\forms.py:679
 msgid "Описание модели"
 msgstr "Model tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:666
+#: .\dashboard\forms.py:680
 #, fuzzy
 #| msgid "Ruscha tavsif"
 msgid "Krilcha tavsif"
 msgstr "Ruscha tavsif"
 
-#: .\dashboard\forms.py:666
+#: .\dashboard\forms.py:680
 #, fuzzy
 #| msgid "Model rasmi"
 msgid "Model tavsifi"
 msgstr "Model rasmi"
 
-#: .\dashboard\forms.py:685
+#: .\dashboard\forms.py:699
 msgid "Kamida bitta til uchun nom kiritishingiz kerak"
 msgstr "Kamida bitta til uchun nom kiritishingiz kerak"
 
-#: .\dashboard\forms.py:719
+#: .\dashboard\forms.py:733
 msgid "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
 msgstr "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
 
@@ -402,33 +402,33 @@ msgstr "Eng yangilari birinchi"
 msgid "Most Popular"
 msgstr "Eng ommabop"
 
-#: .\templates\store\brand_models.html:162 .\templates\store\favorites.html:23
+#: .\templates\store\brand_models.html:164 .\templates\store\favorites.html:25
 #: .\templates\store\product_detail.html:102
-#: .\templates\store\product_detail.html:225
-#: .\templates\store\product_list.html:100
+#: .\templates\store\product_detail.html:227
+#: .\templates\store\product_list.html:102
 msgid "Like"
 msgstr "Yoqtirish"
 
-#: .\templates\store\brand_models.html:165
+#: .\templates\store\brand_models.html:167
 #: .\templates\store\product_detail.html:105
-#: .\templates\store\product_detail.html:228
-#: .\templates\store\product_list.html:103
+#: .\templates\store\product_detail.html:230
+#: .\templates\store\product_list.html:105
 msgid "Add to Favorites"
 msgstr "Sevimlilarga qo‘shish"
 
-#: .\templates\store\brand_models.html:171
-#: .\templates\store\brand_models.html:201 .\templates\store\favorites.html:29
-#: .\templates\store\favorites.html:56 .\templates\store\product_detail.html:66
+#: .\templates\store\brand_models.html:173
+#: .\templates\store\brand_models.html:203 .\templates\store\favorites.html:31
+#: .\templates\store\favorites.html:58 .\templates\store\product_detail.html:66
 #: .\templates\store\product_detail.html:99
-#: .\templates\store\product_list.html:109
-#: .\templates\store\product_list.html:147
+#: .\templates\store\product_list.html:111
+#: .\templates\store\product_list.html:149
 msgid "Out of Stock"
 msgstr "Omborda yo‘q"
 
-#: .\templates\store\brand_models.html:189 .\templates\store\cart.html:39
-#: .\templates\store\cart.html:60 .\templates\store\cart.html:69
+#: .\templates\store\brand_models.html:191 .\templates\store\cart.html:41
+#: .\templates\store\cart.html:62 .\templates\store\cart.html:71
 #: .\templates\store\checkout.html:74 .\templates\store\checkout.html:80
-#: .\templates\store\favorites.html:43 .\templates\store\order_detail.html:66
+#: .\templates\store\favorites.html:45 .\templates\store\order_detail.html:66
 #: .\templates\store\order_detail.html:93
 #: .\templates\store\order_detail.html:98
 #: .\templates\store\order_detail.html:111
@@ -440,36 +440,36 @@ msgstr "Omborda yo‘q"
 #: .\templates\store\order_payment.html:160
 #: .\templates\store\order_payment.html:185
 #: .\templates\store\product_detail.html:58
-#: .\templates\store\product_detail.html:237
-#: .\templates\store\product_list.html:135
+#: .\templates\store\product_detail.html:239
+#: .\templates\store\product_list.html:137
 msgid "UZS"
 msgstr "So‘m"
 
-#: .\templates\store\brand_models.html:195 .\templates\store\favorites.html:50
-#: .\templates\store\home.html:171 .\templates\store\home.html:234
+#: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
+#: .\templates\store\home.html:173 .\templates\store\home.html:238
 #: .\templates\store\order_history.html:47
-#: .\templates\store\product_list.html:141
+#: .\templates\store\product_list.html:143
 msgid "View Details"
 msgstr "Tafsilotlarni ko‘rish"
 
-#: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
+#: .\templates\store\brand_models.html:199 .\templates\store\favorites.html:54
 #: .\templates\store\product_detail.html:95
-#: .\templates\store\product_list.html:143
+#: .\templates\store\product_list.html:145
 msgid "Add to Cart"
 msgstr "Savatchaga"
 
-#: .\templates\store\brand_models.html:214
-#: .\templates\store\product_list.html:160
+#: .\templates\store\brand_models.html:216
+#: .\templates\store\product_list.html:162
 msgid "No products found"
 msgstr "Mahsulotlar topilmadi"
 
-#: .\templates\store\brand_models.html:215
-#: .\templates\store\product_list.html:161
+#: .\templates\store\brand_models.html:217
+#: .\templates\store\product_list.html:163
 msgid "Try adjusting your search or filter criteria"
 msgstr "Qidiruv yoki filtr mezonlarini o‘zgartirib ko‘ring"
 
-#: .\templates\store\brand_models.html:216
-#: .\templates\store\product_list.html:162
+#: .\templates\store\brand_models.html:218
+#: .\templates\store\product_list.html:164
 msgid "View All Products"
 msgstr "Barcha mahsulotlarni ko‘rish"
 
@@ -477,65 +477,65 @@ msgstr "Barcha mahsulotlarni ko‘rish"
 msgid "Shopping Cart - Avtokontinent.uz"
 msgstr "Xarid savati - Avtokontinent.uz"
 
-#: .\templates\store\cart.html:28 .\templates\store\favorites.html:48
+#: .\templates\store\cart.html:30 .\templates\store\favorites.html:50
 #: .\templates\store\product_detail.html:72
 msgid "people have this in cart"
 msgstr "ta savatchada"
 
-#: .\templates\store\cart.html:37
+#: .\templates\store\cart.html:39
 #, fuzzy
 #| msgid "In Stock"
 msgid "Stock"
 msgstr "mavjud"
 
-#: .\templates\store\cart.html:57 .\templates\store\checkout.html:70
+#: .\templates\store\cart.html:59 .\templates\store\checkout.html:70
 #: .\templates\store\order_detail.html:279
 msgid "Order Summary"
 msgstr "Buyurtma xulosasi"
 
-#: .\templates\store\cart.html:59 .\templates\store\order_payment.html:171
+#: .\templates\store\cart.html:61 .\templates\store\order_payment.html:171
 msgid "Subtotal:"
 msgstr "Oraliq jami:"
 
-#: .\templates\store\cart.html:63 .\templates\store\order_payment.html:175
+#: .\templates\store\cart.html:65 .\templates\store\order_payment.html:175
 msgid "Delivery:"
 msgstr "Yetkazib berish:"
 
-#: .\templates\store\cart.html:64 .\templates\store\order_detail.html:115
+#: .\templates\store\cart.html:66 .\templates\store\order_detail.html:115
 #: .\templates\store\order_payment.html:176
 msgid "Free"
 msgstr "Bepul"
 
-#: .\templates\store\cart.html:68 .\templates\store\checkout.html:79
+#: .\templates\store\cart.html:70 .\templates\store\checkout.html:79
 #: .\templates\store\order_payment.html:180
 msgid "Total:"
 msgstr "Jami:"
 
-#: .\templates\store\cart.html:72 .\templates\store\checkout.html:60
+#: .\templates\store\cart.html:74 .\templates\store\checkout.html:60
 msgid "Place Order"
 msgstr "Buyurtma berish"
 
-#: .\templates\store\cart.html:81
+#: .\templates\store\cart.html:83
 msgid "Your cart is empty"
 msgstr "Savatingiz bo‘sh"
 
-#: .\templates\store\cart.html:82
+#: .\templates\store\cart.html:84
 msgid "Add some products to your cart to continue shopping"
 msgstr "Xaridni davom ettirish uchun savatingizga mahsulotlar qo‘shing"
 
-#: .\templates\store\cart.html:83 .\templates\store\order_detail.html:274
+#: .\templates\store\cart.html:85 .\templates\store\order_detail.html:274
 msgid "Continue Shopping"
 msgstr "Xaridni davom ettirish"
 
-#: .\templates\store\cart.html:149
+#: .\templates\store\cart.html:151
 msgid "Are you sure you want to remove this item?"
 msgstr "Ushbu mahsulotni o‘chirishga ishonchingiz komilmi?"
 
-#: .\templates\store\cart.html:178
+#: .\templates\store\cart.html:180
 msgid "Item removed from cart"
 msgstr "Mahsulot savatdan o‘chirildi"
 
-#: .\templates\store\cart.html:184
+#: .\templates\store\cart.html:186
 msgid "Error removing item"
 msgstr "Mahsulotni o‘chirishda xato yuz berdi"
 
@@ -599,47 +599,47 @@ msgstr "Sevimlilar - Avtokontinent.uz"
 msgid "My Favorites"
 msgstr "Mening sevimlilarim"
 
-#: .\templates\store\favorites.html:20
+#: .\templates\store\favorites.html:22
 msgid "Remove from Favorites"
 msgstr "Sevimlilardan o‘chirish"
 
-#: .\templates\store\favorites.html:70 .\templates\store\favorites.html:167
+#: .\templates\store\favorites.html:72 .\templates\store\favorites.html:169
 msgid "No favorites yet"
 msgstr "Hali sevimlilar yo‘q"
 
-#: .\templates\store\favorites.html:71 .\templates\store\favorites.html:168
+#: .\templates\store\favorites.html:73 .\templates\store\favorites.html:170
 msgid "Start adding products to your favorites to see them here"
 msgstr "Bu yerda ko‘rish uchun mahsulotlarni sevimlilarga qo‘shing"
 
-#: .\templates\store\favorites.html:72 .\templates\store\favorites.html:169
+#: .\templates\store\favorites.html:74 .\templates\store\favorites.html:171
 msgid "Browse Products"
 msgstr "Mahsulotlarni ko‘rish"
 
-#: .\templates\store\favorites.html:177
+#: .\templates\store\favorites.html:179
 #, fuzzy
 #| msgid "Remove from Favorites"
 msgid "Removed from favorites!"
 msgstr "Sevimlilardan o‘chirish"
 
-#: .\templates\store\favorites.html:181
+#: .\templates\store\favorites.html:183
 #, fuzzy
 #| msgid "Add to Favorites"
 msgid "Added to favorites!"
 msgstr "Sevimlilarga qo‘shish"
 
-#: .\templates\store\favorites.html:208 .\templates\store\favorites.html:235
+#: .\templates\store\favorites.html:210 .\templates\store\favorites.html:237
 #, fuzzy
 #| msgid "Network error. Please try again."
 msgid "Error occurred. Please try again."
 msgstr "Tarmoq xatosi. Iltimos, qayta urinib ko‘ring."
 
-#: .\templates\store\favorites.html:229
+#: .\templates\store\favorites.html:231
 #, fuzzy
 #| msgid "Like"
 msgid "Liked!"
 msgstr "Yoqtirish"
 
-#: .\templates\store\favorites.html:229
+#: .\templates\store\favorites.html:231
 #, fuzzy
 #| msgid "likes"
 msgid "Unliked!"
@@ -689,31 +689,31 @@ msgstr "Eng ko‘p sotilgan mahsulotlar"
 msgid "Top 5 products that our customers love the most"
 msgstr "Mijozlarimiz eng yaxshi ko‘rgan 5 ta mahsulot"
 
-#: .\templates\store\home.html:146
+#: .\templates\store\home.html:148
 msgid "Best Seller"
 msgstr "Eng ko‘p sotilgan"
 
-#: .\templates\store\home.html:161
+#: .\templates\store\home.html:163
 msgid "sold"
 msgstr "sotildi"
 
-#: .\templates\store\home.html:185 .\templates\store\home.html:248
+#: .\templates\store\home.html:187 .\templates\store\home.html:252
 msgid "View More"
 msgstr "Ko‘proq ko‘rish"
 
-#: .\templates\store\home.html:197
+#: .\templates\store\home.html:199
 msgid "Most Liked Products"
 msgstr "Eng ko‘p yoqtirilgan mahsulotlar"
 
-#: .\templates\store\home.html:198
+#: .\templates\store\home.html:200
 msgid "Products that have won the hearts of our customers"
 msgstr "Mijozlarimiz qalbini zabt etgan mahsulotlar"
 
-#: .\templates\store\home.html:224 .\templates\store\product_detail.html:74
+#: .\templates\store\home.html:228 .\templates\store\product_detail.html:74
 msgid "likes"
 msgstr "yoqtirishlar"
 
-#: .\templates\store\home.html:228
+#: .\templates\store\home.html:232
 msgid "reviews"
 msgstr "sharh"
 
@@ -725,7 +725,7 @@ msgstr "Kirish - Avtokontinent.uz"
 #, fuzzy
 #| msgid "4-Digit Verification Code"
 msgid "Enter your verification code"
-msgstr "4 raqamli tasdiqlash kodi"
+msgstr "Tasdiqlash kodingizni kiriting"
 
 #: .\templates\store\login.html:29
 msgid "Get the code from the bot"
@@ -1258,7 +1258,7 @@ msgstr "Hali sharhlar yo‘q. Ushbu mahsulotga birinchi bo‘lib sharh yozing!"
 msgid "Related Products"
 msgstr "Tegishli mahsulotlar"
 
-#: .\templates\store\product_detail.html:240
+#: .\templates\store\product_detail.html:242
 msgid "View"
 msgstr "Ko‘rish"
 
@@ -1278,15 +1278,15 @@ msgstr "Modellar"
 msgid "results found"
 msgstr "natijalar topildi"
 
-#: .\templates\store\product_list.html:128
+#: .\templates\store\product_list.html:130
 msgid "and"
 msgstr "va"
 
-#: .\templates\store\product_list.html:128
+#: .\templates\store\product_list.html:130
 msgid "more"
 msgstr "yana"
 
-#: .\templates\store\product_list.html:169
+#: .\templates\store\product_list.html:171
 msgid "Page navigation"
 msgstr "Sahifalar navigatsiyasi"
 

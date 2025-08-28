@@ -15,7 +15,9 @@
         <div class="col-6 col-md-4 col-lg-3 mb-2" id="favorite-item-{{ favorite.product.id }}"> {# Added unique ID for each item #}
             <div class="card product-card h-100 border-0 shadow-sm">
                 <div class="position-relative">
-                    <img src="{{ favorite.product.main_image.url }}" class="card-img-top img-fluid" alt="{{ favorite.product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;">
+                    <a href="{{ favorite.product.get_absolute_url }}" style="cursor: pointer;">
+                        <img src="{{ favorite.product.main_image.url }}" class="card-img-top img-fluid" alt="{{ favorite.product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;">
+                    </a>
                     <div class="product-actions">
                         <button class="btn-action favorited" id="favorite-btn-{{ favorite.product.id }}" onclick="favoriteProductOnFavoritesPage({{ favorite.product.id }})" data-bs-toggle="tooltip" title="{% trans 'Remove from Favorites' %}">
                             <i class="fas fa-star"></i>

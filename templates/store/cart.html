@@ -20,7 +20,9 @@
                         <div class="col">
                             <div class="row align-items-center border-bottom pb-3 mb-3 cart-item" id="cart-item-{{ item.id }}" data-product-id="{{ item.product.id }}">
                                 <div class="col-4 col-md-2">
-                                    <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
+                                    <a href="{{ item.product.get_absolute_url }}" style="cursor: pointer;">
+                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
+                                    </a>
                                 </div>
                                 <div class="col-8 col-md-4">
                                     <h6>{{ item.product.name }}</h6>

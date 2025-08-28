@@ -142,7 +142,9 @@
             <div class="col-6 col-md-4 col-lg-3 col-xl-2-4">
                 <div class="card product-card h-100 border-0 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ product.main_image.url }}" class="card-img-top p-2" alt="{{ product.name }}" style="height: 180px; object-fit: contain;">
+                        <a href="{{ product.get_absolute_url }}" class="d-block">
+                            <img src="{{ product.main_image.url }}" class="card-img-top p-2" alt="{{ product.name }}" style="height: 180px; object-fit: contain; cursor: pointer;">
+                        </a>
                         <div class="product-badge bestseller">{% trans "Best Seller" %}</div>
                         <div class="product-actions d-none d-md-flex">
                             <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="Like">
@@ -203,7 +205,9 @@
             <div class="col-6 col-md-3">
                 <div class="card product-card h-100 border-0 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ product.main_image.url }}" class="card-img-top p-2" alt="{{ product.name }}" style="height: 180px; object-fit: contain;">
+                        <a href="{{ product.get_absolute_url }}" class="d-block">
+                            <img src="{{ product.main_image.url }}" class="card-img-top p-2" alt="{{ product.name }}" style="height: 180px; object-fit: contain; cursor: pointer;">
+                        </a>
                         <div class="product-badge most-liked">
                             <i class="fas fa-heart"></i> {{ product.like_count }}
                         </div>

@@ -210,7 +210,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             'name_uz', 'name_cyrl', 'name_ru',
-            'description_uz', 'description_cyrl', 'description_cyrl',
+            'description_uz', 'description_cyrl', 'description_ru',
             'sku', 'slug', 'category',
             'compatible_models', 'price_usd', 'stock_quantity',
             'main_image', 'youtube_video_id', 'is_active', 'is_featured'
@@ -362,9 +362,14 @@ class BannerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Faqat image va order majburiy
-        self.fields['image'].required = True
+        # Order majburiy, image faqat yangi yaratishda majburiy
         self.fields['order'].required = True
+        
+        # Agar mavjud banner tahrir qilinayotgan bo'lsa, image majburiy emas
+        if self.instance and self.instance.pk and self.instance.image:
+            self.fields['image'].required = False
+        else:
+            self.fields['image'].required = True
 
         # Boshqa maydonlar ixtiyoriy
         self.fields['link'].required = False
@@ -379,28 +384,32 @@ class BannerForm(forms.ModelForm):
         self.fields['is_active'].label = "Faol holati"
         self.fields['image'].label = "Banner rasmi"
 
-        # Agar object mavjud bo'lsa, title maydonlarini to'ldirish
-        if self.instance and self.instance.pk and hasattr(self.instance, 'title'):
-            # Bitta title maydonidan barcha til maydonlarini to'ldirish
-            self.fields['title_uz'].initial = self.instance.title
-            self.fields['title_ru'].initial = self.instance.title
-            self.fields['title_cyrl'].initial = self.instance.title
+        # Agar object mavjud bo'lsa, translation maydonlarini to'ldirish
+        if self.instance and self.instance.pk:
+            # Translation maydonlarini to'g'ri olish
+            self.fields['title_uz'].initial = getattr(self.instance, 'title_uz', '') or ''
+            self.fields['title_ru'].initial = getattr(self.instance, 'title_ru', '') or ''
+            self.fields['title_cyrl'].initial = getattr(self.instance, 'title_cyrl', '') or ''
 
     def clean_image(self):
         image = self.cleaned_data.get('image')
-        if not image:
+        
+        # Agar yangi banner yaratilayotgan bo'lsa, image majburiy
+        if not self.instance.pk and not image:
             raise ValidationError("Rasm yuklash majburiy!")
+        
+        # Agar rasm yuklangan bo'lsa, tekshirish
+        if image:
+            # Rasm hajmini tekshirish (5MB)
+            if hasattr(image, 'size') and image.size > 5 * 1024 * 1024:
+                raise ValidationError("Rasm hajmi 5MB dan oshmasligi kerak!")
 
-        # Rasm hajmini tekshirish (5MB)
-        if hasattr(image, 'size') and image.size > 5 * 1024 * 1024:
-            raise ValidationError("Rasm hajmi 5MB dan oshmasligi kerak!")
-
-        # Rasm formatini tekshirish
-        if hasattr(image, 'name'):
-            valid_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
-            ext = image.name.split('.')[-1].lower()
-            if ext not in valid_extensions:
-                raise ValidationError(f"Faqat {', '.join(valid_extensions)} formatdagi rasmlar qabul qilinadi!")
+            # Rasm formatini tekshirish
+            if hasattr(image, 'name'):
+                valid_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+                ext = image.name.split('.')[-1].lower()
+                if ext not in valid_extensions:
+                    raise ValidationError(f"Faqat {', '.join(valid_extensions)} formatdagi rasmlar qabul qilinadi!")
 
         return image
 
@@ -423,12 +432,17 @@ class BannerForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        # Title maydonlaridan birontasini tanlash yoki birlashtirib saqlash
+        # Translation maydonlarini to'g'ri saqlash
         title_uz = self.cleaned_data.get('title_uz', '').strip()
         title_ru = self.cleaned_data.get('title_ru', '').strip()
         title_cyrl = self.cleaned_data.get('title_cyrl', '').strip()
 
-        # Birinchi to'ldirilgan titleni olish
+        # Har bir til uchun alohida saqlash (modeltranslation uchun)
+        instance.title_uz = title_uz
+        instance.title_ru = title_ru
+        instance.title_cyrl = title_cyrl
+        
+        # Asosiy title maydonini birinchi to'ldirilgan qiymat bilan to'ldirish
         instance.title = title_uz or title_ru or title_cyrl or ''
 
         if commit:

@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearErrors();
         setLoading(true);
 
-        const requiredFields = ['order', 'image'];
+        const requiredFields = ['order'{% if not banner %}, 'image'{% endif %}];
         let hasError = false;
 
         requiredFields.forEach(field => {
@@ -619,11 +619,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Проверяем, выбрано ли изображение
+        // Проверяем, выбрано ли изображение (только для новых баннеров)
+        {% if not banner %}
         if (!fileInput.files || fileInput.files.length === 0) {
             showError('image', 'Загрузка изображения обязательна');
             hasError = true;
         }
+        {% endif %}
 
         if (hasError) {
             // Скрываем загрузочный экран и снова включаем кнопку отправки

@@ -95,7 +95,9 @@
                 <div class="col-6 col-md-4 col-lg-4 mb-2"> {# Two per row on mobile, three on tablet, four on desktop #}
                     <div class="card product-card h-100 border-0 shadow-sm"> {# Added shadow-sm for visual appeal #}
                         <div class="position-relative">
-                            <img src="{{ product.main_image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" style="object-fit: contain; max-height: 200px; width: 100%;"> {# Optimized for desktop and mobile #}
+                            <a href="{{ product.get_absolute_url }}" class="d-block">
+                                <img src="{{ product.main_image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" style="object-fit: contain; max-height: 200px; width: 100%; cursor: pointer;"> {# Optimized for desktop and mobile #}
+                            </a>
                             <div class="product-actions">
                                 <button class="btn-action" id="like-btn-{{ product.id }}" onclick="likeProduct({{ product.id }})" data-bs-toggle="tooltip" title="{% trans 'Like' %}">
                                     <i class="far fa-heart"></i>
