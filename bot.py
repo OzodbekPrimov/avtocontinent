@@ -376,7 +376,7 @@ async def handle_order_callback(callback: types.CallbackQuery):
                     try:
                         await bot.send_message(
                             int(user_chat_id),
-                            f"❌ To'lov tasdiqlanmadi. Iltimos, admin bilan bog'laning."
+                            f"❌ To'lov tasdiqlanmadi. Iltimos, admin bilan bog'laning. +998950592112"
                         )
                     except Exception as e:
                         logger.error(f"Failed to notify user {user_chat_id}: {e}")

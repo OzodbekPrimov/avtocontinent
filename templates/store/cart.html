@@ -34,8 +34,7 @@
                                                onchange="updateQuantity({{ item.id }}, this.value)" id="quantity-{{ item.id }}">
                                         <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, parseInt(document.getElementById('quantity-{{ item.id }}').value) + 1)">+</button>
                                     </div>
-                                    <small class="text-muted">Stock: {{ item.product.stock_quantity|intcomma }}</small>
-                                </div>
+                                    <small class="text-muted">{% trans "Stock" %}: {{ item.product.stock_quantity|intcomma }}</small>                                </div>
                                 <div class="col-4 col-md-2 mt-3 mt-md-0">
                                     <strong>{{ item.total_price_uzs|floatformat:0|intcomma }} {% trans "UZS" %}</strong>
                                 </div>

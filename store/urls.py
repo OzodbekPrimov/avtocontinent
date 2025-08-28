@@ -1,10 +1,25 @@
 from django.urls import path, re_path
 from . import views
 from . import signals
+from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap, ProductSitemap, BrandSitemap
 
+
+sitemaps_dict = {
+    "static": StaticViewSitemap,
+    "products": ProductSitemap,
+    "brands": BrandSitemap,
+
+}
 
 
 urlpatterns = [
+    path("robots.txt", TemplateView.as_view(
+        template_name="robots.txt", content_type="text/plain")),
+
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps_dict}, name="sitemap"),
+
     path('', views.home, name='home'),
     path('products/', views.product_list, name='product_list'),
     re_path(r'^product/(?P<slug>[-\w]+)/$', views.product_detail, name='product_detail'),
@@ -15,7 +30,6 @@ urlpatterns = [
     path('login/', views.login_request, name='login'),
     path('logout/', views.store_logout, name='logout'),
     path('profile/', views.profile_view, name='profile'),
-    # path("save-auth/", views.save_auth, name="save_auth"),
     path("verify-code/", views.verify_code, name="verify_code"),
     path('auth/telegram/callback/', views.telegram_callback, name='telegram_callback'),
 
