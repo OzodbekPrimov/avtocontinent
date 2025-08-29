@@ -2,7 +2,15 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block title %}{% trans "Home - Avtokontinent.uz" %}{% endblock %}
+{% block title %}{% trans "Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari do'koni | Автозапчасти Узбекистан" %}{% endblock %}
+
+{% block meta_description %}{% trans "Avtokontinent.uz - O'zbekistondagi eng ishonchli avtomobil ehtiyot qismlari do'koni. Barcha brendlar uchun original qismlar: vakum nasos, babina, tormoz qismlari. Toshkent, Samarqand, Buxoro bo'ylab tezkor yetkazib berish. Автоконтинент.уз - Самый надежный магазин автозапчастей в Узбекистане. Оригинальные запчасти для всех марок: вакуумный насос, катушка, тормозные детали. Быстрая доставка по Ташкенту, Самарканду, Бухаре." %}{% endblock %}
+
+{% block meta_keywords %}avtomobil ehtiyot qismlari, auto parts uzbekistan, vakum nasos, babina, tormoz qismlari, original qismlar, toshkent avtomobil qismlari, samarqand auto parts, buxoro ehtiyot qismlar, автозапчасти узбекистан, вакуумный насос, катушка зажигания, тормозные колодки, оригинальные запчасти, ташкент автозапчасти{% endblock %}
+
+{% block og_title %}{% trans "Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari do'koni" %}{% endblock %}
+
+{% block twitter_title %}{% trans "Avtokontinent.uz - Original avtomobil qismlari" %}{% endblock %}
 
 {% block content %}
 
@@ -26,7 +34,7 @@
                     <a href="{{ banner.link }}" target="_blank" class="d-block">
                     {% endif %}
                         <div class="banner-container position-relative">
-                            <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}"
+                            <img src="{{ banner.image.url }}" class="d-block w-100" alt="{% trans 'Avtokontinent.uz banner' %} - {{ banner.title }}"
                                  style="height: 400px; object-fit: cover; object-position: center;">
                             <div class="banner-caption container position-absolute bottom-0 start-50 translate-middle-x pb-4 text-center">
                                 <h2 class="banner-title mb-0 text-white bg-dark d-inline-block px-3 py-2 rounded">
@@ -72,7 +80,7 @@
                 <a href="{% url 'brand_models' brand.slug %}" class="text-decoration-none">
                     <div class="brand-card text-center p-2 h-100">
                         {% if brand.logo %}
-                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="brand-logo img-fluid" style="max-height: 80px;">
+                        <img src="{{ brand.logo.url }}" alt="{% trans 'Avtomobil brendlari' %} {{ brand.name }} {% trans 'logo' %}" class="brand-logo img-fluid" style="max-height: 80px;">
                         {% else %}
                         <div class="brand-logo d-flex align-items-center justify-content-center bg-light m-auto" style="height: 80px; width: 80px;">
                             <i class="fas fa-car fa-2x text-primary"></i>

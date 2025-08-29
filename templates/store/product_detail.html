@@ -2,7 +2,80 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block title %}{{ product.name }} - Avtokontinent.uz{% endblock %}
+{% block title %}{{ product.name }} - {% trans "Avtomobil ehtiyot qismlari" %} | Avtokontinent.uz{% endblock %}
+
+{% block meta_description %}{{ product.name }} - {{ product.short_description|truncatewords:20 }} {% trans "Original avtomobil qismlari Avtokontinent.uz da. Tezkor yetkazib berish O'zbekiston bo'ylab. Оригинальные автозапчасти в Автоконтинент.уз. Быстрая доставка по Узбекистану." %}{% endblock %}
+
+{% block meta_keywords %}{{ product.name }}, {% for model in product.compatible_models.all|slice:":5" %}{{ model.brand.name }} {{ model.name }}, {% endfor %}avtomobil qismlari, ehtiyot qismlar, {{ product.category.name }}, автозапчасти, {{ product.name|lower }}{% endblock %}
+
+{% block og_title %}{{ product.name }} - {% trans "Avtokontinent.uz" %}{% endblock %}
+{% block og_description %}{{ product.short_description }} {% trans "Original qism, tezkor yetkazib berish. Оригинальная запчасть, быстрая доставка." %}{% endblock %}
+{% block og_type %}product{% endblock %}
+
+{% block twitter_title %}{{ product.name }}{% endblock %}
+{% block twitter_description %}{{ product.short_description|truncatewords:15 }}{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{{ product.short_description }}",
+  "sku": "{{ product.sku }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{% if product.compatible_models.exists %}{{ product.compatible_models.first.brand.name }}{% else %}Avtokontinent{% endif %}"
+  },
+  "category": "{{ product.category.name }}",
+  "image": [
+    "{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"
+    {% for image in product.images.all %},
+    "{{ request.scheme }}://{{ request.get_host }}{{ image.image.url }}"
+    {% endfor %}
+  ],
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{{ product.get_absolute_url }}",
+    "priceCurrency": "UZS",
+    "price": "{{ product.price_uzs }}",
+    "availability": "{% if product.is_in_stock %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "seller": {
+      "@type": "Organization",
+      "name": "Avtokontinent.uz"
+    },
+    "priceValidUntil": "2025-12-31"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{% if product.average_rating %}{{ product.average_rating }}{% else %}5{% endif %}",
+    "reviewCount": "{{ product.comment_count }}"
+  },
+  "review": [
+    {% for comment in comments|slice:":5" %}
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "{{ comment.user.username }}"
+      },
+      "datePublished": "{{ comment.created_at|date:'Y-m-d' }}",
+      "description": "{{ comment.comment|truncatewords:30 }}",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "{% if comment.rating %}{{ comment.rating }}{% else %}5{% endif %}"
+      }
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "{% if product.compatible_models.exists %}{{ product.compatible_models.first.brand.name }}{% else %}Universal{% endif %}"
+  },
+  "vehicleEngine": "{% for model in product.compatible_models.all|slice:":3" %}{{ model.brand.name }} {{ model.name }}{% if not forloop.last %}, {% endif %}{% endfor %}"
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="container py-4">

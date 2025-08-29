@@ -6,9 +6,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="5doQhgVdemuA8B1Os5P49BxQBWlqJofh5t326JDmQps">
 
-    <!-- YANGI: Meta description - dinamik, lotin va kirill kalit so'zlar bilan -->
-    <meta name="description" content="{% block meta_description %}{% trans "Avtokontinent.uz - Avtomobil ehtiyot qismlari do'koni. Vakum nasos, babina va boshqa qismlar. Tezkor yetkazib berish O'zbekiston bo'ylab. Автоконтinent.уз - Автозапчасти для всех марок. Вакуумный насос, бабинка ва бошқа қисмлар. Быстрая доставка по Узбекистану." %}{% endblock %}">
+    <!-- SEO Meta Description - Optimized for search engines -->
+    <meta name="description" content="{% block meta_description %}{% trans "Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari do'koni. Barcha brendlar uchun original qismlar: vakum nasos, babina, tormoz qismlari. Toshkent, Samarqand, Buxoro bo'ylab tezkor yetkazib berish. Автоконтинент.уз - Лучший магазин автозапчастей в Узбекистане. Оригинальные запчасти для всех марок: вакуумный насос, катушка, тормозные детали. Быстрая доставка по Ташкенту, Самарканду, Бухаре." %}{% endblock %}">
+
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="{% block meta_keywords %}avtomobil qismlar, auto parts, ehtiyot qismlar, vakum nasos, babina, tormoz qismlari, O'zbekiston, Toshkent, автозапчасти, вакуумный насос, катушка, тормозные детали, Узбекистан, Ташкент{% endblock %}">
+
+    <!-- Author and Publisher -->
+    <meta name="author" content="Avtokontinent.uz">
+    <meta name="publisher" content="Avtokontinent.uz">
+
+    <!-- Geographic targeting -->
+    <meta name="geo.region" content="UZ">
+    <meta name="geo.placename" content="Uzbekistan">
+    <meta name="geo.position" content="41.377491;64.585262">
+    <meta name="ICBM" content="41.377491, 64.585262">
 
     <!-- YANGI: Robots meta - indekslashni ruxsat berish -->
     <meta name="robots" content="index, follow">
@@ -26,18 +40,32 @@
     <!-- Self-referencing -->
     <link rel="alternate" hreflang="{% if CURRENT_LANG == 'uz' %}uz-Latn{% elif CURRENT_LANG == 'cyrl' %}uz-Cyrl{% else %}ru{% endif %}" href="https://avtokontinent.uz{{ request.path }}" />
 
-    <!-- YANGI: Open Graph taglari - ijtimoiy tarmoqlar uchun (Facebook, etc.) -->
-    <meta property="og:title" content="{% block og_title %}{% trans "Avtokontinent.uz - Avtomobil ehtiyot qismlari" %}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{% trans "Avtomobil qismlari do'koni: vakum nasos, babina va boshqalar. Автозапчасти: вакуумный насос, бабинка." %}{% endblock %}">
-    <meta property="og:image" content="https://avtokontinent.uz{% static 'images/og-image.jpg' %}">  <!-- og-image.jpg ni static ga qo'shing -->
+    <!-- Open Graph meta tags for social media sharing -->
+    <meta property="og:title" content="{% block og_title %}{% trans "Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari do'koni" %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% trans "Barcha brendlar uchun original avtomobil qismlari. Vakum nasos, babina, tormoz qismlari. Tezkor yetkazib berish O'zbekiston bo'ylab. Оригинальные автозапчасти для всех марок. Вакуумный насос, катушка, тормозные детали. Быстрая доставка по Узбекистану." %}{% endblock %}">
+    <meta property="og:image" content="https://avtokontinent.uz{% static 'images/og-image.jpg' %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{% trans 'Avtokontinent.uz - Avtomobil ehtiyot qismlari' %}">
     <meta property="og:url" content="https://avtokontinent.uz{{ request.path }}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="Avtokontinent.uz">
+    <meta property="og:locale" content="{% if LANGUAGE_CODE == 'uz' %}uz_UZ{% elif LANGUAGE_CODE == 'cyrl' %}uz_UZ{% else %}ru_RU{% endif %}">
+    {% get_available_languages as LANGUAGES %}
+    {% for lang in LANGUAGES %}
+        {% if lang.0 != LANGUAGE_CODE %}
+    <meta property="og:locale:alternate" content="{% if lang.0 == 'uz' %}uz_UZ{% elif lang.0 == 'cyrl' %}uz_UZ{% else %}ru_RU{% endif %}">
+        {% endif %}
+    {% endfor %}
 
-    <!-- YANGI: Twitter Cards (X uchun) -->
+    <!-- Twitter Card meta tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{% trans "Avtokontinent.uz" %}{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}{% trans "Avto qismlar O'zbekistonda." %}{% endblock %}">
+    <meta name="twitter:site" content="@avtokontinent">
+    <meta name="twitter:creator" content="@avtokontinent">
+    <meta name="twitter:title" content="{% block twitter_title %}{% trans "Avtokontinent.uz - Avtomobil ehtiyot qismlari" %}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{% trans "Original avtomobil qismlari barcha brendlar uchun. Tezkor yetkazib berish O'zbekiston bo'ylab." %}{% endblock %}">
     <meta name="twitter:image" content="https://avtokontinent.uz{% static 'images/og-image.jpg' %}">
+    <meta name="twitter:image:alt" content="{% trans 'Avtokontinent.uz logo' %}">
 
     <title>{% block title %}{% trans "Avtokontinent.uz - Auto Spare Parts" %}{% endblock %}</title>
     <!-- Favicon -->
@@ -803,13 +831,49 @@
     </style>
     {% block extra_css %}{% endblock %}
 
-    <!-- YANGI: Schema markup (JSON-LD) - veb-sayt va qidiruv aksiyasi uchun -->
+    <!-- Schema.org structured data (JSON-LD) for SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@type": ["WebSite", "Store"],
       "name": "Avtokontinent.uz",
+      "alternateName": ["Автоконтинент.уз", "Avto Kontinent"],
       "url": "https://avtokontinent.uz",
+      "description": "{% trans 'O\'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari do\'koni. Barcha brendlar uchun original qismlar. Лучший магазин автозапчастей в Узбекистане. Оригинальные запчасти для всех марок.' %}",
+      "logo": "https://avtokontinent.uz{% static 'images/logo.png' %}",
+      "image": "https://avtokontinent.uz{% static 'images/og-image.jpg' %}",
+      "telephone": "+998950592112",
+      "email": "info@avtokontinent.uz",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Zarafshon shahri",
+        "addressLocality": "Zarafshon",
+        "addressRegion": "Navoiy viloyati",
+        "addressCountry": "UZ",
+        "postalCode": "210100"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "41.377491",
+        "longitude": "64.585262"
+      },
+      "openingHours": "Mo-Sa 09:00-18:00",
+      "currenciesAccepted": "UZS",
+      "paymentAccepted": ["Cash", "CreditCard", "BankTransfer"],
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Uzbekistan"
+      },
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "41.377491",
+          "longitude": "64.585262"
+        },
+        "geoRadius": "1000000"
+      },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -817,9 +881,37 @@
           "urlTemplate": "https://avtokontinent.uz{% url 'product_list' %}?search={search_term_string}"
         },
         "query-input": "required name=search_term_string"
+      },
+      "sameAs": [
+        "https://t.me/avtokontinent",
+        "https://instagram.com/avtokontinent",
+        "https://facebook.com/avtokontinent"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "{% trans 'Avtomobil ehtiyot qismlari' %}",
+        "itemListElement": [
+          {
+            "@type": "OfferCatalog",
+            "name": "{% trans 'Vakum nasos' %}",
+            "description": "{% trans 'Barcha avtomobil markalari uchun vakum nasoslari' %}"
+          },
+          {
+            "@type": "OfferCatalog", 
+            "name": "{% trans 'Babina' %}",
+            "description": "{% trans 'Yuqori sifatli babinalar va elektr qismlari' %}"
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "{% trans 'Tormoz qismlari' %}",
+            "description": "{% trans 'Xavfsizlik uchun original tormoz qismlari' %}"
+          }
+        ]
       }
     }
     </script>
+
+    {% block extra_schema %}{% endblock %}
 </head>
 <body>
     <!-- Fixed Top Navigation -->

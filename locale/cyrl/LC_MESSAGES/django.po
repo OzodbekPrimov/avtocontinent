@@ -321,7 +321,7 @@ msgstr "Узбекистон, Навоий вилойати, Зарафшон ш
 
 #: .\templates\base.html:1091
 msgid "Omborlar: Toshkent, Qo'qon"
-msgstr "Омборлар: Ташкент , Кокант"
+msgstr "Омборлар: Тошкент, Қўқон"
 
 #: .\templates\base.html:1092
 msgid "Mon-Sat: 9:00 AM - 6:00 PM"
@@ -1245,7 +1245,7 @@ msgstr "Ҳали шарх йўқ. Бу махсулотга биринчи бў�
 
 #: .\templates\store\product_detail.html:217
 msgid "Related Products"
-msgstr "Охшаш махсулотлар"
+msgstr "Ўхшаш маҳсулотлар"
 
 #: .\templates\store\product_detail.html:242
 msgid "View"

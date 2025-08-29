@@ -4,21 +4,33 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import gettext_lazy as _
+from django.contrib.sitemaps.views import sitemap
+from store.sitemaps import StaticViewSitemap, ProductSitemap, BrandSitemap, CategorySitemap
+from django.http import HttpResponse
 
 # Admin paneli sozlamalari (tarjima bilan)
 admin.site.site_header = _('Avtokontinent.uz Admin')
 admin.site.site_title = _('Avtokontinent.uz Admin')
 admin.site.index_title = _('Welcome to Avtokontinent.uz Administration')
 
+# Sitemap sozlamalari
+sitemaps = {
+    'static': StaticViewSitemap,
+    'products': ProductSitemap,
+    'brands': BrandSitemap,
+    'categories': CategorySitemap,
+}
+
 # URL sozlamalari
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),  # Til o‘zgartirish uchun
+    path('i18n/', include('django.conf.urls.i18n')),  # Til o'zgartirish uchun
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('robots.txt', lambda r: HttpResponse(open('templates/robots.txt').read(), content_type='text/plain')),
 ] + i18n_patterns(
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('', include('store.urls')),
-
 )
 
 # Statik va media fayllar

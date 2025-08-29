@@ -1,4 +1,18 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /media/private/
+Disallow: /api/
 
+# Allow important pages for SEO
+Allow: /products/
+Allow: /brands/
+Allow: /categories/
+Allow: /search/
+
+# Crawl delay for better server performance
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://avtokontinent.uz/sitemap.xml
