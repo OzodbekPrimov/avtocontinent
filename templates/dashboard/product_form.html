@@ -380,9 +380,7 @@
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input type="number" class="form-control" id="{{ form.price_usd.id_for_label }}"
-                                                   name="{{ form.price_usd.name }}" value="{{ form.price_usd.value|default:'' }}"
-                                                   placeholder="0.00" step="0.01" min="0" required>
+                                            {{ form.price_usd }}
                                         </div>
                                         {% if form.price_usd.errors %}
                                             <div class="invalid-feedback d-block">
@@ -392,6 +390,13 @@
                                             </div>
                                         {% endif %}
                                     </div>
+
+                                    <style>
+                                    /* CSS orqali form-control klassini qo'shamiz */
+                                    input[name="price_usd"] {
+                                        /* Agar Bootstrap stili kerak bo'lsa */
+                                    }
+                                    </style>
 
                                     <!-- Количество на складе -->
                                     <div class="form-group mb-3">
@@ -404,7 +409,8 @@
                                                 <i class="fas fa-cubes"></i>
                                             </span>
                                             <input type="number" class="form-control" id="{{ form.stock_quantity.id_for_label }}"
-                                                   name="{{ form.stock_quantity.name }}" value="{{ form.stock_quantity.value|default:'0' }}"
+                                                   name="{{ form.stock_quantity.name }}" 
+                                                   value="{% if product and product.stock_quantity is not None %}{{ product.stock_quantity }}{% elif form.stock_quantity.value %}{{ form.stock_quantity.value }}{% else %}0{% endif %}"
                                                    placeholder="0" min="0" required>
                                         </div>
                                         {% if form.stock_quantity.errors %}
@@ -1285,6 +1291,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.is-invalid').forEach(field => {
                 field.classList.remove('is-invalid');
             });
+            clearFieldErrors();
 
             // Проверка, что указано хотя бы одно название
             const nameUz = document.getElementById('{{ form.name_uz.id_for_label }}').value.trim();
@@ -1315,14 +1322,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!category) {
                 markFieldInvalid('{{ form.category.id_for_label }}');
+                showFieldError('{{ form.category.id_for_label }}', 'Пожалуйста, выберите категорию');
                 isValid = false;
             }
-            if (!price || price <= 0) {
+            if (!price || parseFloat(price) <= 0) {
                 markFieldInvalid('{{ form.price_usd.id_for_label }}');
+                showFieldError('{{ form.price_usd.id_for_label }}', 'Цена должна быть больше 0');
                 isValid = false;
             }
-            if (stock === '' || stock < 0) {
+            if (stock === '' || parseInt(stock) < 0) {
                 markFieldInvalid('{{ form.stock_quantity.id_for_label }}');
+                showFieldError('{{ form.stock_quantity.id_for_label }}', 'Количество не может быть отрицательным');
                 isValid = false;
             }
 
@@ -1356,23 +1366,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         block: 'center'
                     });
                 }
-            } else {
-                // FIXED: Form yuborishdan oldin qo'shimcha validatsiya
-                console.log('Qo\'shimcha rasmlar soni:', extraImagesDataTransfer.files.length);
+                return false;
+            }
 
-                // Показать состояние загрузки
+            // Показать состояние загрузки только если валидация прошла
+            if (submitBtn) {
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Сохранение...';
                 submitBtn.disabled = true;
-
-                // Добавить таймаут для предотвращения бесконечной загрузки
-                setTimeout(() => {
-                    if (submitBtn.disabled) {
-                        submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Товар';
-                        submitBtn.disabled = false;
-                        showAlert('Время сохранения истекло. Пожалуйста, попробуйте снова.', 'warning');
-                    }
-                }, 30000); // Таймаут 30 секунд
             }
+
+            // Добавить таймаут для предотвращения бесконечной загрузки
+            setTimeout(() => {
+                if (submitBtn && submitBtn.disabled) {
+                    submitBtn.innerHTML = '<i class="fas fa-save me-2"></i> {{ action }} Товар';
+                    submitBtn.disabled = false;
+                    showAlert('Время сохранения истекло. Пожалуйста, попробуйте снова.', 'warning');
+                }
+            }, 30000);
         });
     }
 
@@ -1381,6 +1391,32 @@ document.addEventListener('DOMContentLoaded', function() {
         if (field) {
             field.classList.add('is-invalid');
         }
+    }
+
+    function showFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            // Remove existing error message
+            const existingError = field.parentElement.querySelector('.field-error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Add new error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error-message text-danger small mt-1';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle me-1"></i>${message}`;
+            
+            // Insert after the input group or field
+            const inputGroup = field.closest('.input-group') || field;
+            inputGroup.parentElement.appendChild(errorDiv);
+        }
+    }
+
+    function clearFieldErrors() {
+        document.querySelectorAll('.field-error-message').forEach(error => {
+            error.remove();
+        });
     }
 
     function handleServerValidationErrors() {

@@ -82,17 +82,29 @@ class ProductForm(forms.ModelForm):
         })
     )
 
-    # # Short description (ixtiyoriy)
-    # short_description = forms.CharField(
-    #     max_length=500,
-    #     required=False,
-    #     label="Qisqa tavsif",
-    #     widget=forms.Textarea(attrs={
-    #         'class': 'form-control',
-    #         'rows': 3,
-    #         'placeholder': "Qisqa tavsif (ixtiyoriy)"
-    #     })
-    # )
+    # Price field - Meta classdagi fieldlar avtomatik ishlatiladi
+    price_usd = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=True,
+        label="Narxi (USD)",
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.01',
+            'placeholder': '0.00'
+        })
+    )
+
+    # Stock quantity field
+    stock_quantity = forms.IntegerField(
+        required=True,
+        min_value=0,
+        label="Ombordagi miqdori",
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': '0'
+        })
+    )
 
     # SKU maydoni
     sku = forms.CharField(
@@ -139,31 +151,6 @@ class ProductForm(forms.ModelForm):
         })
     )
 
-    # Price
-    price_usd = forms.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        min_value=0,
-        required=True,
-        label="Narxi (USD)",
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'step': '0.01',
-            'placeholder': "0.00"
-        })
-    )
-
-    # Stock quantity
-    stock_quantity = forms.IntegerField(
-        min_value=0,
-        required=True,
-        label="Ombordagi miqdori",
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': "0"
-        })
-    )
-
     # Main image
     main_image = forms.ImageField(
         required=True,
@@ -173,7 +160,6 @@ class ProductForm(forms.ModelForm):
             'accept': 'image/*'
         })
     )
-
 
     # YouTube video (ixtiyoriy)
     youtube_video_id = forms.CharField(
@@ -218,24 +204,10 @@ class ProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         # On edit, do not require main_image if it already exists
         if self.instance and getattr(self.instance, 'pk', None) and getattr(self.instance, 'main_image', None):
             self.fields['main_image'].required = False
-
-
-    # def clean_sku(self):
-    #     """SKU ni tekshirish"""
-    #     sku = self.cleaned_data.get('sku')
-    #     if sku:
-    #         # Mavjud mahsulotlardan tashqari, boshqa mahsulotlarda bu SKU bor yoki yo'qligini tekshirish
-    #         existing = Product.objects.filter(sku=sku)
-    #         if self.instance.pk:
-    #             existing = existing.exclude(pk=self.instance.pk)
-    #
-    #         if existing.exists():
-    #             raise ValidationError("Bu SKU kodi allaqachon mavjud.")
-    #
-    #     return sku
 
     def clean_name_uz(self):
         """O'zbek tilida nom tekshirish"""
@@ -255,7 +227,6 @@ class ProductForm(forms.ModelForm):
         """YouTube video ID ni tekshirish"""
         video_id = self.cleaned_data.get('youtube_video_id')
         if video_id:
-            # YouTube video ID format tekshirish (11 ta belgi)
             if len(video_id) != 11:
                 raise ValidationError("YouTube video ID 11 ta belgidan iborat bo'lishi kerak.")
         return video_id
@@ -263,8 +234,6 @@ class ProductForm(forms.ModelForm):
     def clean(self):
         """Forma ma'lumotlarini tozalash va tekshirish"""
         cleaned_data = super().clean()
-
-        # Slug ni avtomatik yaratish agar bo'sh bo'lsa
         if not cleaned_data.get('slug') and cleaned_data.get('name_uz'):
             base_slug = slugify(cleaned_data['name_uz'])
             slug = base_slug
@@ -273,36 +242,25 @@ class ProductForm(forms.ModelForm):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             cleaned_data['slug'] = slug
-
         return cleaned_data
 
     def save(self, commit=True):
         """Mahsulotni saqlash va slug yaratish"""
         instance = super().save(commit=False)
-
-        # name_uz asosida slug yaratish
         if self.cleaned_data.get('name_uz'):
             base_slug = slugify(self.cleaned_data['name_uz'])
             if not base_slug:
-                # Agar slugify natija bermasa, transliteration yoki boshqa usul ishlatish
                 base_slug = slugify(self.cleaned_data['name_uz'], allow_unicode=True)
-
-            # Unique slug yaratish
             slug = base_slug
             counter = 1
             while Product.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
-
             instance.slug = slug
-
         if commit:
             instance.save()
-            # ManyToMany maydonlarni saqlash
             self.save_m2m()
-
         return instance
-
 
 from django import forms
 from django.core.exceptions import ValidationError
