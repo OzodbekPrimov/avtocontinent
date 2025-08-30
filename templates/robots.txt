@@ -4,15 +4,38 @@ Disallow: /dashboard/
 Disallow: /admin/
 Disallow: /media/private/
 Disallow: /api/
+Disallow: /*.json$
+Disallow: /*/ajax/
 
 # Allow important pages for SEO
 Allow: /products/
 Allow: /brands/
 Allow: /categories/
 Allow: /search/
+Allow: /static/
+Allow: /media/
+
+# Special crawling rules for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
 
 # Crawl delay for better server performance
 Crawl-delay: 1
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://avtokontinent.uz/sitemap.xml
+Sitemap: https://avtokontinent.uz/sitemap-products.xml
+Sitemap: https://avtokontinent.uz/sitemap-brands.xml
+Sitemap: https://avtokontinent.uz/sitemap-categories.xml
+
+# Host declaration for better SEO
+Host: https://avtokontinent.uz

@@ -1,17 +1,31 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
+from django.utils import timezone
 from .models import Product, Brand, Category
 
 class StaticViewSitemap(Sitemap):
-    """Sitemap for static pages"""
+    """Sitemap for static pages with multilingual support"""
     changefreq = "daily"
-    priority = 0.8
+    priority = 0.9
+    protocol = 'https'
 
     def items(self):
-        return ["home", "product_list"]
+        # Include key pages that should rank for brand searches
+        return ["home", "product_list", "brand_list", "category_list"]
 
     def location(self, item):
-        return reverse(item)
+        try:
+            return reverse(item)
+        except:
+            # Fallback for URLs that might not exist
+            if item == "brand_list":
+                return "/brands/"
+            elif item == "category_list":
+                return "/categories/"
+            return reverse("home")
+    
+    def lastmod(self, item):
+        return timezone.now()
 
 
 class ProductSitemap(Sitemap):
