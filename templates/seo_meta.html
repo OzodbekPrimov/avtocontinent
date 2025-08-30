@@ -1,0 +1,170 @@
+{% load static %}
+{% load i18n %}
+
+<!-- Additional SEO Meta Tags for Brand Recognition -->
+<meta name="brand-keywords" content="avtokontinent, автоконтинент, avto kontinent, авто континент, avtokontinent.uz, автоконтинент.уз">
+<meta name="business-type" content="Auto Parts Store, Automotive, E-commerce">
+<meta name="target-audience" content="Car owners, Mechanics, Auto repair shops">
+
+<!-- Multilingual Brand Recognition -->
+<meta name="site-name-uz" content="Avtokontinent">
+<meta name="site-name-ru" content="Автоконтинент">
+<meta name="site-name-cyrl" content="Автоконтинент">
+
+<!-- Open Graph for Brand Recognition -->
+<meta property="og:brand" content="Avtokontinent">
+<meta property="og:brand:alt" content="Автоконтинент">
+
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Avtokontinent",
+  "alternateName": [
+    "Автоконтинент",
+    "avtokontinent",
+    "автоконтинент",
+    "Avto Kontinent",
+    "Авто Континент",
+    "Avtokontinent.uz",
+    "Автоконтинент.уз"
+  ],
+  "url": "https://avtokontinent.uz",
+  "logo": "https://avtokontinent.uz/static/images/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+998950592112",
+    "contactType": "Customer Service",
+    "availableLanguage": ["Uzbek", "Russian"],
+    "areaServed": "UZ"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Zarafshon shahri",
+    "addressLocality": "Zarafshon",
+    "addressRegion": "Navoiy viloyati",
+    "addressCountry": "UZ",
+    "postalCode": "210100"
+  },
+  "foundingDate": "2020",
+  "numberOfEmployees": "10-50",
+  "slogan": "Eng yaxshi avtomobil ehtiyot qismlari - Лучшие автозапчасти",
+  "description": "Avtokontinent (Автоконтинент) - O'zbekistondagi eng ishonchli avtomobil ehtiyot qismlari do'koni. Надежный магазин автозапчастей в Узбекистане.",
+  "knowsAbout": [
+    "Auto Parts",
+    "Automotive Repair",
+    "Car Maintenance",
+    "Vacuum Pumps",
+    "Brake Parts",
+    "Ignition Coils",
+    "Автозапчасти",
+    "Ремонт автомобилей",
+    "Вакуумные насосы",
+    "Тормозные детали",
+    "Катушки зажигания"
+  ],
+  "serviceArea": {
+    "@type": "Country",
+    "name": "Uzbekistan"
+  }
+}
+</script>
+
+<!-- Local Business Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://avtokontinent.uz/#business",
+  "name": "Avtokontinent",
+  "alternateName": "Автоконтинент",
+  "image": "https://avtokontinent.uz/static/images/logo.png",
+  "telephone": "+998950592112",
+  "email": "info@avtokontinent.uz",
+  "url": "https://avtokontinent.uz",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Zarafshon shahri",
+    "addressLocality": "Zarafshon",
+    "addressRegion": "Navoiy viloyati",
+    "postalCode": "210100",
+    "addressCountry": "UZ"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 41.377491,
+    "longitude": 64.585262
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "09:00",
+    "closes": "18:00"
+  },
+  "priceRange": "$$",
+  "currenciesAccepted": "UZS",
+  "paymentAccepted": [
+    "Cash",
+    "Credit Card",
+    "Bank Transfer"
+  ],
+  "hasMap": "https://maps.google.com/?q=41.377491,64.585262"
+}
+</script>
+
+<!-- FAQ Schema (multilingual) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Avtokontinent qayerda joylashgan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Avtokontinent (Автоконтинент) Zarafshon shahrida joylashgan. Biz O'zbekiston bo'ylab yetkazib berish xizmatini taqdim etamiz."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qanday avtomobil qismlarini sotasiz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Biz barcha avtomobil markalari uchun original ehtiyot qismlarni sotamiz: vakum nasos, babina, tormoz qismlari, va boshqa ko'plab qismlar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Где находится Автоконтинент?", 
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Автоконтинент (Avtokontinent) находится в городе Зарафшан. Мы предоставляем услуги доставки по всему Узбекистану."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Какие автозапчасти вы продаете?",
+      "acceptedAnswer": {
+        "@type": "Answer", 
+        "text": "Мы продаем оригинальные запчасти для всех марок автомобилей: вакуумные насосы, катушки зажигания, тормозные детали и многие другие запчасти."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Breadcrumb Schema -->
+{% block breadcrumb_schema %}{% endblock %}
+
+
+<!-- Product Schema -->
+{% block product_schema %}{% endblock %}
