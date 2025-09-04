@@ -1,0 +1,209 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}SEO Dashboard - Avtokontinent{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-search"></i>
+                        SEO Monitoring Dashboard
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <!-- SEO Overview -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info">
+                                    <i class="fas fa-box"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Products</span>
+                                    <span class="info-box-number">{{ total_products }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-success">
+                                    <i class="fas fa-tags"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Brands</span>
+                                    <span class="info-box-number">{{ total_brands }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-warning">
+                                    <i class="fas fa-list"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Categories</span>
+                                    <span class="info-box-number">{{ total_categories }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-danger">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">SEO Keywords</span>
+                                    <span class="info-box-number">{{ seo_keywords|length }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Keywords -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Target Keywords</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Keyword</th>
+                                                    <th>Language</th>
+                                                    <th>Priority</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-success">
+                                                    <td><strong>avtokontinent</strong></td>
+                                                    <td>Uzbek (Latin)</td>
+                                                    <td><span class="badge badge-danger">High</span></td>
+                                                </tr>
+                                                <tr class="table-success">
+                                                    <td><strong>автоконтинент</strong></td>
+                                                    <td>Russian (Cyrillic)</td>
+                                                    <td><span class="badge badge-danger">High</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>avtokontinent.uz</td>
+                                                    <td>Domain</td>
+                                                    <td><span class="badge badge-warning">Medium</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>автоконтинент.уз</td>
+                                                    <td>Domain (Cyrillic)</td>
+                                                    <td><span class="badge badge-warning">Medium</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>avto kontinent</td>
+                                                    <td>Uzbek (Spaced)</td>
+                                                    <td><span class="badge badge-info">Low</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>авто континент</td>
+                                                    <td>Russian (Spaced)</td>
+                                                    <td><span class="badge badge-info">Low</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>SEO Status</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Meta Tags Optimized
+                                            <span class="badge badge-success badge-pill">✓</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Structured Data (JSON-LD)
+                                            <span class="badge badge-success badge-pill">✓</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Robots.txt Configured
+                                            <span class="badge badge-success badge-pill">✓</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Sitemap Generated
+                                            <span class="badge badge-success badge-pill">✓</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Multilingual Support
+                                            <span class="badge badge-success badge-pill">✓</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            Google Verification
+                                            <span class="badge badge-warning badge-pill">Pending</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Quick Actions</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="btn-group" role="group">
+                                        <a href="/sitemap.xml" target="_blank" class="btn btn-primary">
+                                            <i class="fas fa-sitemap"></i> View Sitemap
+                                        </a>
+                                        <a href="/robots.txt" target="_blank" class="btn btn-secondary">
+                                            <i class="fas fa-robot"></i> View Robots.txt
+                                        </a>
+                                        <button type="button" class="btn btn-info" onclick="checkRankings()">
+                                            <i class="fas fa-chart-line"></i> Check Rankings
+                                        </button>
+                                        <a href="https://search.google.com/search-console" target="_blank" class="btn btn-success">
+                                            <i class="fab fa-google"></i> Google Console
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function checkRankings() {
+    fetch('/dashboard/seo/check-rankings/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Rankings check initiated. Results will be available in the monitoring dashboard.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error checking rankings. Please try again.');
+    });
+}
+</script>
+{% endblock %}
