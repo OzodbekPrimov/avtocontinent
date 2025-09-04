@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Cart, Order, OrderItem, PaymentSettings, ExchangeRate, Category
+from store.utils import get_branch_by_id
 from functools import wraps
 
 
@@ -39,6 +40,20 @@ def checkout(request):
             messages.error(request, 'Exchange rate not set. Please contact support.')
             return redirect('checkout')
 
+        # Get delivery information - only branch delivery
+        delivery_branch_id = request.POST.get('delivery_branch_id')
+        additional_instructions = request.POST.get('additional_instructions', '').strip()
+        
+        # Validate branch selection
+        if delivery_branch_id:
+            branch_info = get_branch_by_id(delivery_branch_id)
+            if not branch_info:
+                messages.error(request, 'Selected branch is not available.')
+                return redirect('checkout')
+        else:
+            messages.error(request, 'Please select a delivery branch.')
+            return redirect('checkout')
+
         order = Order.objects.create(
             user=request.user,
             total_amount_usd=cart.total_price_usd,
@@ -46,8 +61,8 @@ def checkout(request):
             exchange_rate_used=exchange_rate.usd_to_uzs,
             customer_name=request.POST.get('customer_name'),
             customer_phone=request.POST.get('customer_phone'),
-            customer_address=request.POST.get('customer_address'),
-            delivery_address=request.POST.get('delivery_address'),
+            delivery_branch_id=delivery_branch_id,
+            additional_instructions=additional_instructions,
         )
 
         # Create order items

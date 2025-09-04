@@ -35,16 +35,44 @@
                             </div>
                         </div>
 
+                        <!-- Delivery Information -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-store"></i> {% trans "Branch Delivery Only" %}</h6>
+                            <p class="text-muted">{% trans "All orders are delivered to selected branches only." %}</p>
+                        </div>
+
+                        <!-- Region and Branch Selection -->
                         <div class="mb-3">
-                            <label for="customer_address" class="form-label">{% trans "Address" %}</label>
-                            <textarea class="form-control" id="customer_address"
-                                      name="customer_address" rows="3" required></textarea>
+                            <label for="delivery_region" class="form-label">{% trans "Select Region" %}</label>
+                            <select class="form-select" id="delivery_region" name="delivery_region" required>
+                                <option value="">{% trans "Choose a region..." %}</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="delivery_address" class="form-label">{% trans "Delivery Address (if different)" %}</label>
-                            <textarea class="form-control" id="delivery_address"
-                                      name="delivery_address" rows="3"></textarea>
+                            <label for="delivery_branch" class="form-label">{% trans "Select Branch" %}</label>
+                            <select class="form-select" id="delivery_branch" name="delivery_branch" required disabled>
+                                <option value="">{% trans "First select a region..." %}</option>
+                            </select>
+                            <input type="hidden" id="delivery_branch_id" name="delivery_branch_id">
+                        </div>
+
+                        <!-- Branch Details Display -->
+                        <div id="branch_details" class="mb-3" style="display: none;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{% trans "Selected Branch Details" %}</h6>
+                                    <div id="branch_info"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Instructions -->
+                        <div class="mb-3">
+                            <label for="additional_instructions" class="form-label">{% trans "Additional Instructions" %} <span class="text-muted">({% trans "Optional" %})</span></label>
+                            <textarea class="form-control" id="additional_instructions"
+                                      name="additional_instructions" rows="3" 
+                                      placeholder="{% trans 'Any special delivery instructions or notes...' %}"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -97,8 +125,120 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('agree_terms').addEventListener('change', function() {
-    document.getElementById('checkoutBtn').disabled = !this.checked;
+// Load regions on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadDeliveryRegions();
+    
+    // Handle region selection
+    document.getElementById('delivery_region').addEventListener('change', handleRegionChange);
+    
+    // Handle branch selection
+    document.getElementById('delivery_branch').addEventListener('change', handleBranchChange);
+    
+    // Handle terms agreement
+    document.getElementById('agree_terms').addEventListener('change', function() {
+        document.getElementById('checkoutBtn').disabled = !this.checked;
+    });
 });
+
+// Load delivery regions
+async function loadDeliveryRegions() {
+    try {
+        const response = await fetch('/api/regions/');
+        const data = await response.json();
+        
+        if (data.success) {
+            const regionSelect = document.getElementById('delivery_region');
+            regionSelect.innerHTML = '<option value="">{% trans "Choose a region..." %}</option>';
+            
+            data.regions.forEach(region => {
+                const option = document.createElement('option');
+                option.value = region.id;
+                option.textContent = region.name;
+                regionSelect.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading regions:', error);
+    }
+}
+
+
+
+// Handle region selection
+async function handleRegionChange() {
+    const regionId = this.value;
+    const branchSelect = document.getElementById('delivery_branch');
+    const branchDetails = document.getElementById('branch_details');
+    
+    // Reset branch selection
+    branchSelect.innerHTML = '<option value="">{% trans "Loading branches..." %}</option>';
+    branchSelect.disabled = true;
+    branchDetails.style.display = 'none';
+    document.getElementById('delivery_branch_id').value = '';
+    
+    if (!regionId) {
+        branchSelect.innerHTML = '<option value="">{% trans "First select a region..." %}</option>';
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/regions/${regionId}/branches/`);
+        const data = await response.json();
+        
+        if (data.success) {
+            branchSelect.innerHTML = '<option value="">{% trans "Choose a branch..." %}</option>';
+            
+            data.branches.forEach(branch => {
+                const option = document.createElement('option');
+                option.value = branch.id;
+                option.textContent = `${branch.name} - ${branch.city_district}`;
+                branchSelect.appendChild(option);
+            });
+            
+            branchSelect.disabled = false;
+        }
+    } catch (error) {
+        console.error('Error loading branches:', error);
+        branchSelect.innerHTML = '<option value="">{% trans "Error loading branches" %}</option>';
+    }
+}
+
+// Handle branch selection
+async function handleBranchChange() {
+    const branchId = this.value;
+    const branchDetails = document.getElementById('branch_details');
+    const branchInfo = document.getElementById('branch_info');
+    
+    document.getElementById('delivery_branch_id').value = branchId;
+    
+    if (!branchId) {
+        branchDetails.style.display = 'none';
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/branches/${branchId}/details/`);
+        const data = await response.json();
+        
+        if (data.success) {
+            const branch = data.branch;
+            
+            branchInfo.innerHTML = `
+                <p><strong>{% trans "Region:" %}</strong> ${branch.region}</p>
+                <p><strong>{% trans "Branch:" %}</strong> ${branch.name}</p>
+                <p><strong>{% trans "Address:" %}</strong> ${branch.address}</p>
+                <p><strong>{% trans "Landmark:" %}</strong> ${branch.landmark}</p>
+                <p><strong>{% trans "Phone:" %}</strong> ${branch.phone}</p>
+                <p><strong>{% trans "City/District:" %}</strong> ${branch.city_district}</p>
+                <p><strong>{% trans "Delivery Time:" %}</strong> ${branch.office_delivery_time || 'N/A'}</p>
+            `;
+            
+            branchDetails.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error loading branch details:', error);
+    }
+}
 </script>
 {% endblock %}

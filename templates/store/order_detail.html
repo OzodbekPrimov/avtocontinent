@@ -46,9 +46,26 @@
                             <p><strong>{% trans "Order Date" %}:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
                             <p><strong>{% trans "Customer Name" %}:</strong> {{ order.customer_name }}</p>
                             <p><strong>{% trans "Phone" %}:</strong> {{ order.customer_phone }}</p>
-                            <p><strong>{% trans "Address" %}:</strong> {{ order.customer_address }}</p>
-                            {% if order.delivery_address %}
-                            <p><strong>{% trans "Delivery Address" %}:</strong> {{ order.delivery_address }}</p>
+                            {% if order.additional_instructions %}
+                            <p><strong>{% trans "Additional Instructions" %}:</strong> {{ order.additional_instructions }}</p>
+                            {% endif %}
+                            
+                            <!-- Delivery Information -->
+                            {% if order.delivery_branch_info %}
+                            <hr>
+                            <h6 class="text-muted">{% trans "Delivery Information" %}</h6>
+                            <p><strong>{% trans "Delivery Type" %}:</strong> 
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-store"></i> {% trans "Branch Delivery" %}
+                                </span>
+                            </p>
+                            <p><strong>{% trans "Region" %}:</strong> {{ order.delivery_branch_info.region }}</p>
+                            <p><strong>{% trans "Branch" %}:</strong> {{ order.delivery_branch_info.name }}</p>
+                            <p><strong>{% trans "Branch Address" %}:</strong> {{ order.delivery_branch_info.address }}</p>
+                            <p><strong>{% trans "Landmark" %}:</strong> {{ order.delivery_branch_info.landmark }}</p>
+                            <p><strong>{% trans "Branch Phone" %}:</strong> {{ order.delivery_branch_info.phone }}</p>
+                            <p><strong>{% trans "City/District" %}:</strong> {{ order.delivery_branch_info.city_district }}</p>
+                            <p><strong>{% trans "Estimated Delivery Time" %}:</strong> {{ order.delivery_branch_info.office_delivery_time|default:"N/A" }}</p>
                             {% endif %}
                         </div>
                         <div class="col-md-6">

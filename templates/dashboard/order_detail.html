@@ -17,6 +17,7 @@
                 </div>
             </div>
             <div class="card-body">
+                <!-- First Row: Customer Data and Order Information side by side -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card bg-light">
@@ -29,9 +30,8 @@
                             <div class="card-body">
                                 <p><strong>Имя:</strong> {{ order.customer_name }}</p>
                                 <p><strong>Телефон:</strong> {{ order.customer_phone }}</p>
-                                <p><strong>Адрес:</strong> {{ order.customer_address }}</p>
-                                {% if order.delivery_address %}
-                                <p><strong>Адрес доставки:</strong> {{ order.delivery_address }}</p>
+                                {% if order.additional_instructions %}
+                                <p><strong>Дополнительные инструкции:</strong> {{ order.additional_instructions }}</p>
                                 {% endif %}
                                 {% if order.user %}
                                 <p><strong>Аккаунт пользователя:</strong> @{{ order.user.username }}</p>
@@ -39,6 +39,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="card bg-light">
                             <div class="card-header">
@@ -48,9 +49,12 @@
                                 </h6>
                             </div>
                             <div class="card-body">
+                                <!-- Order Identification -->
                                 <p><strong>ID заказа:</strong> <code>{{ order.order_id }}</code></p>
-                                <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
-                                <p><strong>Статус:</strong>
+                                <p><strong>Дата создания:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+
+                                <!-- Current Status -->
+                                <p><strong>Статус заказа:</strong>
                                     {% if order.status == 'pending' %}
                                         <span class="badge bg-warning">
                                             <i class="fas fa-clock me-1"></i>Ожидание
@@ -77,21 +81,81 @@
                                         </span>
                                     {% endif %}
                                 </p>
-                                <p><strong>Оплата:</strong>
+
+                                <!-- Payment Status -->
+                                <p><strong>Статус оплаты:</strong>
                                     {% if order.payment_confirmed %}
                                         <span class="badge bg-success">
                                             <i class="fas fa-check me-1"></i>Подтверждена
                                         </span>
                                         {% if order.payment_confirmed_at %}
-                                        <br><small class="text-muted">{{ order.payment_confirmed_at|date:"d.m.Y H:i" }}</small>
+                                        <br><small class="text-muted">Подтверждено: {{ order.payment_confirmed_at|date:"d.m.Y H:i" }}</small>
                                         {% endif %}
                                     {% else %}
                                         <span class="badge bg-warning">
-                                            <i class="fas fa-clock me-1"></i>Ожидание
+                                            <i class="fas fa-clock me-1"></i>Ожидание оплаты
                                         </span>
                                     {% endif %}
                                 </p>
-                                <p><strong>Курс валюты:</strong> 1 USD = {{ order.exchange_rate_used }} UZS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Row: Delivery Information below Customer Data -->
+                <div class="row mt-3">
+                    <!-- Delivery Information Card -->
+                    {% if order.delivery_branch_info %}
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    Информация о доставке
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Тип доставки:</strong>
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-store me-1"></i>Доставка в филиал
+                                    </span>
+                                </p>
+                                <p><strong>Регион:</strong> {{ order.delivery_branch_info.region }}</p>
+                                <p><strong>Филиал:</strong> {{ order.delivery_branch_info.name }}</p>
+                                <p><strong>Адрес филиала:</strong> {{ order.delivery_branch_info.address }}</p>
+                                <p><strong>Ориентир:</strong> {{ order.delivery_branch_info.landmark }}</p>
+                                <p><strong>Телефон филиала:</strong> {{ order.delivery_branch_info.phone }}</p>
+                                <p><strong>Город/Район:</strong> {{ order.delivery_branch_info.city_district }}</p>
+                                <p><strong>Время доставки:</strong> {{ order.delivery_branch_info.office_delivery_time|default:"Не указано" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Financial and Additional Order Information -->
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-dollar-sign me-2"></i>
+                                    Финансовая информация
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- Financial Information -->
+                                <p><strong>Сумма заказа (USD):</strong> ${{ order.total_amount_usd|floatformat:2 }}</p>
+                                <p><strong>Сумма заказа (UZS):</strong> {{ order.total_amount_uzs|floatformat:0 }} сум</p>
+                                <p><strong>Курс валюты:</strong> 1 USD = {{ order.exchange_rate_used|floatformat:0 }} UZS</p>
+                                
+                                <!-- Delivery Information -->
+                                {% if order.estimated_delivery_date %}
+                                <hr class="my-3">
+                                <p><strong>Ожидаемая дата доставки:</strong> {{ order.estimated_delivery_date|date:"d.m.Y" }}</p>
+                                {% endif %}
+                                
+                                <!-- Last Update -->
+                                <hr class="my-3">
+                                <p><strong>Последнее обновление:</strong> {{ order.updated_at|date:"d.m.Y H:i" }}</p>
                             </div>
                         </div>
                     </div>

@@ -131,7 +131,7 @@ def notify_customer_status_change_task(self, order_id, old_status, new_status):
         elif new_status == 'shipped':
             message += "\n\n🚚 Buyurtmangiz jo'natildi! Tez orada qo'lingizga yetadi."
         elif new_status == 'delivered':
-            message += "\n\n📦 Buyurtmangiz muvaffaqiyatli yetkazildi! Xaridingiz uchun rahmat!"
+            message += "\n\n📦 Buyurtmangiz muvaffaqiyatli yetkazildi! Tanlagan filialingizdan borib olishingiz mumkin. Xaridingiz uchun rahmat!"
         elif new_status == 'cancelled':
             message += "\n\n❌ Afsuski, buyurtmangiz bekor qilindi. Savollar uchun bog'laning."
 

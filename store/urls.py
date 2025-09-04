@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from . import views
 from . import signals
 from django.views.generic import TemplateView
@@ -51,6 +51,9 @@ urlpatterns = [
 
     path('ajax/sync-cart/', views.ajax_sync_cart, name='ajax_sync_cart'),
     path('ajax/sync-favorites/', views.ajax_sync_favorites, name='ajax_sync_favorites'),
+
+    # API endpoints for delivery
+    path('api/', include('store.api_urls')),
 
 ]
 

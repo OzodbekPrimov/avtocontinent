@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 01:10+0500\n"
+"POT-Creation-Date: 2025-09-03 19:28+0500\n"
 "PO-Revision-Date: 2025-08-07 12:05+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: O‘zbek <uz@li.org>\n"
@@ -13,269 +13,327 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\config\urls.py:9 .\config\urls.py:10
+#: .\config\urls.py:12 .\config\urls.py:13
 msgid "Avtokontinent.uz Admin"
 msgstr "Avtokontinent.uz Admin"
 
-#: .\config\urls.py:11
+#: .\config\urls.py:14
 msgid "Welcome to Avtokontinent.uz Administration"
 msgstr "Avtokontinent.uz ma’muriyatiga xush kelibsiz"
 
-#: .\dashboard\forms.py:479 .\dashboard\forms.py:562
+#: .\dashboard\forms.py:437 .\dashboard\forms.py:520
 msgid "Nomi (Oʻzbekcha)"
 msgstr "Nomi (O‘zbekcha)"
 
-#: .\dashboard\forms.py:479
+#: .\dashboard\forms.py:437
 msgid "Kategoriya nomi"
 msgstr "Kategoriya nomi"
 
-#: .\dashboard\forms.py:480 .\dashboard\forms.py:563
+#: .\dashboard\forms.py:438 .\dashboard\forms.py:521
 msgid "Название (Русский)"
 msgstr "Nomi (Ruscha)"
 
-#: .\dashboard\forms.py:480
+#: .\dashboard\forms.py:438
 msgid "Название категории"
 msgstr "Kategoriya nomi (Ruscha)"
 
-#: .\dashboard\forms.py:481
+#: .\dashboard\forms.py:439
 msgid "Но (Krill)"
 msgstr ""
 
-#: .\dashboard\forms.py:481
+#: .\dashboard\forms.py:439
 msgid "Category name"
 msgstr "Kategoriya nomi (Inglizcha)"
 
-#: .\dashboard\forms.py:482 .\dashboard\forms.py:565
+#: .\dashboard\forms.py:440 .\dashboard\forms.py:523
 msgid "Tavsif (Oʻzbekcha)"
 msgstr "Tavsif (O‘zbekcha)"
 
-#: .\dashboard\forms.py:482
+#: .\dashboard\forms.py:440
 msgid "Kategoriya tavsifi"
 msgstr "Kategoriya tavsifi"
 
-#: .\dashboard\forms.py:483 .\dashboard\forms.py:566
+#: .\dashboard\forms.py:441 .\dashboard\forms.py:524
 msgid "Описание (Русский)"
 msgstr "Tavsif (Ruscha)"
 
-#: .\dashboard\forms.py:483
+#: .\dashboard\forms.py:441
 msgid "Описание категории"
 msgstr "Kategoriya tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:484 .\dashboard\forms.py:567
+#: .\dashboard\forms.py:442 .\dashboard\forms.py:525
 #, fuzzy
 #| msgid "Tavsif (Oʻzbekcha)"
 msgid "Tavsif (Krilcha)"
 msgstr "Tavsif (O‘zbekcha)"
 
-#: .\dashboard\forms.py:484
+#: .\dashboard\forms.py:442
 #, fuzzy
 #| msgid "Kategoriya tavsifi"
 msgid "Category tavsif"
 msgstr "Kategoriya tavsifi"
 
-#: .\dashboard\forms.py:508 .\dashboard\forms.py:592
+#: .\dashboard\forms.py:466 .\dashboard\forms.py:550
 msgid "Ushbu maydon majburiy"
 msgstr "Ushbu maydon majburiy"
 
-#: .\dashboard\forms.py:562
+#: .\dashboard\forms.py:520
 msgid "Brend nomi"
 msgstr "Brend nomi"
 
-#: .\dashboard\forms.py:563
+#: .\dashboard\forms.py:521
 msgid "Название бренда"
 msgstr "Brend nomi (Ruscha)"
 
-#: .\dashboard\forms.py:564
+#: .\dashboard\forms.py:522
 #, fuzzy
 #| msgid "Nomi (Oʻzbekcha)"
 msgid "Nomi (Krilcha)"
 msgstr "Nomi (O‘zbekcha)"
 
-#: .\dashboard\forms.py:564
+#: .\dashboard\forms.py:522
 #, fuzzy
 #| msgid "Brend nomi"
 msgid "Brand nomi"
 msgstr "Brend nomi"
 
-#: .\dashboard\forms.py:565
+#: .\dashboard\forms.py:523
 msgid "Brend tavsifi"
 msgstr "Brend tavsifi"
 
-#: .\dashboard\forms.py:566
+#: .\dashboard\forms.py:524
 msgid "Описание бренда"
 msgstr "Brend tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:567
+#: .\dashboard\forms.py:525
 #, fuzzy
 #| msgid "Brend tavsifi"
 msgid "Brand tavsifi"
 msgstr "Brend tavsifi"
 
-#: .\dashboard\forms.py:659
+#: .\dashboard\forms.py:617
 msgid "Avtomatik yaratiladi"
 msgstr "Avtomatik yaratiladi"
 
-#: .\dashboard\forms.py:660
+#: .\dashboard\forms.py:618
 msgid "URL uchun ishlatiladigan qisqa nom"
 msgstr "URL uchun ishlatiladigan qisqa nom"
 
-#: .\dashboard\forms.py:665
+#: .\dashboard\forms.py:623
 msgid "Brend"
 msgstr "Brend"
 
-#: .\dashboard\forms.py:666
+#: .\dashboard\forms.py:624
 msgid "Model rasmi"
 msgstr "Model rasmi"
 
-#: .\dashboard\forms.py:667
+#: .\dashboard\forms.py:625
 msgid "Faol"
 msgstr "Faol"
 
-#: .\dashboard\forms.py:672
+#: .\dashboard\forms.py:630
 msgid "Oʻzbekcha nom"
 msgstr "O‘zbekcha nom"
 
-#: .\dashboard\forms.py:672 .\dashboard\forms.py:674
+#: .\dashboard\forms.py:630 .\dashboard\forms.py:632
 msgid "Model nomi"
 msgstr "Model nomi"
 
-#: .\dashboard\forms.py:673
+#: .\dashboard\forms.py:631
 msgid "Ruscha nom"
 msgstr "Ruscha nom"
 
-#: .\dashboard\forms.py:673
+#: .\dashboard\forms.py:631
 msgid "Название модели"
 msgstr "Model nomi (Ruscha)"
 
-#: .\dashboard\forms.py:674
+#: .\dashboard\forms.py:632
 #, fuzzy
 #| msgid "Ruscha nom"
 msgid "Krilcha nom"
 msgstr "Ruscha nom"
 
-#: .\dashboard\forms.py:678
+#: .\dashboard\forms.py:636
 msgid "Oʻzbekcha tavsif"
 msgstr "O‘zbekcha tavsif"
 
-#: .\dashboard\forms.py:678
+#: .\dashboard\forms.py:636
 msgid "Model haqida ma'lumot"
 msgstr "Model haqida ma’lumot"
 
-#: .\dashboard\forms.py:679
+#: .\dashboard\forms.py:637
 msgid "Ruscha tavsif"
 msgstr "Ruscha tavsif"
 
-#: .\dashboard\forms.py:679
+#: .\dashboard\forms.py:637
 msgid "Описание модели"
 msgstr "Model tavsifi (Ruscha)"
 
-#: .\dashboard\forms.py:680
+#: .\dashboard\forms.py:638
 #, fuzzy
 #| msgid "Ruscha tavsif"
 msgid "Krilcha tavsif"
 msgstr "Ruscha tavsif"
 
-#: .\dashboard\forms.py:680
+#: .\dashboard\forms.py:638
 #, fuzzy
 #| msgid "Model rasmi"
 msgid "Model tavsifi"
 msgstr "Model rasmi"
 
-#: .\dashboard\forms.py:699
+#: .\dashboard\forms.py:657
 msgid "Kamida bitta til uchun nom kiritishingiz kerak"
 msgstr "Kamida bitta til uchun nom kiritishingiz kerak"
 
-#: .\dashboard\forms.py:733
+#: .\dashboard\forms.py:691
 msgid "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
 msgstr "Ushbu brend uchun bunday slug bilan model allaqachon mavjud"
 
-#: .\templates\base.html:11
+#: .\templates\base.html:12
 msgid ""
-"Avtokontinent.uz - Avtomobil ehtiyot qismlari do'koni. Vakum nasos, babina "
-"va boshqa qismlar. Tezkor yetkazib berish O'zbekiston bo'ylab. "
-"Автоконтinent.уз - Автозапчасти для всех марок. Вакуумный насос, бабинка ва "
-"бошқа қисмлар. Быстрая доставка по Узбекистану."
+"Avtokontinent.uz (Автоконтинент.уз) - O'zbekistondagi eng yaxshi avtomobil "
+"ehtiyot qismlari do'koni. Barcha brendlar uchun original qismlar: vakum "
+"nasos, babina, tormoz qismlari. Toshkent, Samarqand, Buxoro bo'ylab tezkor "
+"yetkazib berish. Лучший магазин автозапчастей в Узбекистане. Оригинальные "
+"запчасти для всех марок: вакуумный насос, катушка, тормозные детали. Быстрая "
+"доставка по Ташкенту, Самарканду, Бухаре."
 msgstr ""
 
-#: .\templates\base.html:30
+#: .\templates\base.html:63 .\templates\store\home.html:11
+#, fuzzy
+#| msgid "Avtokontinent.uz - Auto Spare Parts"
+msgid ""
+"Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari "
+"do'koni"
+msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
+
+#: .\templates\base.html:64
+msgid ""
+"Barcha brendlar uchun original avtomobil qismlari. Vakum nasos, babina, "
+"tormoz qismlari. Tezkor yetkazib berish O'zbekiston bo'ylab. Оригинальные "
+"автозапчасти для всех марок. Вакуумный насос, катушка, тормозные детали. "
+"Быстрая доставка по Узбекистану."
+msgstr ""
+
+#: .\templates\base.html:68 .\templates\base.html:84
 #, fuzzy
 #| msgid "Avtokontinent.uz - Auto Spare Parts"
 msgid "Avtokontinent.uz - Avtomobil ehtiyot qismlari"
 msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
 
-#: .\templates\base.html:31
+#: .\templates\base.html:85
 msgid ""
-"Avtomobil qismlari do'koni: vakum nasos, babina va boshqalar. Автозапчасти: "
-"вакуумный насос, бабинка."
+"Original avtomobil qismlari barcha brendlar uchun. Tezkor yetkazib berish "
+"O'zbekiston bo'ylab."
 msgstr ""
 
-#: .\templates\base.html:38 .\templates\base.html:1059
-msgid "Avtokontinent.uz"
+#: .\templates\base.html:87
+#, fuzzy
+#| msgid "Avtokontinent.uz"
+msgid "Avtokontinent.uz logo"
 msgstr "Avtokontinent.uz"
 
-#: .\templates\base.html:39
-msgid "Avto qismlar O'zbekistonda."
-msgstr ""
-
-#: .\templates\base.html:42
-msgid "Avtokontinent.uz - Auto Spare Parts"
+#: .\templates\base.html:89
+#, fuzzy
+#| msgid "Avtokontinent.uz - Auto Spare Parts"
+msgid ""
+"Avtokontinent.uz (Автоконтинент.уз) - Auto Spare Parts | Avtomobil Ehtiyot "
+"Qismlari"
 msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
 
-#: .\templates\base.html:840 .\templates\base.html:855
+#: .\templates\base.html:861
+msgid "O\\"
+msgstr ""
+
+#: .\templates\base.html:912 .\templates\store\product_detail.html:5
+#, fuzzy
+#| msgid "Avtokontinent.uz - Auto Spare Parts"
+msgid "Avtomobil ehtiyot qismlari"
+msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
+
+#: .\templates\base.html:916
+msgid "Vakum nasos"
+msgstr ""
+
+#: .\templates\base.html:917
+msgid "Barcha avtomobil markalari uchun vakum nasoslari"
+msgstr ""
+
+#: .\templates\base.html:921
+msgid "Babina"
+msgstr ""
+
+#: .\templates\base.html:922
+msgid "Yuqori sifatli babinalar va elektr qismlari"
+msgstr ""
+
+#: .\templates\base.html:926
+msgid "Tormoz qismlari"
+msgstr ""
+
+#: .\templates\base.html:927
+msgid "Xavfsizlik uchun original tormoz qismlari"
+msgstr ""
+
+#: .\templates\base.html:955 .\templates\base.html:970
 #: .\templates\store\brand_models.html:57
 msgid "Search products..."
 msgstr "Mahsulotlarni qidirish..."
 
-#: .\templates\base.html:892 .\templates\base.html:994
-#: .\templates\base.html:1001
+#: .\templates\base.html:1007 .\templates\base.html:1109
+#: .\templates\base.html:1116
 msgid "Favorites"
 msgstr "Sevimlilar"
 
-#: .\templates\base.html:903 .\templates\store\cart.html:10
+#: .\templates\base.html:1018 .\templates\store\cart.html:10
 msgid "Shopping Cart"
 msgstr "Xarid savati"
 
-#: .\templates\base.html:915
+#: .\templates\base.html:1030
 msgid "My Account"
 msgstr "Mening hisobim"
 
-#: .\templates\base.html:921 .\templates\base.html:1036
+#: .\templates\base.html:1036 .\templates\base.html:1151
 #: .\templates\store\order_detail.html:13
 #: .\templates\store\order_history.html:9
 msgid "Order History"
 msgstr "Buyurtmalar tarixi"
 
-#: .\templates\base.html:925 .\templates\base.html:1040
+#: .\templates\base.html:1040 .\templates\base.html:1155
 msgid "Logout"
 msgstr "Chiqish"
 
-#: .\templates\base.html:932 .\templates\base.html:1045
-#: .\templates\base.html:1047 .\templates\store\login.html:16
-#: .\templates\store\product_detail.html:173
+#: .\templates\base.html:1047 .\templates\base.html:1160
+#: .\templates\base.html:1162 .\templates\store\login.html:16
+#: .\templates\store\product_detail.html:246
 msgid "Login"
 msgstr "Kirish"
 
-#: .\templates\base.html:977 .\templates\base.html:979
-#: .\templates\base.html:1071 .\templates\store\brand_models.html:11
+#: .\templates\base.html:1092 .\templates\base.html:1094
+#: .\templates\base.html:1186 .\templates\store\brand_models.html:11
 #: .\templates\store\order_detail.html:12
-#: .\templates\store\product_detail.html:12
+#: .\templates\store\product_detail.html:85
 #: .\templates\store\product_list.html:11
 msgid "Home"
 msgstr "Bosh sahifa"
 
-#: .\templates\base.html:983 .\templates\base.html:990
+#: .\templates\base.html:1098 .\templates\base.html:1105
 msgid "Cart"
 msgstr "Savatcha"
 
-#: .\templates\base.html:1005
+#: .\templates\base.html:1120
 msgid "Language"
 msgstr "Til"
 
-#: .\templates\base.html:1031 .\templates\base.html:1033
+#: .\templates\base.html:1146 .\templates\base.html:1148
 msgid "Account"
 msgstr "Hisob"
 
-#: .\templates\base.html:1060
+#: .\templates\base.html:1174 .\templates\store\product_detail.html:11
+msgid "Avtokontinent.uz"
+msgstr "Avtokontinent.uz"
+
+#: .\templates\base.html:1175
 msgid ""
 "Your trusted partner for quality auto spare parts. We provide genuine parts "
 "for all car brands with fast delivery across Uzbekistan."
@@ -284,59 +342,59 @@ msgstr ""
 "avtomobil brendlari uchun original qismlarni O‘zbekiston bo‘ylab tez "
 "yetkazib beramiz."
 
-#: .\templates\base.html:1069
+#: .\templates\base.html:1184
 msgid "Quick Links"
 msgstr "Tez havolalar"
 
-#: .\templates\base.html:1072 .\templates\store\product_detail.html:13
+#: .\templates\base.html:1187 .\templates\store\product_detail.html:86
 #: .\templates\store\product_list.html:12
 #: .\templates\store\product_list.html:79
 msgid "Products"
 msgstr "Mahsulotlar"
 
-#: .\templates\base.html:1073 .\templates\store\brand_models.html:12
+#: .\templates\base.html:1188 .\templates\store\brand_models.html:12
 #: .\templates\store\product_list.html:39
 msgid "Brands"
 msgstr "Brendlar"
 
-#: .\templates\base.html:1074
+#: .\templates\base.html:1189
 msgid "About Us"
 msgstr "Biz haqimizda"
 
-#: .\templates\base.html:1078 .\templates\store\brand_models.html:105
+#: .\templates\base.html:1193 .\templates\store\brand_models.html:105
 #: .\templates\store\product_list.html:24
 msgid "Categories"
 msgstr "Kategoriyalar"
 
-#: .\templates\base.html:1086
+#: .\templates\base.html:1201
 msgid "Contact Info"
 msgstr "Aloqa ma’lumotlari"
 
-#: .\templates\base.html:1088
+#: .\templates\base.html:1203
 msgid "O'zbekiston, Navoiy viloyati, Zarafshon shahri"
 msgstr "O'zbekiston, Navoiy viloyati, Zarafshon shahri"
 
-#: .\templates\base.html:1091
+#: .\templates\base.html:1206
 msgid "Omborlar: Toshkent, Qo'qon"
 msgstr "Omborlar: Toshkent, Qo'qon"
 
-#: .\templates\base.html:1092
+#: .\templates\base.html:1207
 msgid "Mon-Sat: 9:00 AM - 6:00 PM"
 msgstr "Dush-Shan: 9:00 - 18:00"
 
-#: .\templates\base.html:1099
+#: .\templates\base.html:1214
 msgid "Avtokontinent.uz. All rights reserved."
 msgstr "Avtokontinent.uz. Barcha huquqlar himoyalangan."
 
-#: .\templates\base.html:1102
+#: .\templates\base.html:1217
 msgid "Privacy Policy"
 msgstr "Maxfiylik siyosati"
 
-#: .\templates\base.html:1103
+#: .\templates\base.html:1218
 msgid "Terms of Service"
 msgstr "Xizmat ko‘rsatish shartlari"
 
-#: .\templates\base.html:1104
+#: .\templates\base.html:1219
 msgid "Support"
 msgstr "Yordam"
 
@@ -403,23 +461,24 @@ msgid "Most Popular"
 msgstr "Eng ommabop"
 
 #: .\templates\store\brand_models.html:164 .\templates\store\favorites.html:25
-#: .\templates\store\product_detail.html:102
-#: .\templates\store\product_detail.html:227
+#: .\templates\store\product_detail.html:175
+#: .\templates\store\product_detail.html:300
 #: .\templates\store\product_list.html:102
 msgid "Like"
 msgstr "Yoqtirish"
 
 #: .\templates\store\brand_models.html:167
-#: .\templates\store\product_detail.html:105
-#: .\templates\store\product_detail.html:230
+#: .\templates\store\product_detail.html:178
+#: .\templates\store\product_detail.html:303
 #: .\templates\store\product_list.html:105
 msgid "Add to Favorites"
 msgstr "Sevimlilarga qo‘shish"
 
 #: .\templates\store\brand_models.html:173
 #: .\templates\store\brand_models.html:203 .\templates\store\favorites.html:31
-#: .\templates\store\favorites.html:58 .\templates\store\product_detail.html:66
-#: .\templates\store\product_detail.html:99
+#: .\templates\store\favorites.html:58
+#: .\templates\store\product_detail.html:139
+#: .\templates\store\product_detail.html:172
 #: .\templates\store\product_list.html:111
 #: .\templates\store\product_list.html:149
 msgid "Out of Stock"
@@ -427,33 +486,33 @@ msgstr "Omborda yo‘q"
 
 #: .\templates\store\brand_models.html:191 .\templates\store\cart.html:41
 #: .\templates\store\cart.html:62 .\templates\store\cart.html:71
-#: .\templates\store\checkout.html:74 .\templates\store\checkout.html:80
-#: .\templates\store\favorites.html:45 .\templates\store\order_detail.html:66
-#: .\templates\store\order_detail.html:93
-#: .\templates\store\order_detail.html:98
-#: .\templates\store\order_detail.html:111
-#: .\templates\store\order_detail.html:120
-#: .\templates\store\order_detail.html:213
-#: .\templates\store\order_detail.html:252
+#: .\templates\store\checkout.html:102 .\templates\store\checkout.html:108
+#: .\templates\store\favorites.html:45 .\templates\store\order_detail.html:83
+#: .\templates\store\order_detail.html:110
+#: .\templates\store\order_detail.html:115
+#: .\templates\store\order_detail.html:128
+#: .\templates\store\order_detail.html:137
+#: .\templates\store\order_detail.html:230
+#: .\templates\store\order_detail.html:269
 #: .\templates\store\order_history.html:44
 #: .\templates\store\order_payment.html:45
 #: .\templates\store\order_payment.html:160
 #: .\templates\store\order_payment.html:185
-#: .\templates\store\product_detail.html:58
-#: .\templates\store\product_detail.html:239
+#: .\templates\store\product_detail.html:131
+#: .\templates\store\product_detail.html:312
 #: .\templates\store\product_list.html:137
 msgid "UZS"
 msgstr "So‘m"
 
 #: .\templates\store\brand_models.html:197 .\templates\store\favorites.html:52
-#: .\templates\store\home.html:173 .\templates\store\home.html:238
+#: .\templates\store\home.html:181 .\templates\store\home.html:246
 #: .\templates\store\order_history.html:47
 #: .\templates\store\product_list.html:143
 msgid "View Details"
 msgstr "Tafsilotlarni ko‘rish"
 
 #: .\templates\store\brand_models.html:199 .\templates\store\favorites.html:54
-#: .\templates\store\product_detail.html:95
+#: .\templates\store\product_detail.html:168
 #: .\templates\store\product_list.html:145
 msgid "Add to Cart"
 msgstr "Savatchaga"
@@ -478,7 +537,7 @@ msgid "Shopping Cart - Avtokontinent.uz"
 msgstr "Xarid savati - Avtokontinent.uz"
 
 #: .\templates\store\cart.html:30 .\templates\store\favorites.html:50
-#: .\templates\store\product_detail.html:72
+#: .\templates\store\product_detail.html:145
 msgid "people have this in cart"
 msgstr "ta savatchada"
 
@@ -488,8 +547,8 @@ msgstr "ta savatchada"
 msgid "Stock"
 msgstr "mavjud"
 
-#: .\templates\store\cart.html:59 .\templates\store\checkout.html:70
-#: .\templates\store\order_detail.html:279
+#: .\templates\store\cart.html:59 .\templates\store\checkout.html:98
+#: .\templates\store\order_detail.html:296
 msgid "Order Summary"
 msgstr "Buyurtma xulosasi"
 
@@ -501,17 +560,17 @@ msgstr "Oraliq jami:"
 msgid "Delivery:"
 msgstr "Yetkazib berish:"
 
-#: .\templates\store\cart.html:66 .\templates\store\order_detail.html:115
+#: .\templates\store\cart.html:66 .\templates\store\order_detail.html:132
 #: .\templates\store\order_payment.html:176
 msgid "Free"
 msgstr "Bepul"
 
-#: .\templates\store\cart.html:70 .\templates\store\checkout.html:79
+#: .\templates\store\cart.html:70 .\templates\store\checkout.html:107
 #: .\templates\store\order_payment.html:180
 msgid "Total:"
 msgstr "Jami:"
 
-#: .\templates\store\cart.html:74 .\templates\store\checkout.html:60
+#: .\templates\store\cart.html:74 .\templates\store\checkout.html:88
 msgid "Place Order"
 msgstr "Buyurtma berish"
 
@@ -523,7 +582,7 @@ msgstr "Savatingiz bo‘sh"
 msgid "Add some products to your cart to continue shopping"
 msgstr "Xaridni davom ettirish uchun savatingizga mahsulotlar qo‘shing"
 
-#: .\templates\store\cart.html:85 .\templates\store\order_detail.html:274
+#: .\templates\store\cart.html:85 .\templates\store\order_detail.html:291
 msgid "Continue Shopping"
 msgstr "Xaridni davom ettirish"
 
@@ -559,37 +618,116 @@ msgstr "To‘liq ism"
 msgid "Phone Number"
 msgstr "Telefon raqami"
 
-#: .\templates\store\checkout.html:39 .\templates\store\order_detail.html:49
-msgid "Address"
-msgstr "Manzil"
+# #-#-#-#-#  django.po (PACKAGE VERSION)  #-#-#-#-#
+# New translations for delivery system updates
+#: .\templates\store\checkout.html:40
+msgid "Branch Delivery Only"
+msgstr "Faqat filialdan olib ketish"
 
-#: .\templates\store\checkout.html:45
-msgid "Delivery Address (if different)"
-msgstr "Yetkazib berish manzili (agar boshqa bo‘lsa)"
+#: .\templates\store\checkout.html:41
+msgid "All orders are delivered to selected branches only."
+msgstr "Barcha buyurtmalar faqat tanlangan filiallarga yetkazib beriladi."
 
-#: .\templates\store\checkout.html:54
+#: .\templates\store\checkout.html:46
+#| msgid "Select Rating"
+msgid "Select Region"
+msgstr "Xududni tanlang"
+
+#: .\templates\store\checkout.html:48 .\templates\store\checkout.html:152
+msgid "Choose a region..."
+msgstr "Xududni tanlang..."
+
+#: .\templates\store\checkout.html:53
+#| msgid "Select Rating"
+msgid "Select Branch"
+msgstr "Filialni tanlang"
+
+#: .\templates\store\checkout.html:55 .\templates\store\checkout.html:181
+msgid "First select a region..."
+msgstr "Birinchi xududni tanlang..."
+
+#: .\templates\store\checkout.html:64
+msgid "Selected Branch Details"
+msgstr "Tanlangan filial ma’lumotlari"
+
+#: .\templates\store\checkout.html:72 .\templates\store\order_detail.html:50
+msgid "Additional Instructions"
+msgstr "Qo'shimcha ko'rsatmalar"
+
+#: .\templates\store\checkout.html:72
+msgid "Optional"
+msgstr "Ixtiyoriy"
+
+#: .\templates\store\checkout.html:75
+msgid "Any special delivery instructions or notes..."
+msgstr "Maxsus yetkazib berish ko‘rsatmalari yoki izohlar..."
+
+
+#: .\templates\store\checkout.html:82
 msgid "I agree to the"
 msgstr "Men rozi bo‘laman"
 
-#: .\templates\store\checkout.html:54
+#: .\templates\store\checkout.html:82
 msgid "Terms and Conditions"
 msgstr "Foydalanish shartlari"
 
-#: .\templates\store\checkout.html:85 .\templates\store\order_detail.html:55
+#: .\templates\store\checkout.html:113 .\templates\store\order_detail.html:72
 msgid "Payment Information"
 msgstr "To‘lov ma’lumotlari"
 
-#: .\templates\store\checkout.html:86 .\templates\store\order_payment.html:25
+#: .\templates\store\checkout.html:114 .\templates\store\order_payment.html:25
 msgid "Card Number:"
 msgstr "Karta raqami:"
 
-#: .\templates\store\checkout.html:87 .\templates\store\order_payment.html:32
+#: .\templates\store\checkout.html:115 .\templates\store\order_payment.html:32
 msgid "Bank:"
 msgstr "Bank:"
 
-#: .\templates\store\checkout.html:88 .\templates\store\order_payment.html:36
+#: .\templates\store\checkout.html:116 .\templates\store\order_payment.html:36
 msgid "Cardholder:"
 msgstr "Karta egasi:"
+
+#: .\templates\store\checkout.html:175
+msgid "Loading branches..."
+msgstr "Filiallar yuklanmoqda..."
+
+#: .\templates\store\checkout.html:190
+msgid "Choose a branch..."
+msgstr "Filialni tanlang..."
+
+#: .\templates\store\checkout.html:203
+msgid "Error loading branches"
+msgstr "Filiallarni yuklashda xato"
+
+#: .\templates\store\checkout.html:228
+msgid "Region:"
+msgstr "Xudud:"
+
+#: .\templates\store\checkout.html:229
+
+msgid "Branch:"
+msgstr "Filial"
+
+#: .\templates\store\checkout.html:230
+msgid "Address:"
+msgstr "Manzil"
+
+#: .\templates\store\checkout.html:231
+msgid "Landmark:"
+msgstr "Mo'ljal"
+
+#: .\templates\store\checkout.html:232
+msgid "Phone:"
+msgstr "Telefon"
+
+#: .\templates\store\checkout.html:233
+msgid "City/District:"
+msgstr "Shaxar/Tuman"
+
+#: .\templates\store\checkout.html:234
+
+msgid "Delivery Time:"
+msgstr "Yetkazib berish vaqti (h):"
 
 #: .\templates\store\favorites.html:4
 msgid "Favorites - Avtokontinent.uz"
@@ -646,74 +784,106 @@ msgid "Unliked!"
 msgstr "yoqtirishlar"
 
 #: .\templates\store\home.html:5
-msgid "Home - Avtokontinent.uz"
-msgstr "Bosh sahifa - Avtokontinent.uz"
+msgid ""
+"Avtokontinent.uz - O'zbekistondagi eng yaxshi avtomobil ehtiyot qismlari "
+"do'koni | Автозапчасти Узбекистан"
+msgstr ""
 
-#: .\templates\store\home.html:51
+#: .\templates\store\home.html:7
+msgid ""
+"Avtokontinent.uz - O'zbekistondagi eng ishonchli avtomobil ehtiyot qismlari "
+"do'koni. Barcha brendlar uchun original qismlar: vakum nasos, babina, tormoz "
+"qismlari. Toshkent, Samarqand, Buxoro bo'ylab tezkor yetkazib berish. "
+"Автоконтинент.уз - Самый надежный магазин автозапчастей в Узбекистане. "
+"Оригинальные запчасти для всех марок: вакуумный насос, катушка, тормозные "
+"детали. Быстрая доставка по Ташкенту, Самарканду, Бухаре."
+msgstr ""
+
+#: .\templates\store\home.html:13
+#, fuzzy
+#| msgid "Avtokontinent.uz - Auto Spare Parts"
+msgid "Avtokontinent.uz - Original avtomobil qismlari"
+msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
+
+#: .\templates\store\home.html:37
+#, fuzzy
+#| msgid "Avtokontinent.uz"
+msgid "Avtokontinent.uz banner"
+msgstr "Avtokontinent.uz"
+
+#: .\templates\store\home.html:59
 msgid "Previous"
 msgstr "Oldingi"
 
-#: .\templates\store\home.html:55
+#: .\templates\store\home.html:63
 msgid "Next"
 msgstr "Keyingi"
 
-#: .\templates\store\home.html:66
+#: .\templates\store\home.html:74
 msgid "Popular Brands"
 msgstr "Ommabop brendlar"
 
-#: .\templates\store\home.html:82
+#: .\templates\store\home.html:83
+msgid "Avtomobil brendlari"
+msgstr ""
+
+#: .\templates\store\home.html:83
+msgid "logo"
+msgstr ""
+
+#: .\templates\store\home.html:90
 msgid "models"
 msgstr "modellar"
 
-#: .\templates\store\home.html:88
+#: .\templates\store\home.html:96
 msgid "No brands available"
 msgstr "Brendlar mavjud emas"
 
-#: .\templates\store\home.html:98
+#: .\templates\store\home.html:106
 msgid "Product Categories"
 msgstr "Mahsulot kategoriyalari"
 
-#: .\templates\store\home.html:117
+#: .\templates\store\home.html:125
 msgid "items"
 msgstr "mahsulotlar"
 
-#: .\templates\store\home.html:124
+#: .\templates\store\home.html:132
 msgid "No categories available"
 msgstr "Kategoriyalar mavjud emas"
 
-#: .\templates\store\home.html:136
+#: .\templates\store\home.html:144
 msgid "Best Selling Products"
 msgstr "Eng ko‘p sotilgan mahsulotlar"
 
-#: .\templates\store\home.html:137
+#: .\templates\store\home.html:145
 msgid "Top 5 products that our customers love the most"
 msgstr "Mijozlarimiz eng yaxshi ko‘rgan 5 ta mahsulot"
 
-#: .\templates\store\home.html:148
+#: .\templates\store\home.html:156
 msgid "Best Seller"
 msgstr "Eng ko‘p sotilgan"
 
-#: .\templates\store\home.html:163
+#: .\templates\store\home.html:171
 msgid "sold"
 msgstr "sotildi"
 
-#: .\templates\store\home.html:187 .\templates\store\home.html:252
+#: .\templates\store\home.html:195 .\templates\store\home.html:260
 msgid "View More"
 msgstr "Ko‘proq ko‘rish"
 
-#: .\templates\store\home.html:199
+#: .\templates\store\home.html:207
 msgid "Most Liked Products"
 msgstr "Eng ko‘p yoqtirilgan mahsulotlar"
 
-#: .\templates\store\home.html:200
+#: .\templates\store\home.html:208
 msgid "Products that have won the hearts of our customers"
 msgstr "Mijozlarimiz qalbini zabt etgan mahsulotlar"
 
-#: .\templates\store\home.html:228 .\templates\store\product_detail.html:74
+#: .\templates\store\home.html:236 .\templates\store\product_detail.html:147
 msgid "likes"
 msgstr "yoqtirishlar"
 
-#: .\templates\store\home.html:232
+#: .\templates\store\home.html:240
 msgid "reviews"
 msgstr "sharh"
 
@@ -722,8 +892,7 @@ msgid "Login - Avtokontinent.uz"
 msgstr "Kirish - Avtokontinent.uz"
 
 #: .\templates\store\login.html:18
-#, fuzzy
-#| msgid "4-Digit Verification Code"
+
 msgid "Enter your verification code"
 msgstr "Tasdiqlash kodingizni kiriting"
 
@@ -775,10 +944,9 @@ msgid "Enter the code here to login"
 msgstr "Kirish uchun kodni bu yerga kiriting"
 
 #: .\templates\store\login.html:140
-#, fuzzy
-#| msgid "Code expires in 1 minute"
+
 msgid "Code expires in 2 minute"
-msgstr "Kodning amal qilish muddati 1 daqiqa"
+msgstr "Kodning amal qilish muddati 2 daqiqa"
 
 #: .\templates\store\login.html:206
 msgid "Please enter a valid 4-digit code."
@@ -790,7 +958,7 @@ msgstr "Tekshirilmoqda..."
 
 #: .\templates\store\login.html:256
 msgid "Success!"
-msgstr ""
+msgstr "muvaffaqiyatli"
 
 #: .\templates\store\login.html:275
 msgid "Network error. Please try again."
@@ -818,202 +986,246 @@ msgstr "Mijoz ismi"
 msgid "Phone"
 msgstr "Telefon"
 
-#: .\templates\store\order_detail.html:51
-msgid "Delivery Address"
-msgstr "Yetkazib berish manzili"
-
 #: .\templates\store\order_detail.html:56
+msgid "Delivery Information"
+msgstr "Yetkazib berish ma'lumotlari"
+
+#: .\templates\store\order_detail.html:57
+msgid "Delivery Type"
+msgstr "Yetkazib berish turi"
+
+#: .\templates\store\order_detail.html:59
+msgid "Branch Delivery"
+msgstr "Filial orqali yetkazib berish"
+
+#: .\templates\store\order_detail.html:62
+#, fuzzy
+msgid "Region"
+msgstr "Xudud"
+"#-#-#-#-#  django.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Xudud\n"
+"#-#-#-#-#  django.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Viloyat"
+
+#: .\templates\store\order_detail.html:63
+msgid "Branch"
+msgstr "Filial"
+
+#: .\templates\store\order_detail.html:64
+msgid "Branch Address"
+msgstr "Filial manzili"
+
+#: .\templates\store\order_detail.html:65
+msgid "Landmark"
+msgstr "Mo'ljal"
+
+
+#: .\templates\store\order_detail.html:66
+msgid "Branch Phone"
+msgstr "Filial telefoni"
+
+#: .\templates\store\order_detail.html:67
+msgid "City/District"
+msgstr "Shaxar/Tuman"
+
+
+#: .\templates\store\order_detail.html:68
+msgid "Estimated Delivery Time"
+msgstr "Taxminiy yetkazib berish vaqti"
+
+
+#: .\templates\store\order_detail.html:73
 msgid "Payment Status"
 msgstr "To‘lov holati"
 
-#: .\templates\store\order_detail.html:58
-#: .\templates\store\order_detail.html:155
+#: .\templates\store\order_detail.html:75
+#: .\templates\store\order_detail.html:172
 #: .\templates\store\order_history.html:37
 msgid "Confirmed"
 msgstr "Tasdiqlangan"
 
-#: .\templates\store\order_detail.html:63
-#: .\templates\store\order_detail.html:157
+#: .\templates\store\order_detail.html:80
+#: .\templates\store\order_detail.html:174
 #: .\templates\store\order_history.html:39
 msgid "Pending"
 msgstr "Kutilmoqda"
 
-#: .\templates\store\order_detail.html:66
+#: .\templates\store\order_detail.html:83
 msgid "Total Amount"
 msgstr "Umumiy summa"
 
-#: .\templates\store\order_detail.html:67
+#: .\templates\store\order_detail.html:84
 msgid "USD Amount"
 msgstr "AQSh dollari summasi"
 
-#: .\templates\store\order_detail.html:68
+#: .\templates\store\order_detail.html:85
 msgid "Exchange Rate"
 msgstr "Valyuta kursi"
 
-#: .\templates\store\order_detail.html:77
+#: .\templates\store\order_detail.html:94
 #: .\templates\store\order_payment.html:142
 msgid "Order Items"
 msgstr "Buyurtma elementlari"
 
-#: .\templates\store\order_detail.html:88
+#: .\templates\store\order_detail.html:105
 msgid "SKU"
 msgstr "Mahsulot kodi"
 
-#: .\templates\store\order_detail.html:89
+#: .\templates\store\order_detail.html:106
 msgid "Quantity"
 msgstr "Miqdori"
 
-#: .\templates\store\order_detail.html:92
+#: .\templates\store\order_detail.html:109
 msgid "Unit Price"
 msgstr "Birlik narxi"
 
-#: .\templates\store\order_detail.html:97
-#: .\templates\store\order_detail.html:119
+#: .\templates\store\order_detail.html:114
+#: .\templates\store\order_detail.html:136
 msgid "Total"
 msgstr "Jami"
 
-#: .\templates\store\order_detail.html:110
+#: .\templates\store\order_detail.html:127
 msgid "Subtotal"
 msgstr "Oraliq jami"
 
-#: .\templates\store\order_detail.html:114
+#: .\templates\store\order_detail.html:131
 msgid "Delivery"
 msgstr "Yetkazib berish"
 
-#: .\templates\store\order_detail.html:123
+#: .\templates\store\order_detail.html:140
 msgid "USD equivalent"
 msgstr "AQSh dollari ekvivalenti"
 
-#: .\templates\store\order_detail.html:138
+#: .\templates\store\order_detail.html:155
 msgid "Order Status"
 msgstr "Buyurtma holati"
 
-#: .\templates\store\order_detail.html:145
+#: .\templates\store\order_detail.html:162
 msgid "Order Placed"
 msgstr "Buyurtma berildi"
 
-#: .\templates\store\order_detail.html:153
+#: .\templates\store\order_detail.html:170
 msgid "Order Confirmed"
 msgstr "Buyurtma tasdiqlandi"
 
-#: .\templates\store\order_detail.html:165
+#: .\templates\store\order_detail.html:182
 msgid "Preparing Order"
 msgstr "Buyurtma tayyorlanmoqda"
 
-#: .\templates\store\order_detail.html:167
+#: .\templates\store\order_detail.html:184
 msgid "In Progress"
 msgstr "Jarayonda"
 
-#: .\templates\store\order_detail.html:169
+#: .\templates\store\order_detail.html:186
 msgid "Waiting"
 msgstr "Kutilmoqda"
 
-#: .\templates\store\order_detail.html:177
+#: .\templates\store\order_detail.html:194
 msgid "Order Shipped"
 msgstr "Buyurtma jo‘natildi"
 
-#: .\templates\store\order_detail.html:179
+#: .\templates\store\order_detail.html:196
 msgid "On the way"
 msgstr "Yo‘lda"
 
-#: .\templates\store\order_detail.html:181
+#: .\templates\store\order_detail.html:198
 msgid "Not shipped yet"
 msgstr "Hali jo‘natilmagan"
 
-#: .\templates\store\order_detail.html:189
+#: .\templates\store\order_detail.html:206
 msgid "Delivered"
 msgstr "Yetkazib berildi"
 
-#: .\templates\store\order_detail.html:191
+#: .\templates\store\order_detail.html:208
 msgid "Completed"
 msgstr "Yakunlandi"
 
-#: .\templates\store\order_detail.html:193
+#: .\templates\store\order_detail.html:210
 msgid "Pending delivery"
 msgstr "Yetkazib berish kutilmoqda"
 
-#: .\templates\store\order_detail.html:206
+#: .\templates\store\order_detail.html:223
 msgid "Payment Proof"
 msgstr "To‘lov isboti"
 
-#: .\templates\store\order_detail.html:210
+#: .\templates\store\order_detail.html:227
 msgid "Payment Confirmed"
 msgstr "To‘lov tasdiqlandi"
 
-#: .\templates\store\order_detail.html:212
+#: .\templates\store\order_detail.html:229
 msgid "Amount Paid"
 msgstr "To‘langan summa"
 
-#: .\templates\store\order_detail.html:219
-#: .\templates\store\order_detail.html:312
-#: .\templates\store\order_detail.html:316
+#: .\templates\store\order_detail.html:236
+#: .\templates\store\order_detail.html:329
+#: .\templates\store\order_detail.html:333
 #: .\templates\store\order_payment.html:82
 msgid "Payment Screenshot"
 msgstr "To‘lov skrinshoti"
 
-#: .\templates\store\order_detail.html:226
+#: .\templates\store\order_detail.html:243
 msgid "View Full Image"
 msgstr "To‘liq rasmni ko‘rish"
 
-#: .\templates\store\order_detail.html:230
+#: .\templates\store\order_detail.html:247
 msgid "No payment screenshot available"
 msgstr "To‘lov skrinshoti mavjud emas"
 
-#: .\templates\store\order_detail.html:235
+#: .\templates\store\order_detail.html:252
 msgid "Payment confirmed on"
 msgstr "To‘lov tasdiqlangan sana"
 
-#: .\templates\store\order_detail.html:246
+#: .\templates\store\order_detail.html:263
 msgid "Payment Pending"
 msgstr "To‘lov kutilmoqda"
 
-#: .\templates\store\order_detail.html:251
+#: .\templates\store\order_detail.html:268
 msgid "Amount Due"
 msgstr "To‘lanmagan summa"
 
-#: .\templates\store\order_detail.html:256
+#: .\templates\store\order_detail.html:273
 msgid "Your order is waiting for payment confirmation."
 msgstr "Buyurtmangiz to‘lov tasdiqlanishini kutmoqda."
 
-#: .\templates\store\order_detail.html:266
+#: .\templates\store\order_detail.html:283
 msgid "Actions"
 msgstr "Amallar"
 
-#: .\templates\store\order_detail.html:271
+#: .\templates\store\order_detail.html:288
 msgid "Back to Orders"
 msgstr "Buyurtmalarga qaytish"
 
-#: .\templates\store\order_detail.html:281
+#: .\templates\store\order_detail.html:298
 msgid "Items"
 msgstr "Mahsulotlar"
 
-#: .\templates\store\order_detail.html:285
+#: .\templates\store\order_detail.html:302
 msgid "Total Quantity"
 msgstr "Umumiy miqdori"
 
-#: .\templates\store\order_detail.html:296
+#: .\templates\store\order_detail.html:313
 msgid "Order Value"
 msgstr "Buyurtma qiymati"
 
-#: .\templates\store\order_detail.html:319
+#: .\templates\store\order_detail.html:336
 msgid "Payment Amount"
 msgstr "To‘lov summasi"
 
-#: .\templates\store\order_detail.html:321
+#: .\templates\store\order_detail.html:338
 msgid "USD Equivalent"
 msgstr "AQSh dollari ekvivalenti"
 
-#: .\templates\store\order_detail.html:323
+#: .\templates\store\order_detail.html:340
 msgid "Exchange Rate Used"
 msgstr "Ishlatilgan valyuta kursi"
 
-#: .\templates\store\order_detail.html:426
+#: .\templates\store\order_detail.html:443
 msgid "Are you sure you want to cancel this order?"
 msgstr "Buyurtmani bekor qilishga ishonchingiz komilmi?"
 
-#: .\templates\store\order_detail.html:428
+#: .\templates\store\order_detail.html:445
 msgid "Order cancellation requested. We will contact you shortly."
-msgstr ""
+msgstr "Buyurtmani bekor qilish so‘rovi yuborildi. Tez orada siz bilan bog‘lanamiz."
 "Buyurtma bekor qilish so‘rovi yuborildi. Tez orada siz bilan bog‘lanamiz."
 
 #: .\templates\store\order_history.html:4
@@ -1128,7 +1340,7 @@ msgstr "Birlik narxi:"
 
 #: .\templates\store\order_payment.html:198
 msgid "Please transfer the exact amount shown above to avoid payment delays."
-msgstr ""
+msgstr "To‘lov kechikmasligi uchun iltimos, aynan yuqorida ko‘rsatilgan summani o‘tkazing."
 "To‘lov kechikishlarining oldini olish uchun yuqorida ko‘rsatilgan aniq "
 "summatni o‘tkazing."
 
@@ -1169,96 +1381,109 @@ msgstr "Yuklanmoqda..."
 msgid "Image selected successfully!"
 msgstr "Rasm muvaffaqiyatli tanlandi!"
 
-#: .\templates\store\product_detail.html:42
-#: .\templates\store\product_detail.html:44
+#: .\templates\store\product_detail.html:7
+msgid ""
+"Original avtomobil qismlari Avtokontinent.uz da. Tezkor yetkazib berish "
+"O'zbekiston bo'ylab. Оригинальные автозапчасти в Автоконтинент.уз. Быстрая "
+"доставка по Узбекистану."
+msgstr ""
+
+#: .\templates\store\product_detail.html:12
+msgid ""
+"Original qism, tezkor yetkazib berish. Оригинальная запчасть, быстрая "
+"доставка."
+msgstr ""
+
+#: .\templates\store\product_detail.html:115
+#: .\templates\store\product_detail.html:117
 msgid "Product Video"
 msgstr "Mahsulot videosi"
 
-#: .\templates\store\product_detail.html:56
+#: .\templates\store\product_detail.html:129
 msgid "SKU:"
 msgstr "Mahsulot kodi:"
 
-#: .\templates\store\product_detail.html:64
+#: .\templates\store\product_detail.html:137
 msgid "In Stock"
 msgstr "Omborda mavjud"
 
-#: .\templates\store\product_detail.html:76
+#: .\templates\store\product_detail.html:149
 msgid "comments"
 msgstr "sharhlar"
 
-#: .\templates\store\product_detail.html:83
+#: .\templates\store\product_detail.html:156
 msgid "Compatible With:"
 msgstr "Mos keladi:"
 
-#: .\templates\store\product_detail.html:113
+#: .\templates\store\product_detail.html:186
 msgid "Category:"
 msgstr "Kategoriya:"
 
-#: .\templates\store\product_detail.html:120
+#: .\templates\store\product_detail.html:193
 msgid "Subcategory:"
 msgstr "Kichik kategoriya:"
 
-#: .\templates\store\product_detail.html:135
+#: .\templates\store\product_detail.html:208
 msgid "Product Description"
 msgstr "Mahsulot tavsifi"
 
-#: .\templates\store\product_detail.html:148
+#: .\templates\store\product_detail.html:221
 msgid "Customer Reviews"
 msgstr "Mijozlar sharhlari"
 
-#: .\templates\store\product_detail.html:153
+#: .\templates\store\product_detail.html:226
 msgid "Rating"
 msgstr "Reyting"
 
-#: .\templates\store\product_detail.html:155
+#: .\templates\store\product_detail.html:228
 msgid "Select Rating"
 msgstr "Reytingni tanlang"
 
-#: .\templates\store\product_detail.html:156
+#: .\templates\store\product_detail.html:229
 msgid "5 Stars - Excellent"
 msgstr "5 yulduz - A’lo"
 
-#: .\templates\store\product_detail.html:157
+#: .\templates\store\product_detail.html:230
 msgid "4 Stars - Good"
 msgstr "4 yulduz - Yaxshi"
 
-#: .\templates\store\product_detail.html:158
+#: .\templates\store\product_detail.html:231
 msgid "3 Stars - Average"
 msgstr "3 yulduz - O‘rtacha"
 
-#: .\templates\store\product_detail.html:159
+#: .\templates\store\product_detail.html:232
 msgid "2 Stars - Poor"
 msgstr "2 yulduz - Yomon"
 
-#: .\templates\store\product_detail.html:160
+#: .\templates\store\product_detail.html:233
 msgid "1 Star - Terrible"
 msgstr "1 yulduz - Dahshatli"
 
-#: .\templates\store\product_detail.html:164
+#: .\templates\store\product_detail.html:237
 msgid "Your Review"
 msgstr "Sizning sharhingiz"
 
-#: .\templates\store\product_detail.html:165
+#: .\templates\store\product_detail.html:238
 msgid "Share your experience with this product..."
 msgstr "Ushbu mahsulot bilan tajribangizni baham ko‘ring..."
 
-#: .\templates\store\product_detail.html:168
+#: .\templates\store\product_detail.html:241
 msgid "Submit Review"
 msgstr "Sharh yuborish"
 
-#: .\templates\store\product_detail.html:173
+#: .\templates\store\product_detail.html:246
 msgid "to write a review."
 msgstr "sharh yozish uchun."
 
-#: .\templates\store\product_detail.html:207
+#: .\templates\store\product_detail.html:280
 msgid "No reviews yet. Be the first to review this product!"
 msgstr "Hali sharhlar yo‘q. Ushbu mahsulotga birinchi bo‘lib sharh yozing!"
 
-#: .\templates\store\product_detail.html:217
+#: .\templates\store\product_detail.html:290
 msgid "Related Products"
 msgstr "Tegishli mahsulotlar"
 
-#: .\templates\store\product_detail.html:242
+#: .\templates\store\product_detail.html:315
 msgid "View"
 msgstr "Ko‘rish"
 
@@ -1310,6 +1535,21 @@ msgstr "Kodning amal qilish muddati 1 daqiqa"
 msgid "Back to Login"
 msgstr "Kirish sahifasiga qaytish"
 
+#~ msgid "Delivery Time"
+#~ msgstr "Yetkazib berish vaqti"
+
+#~ msgid "Avtokontinent.uz - Auto Spare Parts"
+#~ msgstr "Avtokontinent.uz - Avto ehtiyot qismlar"
+
+#~ msgid "Delivery Address (if different)"
+#~ msgstr "Yetkazib berish manzili (agar boshqa bo‘lsa)"
+
+#~ msgid "Home - Avtokontinent.uz"
+#~ msgstr "Bosh sahifa - Avtokontinent.uz"
+
+#~ msgid "Delivery Address"
+#~ msgstr "Yetkazib berish manzili"
+
 #~ msgid "Tashkent, Uzbekistan"
 #~ msgstr "Toshkent, O‘zbekiston"
 
@@ -1321,9 +1561,6 @@ msgstr "Kirish sahifasiga qaytish"
 
 #~ msgid "Category description"
 #~ msgstr "Kategoriya tavsifi (Inglizcha)"
-
-#~ msgid "Brand name"
-#~ msgstr "Brend nomi (Inglizcha)"
 
 #~ msgid "Brand description"
 #~ msgstr "Brend tavsifi (Inglizcha)"

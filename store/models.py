@@ -1,4 +1,3 @@
-from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -377,6 +376,9 @@ class AdminProfile(models.Model):
         return self.can_access_settings and self.can_access_users and self.can_access_admins
 
 
+
+
+
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -386,7 +388,7 @@ class Order(models.Model):
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
-
+    
     order_id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -397,16 +399,16 @@ class Order(models.Model):
     # Customer info
     customer_name = models.CharField(max_length=100)
     customer_phone = models.CharField(max_length=20)
-    customer_address = models.TextField()
 
     # Payment
     payment_screenshot = models.ImageField(upload_to='payments/', blank=True)
     payment_confirmed = models.BooleanField(default=False)
     payment_confirmed_at = models.DateTimeField(blank=True, null=True)
 
-    # Delivery
+    # Delivery - Only branch delivery
+    delivery_branch_id = models.CharField(max_length=10, null=True, blank=True, help_text="CSV row ID of selected branch")
+    additional_instructions = models.TextField(blank=True, null=True, help_text="Additional delivery instructions")
     estimated_delivery_date = models.DateField(blank=True, null=True)
-    delivery_address = models.TextField(blank=True)
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -417,6 +419,15 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.order_id} - {self.user.username}"
+    
+    @property
+    def delivery_branch_info(self):
+        """Get delivery branch information from CSV"""
+        if not self.delivery_branch_id:
+            return None
+        
+        from .utils import get_branch_by_id
+        return get_branch_by_id(self.delivery_branch_id)
 
 
 class OrderItem(models.Model):

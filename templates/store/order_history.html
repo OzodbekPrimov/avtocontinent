@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-4 text-md-end">
                             <h4>{{ order.total_amount_uzs|floatformat:0 }} {% trans "UZS" %}</h4>
-                            <p class="text-muted">${{ order.total_amount_usd }}</p>
+<!--                            <p class="text-muted">${{ order.total_amount_usd }}</p>-->
                             <a href="{% url 'order_detail' order.order_id %}" class="btn btn-primary">
                                 {% trans "View Details" %}
                             </a>

@@ -175,18 +175,47 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_id', 'user', 'status', 'total_amount_uzs', 'payment_confirmed', 'created_at']
+    list_display = ['order_id', 'user', 'status', 'delivery_region', 'delivery_branch_name', 'total_amount_uzs', 'payment_confirmed', 'created_at']
     list_filter = ['status', 'payment_confirmed', 'created_at']
-    search_fields = ['order_id', 'user__username', 'customer_name', 'customer_phone']
-    readonly_fields = ['order_id', 'created_at', 'updated_at']
+    search_fields = ['order_id', 'user__username', 'customer_name', 'customer_phone', 'delivery_branch_id']
+    readonly_fields = ['order_id', 'created_at', 'updated_at', 'delivery_region', 'delivery_branch_name']
     inlines = [OrderItemInline]
+    
+    fieldsets = (
+        ('Order Information', {
+            'fields': ('order_id', 'user', 'status', 'created_at', 'updated_at')
+        }),
+        ('Customer Information', {
+            'fields': ('customer_name', 'customer_phone')
+        }),
+        ('Delivery Information', {
+            'fields': ('delivery_branch_id', 'delivery_region', 'delivery_branch_name', 'additional_instructions', 'estimated_delivery_date')
+        }),
+        ('Payment Information', {
+            'fields': ('total_amount_usd', 'total_amount_uzs', 'exchange_rate_used', 'payment_screenshot', 'payment_confirmed', 'payment_confirmed_at')
+        }),
+    )
 
     def total_amount_uzs(self, obj):
         return f"{obj.total_amount_uzs:,.0f} UZS"
     total_amount_uzs.short_description = 'Total Amount (UZS)'
+    
+    def delivery_region(self, obj):
+        if obj.delivery_branch_info:
+            return obj.delivery_branch_info.get('region', 'N/A')
+        return 'N/A'
+    delivery_region.short_description = 'Delivery Region'
+    
+    def delivery_branch_name(self, obj):
+        if obj.delivery_branch_info:
+            return obj.delivery_branch_info.get('name', 'N/A')
+        return 'N/A'
+    delivery_branch_name.short_description = 'Branch Name'
 
 # Register other models without custom admin
 admin.site.register(ProductLike)
 admin.site.register(Favorite)
 admin.site.register(Cart)
 admin.site.register(CartItem)
+
+
