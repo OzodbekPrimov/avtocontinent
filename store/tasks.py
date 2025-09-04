@@ -169,18 +169,38 @@ def send_admin_payment_notification_task(self, order_id):
             logger.error(f"Mahsulotlar olishda xato: {e}")
             items_text = "Mahsulotlar mavjud emas"
 
+        # Get delivery branch information (region and branch name only)
+        delivery_info = "Filial tanlanmagan"
+        if order_instance.delivery_branch_id:
+            try:
+                branch_info = order_instance.delivery_branch_info
+                if branch_info:
+                    region = branch_info.get('region', 'Nomalum viloyat')
+                    branch_name = branch_info.get('name', 'Nomalum filial')
+                    delivery_info = f"{region} - {branch_name}"
+                else:
+                    delivery_info = f"Filial ID: {order_instance.delivery_branch_id}"
+            except Exception as e:
+                logger.error(f"Filial ma'lumotlarini olishda xato: {e}")
+                delivery_info = f"Filial ID: {order_instance.delivery_branch_id}"
+        
         message = (
             f"🔔 Yangi buyurtma!\n"
-            f"Buyurtma ID: {order_instance.order_id}\n"
-            f"Mijoz: {order_instance.customer_name}\n"
-            f"Telefon: {order_instance.customer_phone}\n"
-            f"Manzil: {order_instance.customer_address}\n"
-            f"Umumiy narx (USD): ${order_instance.total_amount_usd}\n"
-            f"Umumiy narx (UZS): {order_instance.total_amount_uzs} so'm\n"
-            f"Status: {order_instance.get_status_display()}\n"
-            f"Mahsulotlar:\n{items_text}\n"
-            f"Yaratilgan vaqt: {order_instance.created_at.strftime('%Y-%m-%d %H:%M')}"
+            f"🆔 Buyurtma ID: {order_instance.order_id}\n"
+            f"👤 Mijoz: {order_instance.customer_name}\n"
+            f"📱 Telefon: {order_instance.customer_phone}\n"
+            f"🏪 Yetkazib berish: {delivery_info}\n"
+            f"💰 Umumiy narx (USD): ${order_instance.total_amount_usd}\n"
+            f"💰 Umumiy narx (UZS): {order_instance.total_amount_uzs} so'm\n"
+            f"💱 Kurs: {order_instance.exchange_rate_used}\n"
+            f"📊 Status: {order_instance.get_status_display()}\n"
+            f"📦 Mahsulotlar:\n{items_text}\n"
+            f"📅 Yaratilgan vaqt: {order_instance.created_at.strftime('%Y-%m-%d %H:%M')}"
         )
+        
+        # Add additional instructions if they exist
+        if order_instance.additional_instructions:
+            message += f"\n📝 Qo'shimcha ko'rsatmalar: {order_instance.additional_instructions}"
 
         keyboard = {
             "inline_keyboard": [
