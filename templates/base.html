@@ -1483,7 +1483,12 @@
                                 localFavorites.splice(index, 1);
                             }
                         }
-                        localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                        // Always update localStorage to ensure consistency
+                        if (localFavorites.length > 0) {
+                            localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                        } else {
+                            localStorage.removeItem('local_favorites');
+                        }
                         {% endif %}
                     } else {
                         showToast(response.message, 'error');
@@ -1512,7 +1517,12 @@
                         {% if not user.is_authenticated %}
                         const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
                         localCart[productId] = (localCart[productId] || 0) + quantity;
-                        localStorage.setItem('local_cart', JSON.stringify(localCart));
+                        // Always update localStorage to ensure consistency
+                        if (Object.keys(localCart).length > 0) {
+                            localStorage.setItem('local_cart', JSON.stringify(localCart));
+                        } else {
+                            localStorage.removeItem('local_cart');
+                        }
                         {% endif %}
                     } else {
                         showToast(response.message, 'error');
@@ -1609,20 +1619,43 @@
             }
         }
 
+        // Clear localStorage data when server operations are successful
+        function clearLocalStorageOnServerSuccess() {
+            {% if not user.is_authenticated %}
+            // For guest users, ensure localStorage matches session
+            const serverCartCount = parseInt($('#cart-badge').text()) || 0;
+            const serverFavoritesCount = parseInt($('#favorites-badge').text()) || 0;
+            
+            if (serverCartCount === 0) {
+                localStorage.removeItem('local_cart');
+            }
+            if (serverFavoritesCount === 0) {
+                localStorage.removeItem('local_favorites');
+            }
+            {% endif %}
+        }
+
         // Initialize localStorage data for guest users
         function initializeLocalStorageData() {
             {% if not user.is_authenticated %}
-            // Initialize cart count from localStorage
-            const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
-            const cartCount = Object.values(localCart).reduce((sum, quantity) => sum + quantity, 0);
-            if (cartCount > 0) {
-                updateCartCount(cartCount);
+            // Only initialize from localStorage if no server data exists
+            // This prevents localStorage from overriding server session data
+            const currentCartCount = parseInt($('#cart-badge').text()) || 0;
+            const currentFavoritesCount = parseInt($('#favorites-badge').text()) || 0;
+            
+            if (currentCartCount === 0) {
+                const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+                const cartCount = Object.values(localCart).reduce((sum, quantity) => sum + quantity, 0);
+                if (cartCount > 0) {
+                    updateCartCount(cartCount);
+                }
             }
 
-            // Initialize favorites count from localStorage
-            const localFavorites = JSON.parse(localStorage.getItem('local_favorites') || '[]');
-            if (localFavorites.length > 0) {
-                updateFavoritesCount(localFavorites.length);
+            if (currentFavoritesCount === 0) {
+                const localFavorites = JSON.parse(localStorage.getItem('local_favorites') || '[]');
+                if (localFavorites.length > 0) {
+                    updateFavoritesCount(localFavorites.length);
+                }
             }
             {% endif %}
         }
@@ -1633,6 +1666,9 @@
 
             // Initialize localStorage data for guest users
             initializeLocalStorageData();
+            
+            // Clear localStorage if server data indicates empty cart/favorites
+            clearLocalStorageOnServerSuccess();
 
             // Handle saved cart and favorites from login response
             const savedCart = localStorage.getItem('saved_cart_total');
@@ -1646,9 +1682,17 @@
                 localStorage.removeItem('saved_favorites_count');
             }
 
-            // Sync any remaining localStorage data to server
+            // Sync any remaining localStorage data to server only if no server data exists
             {% if user.is_authenticated %}
-            syncLocalStorageData();
+            const serverCartCount = parseInt($('#cart-badge').text()) || 0;
+            const serverFavoritesCount = parseInt($('#favorites-badge').text()) || 0;
+            const hasLocalCart = localStorage.getItem('local_cart') && localStorage.getItem('local_cart') !== '{}';
+            const hasLocalFavorites = localStorage.getItem('local_favorites') && localStorage.getItem('local_favorites') !== '[]';
+            
+            // Only sync if we have local data and no server data (prevents overriding removed items)
+            if ((hasLocalCart && serverCartCount === 0) || (hasLocalFavorites && serverFavoritesCount === 0)) {
+                syncLocalStorageData();
+            }
             {% endif %}
         });
     </script>

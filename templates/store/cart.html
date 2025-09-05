@@ -124,13 +124,18 @@ function updateQuantity(itemId, quantity) {
                 const cartItem = $(`#cart-item-${itemId}`);
                 const productId = cartItem.data('product-id');
                 if (productId) {
-                    const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
-                    if (quantity > 0) {
-                        localCart[productId] = quantity;
-                    } else {
-                        delete localCart[productId];
-                    }
+                                    const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
+                if (quantity > 0) {
+                    localCart[productId] = quantity;
+                } else {
+                    delete localCart[productId];
+                }
+                // Clean up localStorage properly
+                if (Object.keys(localCart).length > 0) {
                     localStorage.setItem('local_cart', JSON.stringify(localCart));
+                } else {
+                    localStorage.removeItem('local_cart');
+                }
                 }
                 {% endif %}
 
@@ -167,7 +172,12 @@ function removeFromCart(itemId) {
                     if (productId) {
                         const localCart = JSON.parse(localStorage.getItem('local_cart') || '{}');
                         delete localCart[productId];
-                        localStorage.setItem('local_cart', JSON.stringify(localCart));
+                        // Clean up localStorage properly
+                        if (Object.keys(localCart).length > 0) {
+                            localStorage.setItem('local_cart', JSON.stringify(localCart));
+                        } else {
+                            localStorage.removeItem('local_cart');
+                        }
                     }
                     {% endif %}
                     

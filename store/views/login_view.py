@@ -94,14 +94,12 @@ def merge_session_data_to_user(request, user):
 
         # Clear session data completely after successful merge
         request.session['favorites'] = []
-        request.session['cart_initialized'] = False  # Reset cart initialization flag
         request.session.modified = True
         print(f"✅ Sessiya tozalandi. {favorites_merged} ta sevimli ko'chirildi")
 
     except Cart.DoesNotExist:
         print("❌ Session savati topilmadi")
         # Clean up session flags anyway
-        request.session['cart_initialized'] = False
         request.session['favorites'] = []
         request.session.modified = True
     except Exception as e:

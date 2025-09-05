@@ -196,7 +196,12 @@ function favoriteProductOnFavoritesPage(productId) {
                         localFavorites.splice(index, 1);
                     }
                 }
-                localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                // Clean up localStorage properly
+                if (localFavorites.length > 0) {
+                    localStorage.setItem('local_favorites', JSON.stringify(localFavorites));
+                } else {
+                    localStorage.removeItem('local_favorites');
+                }
                 {% endif %}
             } else {
                 // Xatolik bo'lsa, asl holatiga qaytarish

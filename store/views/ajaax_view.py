@@ -146,12 +146,9 @@ def ajax_add_to_cart(request):
         if request.user.is_authenticated:
             cart, created = Cart.objects.get_or_create(user=request.user)
         else:
-            # Create session if needed and clean up stale data
+            # Create session if needed
             if not request.session.session_key:
                 request.session.create()
-            
-            # Clean up any stale cart data for this session
-            cleanup_session_cart(request)
             
             cart, created = Cart.objects.get_or_create(
                 session_key=request.session.session_key,
