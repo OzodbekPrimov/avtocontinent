@@ -191,29 +191,43 @@ def ajax_sync_cart(request):
     try:
         cart_data = json.loads(request.POST.get('cart', '{}'))
         cart, created = Cart.objects.get_or_create(user=request.user)
+        items_added = 0
+        items_updated = 0
 
         for product_id_str, quantity in cart_data.items():
-            product_id = int(product_id_str)
-            product = Product.objects.get(id=product_id)
+            try:
+                product_id = int(product_id_str)
+                product = Product.objects.get(id=product_id)
 
-            cart_item, item_created = CartItem.objects.get_or_create(
-                cart=cart,
-                product=product,
-                defaults={'quantity': 0}
-            )
-            # Zaxirani tekshirish
-            new_quantity = cart_item.quantity + quantity
-            if new_quantity > product.stock_quantity:
-                new_quantity = product.stock_quantity
-            cart_item.quantity = new_quantity
-            if cart_item.quantity > 0:
-                cart_item.save()
-            elif not item_created:
-                cart_item.delete()
+                cart_item, item_created = CartItem.objects.get_or_create(
+                    cart=cart,
+                    product=product,
+                    defaults={'quantity': 0}
+                )
+                
+                # Merge quantities (add localStorage quantity to existing quantity)
+                new_quantity = cart_item.quantity + quantity
+                if new_quantity > product.stock_quantity:
+                    new_quantity = product.stock_quantity
+                    
+                cart_item.quantity = new_quantity
+                if cart_item.quantity > 0:
+                    cart_item.save()
+                    if item_created:
+                        items_added += 1
+                    else:
+                        items_updated += 1
+                elif not item_created:
+                    cart_item.delete()
+                    
+            except (Product.DoesNotExist, ValueError):
+                continue  # Skip invalid product IDs
 
         return JsonResponse({
             'success': True,
-            'cart_total': cart.total_items
+            'cart_total': cart.total_items,
+            'items_added': items_added,
+            'items_updated': items_updated
         })
 
     except Exception as e:
@@ -225,13 +239,21 @@ def ajax_sync_cart(request):
 def ajax_sync_favorites(request):
     try:
         favorites_data = json.loads(request.POST.get('favorites', '[]'))
+        favorites_added = 0
+        
         for product_id in favorites_data:
-            product = Product.objects.get(id=product_id)
-            Favorite.objects.get_or_create(user=request.user, product=product)
+            try:
+                product = Product.objects.get(id=product_id)
+                favorite, created = Favorite.objects.get_or_create(user=request.user, product=product)
+                if created:
+                    favorites_added += 1
+            except Product.DoesNotExist:
+                continue  # Skip invalid product IDs
 
         return JsonResponse({
             'success': True,
-            'favorites_count': request.user.favorites.count()
+            'favorites_count': request.user.favorites.count(),
+            'favorites_added': favorites_added
         })
 
     except Exception as e:
@@ -294,4 +316,51 @@ def ajax_remove_from_cart(request):
         except CartItem.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'Cart item not found'})
 
+    return JsonResponse({'success': False, 'message': 'Invalid request'})
+
+
+@csrf_exempt
+def ajax_clear_session_cart(request):
+    """Clear session cart data to prevent duplicate additions after sync"""
+    if request.method == 'POST':
+        try:
+            session_key = request.session.session_key
+            if session_key:
+                # Delete any session cart for this session
+                Cart.objects.filter(session_key=session_key, user=None).delete()
+                print(f"🗑️ Session cart cleared for session: {session_key}")
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Session cart cleared'
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False, 
+                'message': f'Error clearing session cart: {str(e)}'
+            })
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request'})
+
+
+@csrf_exempt  
+def ajax_clear_session_favorites(request):
+    """Clear session favorites data to prevent duplicate additions after sync"""
+    if request.method == 'POST':
+        try:
+            # Clear session favorites
+            request.session['favorites'] = []
+            request.session.modified = True
+            print("🗑️ Session favorites cleared")
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Session favorites cleared'
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': f'Error clearing session favorites: {str(e)}'
+            })
+    
     return JsonResponse({'success': False, 'message': 'Invalid request'})

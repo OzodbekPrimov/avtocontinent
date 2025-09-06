@@ -1580,7 +1580,10 @@
                             if (response.success) {
                                 updateCartCount(response.cart_total);
                                 localStorage.removeItem('local_cart');
-                                console.log('Local cart synced successfully');
+                                console.log(`Local cart synced successfully: ${response.items_added || 0} items added, ${response.items_updated || 0} items updated`);
+                                
+                                // Clear any remaining session cart data to prevent duplicate additions
+                                clearSessionCartData();
                             }
                         },
                         error: function() {
@@ -1606,7 +1609,10 @@
                             if (response.success) {
                                 updateFavoritesCount(response.favorites_count);
                                 localStorage.removeItem('local_favorites');
-                                console.log('Local favorites synced successfully');
+                                console.log(`Local favorites synced successfully: ${response.favorites_added || 0} favorites added`);
+                                
+                                // Clear any remaining session favorites data to prevent duplicate additions
+                                clearSessionFavoritesData();
                             }
                         },
                         error: function() {
@@ -1633,6 +1639,44 @@
                 localStorage.removeItem('local_favorites');
             }
             {% endif %}
+        }
+
+        // Clear session cart data to prevent duplicate additions
+        function clearSessionCartData() {
+            $.ajax({
+                url: '{% url "ajax_clear_session_cart" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Session cart data cleared successfully');
+                    }
+                },
+                error: function() {
+                    console.log('Failed to clear session cart data');
+                }
+            });
+        }
+
+        // Clear session favorites data to prevent duplicate additions
+        function clearSessionFavoritesData() {
+            $.ajax({
+                url: '{% url "ajax_clear_session_favorites" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Session favorites data cleared successfully');
+                    }
+                },
+                error: function() {
+                    console.log('Failed to clear session favorites data');
+                }
+            });
         }
 
         // Initialize localStorage data for guest users
@@ -1682,15 +1726,13 @@
                 localStorage.removeItem('saved_favorites_count');
             }
 
-            // Sync any remaining localStorage data to server only if no server data exists
+            // Sync any remaining localStorage data to server (merge with existing data)
             {% if user.is_authenticated %}
-            const serverCartCount = parseInt($('#cart-badge').text()) || 0;
-            const serverFavoritesCount = parseInt($('#favorites-badge').text()) || 0;
             const hasLocalCart = localStorage.getItem('local_cart') && localStorage.getItem('local_cart') !== '{}';
             const hasLocalFavorites = localStorage.getItem('local_favorites') && localStorage.getItem('local_favorites') !== '[]';
             
-            // Only sync if we have local data and no server data (prevents overriding removed items)
-            if ((hasLocalCart && serverCartCount === 0) || (hasLocalFavorites && serverFavoritesCount === 0)) {
+            // Always sync localStorage data if it exists (the sync functions handle merging properly)
+            if (hasLocalCart || hasLocalFavorites) {
                 syncLocalStorageData();
             }
             {% endif %}

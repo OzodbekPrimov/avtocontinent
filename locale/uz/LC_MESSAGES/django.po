@@ -542,8 +542,6 @@ msgid "people have this in cart"
 msgstr "ta savatchada"
 
 #: .\templates\store\cart.html:39
-#, fuzzy
-#| msgid "In Stock"
 msgid "Stock"
 msgstr "mavjud"
 

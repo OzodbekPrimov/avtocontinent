@@ -614,7 +614,7 @@ msgstr "Барча буюртмалар фақат танланган филиа
 
 #: .\templates\store\checkout.html:46
 msgid "Select Region"
-msgstr "Бахолашни танланг"
+msgstr "Ҳудудни танланг"
 
 #: .\templates\store\checkout.html:48 .\templates\store\checkout.html:152
 msgid "Choose a region..."
@@ -622,7 +622,7 @@ msgstr "Ҳудудни танланг..."
 
 #: .\templates\store\checkout.html:53
 msgid "Select Branch"
-msgstr "Бахолашни танланг"
+msgstr "Филиални танланг"
 
 #: .\templates\store\checkout.html:55 .\templates\store\checkout.html:181
 msgid "First select a region..."

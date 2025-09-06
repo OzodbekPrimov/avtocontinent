@@ -526,8 +526,6 @@ msgid "people have this in cart"
 msgstr "в корзине"
 
 #: .\templates\store\cart.html:39
-#, fuzzy
-#| msgid "In Stock"
 msgid "Stock"
 msgstr "В наличии"
 
@@ -616,7 +614,7 @@ msgstr "Все заказы доставляются только в выбра�
 
 #: .\templates\store\checkout.html:46
 msgid "Select Region"
-msgstr "Выберите оценку"
+msgstr "Выберите регион"
 
 #: .\templates\store\checkout.html:48 .\templates\store\checkout.html:152
 msgid "Choose a region..."
@@ -624,7 +622,7 @@ msgstr "Выберите регион..."
 
 #: .\templates\store\checkout.html:53
 msgid "Select Branch"
-msgstr "Выберите оценку"
+msgstr "Выберите филиал"
 
 #: .\templates\store\checkout.html:55 .\templates\store\checkout.html:181
 msgid "First select a region..."

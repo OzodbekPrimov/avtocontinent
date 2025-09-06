@@ -51,6 +51,8 @@ urlpatterns = [
 
     path('ajax/sync-cart/', views.ajax_sync_cart, name='ajax_sync_cart'),
     path('ajax/sync-favorites/', views.ajax_sync_favorites, name='ajax_sync_favorites'),
+    path('ajax/clear-session-cart/', views.ajax_clear_session_cart, name='ajax_clear_session_cart'),
+    path('ajax/clear-session-favorites/', views.ajax_clear_session_favorites, name='ajax_clear_session_favorites'),
 
     # API endpoints for delivery
     path('api/', include('store.api_urls')),
