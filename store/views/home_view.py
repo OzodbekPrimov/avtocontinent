@@ -28,7 +28,7 @@ def store_login_required(view_func):
 def home(request):
     """Home page view"""
     # Get banners
-    banners = Banner.objects.filter(is_active=True)[:5]
+    banners = Banner.objects.filter(is_active=True)
     # Get brands
     brands = Brand.objects.filter(is_active=True)[:8]
     # Get featured products
@@ -36,15 +36,15 @@ def home(request):
     # Get best selling products
     best_selling = Product.objects.filter(is_active=True).annotate(
         order_count=Count('orderitem')
-    ).order_by('-order_count')[:8]
+    ).order_by('-order_count')[:10]
     # Get most liked products
     most_liked = Product.objects.annotate(
         total_likes=Count('likes')
-    ).order_by('-total_likes')[:10]
+    ).order_by('-total_likes')[:8]
     # Get latest products
     latest_products = Product.objects.filter(is_active=True).order_by('-created_at')[:8]
     # Get categories (only top-level)
-    categories = Category.objects.filter(is_active=True)[:6]  # prefetch_related olib tashlandi
+    categories = Category.objects.filter(is_active=True)  # prefetch_related olib tashlandi
 
     context = {
         'banners': banners,
@@ -116,7 +116,7 @@ def product_list(request):
         products = products.order_by('name')
 
     # Pagination
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -308,7 +308,7 @@ def brand_models(request, brand_slug):
         products = products.order_by('name')
 
     # Pagination - 15 products per page
-    paginator = Paginator(products, 15)
+    paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

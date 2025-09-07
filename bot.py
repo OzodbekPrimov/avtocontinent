@@ -19,6 +19,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from django.utils import timezone
+import pytz
 from store.models import TelegramAuth, Order, PaymentSettings
 from django.core.cache import cache
 from django.conf import settings
@@ -342,9 +343,13 @@ async def handle_order_callback(callback: types.CallbackQuery):
 
                 # Xabarni yangilash (oxirida qilish)
                 try:
+                    # Convert to Tashkent timezone
+                    tashkent_tz = pytz.timezone('Asia/Tashkent')
+                    confirmed_at_tashkent = timezone.now().astimezone(tashkent_tz)
+                    
                     await callback.message.edit_text(
                         f"✅ Buyurtma {order_id} to'lovi tasdiqlandi.\n"
-                        f"Vaqt: {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                        f"Vaqt: {confirmed_at_tashkent.strftime('%d.%m.%Y %H:%M:%S')}"
                     )
                 except Exception as e:
                     logger.error(f"Failed to edit message: {e}")
@@ -383,9 +388,13 @@ async def handle_order_callback(callback: types.CallbackQuery):
 
                 # Xabarni yangilash
                 try:
+                    # Convert to Tashkent timezone
+                    tashkent_tz = pytz.timezone('Asia/Tashkent')
+                    cancelled_at_tashkent = timezone.now().astimezone(tashkent_tz)
+                    
                     await callback.message.edit_text(
                         f"❌ Buyurtma {order_id} to'lovi bekor qilindi.\n"
-                        f"Vaqt: {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                        f"Vaqt: {cancelled_at_tashkent.strftime('%d.%m.%Y %H:%M:%S')}"
                     )
                 except Exception as e:
                     logger.error(f"Failed to edit message: {e}")

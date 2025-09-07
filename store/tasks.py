@@ -6,6 +6,8 @@ import os
 import logging
 import json
 from django.conf import settings
+from django.utils import timezone
+import pytz
 from .models import Order, PaymentSettings
 
 logger = logging.getLogger(__name__)
@@ -114,18 +116,24 @@ def notify_customer_status_change_task(self, order_id, old_status, new_status):
         new_status_name = status_names.get(new_status, new_status)
         emoji = status_emojis.get(new_status, '📋')
 
+        # Convert to Tashkent timezone
+        tashkent_tz = pytz.timezone('Asia/Tashkent')
+        created_at_tashkent = order_instance.created_at.astimezone(tashkent_tz)
+        updated_at_tashkent = timezone.now().astimezone(tashkent_tz)
+        
         message = (
             f"{emoji} <b>Buyurtma holati o'zgardi!</b>\n\n"
             f"🆔 Buyurtma raqami: <b>#{order_instance.order_id}</b>\n"
             f"📊 Eski holat: <b>{old_status_name}</b>\n"
             f"📊 Yangi holat: <b>{new_status_name}</b>\n"
             f"💰 Umumiy summa: <b>{order_instance.total_amount_uzs}uzs</b>\n"
-            f"📅 Sana: <b>{order_instance.created_at.strftime('%d.%m.%Y %H:%M')}</b>"
+            f"📅 Yaratilgan vaqt: <b>{created_at_tashkent.strftime('%d.%m.%Y %H:%M')}</b>\n"
+            f"🕒 O'zgartirilgan vaqt: <b>{updated_at_tashkent.strftime('%d.%m.%Y %H:%M')}</b>"
         )
 
         # Qo'shimcha xabarlar har bir status uchun
         if new_status == 'confirmed':
-            message += "\n\n🎉 Buyurtmangiz tasdiqlandi! Tez orada tayyorlanishni boshlaymiz."
+            message += "\n\n🎉 Buyurtmangiz tasdiqlandi! Tez orada yuboramiz"
         elif new_status == 'preparing':
             message += "\n\n🔄 Buyurtmangiz tayyorlanmoqda. Sabr qiling!"
         elif new_status == 'shipped':
@@ -184,6 +192,10 @@ def send_admin_payment_notification_task(self, order_id):
                 logger.error(f"Filial ma'lumotlarini olishda xato: {e}")
                 delivery_info = f"Filial ID: {order_instance.delivery_branch_id}"
         
+        # Convert to Tashkent timezone
+        tashkent_tz = pytz.timezone('Asia/Tashkent')
+        created_at_tashkent = order_instance.created_at.astimezone(tashkent_tz)
+        
         message = (
             f"🔔 Yangi buyurtma!\n"
             f"🆔 Buyurtma ID: {order_instance.order_id}\n"
@@ -195,7 +207,7 @@ def send_admin_payment_notification_task(self, order_id):
             f"💱 Kurs: {order_instance.exchange_rate_used}\n"
             f"📊 Status: {order_instance.get_status_display()}\n"
             f"📦 Mahsulotlar:\n{items_text}\n"
-            f"📅 Yaratilgan vaqt: {order_instance.created_at.strftime('%Y-%m-%d %H:%M')}"
+            f"📅 Yaratilgan vaqt: {created_at_tashkent.strftime('%d.%m.%Y %H:%M')}"
         )
         
         # Add additional instructions if they exist

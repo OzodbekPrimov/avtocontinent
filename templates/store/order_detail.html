@@ -299,14 +299,7 @@
                             </div>
                             <div class="d-flex justify-content-between mb-1">
                                 <small>{% trans "Total Quantity" %}:</small>
-                                <small>
-                                    {% widthratio order.items.all|length 1 1 as total_qty %}
-                                    {% for item in order.items.all %}
-                                        {% if forloop.first %}{{ item.quantity|intcomma }}
-                                        {% else %}{{ item.quantity|add:total_qty|intcomma }}
-                                        {% endif %}
-                                    {% endfor %}
-                                </small>
+                                <small id="totalQuantity">0</small>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <small>{% trans "Order Value" %}:</small>
@@ -453,6 +446,15 @@ function showPaymentModal(imageUrl) {
 
 // Format numbers on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Calculate total quantity
+    let totalQuantity = 0;
+    {% for item in order.items.all %}
+        totalQuantity += {{ item.quantity }};
+    {% endfor %}
+
+    // Display total quantity with proper formatting
+    document.getElementById('totalQuantity').textContent = totalQuantity.toLocaleString();
+
     // Additional number formatting if needed
     const numberElements = document.querySelectorAll('.fw-bold, .text-primary, .fs-4, .fs-5');
     numberElements.forEach(function(element) {
