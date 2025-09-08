@@ -36,11 +36,11 @@ def home(request):
     # Get best selling products
     best_selling = Product.objects.filter(is_active=True).annotate(
         order_count=Count('orderitem')
-    ).order_by('-order_count')[:10]
+    ).order_by('-order_count', 'id')[:10]
     # Get most liked products
     most_liked = Product.objects.annotate(
         total_likes=Count('likes')
-    ).order_by('-total_likes')[:8]
+    ).order_by('-total_likes', 'id')[:8]
     # Get latest products
     latest_products = Product.objects.filter(is_active=True).order_by('-created_at')[:8]
     # Get categories (only top-level)
@@ -105,15 +105,17 @@ def product_list(request):
     # Sorting
     sort_by = request.GET.get('sort', 'name')
     if sort_by == 'price_low':
-        products = products.order_by('price_usd')
+        products = products.order_by('price_usd', 'id')
     elif sort_by == 'price_high':
-        products = products.order_by('-price_usd')
+        products = products.order_by('-price_usd', 'id')
     elif sort_by == 'newest':
-        products = products.order_by('-created_at')
+        products = products.order_by('-created_at', 'id')
     elif sort_by == 'popular':
-        products = products.annotate(likes_count=Count('likes')).order_by('-likes_count')
+        products = products.annotate(likes_count=Count('likes')).order_by('-likes_count', 'id')
+    elif sort_by == 'best_selling':
+        products = products.annotate(order_count=Count('orderitem')).order_by('-order_count', 'id')
     else:
-        products = products.order_by('name')
+        products = products.order_by('name', 'id')
 
     # Pagination
     paginator = Paginator(products, 12)
@@ -203,7 +205,7 @@ def product_detail(request, slug):
     # Get related products
     related_products = Product.objects.filter(
         category=product.category, is_active=True
-    ).exclude(pk=product.pk)[:4]
+    ).exclude(pk=product.pk)[:8]
     # Get comments
     comments = ProductComment.objects.filter(
         product=product, is_approved=True, parent__isnull=True
@@ -297,15 +299,15 @@ def brand_models(request, brand_slug):
     # Sorting
     sort_by = request.GET.get('sort', 'name')
     if sort_by == 'price_low':
-        products = products.order_by('price_usd')
+        products = products.order_by('price_usd', 'id')
     elif sort_by == 'price_high':
-        products = products.order_by('-price_usd')
+        products = products.order_by('-price_usd', 'id')
     elif sort_by == 'newest':
-        products = products.order_by('-created_at')
+        products = products.order_by('-created_at', 'id')
     elif sort_by == 'popular':
-        products = products.annotate(likes_count=Count('likes')).order_by('-likes_count')
+        products = products.annotate(likes_count=Count('likes')).order_by('-likes_count', 'id')
     else:
-        products = products.order_by('name')
+        products = products.order_by('name', 'id')
 
     # Pagination - 15 products per page
     paginator = Paginator(products, 12)

@@ -146,7 +146,7 @@
         </div>
 
         <div class="row g-3">
-            {% for product in best_selling|slice:":5" %}
+            {% for product in best_selling|slice:":10" %}
             <div class="col-6 col-md-4 col-lg-3 col-xl-2-4">
                 <div class="card product-card h-100 border-0 shadow-sm">
                     <div class="position-relative">
@@ -191,7 +191,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <a href="{% url 'product_list' %}?sort=popular" class="btn btn-outline-primary btn-sm">
+            <a href="{% url 'product_list' %}?sort=best_selling" class="btn btn-outline-primary btn-sm">
                 {% trans "View More" %} <i class="fas fa-arrow-right ms-1"></i>
             </a>
         </div>
@@ -209,8 +209,8 @@
         </div>
 
         <div class="row g-3">
-            {% for product in most_liked|slice:":4" %}
-            <div class="col-6 col-md-3">
+            {% for product in most_liked|slice:":8" %}
+            <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 shadow-sm">
                     <div class="position-relative">
                         <a href="{{ product.get_absolute_url }}" class="d-block">
